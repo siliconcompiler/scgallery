@@ -1,0 +1,3 @@
+[submodule "designs/zerosoc/zereosoc"]
+	path = designs/zerosoc/zerosoc
+	url = https://github.com/siliconcompiler/zerosoc.git
