@@ -1,4 +1,5 @@
 on:
+  push:
   workflow_dispatch:
   schedule:
     - cron: '0 8 * * *'
@@ -55,21 +56,25 @@ jobs:
         with:
           submodules: true
 
+      - name: Setup Gallery
+        run: |
+          python3 -m venv clean_env
+          source clean_env/bin/activate
+
+          python3 -m pip install --upgrade pip
+          python3 -m pip install $GITHUB_WORKSPACE.
+
       - name: Checkout SiliconCompiler
         uses: actions/checkout@v3
         with:
           repository: siliconcompiler/siliconcompiler
           path: siliconcompiler
-  
-      - name: Run tests
+
+      - name: Setup Gallery
         run: |
-          python3 -m venv clean_env
           source clean_env/bin/activate
           cd $GITHUB_WORKSPACE
           export SCPATH=$GITHUB_WORKSPACE/siliconcompiler
-
-          python3 -m pip install --upgrade pip
-          python3 -m pip install .
 
           python3 scgallery/run.py -design aes -target freepdk45_demo -gallery ./gallery
 
