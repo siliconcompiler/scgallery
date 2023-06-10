@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
+
 import os
 import shutil
+import argparse
 
-from scgallery import get_image_directory
-
+import siliconcompiler
 from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo
 
 from scgallery.designs import all_designs
@@ -12,12 +14,12 @@ def __design_has_runner(design):
     return getattr(design, 'run', None) is not None
 
 
-def __copy_chip_image(chip):
+def __copy_chip_image(chip, gallery):
     jobname = chip.get('option', 'jobname')
     png = os.path.join(chip._getworkdir(),
                        f'{chip.design}.png')
     if os.path.isfile(png):
-        shutil.copy(png, os.path.join(get_image_directory(), f'{chip.design}_{jobname}.png'))
+        shutil.copy(png, os.path.join(gallery, f'{chip.design}_{jobname}.png'))
 
 
 def run_design(design, target):
@@ -42,19 +44,55 @@ def run_design(design, target):
 
 
 if __name__ == "__main__":
-    all_targets = (freepdk45_demo,
-                   skywater130_demo,
-                   asap7_demo)
+    parser = argparse.ArgumentParser(
+        prog='scgallery',
+        description='Gallery generator for SiliconCompiler'
+    )
 
-    for design in all_designs().values():
+    parser.add_argument('-design',
+                        choices=sorted(all_designs().keys()),
+                        metavar='<design>',
+                        help='Name of design to run')
+
+    all_targets = {
+        "freepdk45_demo": freepdk45_demo,
+        "skywater130_demo": skywater130_demo,
+        "asap7_demo": asap7_demo
+    }
+
+    parser.add_argument('-target',
+                        choices=sorted(all_targets.keys()),
+                        metavar='<target>',
+                        help='Name of target to run')
+
+    parser.add_argument('-gallery',
+                        metavar='<path>',
+                        help='Path to the gallery',
+                        default=os.path.join('images', siliconcompiler.__version__))
+
+    args = parser.parse_args()
+
+    gallery = os.path.abspath(args.gallery)
+    os.makedirs(gallery, exist_ok=True)
+
+    designs = list(all_designs().values())
+    if args.design:
+        print(all_designs(), args.design)
+        designs = [all_designs()[args.design]]
+
+    targets = list(all_targets.values())
+    if args.target:
+        designs = [all_targets[args.target]]
+
+    for design in designs:
         if __design_has_runner(design):
             run = getattr(design, 'run')
             try:
                 chip = run()
-                __copy_chip_image(chip)
+                __copy_chip_image(chip, gallery)
             except Exception:
                 pass
         else:
-            for target in all_targets:
+            for target in targets:
                 chip = run_design(design, target)
-                __copy_chip_image(chip)
+                __copy_chip_image(chip, gallery)

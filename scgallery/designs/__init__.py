@@ -5,6 +5,7 @@ from .jpeg import jpeg
 from .uart import uart
 
 from .zerosoc import run_flat as zerosoc_flat
+from .zerosoc import run_hierarchy as zerosoc_hierarchy
 
 
 def all_designs():
@@ -14,7 +15,8 @@ def all_designs():
         "ethmac": ethmac,
         "jpeg": jpeg,
         "uart": uart,
-        "zerosoc_flat": zerosoc_flat
+        "zerosoc_flat": zerosoc_flat,
+        "zerosoc_hierarchy": zerosoc_hierarchy
     }
 
 
