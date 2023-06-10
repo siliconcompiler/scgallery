@@ -73,7 +73,7 @@ jobs:
 
           export SCPATH=$GITHUB_WORKSPACE/siliconcompiler
 
-          python3 $GITHUB_WORKSPACE/scgallery/run.py -design aes -target freepdk45_demo -gallery $GITHUB_WORKSPACE/gallery
+          python3 $GITHUB_WORKSPACE/scgallery/scgallery/run.py -design aes -target freepdk45_demo -gallery $GITHUB_WORKSPACE/gallery
 
       - name: Upload gallery artifacts
         uses: actions/upload-artifact@v3
