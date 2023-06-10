@@ -49,6 +49,8 @@ jobs:
     steps:
       - name: Checkout repository main
         uses: actions/checkout@v3
+        with:
+          path: scgallery
 
       - name: Get image name
         id: designs
@@ -57,7 +59,7 @@ jobs:
           source clean_env/bin/activate
 
           python3 -m pip install --upgrade pip
-          python3 -m pip install -e $GITHUB_WORKSPACE/.
+          python3 -m pip install -e $GITHUB_WORKSPACE/scgallery/.
 
           python3 -m scgallery -json designs.json
           echo "designs=$(cat designs.json)" >> $GITHUB_OUTPUT
