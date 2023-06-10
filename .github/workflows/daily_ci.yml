@@ -29,13 +29,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: siliconcompiler/siliconcompiler
-          path: siliconcompiler
+          path: sc
 
       - name: Get image name
         id: docker
         run: |
-          pip install -r setup/docker/requirements.txt
-          sc_tools_name=$(python3 setup/docker/builder.py --tool tools --registry ${{ env.REGISTRY }})
+          pip install -r sc/setup/docker/requirements.txt
+          sc_tools_name=$(python3 sc/setup/docker/builder.py --tool tools --registry ${{ env.REGISTRY }})
           echo "sc_tools=${sc_tools_name}" >> $GITHUB_OUTPUT
 
   daily_tests_job:
@@ -60,7 +60,6 @@ jobs:
         with:
           repository: siliconcompiler/siliconcompiler
           path: siliconcompiler
-          submodules: true
   
       - name: Run tests
         run: |
