@@ -54,7 +54,6 @@ jobs:
       - name: Checkout SC Gallery
         uses: actions/checkout@v3
         with:
-          path: scgallery
           submodules: true
 
       - name: Checkout SiliconCompiler
@@ -69,7 +68,7 @@ jobs:
           source clean_env/bin/activate
 
           python3 -m pip install --upgrade pip
-          python3 -m pip install -e $GITHUB_WORKSPACE/scgallery.
+          python3 -m pip install -e $GITHUB_WORKSPACE
 
           export SCPATH=$GITHUB_WORKSPACE/siliconcompiler
 
