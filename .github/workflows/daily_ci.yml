@@ -62,7 +62,7 @@ jobs:
           source clean_env/bin/activate
 
           python3 -m pip install --upgrade pip
-          python3 -m pip install $GITHUB_WORKSPACE.
+          python3 -m pip install -e $GITHUB_WORKSPACE.
 
       - name: Checkout SiliconCompiler
         uses: actions/checkout@v3
