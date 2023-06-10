@@ -1,0 +1,13 @@
+[project]
+name = "scgallery"
+authors = [
+    {name = "Peter Gadfort", email = "gadfort@zeroasic.com"},
+]
+description = "Design gallery for SiliconCompiler"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {file = "LICENSE"}
+dependencies = [
+    "siliconcompiler>0.12.0"
+]
+dynamic = ["version"]
