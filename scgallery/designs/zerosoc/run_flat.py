@@ -1,4 +1,6 @@
-from scgallery.designs.zerosoc.zerosoc import build
+from . import init_zerosoc
+init_zerosoc()
+from scgallery.designs.zerosoc.zerosoc import build  # noqa E402
 
 
 def run():
