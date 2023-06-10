@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 8 * * *'
 
-name: 'Daily CI Tests'
+name: 'All Designs'
 
 defaults:
   run:
@@ -39,8 +39,31 @@ jobs:
           sc_tools_name=$(python3 sc/setup/docker/builder.py --tool tools --registry ${{ env.REGISTRY }})
           echo "sc_tools=${sc_tools_name}" >> $GITHUB_OUTPUT
 
+  designs:
+    name: 'Get design matrix'
+    runs-on: ubuntu-latest
+
+    outputs:
+      designs: ${{ steps.designs.outputs.designs }}
+
+    steps:
+      - name: Checkout repository main
+        uses: actions/checkout@v3
+
+      - name: Get image name
+        id: designs
+        run: |
+          python3 -m venv clean_env
+          source clean_env/bin/activate
+
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -e $GITHUB_WORKSPACE/.
+
+          python3 -m scgallery -json designs.json
+          echo "designs=$(cat designs.json)" >> $GITHUB_OUTPUT
+
   daily_tests_job:
-    needs: docker_image
+    needs: [docker_image, designs]
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
@@ -49,7 +72,12 @@ jobs:
         username: ${{ secrets.PACKAGES_ACTOR }}
         password: ${{ secrets.PACKAGES_TOKEN }}
 
-    name: 'All tests'
+        
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.designs.outputs.designs) }}
+
+    name: 'Run design'
     steps:
       - name: Checkout SC Gallery
         uses: actions/checkout@v3
@@ -62,7 +90,7 @@ jobs:
         with:
           repository: siliconcompiler/siliconcompiler
           path: siliconcompiler
-  
+
       - name: Run gallery
         run: |
           python3 -m venv clean_env
@@ -73,7 +101,7 @@ jobs:
 
           export SCPATH=$GITHUB_WORKSPACE/siliconcompiler/siliconcompiler
 
-          python3 $GITHUB_WORKSPACE/scgallery/scgallery/run.py -design aes -target freepdk45_demo -gallery $GITHUB_WORKSPACE/gallery
+          python3 -m scgallery -design ${{ matrix.design }}) -target ${{ matrix.target }} -gallery $GITHUB_WORKSPACE/gallery
 
       - name: Upload gallery artifacts
         uses: actions/upload-artifact@v3
