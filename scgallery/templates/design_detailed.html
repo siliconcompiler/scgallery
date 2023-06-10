@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ title }} - {{ design }}</title>
+    {% if favicon %}
+    <link rel="icon" href="data:image/jpeg;base64,{{ favicon }}" type="image/x-icon">
+    {% endif %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        .rd-rotate {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ design }} gallery</h1>
+    <table class="image-table">
+        <tr align="center">
+            <th />
+            {% for platform in platforms %}
+            <th>{{ platform }}</th>
+            {% endfor %}
+        </tr>
+        {% for view in views %}
+        <tr valign="top">
+            <td class="rd-rotate">{{ view }}</td>
+            {% for platform in platforms %}
+            <td>
+            {% if view in images[platform] and images[platform][view] %}
+                <img src="data:image/jpeg;base64,{{ images[platform][view] }}"
+                     alt="{{ platform }} - {{ view }}"
+                     width="100%">
+            {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        <tr valign="top">
+            <td class="rd-rotate">metrics</td>
+            {% for platform in platforms %}
+            <td>
+            {% if platform in metrics %}
+            {{ metrics[platform] }}
+            {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr valign="top">
+            <td class="rd-rotate">rules</td>
+            {% for platform in platforms %}
+            <td>
+            {% if platform in rules %}
+            <ul>
+            {% for error in rules[platform] %}
+                <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ title }} - details</title>
+    {% if favicon %}
+    <link rel="icon" href="data:image/jpeg;base64,{{ favicon }}" type="image/x-icon">
+    {% endif %}
+    <!-- Adapted from https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts/blob/4a6fdcebf8361481090acde05d596e8db946c806/flow/util/genReportTable.py -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- CSS Tabs is licensed under Creative Commons Attribution 3.0 - http://creativecommons.org/licenses/by/3.0/ -->
+    <style type="text/css">
+        ul#tabnav {
+            /* general settings */
+            text-align: left;
+            /* set to left, right or center */
+            margin: 8px 0 0 0;
+            /* set margins as desired */
+            font: bold 11px verdana, arial, sans-serif;
+            /* set font as desired */
+            border-bottom: 1px solid rgb(28, 69, 135);
+            /* set border COLOR as desired */
+            list-style-type: none;
+            padding: 3px 10px 0px 10px;
+        }
+
+        ul#tabnav li {
+            /* do not change */
+            display: inline-block;
+        }
+
+        ul#tabnav li.selected {
+            /* settings for selected tab */
+            border-bottom: 1px solid #fff;
+            /* set border color to page background color */
+            background-color: #fff;
+            color: black;
+            /* set background color to match above border color */
+        }
+
+        ul#tabnav li {
+            /* settings for all tab links */
+            padding: 3px 4px;
+            border: 1px solid rgb(28, 69, 135);
+            /* set border COLOR as desired; usually matches border color specified in #tabnav */
+            border-bottom: 1px solid rgb(20, 50, 97);
+            background-color: rgb(20, 50, 97);
+            /* set unselected tab background color as desired */
+            color: rgb(241, 194, 50);
+            /* set unselected tab link color as desired */
+            margin-right: 0px;
+            /* set additional spacing between tabs as desired */
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        ul#tabnav li:hover {
+            /* settings for hover effect */
+            background: rgb(43, 106, 207);
+            color: rgb(241, 194, 50);
+            /* set desired hover color */
+        }
+
+        /* FF 100% height iframe */
+        html,
+        body,
+        div,
+        iframe {
+            margin: 0;
+            padding: 0;
+        }
+
+        iframe {
+            display: block;
+            width: 100%;
+            border: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function updateBody(tabId, page) {
+            console.log(tabId)
+            document.getElementById(selectedTab).setAttribute("class", "unselected");
+            tab = document.getElementById(tabId)
+            tab.setAttribute("class", "selected");
+            selectedTab = tabId;
+            iframe = document.getElementById("design_frame");
+            iframe.srcdoc = atob(tabData[tabId]);
+        }
+        function init(tabId) {
+            selectedTab = tabId
+            updateBody(tabId);
+            updateViewport();
+
+            window.onresize = updateViewport;
+        }
+
+        function updateViewport() {
+            var viewportheight;
+
+            // the more standards compliant browsers (mozilla/netscape/opera/IE7) use window.innerWidth and window.innerHeight
+
+            if (typeof window.innerWidth != 'undefined') {
+                viewportheight = window.innerHeight
+            }
+
+            // IE6 in standards compliant mode (i.e. with a valid doctype as the first line in the document)
+
+            else if (typeof document.documentElement != 'undefined'
+                && typeof document.documentElement.clientWidth !=
+                'undefined' && document.documentElement.clientWidth != 0) {
+                viewportheight = document.documentElement.clientHeight
+            }
+            // older versions of IE
+            else {
+                viewportheight = document.getElementsByTagName('body')[0].clientHeight
+            }
+
+            iframe = document.getElementById("design_frame");
+            iframe.style.height = (viewportheight - 30) + 'px';
+        }
+        var selectedTab = ""
+        var tabData = {
+        {% for design in designs %}
+        tab_{{ design }}: "{{ pages[design] }}",
+        {% endfor %}
+        }
+    </script>
+
+</head>
+
+<body onload="init('tab_{{ initial_design }}');">
+    <p align="center">{{ title }}</p>
+    <ul id="tabnav">
+        {% for design in designs %}
+        <li id="tab_{{ design }}" class="unselected" onclick="updateBody('tab_{{ design }}')">{{ design }}</li>
+        {% endfor %}
+    </ul>
+    <div>
+        <iframe id="design_frame" height="100%" width="100%" frameborder="0"></iframe>
+    </div>
+</body>
+
+</html>

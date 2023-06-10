@@ -1,0 +1,35 @@
+name: Documentation
+on:
+  # Runs on all PRs
+  pull_request:
+  # Manual Dispatch
+  workflow_dispatch:
+
+jobs:
+  docs:
+    name: Build docs
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: Install Requirements
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install .[docs]
+
+      - name: Build HTML
+        run: |
+          cd docs
+          make html
+
+      - name: Save HTML
+        uses: actions/upload-artifact@v3
+        with:
+          name: html
+          path: docs/_build/html
+          retention-days: 7

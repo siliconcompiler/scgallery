@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ title }}</title>
+    {% if favicon %}
+    <link rel="icon" href="data:image/jpeg;base64,{{ favicon }}" type="image/x-icon">
+    {% endif %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        .rd-rotate {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+        }
+    </style>
+</head>
+
+<body>
+    <p align="center">{{ title }}</p>
+    <table>
+        <tbody>
+            <tr align="center">
+                <th />
+                {% for platform in platforms %}
+                <th>{{ platform }}</th>
+                {% endfor %}
+            </tr>
+            {% for design in designs %}
+            <tr valign="top">
+                <td class="rd-rotate">{{ design }}</td>
+                {% for platform in platforms %}
+                <td>
+                    {% if design in images[platform] and 'data' in images[platform][design] and images[platform][design]['data'] %}
+                    <img src="data:image/jpeg;base64,{{ images[platform][design]['data'] }}"
+                         alt="{{ images[platform][design]['platform'] }} - {{ images[platform][design]['design'] }}"
+                         width="100%"/>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

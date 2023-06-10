@@ -1,0 +1,254 @@
+{
+    "nangate45": [
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 1.15
+            },
+            "value": 176767.07
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__metric__timing__clocks",
+            "step": "floorplan",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 1
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 200286
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 94699
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__violations",
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__setup_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 8235
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__hold_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 8235
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 2693259
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__route__drc_errors",
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": ">=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": 0.0,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 0.95
+            },
+            "value": 0.0
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 201204
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setuppaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 20,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.05
+            },
+            "value": 4117
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "holdpaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 100,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.25
+            },
+            "value": 395
+        }
+    ]
+}

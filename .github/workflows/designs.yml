@@ -1,0 +1,104 @@
+on:
+  workflow_dispatch:
+
+name: 'All Designs'
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  designs:
+    name: Get design matrix
+    runs-on: ubuntu-latest
+
+    outputs:
+      designs: ${{ steps.designs.outputs.designs }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get design matrix
+        id: designs
+        run: |
+          echo "designs=$(python3 -c "import json; print(json.dumps(json.loads(open('$GITHUB_WORKSPACE/.github/workflows/config/quick.json').read())))")" >> $GITHUB_OUTPUT
+
+  sc_version:
+    name: Get SiliconCompiler version
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.sc_version.outputs.version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install gallery
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -e $GITHUB_WORKSPACE/.
+
+      - name: Get version
+        id: sc_version
+        run: |
+          echo "version=v$(sc -version)" >> $GITHUB_OUTPUT
+
+  docker_image:
+    needs: sc_version
+    name: Get tools image
+    uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
+    with:
+      sc_version: ${{ needs.sc_version.outputs.version }}
+
+  designs_test:
+    needs: [docker_image, designs]
+    timeout-minutes: 120
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ needs.docker_image.outputs.sc_tool }}
+      credentials:
+        username: ${{ secrets.PACKAGES_ACTOR }}
+        password: ${{ secrets.PACKAGES_TOKEN }}
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.designs.outputs.designs) }}
+
+    name: 'Run design'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: scgallery
+          submodules: recursive
+
+      - name: Checkout SiliconCompiler
+        uses: actions/checkout@v4
+        with:
+          repository: siliconcompiler/siliconcompiler
+          path: siliconcompiler
+
+      - name: Run gallery
+        run: |
+          python3 -m venv clean_env
+          source clean_env/bin/activate
+
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -e $GITHUB_WORKSPACE/scgallery/.
+
+          export SCPATH=$GITHUB_WORKSPACE/siliconcompiler/siliconcompiler
+
+          sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }}
+
+      - name: Upload gallery artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: gallery
+          path: gallery
+          retention-days: 1

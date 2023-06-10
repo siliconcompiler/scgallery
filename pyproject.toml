@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+
+[tool.setuptools_scm]
+write_to = "scgallery/_version.py"
+write_to_template = '__version__ = "{version}" # noqa W292'
+
+[tool.setuptools.packages]
+find = {}
+
+[project]
+name = "scgallery"
+authors = [
+    {name = "Peter Gadfort", email = "gadfort@zeroasic.com"},
+]
+description = "Design gallery for SiliconCompiler"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+dependencies = [
+    "siliconcompiler>=0.17.0",
+    "GitPython>=3.1.0",
+    "Jinja2>=2.11.3"
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+# Dev dependencies.
+dev = [
+    "flake8>=5.0.0",
+    "pytest",
+    "pytest-xdist"
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/siliconcompiler/scgallery"
+"Bug Tracker" = "https://github.com/siliconcompiler/scgallery/issues"
+
+[tool.poetry]
+include = ["scgallery/designs/*",
+           "scgallery/libraries/*",
+           "scgallery/templates/*"]
+
+[project.scripts]
+sc-gallery = "scgallery.apps.sc_gallery:main"
+
+[tool.pytest.ini_options]
+testpaths = "tests"

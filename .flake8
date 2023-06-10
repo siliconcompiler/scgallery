@@ -1,0 +1,11 @@
+[flake8]
+extend-exclude = 
+    scgallery/designs/zerosoc/zerosoc
+    scgallery/designs/microwatt/microwatt
+    scgallery/libraries/skywater130/sram/sky130_sram_1rw1r_128x256_8
+    scgallery/libraries/skywater130/sram/sky130_sram_1rw1r_44x64_8
+    scgallery/libraries/skywater130/sram/sky130_sram_1rw1r_64x256_8
+    scgallery/libraries/skywater130/sram/sky130_sram_1rw1r_80x64_8
+    build/
+max-line-length = 100
+ignore =

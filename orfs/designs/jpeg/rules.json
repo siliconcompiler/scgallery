@@ -1,0 +1,1262 @@
+{
+    "asap7sc7p5t_rvt": [
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 1.15
+            },
+            "value": 7270.36
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__metric__timing__clocks",
+            "step": "floorplan",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 1
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 7577
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 63227
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__violations",
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__setup_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5498
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__hold_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5498
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 182976
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__route__drc_errors",
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": ">=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": 0.0,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 0.95
+            },
+            "value": -0.49715
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 7598
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setuppaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 20,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.05
+            },
+            "value": 2749
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "holdpaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 100,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.25
+            },
+            "value": 100
+        }
+    ],
+    "gf180mcu_fd_sc_mcu9t5v0": [
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 1.15
+            },
+            "value": 2415601.71
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__metric__timing__clocks",
+            "step": "floorplan",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 1
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 2492866
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 62850
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__violations",
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__setup_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5465
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__hold_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5465
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 2989154
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__route__drc_errors",
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": ">=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": 0.0,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 0.95
+            },
+            "value": -1.22
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 2560268
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setuppaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 20,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.05
+            },
+            "value": 2733
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "holdpaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 100,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.25
+            },
+            "value": 176
+        }
+    ],
+    "nangate45": [
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 1.15
+            },
+            "value": 112789.62
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__metric__timing__clocks",
+            "step": "floorplan",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 1
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 115595
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 64613
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__violations",
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__setup_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5618
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__hold_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5618
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 630784
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__route__drc_errors",
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": ">=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": 0.0,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 0.95
+            },
+            "value": -0.29
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 115983
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setuppaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 20,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.05
+            },
+            "value": 2809
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "holdpaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 100,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.25
+            },
+            "value": 100
+        }
+    ],
+    "sky130hd": [
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 1.15
+            },
+            "value": 537426
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__metric__timing__clocks",
+            "step": "floorplan",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 1
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 570163
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 66779
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__violations",
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__setup_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5807
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__hold_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 5807
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 1301404
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__route__drc_errors",
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": ">=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": 0.0,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 0.95
+            },
+            "value": -0.61
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 572506
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setuppaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 20,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.05
+            },
+            "value": 2903
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "holdpaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 100,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.25
+            },
+            "value": 145
+        }
+    ],
+    "sky130hs": [
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 1.15
+            },
+            "value": 726314
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__metric__timing__clocks",
+            "step": "floorplan",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 1
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 805070
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 73835
+        },
+        {
+            "compare": "==",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__violations",
+            "step": "place",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__setup_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 6420
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__design__instance__count__hold_buffer",
+            "step": "cts",
+            "update": {
+                "bounds": {
+                    "max_value": 1.1,
+                    "min_value": null,
+                    "mode": "multiply"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.1
+            },
+            "value": 6420
+        },
+        {
+            "compare": "<=",
+            "index": "0",
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 1697820
+        },
+        {
+            "compare": "<=",
+            "file": "reports/metrics.json",
+            "index": "0",
+            "key": "sc__step__route__drc_errors",
+            "step": "route",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "sum",
+                "round": true,
+                "value": 0
+            },
+            "value": 0
+        },
+        {
+            "compare": ">=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": 0.0,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": false,
+                "value": 0.95
+            },
+            "value": -0.14
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": null,
+                    "min_value": null,
+                    "mode": null
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.15
+            },
+            "value": 808805
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "setuppaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 20,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.05
+            },
+            "value": 3210
+        },
+        {
+            "compare": "<=",
+            "index": "1",
+            "key": [
+                "metric",
+                "holdpaths"
+            ],
+            "step": "export",
+            "update": {
+                "bounds": {
+                    "max_value": 100,
+                    "min_value": null,
+                    "mode": "sum"
+                },
+                "method": "padding",
+                "round": true,
+                "value": 1.25
+            },
+            "value": 122
+        }
+    ]
+}

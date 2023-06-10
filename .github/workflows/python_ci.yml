@@ -1,0 +1,35 @@
+name: Python CI
+on:
+  # Runs on all PRs
+  pull_request:
+  # Manual Dispatch
+  workflow_dispatch:
+
+jobs:
+  lint_python:
+    name: Python CI
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.8", "3.9", "3.10", "3.11"]
+        os: ["ubuntu-latest", "windows-latest", "macos-latest"]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install Requirements
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install .[dev]
+
+      - name: Run tests
+        run: pytest -n auto
