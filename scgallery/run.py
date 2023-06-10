@@ -77,14 +77,14 @@ if __name__ == "__main__":
 
     designs = list(all_designs().values())
     if args.design:
-        print(all_designs(), args.design)
         designs = [all_designs()[args.design]]
 
     targets = list(all_targets.values())
     if args.target:
-        designs = [all_targets[args.target]]
+        targets = [all_targets[args.target]]
 
     for design in designs:
+        print(f'Running {design.__name__}')
         if __design_has_runner(design):
             run = getattr(design, 'run')
             try:
