@@ -104,7 +104,7 @@ jobs:
 
           export SCPATH=$GITHUB_WORKSPACE/siliconcompiler/siliconcompiler
 
-          python3 -m scgallery -design ${{ matrix.design }}) -target ${{ matrix.target }} -gallery $GITHUB_WORKSPACE/gallery
+          python3 -m scgallery -design ${{ matrix.design }} -target ${{ matrix.target }} -gallery $GITHUB_WORKSPACE/gallery
 
       - name: Upload gallery artifacts
         uses: actions/upload-artifact@v3
