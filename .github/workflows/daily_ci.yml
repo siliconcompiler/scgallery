@@ -71,7 +71,7 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install -e $GITHUB_WORKSPACE/scgallery/.
 
-          export SCPATH=$GITHUB_WORKSPACE/siliconcompiler
+          export SCPATH=$GITHUB_WORKSPACE/siliconcompiler/siliconcompiler
 
           python3 $GITHUB_WORKSPACE/scgallery/scgallery/run.py -design aes -target freepdk45_demo -gallery $GITHUB_WORKSPACE/gallery
 
