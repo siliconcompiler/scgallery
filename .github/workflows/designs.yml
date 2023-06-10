@@ -51,8 +51,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: scgallery
+          submodules: true
 
-      - name: Get image name
+      - name: Get design matrix
         id: designs
         run: |
           python3 -m venv clean_env
