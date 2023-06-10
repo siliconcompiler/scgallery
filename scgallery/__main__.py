@@ -82,7 +82,7 @@ if __name__ == "__main__":
     parser.add_argument('-gallery',
                         metavar='<path>',
                         help='Path to the gallery',
-                        default=os.path.join('images', siliconcompiler.__version__))
+                        default=os.path.join('gallery', siliconcompiler.__version__))
 
     parser.add_argument('-json',
                         metavar='<path>',
