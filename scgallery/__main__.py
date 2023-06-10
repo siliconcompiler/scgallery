@@ -4,6 +4,7 @@ import os
 import shutil
 import argparse
 import json
+import sys
 
 import siliconcompiler
 from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo
@@ -15,14 +16,20 @@ def __design_has_runner(design):
     return getattr(design, 'run', None) is not None
 
 
-def __copy_chip_image(chip, gallery):
+def __copy_chip_data(chip, gallery):
     if not chip:
         return
     jobname = chip.get('option', 'jobname')
     png = os.path.join(chip._getworkdir(),
                        f'{chip.design}.png')
+
+    file_root = f'{chip.design}_{jobname}'
+
     if os.path.isfile(png):
-        shutil.copy(png, os.path.join(gallery, f'{chip.design}_{jobname}.png'))
+        shutil.copy(png, os.path.join(gallery, f'{file_root}.png'))
+
+    chip.archive(include=['reports', '*.log'],
+                 archive_name=os.path.join(gallery, f'{file_root}.tgz'))
 
 
 def __setup_design(design, target):
@@ -112,10 +119,12 @@ if __name__ == "__main__":
                 f.write(json.dumps(matrix))
             else:
                 f.write('{}')
-        exit(0)
+        sys.exit(0)
 
     gallery = os.path.abspath(args.gallery)
     os.makedirs(gallery, exist_ok=True)
+
+    any_failed = False
 
     for _, design in designs.items():
         print(f'Running {design.__name__}')
@@ -123,11 +132,20 @@ if __name__ == "__main__":
             run = getattr(design, 'run')
             try:
                 chip = run()
-                __copy_chip_image(chip, gallery)
+                if not chip:
+                    any_failed = True
+                __copy_chip_data(chip, gallery)
             except Exception:
                 pass
         else:
             for _, target in targets.items():
                 chip = __setup_design(design, target)
                 chip = run_design(chip)
-                __copy_chip_image(chip, gallery)
+                if not chip:
+                    any_failed = True
+                __copy_chip_data(chip, gallery)
+
+    if any_failed:
+        sys.exit(1)
+    else:
+        sys.exit(0)

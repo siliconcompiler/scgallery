@@ -1,8 +1,6 @@
 on:
   push:
   workflow_dispatch:
-  schedule:
-    - cron: '0 8 * * *'
 
 name: 'All Designs'
 
@@ -67,7 +65,7 @@ jobs:
 
   daily_tests_job:
     needs: [docker_image, designs]
-    timeout-minutes: 60
+    timeout-minutes: 120
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.docker_image.outputs.sc_tools }}
