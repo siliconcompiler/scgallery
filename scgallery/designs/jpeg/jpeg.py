@@ -56,8 +56,14 @@ def setup(target=asap7_demo,
                      'place_density', '0.60')
     elif mainlib == 'nangate45':
         chip.set('constraint', 'density', 45)
+        for task in chip._get_tool_tasks(openroad):
+            chip.set('tool', 'openroad', 'task', task, 'var',
+                     'place_density', '0.50')
     elif mainlib.startswith('sky130'):
         chip.set('constraint', 'density', 55)
+        for task in chip._get_tool_tasks(openroad):
+            chip.set('tool', 'openroad', 'task', task, 'var',
+                     'place_density', '0.60')
 
     return chip
 

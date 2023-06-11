@@ -105,6 +105,7 @@ jobs:
           python3 -m scgallery -design ${{ matrix.design }} -target ${{ matrix.target }} -gallery $GITHUB_WORKSPACE/gallery
 
       - name: Upload gallery artifacts
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: gallery

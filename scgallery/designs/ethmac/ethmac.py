@@ -9,7 +9,7 @@ from siliconcompiler.tools.openroad import openroad
 
 def setup(target=asap7_demo,
           use_cmd_file=False):
-    chip = Chip('aes')
+    chip = Chip('ethmac')
 
     if use_cmd_file:
         chip.create_cmdline(chip.design)

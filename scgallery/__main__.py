@@ -37,7 +37,7 @@ def __setup_design(design, target):
         chip = design.setup(target=target)
         return chip
     except FileNotFoundError as e:
-        print(e)
+        print(f'{design} for {target} threw an error: {e}')
         return None
 
 
@@ -52,7 +52,7 @@ def run_design(chip):
         chip.run()
         chip.summary()
     except Exception:
-        return None
+        return chip
 
     return chip
 
