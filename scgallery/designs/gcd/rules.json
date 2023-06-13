@@ -1,0 +1,84 @@
+{
+    "nangate45": [
+        {
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "index": "0",
+            "op": "<=",
+            "value": 598
+        },
+        {
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "index": "0",
+            "op": "<=",
+            "value": 622
+        },
+        {
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "index": "0",
+            "op": "<=",
+            "value": 508
+        },
+        {
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "cts",
+            "index": "0",
+            "op": ">=",
+            "value": -0.18
+        },
+        {
+            "key": [
+                "metric",
+                "buffers"
+            ],
+            "step": "cts",
+            "index": "0",
+            "op": "<=",
+            "value": 22
+        },
+        {
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "route",
+            "index": "0",
+            "op": ">=",
+            "value": -0.09
+        },
+        {
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "route",
+            "index": "0",
+            "op": "<=",
+            "value": 666
+        },
+        {
+            "key": [
+                "metric",
+                "drvs"
+            ],
+            "step": "route",
+            "index": "0",
+            "op": "<=",
+            "value": 10
+        }
+    ]
+}

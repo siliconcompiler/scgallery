@@ -1,5 +1,6 @@
 from .sha3 import sha3
 from .aes import aes
+from .gcd import gcd
 from .ethmac import ethmac
 from .jpeg import jpeg
 from .uart import uart
@@ -12,6 +13,7 @@ from .zerosoc import run_hierarchy as zerosoc_hierarchy
 def all_designs():
     return {
         "aes": aes,
+        "gcd": gcd,
         "sha3": sha3,
         "ethmac": ethmac,
         "jpeg": jpeg,
