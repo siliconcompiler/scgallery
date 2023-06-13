@@ -8,7 +8,7 @@
             "step": "syn",
             "index": "0",
             "op": "<=",
-            "value": 598
+            "value": 489.05430000000007
         },
         {
             "key": [
@@ -18,7 +18,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 622
+            "value": 483.189
         },
         {
             "key": [
@@ -28,7 +28,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 508
+            "value": 361
         },
         {
             "key": [
@@ -38,7 +38,7 @@
             "step": "cts",
             "index": "0",
             "op": ">=",
-            "value": -0.18
+            "value": -0.3065390476190476
         },
         {
             "key": [
@@ -48,7 +48,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 22
+            "value": 59
         },
         {
             "key": [
@@ -58,7 +58,25 @@
             "step": "route",
             "index": "0",
             "op": ">=",
-            "value": -0.09
+            "value": -0.3013838095238095
+        },
+        {
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "route",
+            "index": "0",
+            "op": "<=",
+            "value": 3834.6000000000004
+        },
+        {
+            "key": "sc__step__route__drc_errors",
+            "file": "reports/metrics.json",
+            "step": "route",
+            "index": "0",
+            "op": "==",
+            "value": 0.0
         },
         {
             "key": [
@@ -68,7 +86,7 @@
             "step": "route",
             "index": "0",
             "op": "<=",
-            "value": 666
+            "value": 583.1784
         },
         {
             "key": [
@@ -78,7 +96,7 @@
             "step": "route",
             "index": "0",
             "op": "<=",
-            "value": 10
+            "value": 0
         }
     ]
 }

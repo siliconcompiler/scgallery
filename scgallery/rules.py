@@ -6,6 +6,19 @@ import sys
 import json
 
 
+def __update_value(operation, value, current_value, margin):
+    if operation == ">" or operation == ">=":
+        check_value = value / margin
+    elif operation == "<" or operation == "<=":
+        check_value = value * margin
+    elif operation == "==":
+        check_value = value
+    else:
+        check_value = current_value
+
+    return check_value
+
+
 def __check_rules(chip, rules):
     error = False
     for rule in rules:
@@ -15,12 +28,24 @@ def __check_rules(chip, rules):
         operation = rule['op']
         check_value = rule['value']
 
-        if not chip.valid(*key):
-            error = True
-            chip.logger.error(f'Design design does not contain {key}')
-            continue
+        if 'file' in rule:
+            with open(os.path.join(chip._getworkdir(step=step, index=index),
+                                   rule['file']), 'r') as f:
+                file_data = json.load(f)
 
-        design_value = chip.get(*key, step=step, index=index)
+            if key not in file_data:
+                error = True
+                chip.logger.error(f'Design file {rule["file"]} does not contain {key}')
+                continue
+
+            design_value = file_data[key]
+        else:
+            if not chip.valid(*key):
+                error = True
+                chip.logger.error(f'Design design does not contain {key}')
+                continue
+
+            design_value = chip.get(*key, step=step, index=index)
         if not chip._safecompare(design_value, operation, check_value):
             error = True
             chip.logger.error(f'{key}: {design_value} {operation} {check_value}')
@@ -38,31 +63,51 @@ def __update_rules(chip, rules, margin):
         index = rule['index']
         operation = rule['op']
 
-        if not chip.valid(*key):
-            continue
+        if 'file' in rule:
+            with open(os.path.join(chip._getworkdir(step=step, index=index),
+                                   rule['file']), 'r') as f:
+                file_data = json.load(f)
 
-        design_value = chip.get(*key, step=step, index=index)
+            if key not in file_data:
+                continue
 
-        if operation == ">" or operation == ">=":
-            check_value = design_value / margin
-        elif operation == "<" or operation == "<=":
-            check_value = design_value * margin
+            file_value = rule['value']
+            vtype = type(file_value)
+            check_value = __update_value(operation,
+                                         file_data[key],
+                                         file_value,
+                                         margin)
+            check_value = vtype(check_value)
+
+            new_rules.append({
+                'key': key,
+                'file': rule['file'],
+                'step': step,
+                'index': index,
+                'op': operation,
+                'value': check_value
+            })
         else:
-            check_value = rule['value']
+            if not chip.valid(*key):
+                continue
 
-        check_value = Schema._check_and_normalize(check_value,
-                                                  chip.get(*key, field='type'),
-                                                  field='value',
-                                                  keypath=key,
-                                                  allowed_values=[])
+            check_value = __update_value(operation,
+                                         chip.get(*key, step=step, index=index),
+                                         rule['value'],
+                                         margin)
+            check_value = Schema._check_and_normalize(check_value,
+                                                      chip.get(*key, field='type'),
+                                                      field='value',
+                                                      keypath=key,
+                                                      allowed_values=[])
 
-        new_rules.append({
-            'key': key,
-            'step': step,
-            'index': index,
-            'op': operation,
-            'value': check_value
-        })
+            new_rules.append({
+                'key': key,
+                'step': step,
+                'index': index,
+                'op': operation,
+                'value': check_value
+            })
 
     return new_rules
 
