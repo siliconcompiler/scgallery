@@ -1,0 +1,158 @@
+{
+    "nangate45": [
+        {
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "syn",
+            "index": "0",
+            "op": "<=",
+            "value": 240994.14
+        },
+        {
+            "key": "sc__metric__timing__clocks",
+            "file": "reports/metrics.json",
+            "step": "floorplan",
+            "index": "0",
+            "op": "==",
+            "value": 1
+        },
+        {
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "place",
+            "index": "0",
+            "op": "<=",
+            "value": 255775
+        },
+        {
+            "key": [
+                "metric",
+                "cells"
+            ],
+            "step": "place",
+            "index": "0",
+            "op": "<=",
+            "value": 37987
+        },
+        {
+            "key": "sc__step__design__violations",
+            "file": "reports/metrics.json",
+            "step": "place",
+            "index": "0",
+            "op": "==",
+            "value": 0
+        },
+        {
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "cts",
+            "index": "0",
+            "op": ">=",
+            "value": 0.0
+        },
+        {
+            "key": "sc__step__design__instance__count__setup_buffer",
+            "file": "reports/metrics.json",
+            "step": "cts",
+            "index": "0",
+            "op": "<=",
+            "value": 1652
+        },
+        {
+            "key": "sc__step__design__instance__count__hold_buffer",
+            "file": "reports/metrics.json",
+            "step": "cts",
+            "index": "0",
+            "op": "<=",
+            "value": 1652
+        },
+        {
+            "key": [
+                "metric",
+                "wirelength"
+            ],
+            "step": "cts",
+            "index": "0",
+            "op": "<=",
+            "value": 1536244
+        },
+        {
+            "key": "sc__step__route__drc_errors",
+            "file": "reports/metrics.json",
+            "step": "route",
+            "index": "0",
+            "op": "<=",
+            "value": 0
+        },
+        {
+            "key": [
+                "metric",
+                "setupslack"
+            ],
+            "step": "export",
+            "index": "1",
+            "op": ">=",
+            "value": 0.0
+        },
+        {
+            "key": [
+                "metric",
+                "cellarea"
+            ],
+            "step": "export",
+            "index": "1",
+            "op": "<=",
+            "value": 256153
+        },
+        {
+            "key": "sc__metric__timing__drv__max_slew_limit",
+            "file": "reports/metrics.json",
+            "step": "export",
+            "index": "1",
+            "op": ">=",
+            "value": -0.2
+        },
+        {
+            "key": "sc__metric__timing__drv__max_fanout_limit",
+            "file": "reports/metrics.json",
+            "step": "export",
+            "index": "1",
+            "op": ">=",
+            "value": -0.2
+        },
+        {
+            "key": "sc__metric__timing__drv__max_cap_limit",
+            "file": "reports/metrics.json",
+            "step": "export",
+            "index": "1",
+            "op": ">=",
+            "value": -0.26
+        },
+        {
+            "key": [
+                "metric",
+                "setuppaths"
+            ],
+            "step": "export",
+            "index": "1",
+            "op": "<=",
+            "value": 10
+        },
+        {
+            "key": [
+                "metric",
+                "holdpaths"
+            ],
+            "step": "export",
+            "index": "1",
+            "op": "<=",
+            "value": 10
+        }
+    ]
+}

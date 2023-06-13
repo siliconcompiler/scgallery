@@ -8,7 +8,7 @@
             "step": "syn",
             "index": "0",
             "op": "<=",
-            "value": 598
+            "value": 32544
         },
         {
             "key": "sc__metric__timing__clocks",
@@ -26,7 +26,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 622
+            "value": 35554
         },
         {
             "key": [
@@ -36,7 +36,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 508
+            "value": 17557
         },
         {
             "key": "sc__step__design__violations",
@@ -54,7 +54,7 @@
             "step": "cts",
             "index": "0",
             "op": ">=",
-            "value": -0.18
+            "value": -0.34
         },
         {
             "key": "sc__step__design__instance__count__setup_buffer",
@@ -62,7 +62,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 22
+            "value": 763
         },
         {
             "key": "sc__step__design__instance__count__hold_buffer",
@@ -70,7 +70,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 22
+            "value": 763
         },
         {
             "key": [
@@ -80,7 +80,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 2828
+            "value": 300595
         },
         {
             "key": "sc__step__route__drc_errors",
@@ -98,7 +98,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.09
+            "value": -0.18
         },
         {
             "key": [
@@ -108,7 +108,7 @@
             "step": "export",
             "index": "1",
             "op": "<=",
-            "value": 666
+            "value": 36015
         },
         {
             "key": "sc__metric__timing__drv__max_slew_limit",
@@ -132,7 +132,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.2
+            "value": -0.25
         },
         {
             "key": [
@@ -164,7 +164,7 @@
             "step": "syn",
             "index": "0",
             "op": "<=",
-            "value": 2725
+            "value": 155544
         },
         {
             "key": "sc__metric__timing__clocks",
@@ -182,7 +182,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 3022
+            "value": 180801
         },
         {
             "key": [
@@ -192,7 +192,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 454
+            "value": 21416
         },
         {
             "key": "sc__step__design__violations",
@@ -210,7 +210,7 @@
             "step": "cts",
             "index": "0",
             "op": ">=",
-            "value": -0.32
+            "value": -1.98
         },
         {
             "key": "sc__step__design__instance__count__setup_buffer",
@@ -218,7 +218,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 20
+            "value": 931
         },
         {
             "key": "sc__step__design__instance__count__hold_buffer",
@@ -226,7 +226,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 20
+            "value": 931
         },
         {
             "key": [
@@ -236,7 +236,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 6849
+            "value": 738284
         },
         {
             "key": "sc__step__route__drc_errors",
@@ -254,7 +254,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": 0.0
+            "value": -2.24
         },
         {
             "key": [
@@ -264,7 +264,7 @@
             "step": "export",
             "index": "1",
             "op": "<=",
-            "value": 3065
+            "value": 183072
         },
         {
             "key": "sc__metric__timing__drv__max_slew_limit",
@@ -272,7 +272,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.2
+            "value": -0.42
         },
         {
             "key": "sc__metric__timing__drv__max_fanout_limit",
@@ -288,7 +288,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.2
+            "value": -0.31
         },
         {
             "key": [
@@ -320,7 +320,7 @@
             "step": "syn",
             "index": "0",
             "op": "<=",
-            "value": 44
+            "value": 2554.93
         },
         {
             "key": "sc__metric__timing__clocks",
@@ -338,7 +338,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 51
+            "value": 2692
         },
         {
             "key": [
@@ -348,7 +348,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 514
+            "value": 22171
         },
         {
             "key": "sc__step__design__violations",
@@ -366,7 +366,7 @@
             "step": "cts",
             "index": "0",
             "op": ">=",
-            "value": -118.69
+            "value": -393.41
         },
         {
             "key": "sc__step__design__instance__count__setup_buffer",
@@ -374,7 +374,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 22
+            "value": 964
         },
         {
             "key": "sc__step__design__instance__count__hold_buffer",
@@ -382,7 +382,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 22
+            "value": 964
         },
         {
             "key": [
@@ -392,7 +392,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 1378
+            "value": 101976
         },
         {
             "key": "sc__step__route__drc_errors",
@@ -410,7 +410,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -4.91
+            "value": -95.55
         },
         {
             "key": [
@@ -420,7 +420,7 @@
             "step": "export",
             "index": "1",
             "op": "<=",
-            "value": 54
+            "value": 2719
         },
         {
             "key": "sc__metric__timing__drv__max_slew_limit",
@@ -428,7 +428,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.2
+            "value": -0.45
         },
         {
             "key": "sc__metric__timing__drv__max_fanout_limit",
