@@ -71,7 +71,7 @@ if __name__ == "__main__":
         "globalroute__timing__setup__ws": None,
         "detailedroute__route__wirelength": {
             "key": ["metric", "wirelength"],
-            "step": "cts",
+            "step": "route",
             "index": "0"
         },
         "detailedroute__route__drc_errors": {

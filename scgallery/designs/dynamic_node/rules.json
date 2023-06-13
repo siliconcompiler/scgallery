@@ -77,7 +77,7 @@
                 "metric",
                 "wirelength"
             ],
-            "step": "cts",
+            "step": "route",
             "index": "0",
             "op": "<=",
             "value": 220840

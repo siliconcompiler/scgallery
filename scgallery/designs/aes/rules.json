@@ -77,7 +77,7 @@
                 "metric",
                 "wirelength"
             ],
-            "step": "cts",
+            "step": "route",
             "index": "0",
             "op": "<=",
             "value": 356192
@@ -233,7 +233,7 @@
                 "metric",
                 "wirelength"
             ],
-            "step": "cts",
+            "step": "route",
             "index": "0",
             "op": "<=",
             "value": 897662
@@ -389,7 +389,7 @@
                 "metric",
                 "wirelength"
             ],
-            "step": "cts",
+            "step": "route",
             "index": "0",
             "op": "<=",
             "value": 116087

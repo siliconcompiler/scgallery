@@ -46,6 +46,7 @@ def __check_rules(chip, rules):
                 continue
 
             design_value = chip.get(*key, step=step, index=index)
+
         if not chip._safecompare(design_value, operation, check_value):
             error = True
             chip.logger.error(f'{key}: {design_value} {operation} {check_value}')
