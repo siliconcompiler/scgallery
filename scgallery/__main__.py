@@ -46,7 +46,6 @@ def run_design(chip):
     chip.set('option', 'jobname', f"{chip.get('option', 'jobname')}_{jobname}")
 
     chip.set('option', 'nodisplay', True)
-    chip.set('option', 'resume', True)
 
     try:
         chip.run()

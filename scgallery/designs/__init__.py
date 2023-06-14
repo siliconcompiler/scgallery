@@ -1,6 +1,9 @@
 from .sha3 import sha3
 from .aes import aes
 from .gcd import gcd
+from .ibex import ibex
+from .dynamic_node import dynamic_node
+from .swerv import swerv
 from .ethmac import ethmac
 from .jpeg import jpeg
 from .uart import uart
@@ -15,7 +18,10 @@ def all_designs():
         "aes": aes,
         "gcd": gcd,
         "sha3": sha3,
+        "ibex": ibex,
         "ethmac": ethmac,
+        "swerv": swerv,
+        "dynamic_node": dynamic_node,
         "jpeg": jpeg,
         "uart": uart,
         "heartbeat": heartbeat,

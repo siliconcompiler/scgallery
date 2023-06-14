@@ -42,14 +42,14 @@ def __check_rules(chip, rules):
         else:
             if not chip.valid(*key):
                 error = True
-                chip.logger.error(f'Design design does not contain {key}')
+                chip.logger.error(f'Design does not contain {key}')
                 continue
 
             design_value = chip.get(*key, step=step, index=index)
 
         if not chip._safecompare(design_value, operation, check_value):
             error = True
-            chip.logger.error(f'{key}: {design_value} {operation} {check_value}')
+            chip.logger.error(f'{key} in {step}{index}: {design_value} {operation} {check_value}')
 
     return error
 
