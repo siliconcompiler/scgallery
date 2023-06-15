@@ -4,7 +4,6 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
-from siliconcompiler.tools.openroad import openroad
 
 
 def setup(target=asap7_demo,
