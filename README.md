@@ -1,3 +1,5 @@
+[![Lint](https://github.com/siliconcompiler/scgallery/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/siliconcompiler/scgallery/actions/workflows/lint.yml)
+
 # SiliconCompiler Design Gallery
 Design gallery for SiliconCompiler.
 This library uses the rtl2gds flow in SiliconCompiler to compile the designs from RTL to a GDS file.
