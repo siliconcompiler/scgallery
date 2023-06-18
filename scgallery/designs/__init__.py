@@ -6,7 +6,7 @@ from .gcd import gcd
 from .heartbeat import heartbeat
 from .ibex import ibex
 from .jpeg import jpeg
-# from .microwatt import microwatt
+from .microwatt import microwatt
 from .riscv32i import riscv32i
 from .sha3 import sha3
 from .swerv import swerv
@@ -27,7 +27,7 @@ def all_designs():
         "heartbeat": heartbeat,
         "ibex": ibex,
         "jpeg": jpeg,
-        # "microwatt": microwatt,
+        "microwatt": microwatt,
         "riscv32i": riscv32i,
         "sha3": sha3,
         "swerv": swerv,

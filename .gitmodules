@@ -1,3 +1,6 @@
 [submodule "scgallery/designs/zerosoc/zerosoc"]
 	path = scgallery/designs/zerosoc/zerosoc
 	url = https://github.com/siliconcompiler/zerosoc.git
+[submodule "scgallery/designs/microwatt/microwatt"]
+	path = scgallery/designs/microwatt/microwatt
+	url = https://github.com/antonblanchard/microwatt.git
