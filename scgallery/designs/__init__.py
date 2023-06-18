@@ -9,6 +9,7 @@ from .jpeg import jpeg
 from .uart import uart
 from .heartbeat import heartbeat
 from .riscv32i import riscv32i
+from .tiny_rocket import tiny_rocket
 
 from .zerosoc import run_flat as zerosoc_flat
 from .zerosoc import run_hierarchy as zerosoc_hierarchy
@@ -26,6 +27,7 @@ def all_designs():
         "jpeg": jpeg,
         "uart": uart,
         "riscv32i": riscv32i,
+        "tiny_rocket": tiny_rocket,
         "heartbeat": heartbeat,
         "zerosoc_flat": zerosoc_flat,
         "zerosoc_hierarchy": zerosoc_hierarchy

@@ -4,6 +4,8 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import skywater130_demo
+from scgallery.designs.microwatt.libraries.skywater130 import microwatt_ip
+from siliconcompiler.tools.builtin import nop
 
 
 def setup(target=skywater130_demo,
@@ -42,7 +44,15 @@ def setup(target=skywater130_demo,
 
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
 
+    # RTL contains \edge and other constructs surelog doesn't like
+    chip.set('flowgraph', 'asicflow', 'import', '0', 'tool', 'builtin')
+    chip.set('flowgraph', 'asicflow', 'import', '0', 'task', 'nop')
+    chip.set('flowgraph', 'asicflow', 'import', '0', 'taskmodule', nop.__name__)
+
     if mainlib.startswith('sky130'):
+        chip.use(microwatt_ip)
+        chip.add('asic', 'macrolib', 'microwatt_ip')
+
         chip.set('constraint', 'outline', [(0, 0),
                                            (2920, 3520)])
         chip.set('constraint', 'corearea', [(10, 10),
