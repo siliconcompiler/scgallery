@@ -4,7 +4,6 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
-from siliconcompiler.tools.openroad import openroad
 
 
 def setup(target=asap7_demo,
@@ -40,9 +39,7 @@ def setup(target=asap7_demo,
         chip.set('constraint', 'corearea', [(1, 1),
                                             (16, 16)])
 
-        for task in chip._get_tool_tasks(openroad):
-            chip.set('tool', 'openroad', 'task', task, 'var',
-                     'place_density', '0.70')
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.70')
 
     return chip
 

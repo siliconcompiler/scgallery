@@ -32,7 +32,6 @@ def setup(target=asap7_demo,
 
     if mainlib == 'nangate45':
         chip.set('constraint', 'density', 55)
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'False')
         chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy', 'AREA3')
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.60')
     elif mainlib.startswith('sky130'):

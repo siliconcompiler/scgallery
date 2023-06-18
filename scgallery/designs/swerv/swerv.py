@@ -15,6 +15,7 @@ def setup(target=asap7_demo,
 
     aes_root = os.path.dirname(__file__)
     src_root = os.path.join(aes_root, 'src')
+    extra_root = os.path.join(aes_root, 'extra')
     sdc_root = os.path.join(aes_root, 'constraints')
 
     for src in ('swerv_wrapper.sv2v.v',):
@@ -31,8 +32,13 @@ def setup(target=asap7_demo,
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
 
     if mainlib == 'nangate45':
-        chip.set('constraint', 'density', 40)
-        chip.set('constraint', 'coremargin', 5)
+        chip.input(os.path.join(extra_root, f'{mainlib}.v'))
+
+        chip.set('constraint', 'outline', [(0, 0),
+                                           (1100, 1000)])
+        chip.set('constraint', 'corearea', [(10, 10),
+                                            (1090, 990)])
+
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.45')
 
     return chip

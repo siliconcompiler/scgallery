@@ -4,7 +4,6 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
-from siliconcompiler.tools.openroad import openroad
 
 
 def setup(target=asap7_demo,
@@ -43,17 +42,15 @@ def setup(target=asap7_demo,
         chip.set('constraint', 'aspectratio', 1)
         chip.set('constraint', 'coremargin', 2)
 
-        for task in chip._get_tool_tasks(openroad):
-            chip.set('tool', 'openroad', 'task', task, 'var',
-                     'place_density', '0.65')
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.65')
     elif mainlib.startswith('sky130'):
-        chip.set('constraint', 'density', 20)
+        chip.set('constraint', 'density', 40)
         chip.set('constraint', 'aspectratio', 1)
         chip.set('constraint', 'coremargin', 2)
 
-        for task in chip._get_tool_tasks(openroad):
-            chip.set('tool', 'openroad', 'task', task, 'var',
-                     'place_density', '0.65')
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.65')
+    elif mainlib == 'nangate45':
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.65')
 
     return chip
 

@@ -69,17 +69,11 @@ def setup(target=asap7_demo,
 
     if mainlib.startswith('asap7sc7p5t'):
         chip.set('constraint', 'density', 40)
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', 'uniform')
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'enable_dpo', 'false')
-        pass
     elif mainlib == 'nangate45':
         chip.set('constraint', 'density', 50)
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', 'uniform')
-        pass
     elif mainlib.startswith('sky130'):
         chip.set('constraint', 'density', 45)
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'False')
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', 'uniform')
 
     return chip
 
