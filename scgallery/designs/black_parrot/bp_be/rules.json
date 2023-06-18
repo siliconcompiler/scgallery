@@ -80,7 +80,7 @@
             "step": "route",
             "index": "0",
             "op": "<=",
-            "value": 2870966
+            "value": 2646187
         },
         {
             "key": "sc__step__route__drc_errors",
@@ -116,7 +116,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -1.07
+            "value": -0.2
         },
         {
             "key": "sc__metric__timing__drv__max_fanout_limit",
@@ -132,7 +132,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.27
+            "value": -0.52
         },
         {
             "key": [

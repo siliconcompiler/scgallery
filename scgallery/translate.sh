@@ -25,24 +25,24 @@ python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bl
 python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/black_parrot/rules-base.json -rules designs/black_parrot/rules.json -library asap7sc7p5t_rvt
 
 # bp_be
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_be_top/rules-base.json -rules designs/bp_be/rules.json -library nangate45
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_be_top/rules-base.json -rules designs/bp_be/rules.json -library sky130hd
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_be_top/rules-base.json -rules designs/bp_be/rules.json -library asap7sc7p5t_rvt
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_be_top/rules-base.json -rules designs/black_parrot/bp_be/rules.json -library nangate45
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_be_top/rules-base.json -rules designs/black_parrot/bp_be/rules.json -library sky130hd
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_be_top/rules-base.json -rules designs/black_parrot/bp_be/rules.json -library asap7sc7p5t_rvt
 
 # bp_fe
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_fe_top/rules-base.json -rules designs/bp_fe/rules.json -library nangate45
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_fe_top/rules-base.json -rules designs/bp_fe/rules.json -library sky130hd
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_fe_top/rules-base.json -rules designs/bp_fe/rules.json -library asap7sc7p5t_rvt
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_fe_top/rules-base.json -rules designs/black_parrot/bp_fe/rules.json -library nangate45
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_fe_top/rules-base.json -rules designs/black_parrot/bp_fe/rules.json -library sky130hd
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_fe_top/rules-base.json -rules designs/black_parrot/bp_fe/rules.json -library asap7sc7p5t_rvt
 
 # bp_multi
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_multi_top/rules-base.json -rules designs/bp_multi/rules.json -library nangate45
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_multi_top/rules-base.json -rules designs/bp_multi/rules.json -library sky130hd
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_multi_top/rules-base.json -rules designs/bp_multi/rules.json -library asap7sc7p5t_rvt
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_multi_top/rules-base.json -rules designs/black_parrot/bp_multi/rules.json -library nangate45
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_multi_top/rules-base.json -rules designs/black_parrot/bp_multi/rules.json -library sky130hd
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_multi_top/rules-base.json -rules designs/black_parrot/bp_multi/rules.json -library asap7sc7p5t_rvt
 
 # bp_quad
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_quad/rules-base.json -rules designs/bp_quad/rules.json -library nangate45
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_quad/rules-base.json -rules designs/bp_quad/rules.json -library sky130hd
-python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_quad/rules-base.json -rules designs/bp_quad/rules.json -library asap7sc7p5t_rvt
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/bp_quad/rules-base.json -rules designs/black_parrot/bp_quad/rules.json -library nangate45
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/sky130hd/bp_quad/rules-base.json -rules designs/black_parrot/bp_quad/rules.json -library sky130hd
+python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/asap7/bp_quad/rules-base.json -rules designs/black_parrot/bp_quad/rules.json -library asap7sc7p5t_rvt
 
 # chameleon
 python3 translate_orfs.py -orfs ~/OpenROAD-flow-scripts/flow/designs/nangate45/chameleon/rules-base.json -rules designs/chameleon/rules.json -library nangate45

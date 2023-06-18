@@ -26,7 +26,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 2485
+            "value": 2482
         },
         {
             "key": [
@@ -108,7 +108,7 @@
             "step": "export",
             "index": "1",
             "op": "<=",
-            "value": 2558
+            "value": 2513
         },
         {
             "key": "sc__metric__timing__drv__max_slew_limit",
@@ -116,7 +116,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.2
+            "value": -1.29
         },
         {
             "key": "sc__metric__timing__drv__max_fanout_limit",

@@ -98,7 +98,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -56.14
+            "value": -23.94
         },
         {
             "key": [
@@ -108,7 +108,7 @@
             "step": "export",
             "index": "1",
             "op": "<=",
-            "value": 8803
+            "value": 8802
         },
         {
             "key": "sc__metric__timing__drv__max_slew_limit",
@@ -116,7 +116,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -1.67
+            "value": -2.9
         },
         {
             "key": "sc__metric__timing__drv__max_fanout_limit",

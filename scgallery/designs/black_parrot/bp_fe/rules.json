@@ -26,7 +26,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 255775
+            "value": 255730
         },
         {
             "key": [
@@ -36,7 +36,7 @@
             "step": "place",
             "index": "0",
             "op": "<=",
-            "value": 37987
+            "value": 37978
         },
         {
             "key": "sc__step__design__violations",
@@ -62,7 +62,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 1652
+            "value": 1651
         },
         {
             "key": "sc__step__design__instance__count__hold_buffer",
@@ -70,7 +70,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 1652
+            "value": 1651
         },
         {
             "key": [
@@ -80,7 +80,7 @@
             "step": "route",
             "index": "0",
             "op": "<=",
-            "value": 1536244
+            "value": 1534351
         },
         {
             "key": "sc__step__route__drc_errors",
@@ -98,7 +98,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": 0.0
+            "value": -0.62
         },
         {
             "key": [
@@ -108,7 +108,7 @@
             "step": "export",
             "index": "1",
             "op": "<=",
-            "value": 256153
+            "value": 256108
         },
         {
             "key": "sc__metric__timing__drv__max_slew_limit",
@@ -116,7 +116,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.2
+            "value": -1.92
         },
         {
             "key": "sc__metric__timing__drv__max_fanout_limit",
@@ -132,7 +132,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -0.26
+            "value": -0.23
         },
         {
             "key": [
