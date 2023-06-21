@@ -77,6 +77,7 @@ def setup(target=skywater130_demo,
                                             (2910, 3510)])
 
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.20')
+        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'autoname', 'false')
 
     return chip
 
