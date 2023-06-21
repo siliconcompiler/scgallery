@@ -366,7 +366,7 @@
             "step": "cts",
             "index": "0",
             "op": ">=",
-            "value": -393.41
+            "value": -0.39341000000000004
         },
         {
             "key": "sc__step__design__instance__count__setup_buffer",
@@ -410,7 +410,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -95.55
+            "value": -0.09555
         },
         {
             "key": [

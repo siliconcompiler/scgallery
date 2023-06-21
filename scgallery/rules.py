@@ -20,7 +20,7 @@ def __update_value(operation, value, current_value, margin):
 
 
 def __check_rules(chip, rules):
-    error = False
+    errors = []
     for rule in rules:
         key = rule['key']
         step = rule['step']
@@ -34,24 +34,21 @@ def __check_rules(chip, rules):
                 file_data = json.load(f)
 
             if key not in file_data:
-                error = True
-                chip.logger.error(f'Design file {rule["file"]} does not contain {key}')
+                errors.append(f'Design file {rule["file"]} does not contain {key}')
                 continue
 
             design_value = file_data[key]
         else:
             if not chip.valid(*key):
-                error = True
-                chip.logger.error(f'Design does not contain {key}')
+                errors.append(f'Design does not contain {key}')
                 continue
 
             design_value = chip.get(*key, step=step, index=index)
 
         if not chip._safecompare(design_value, operation, check_value):
-            error = True
-            chip.logger.error(f'{key} in {step}{index}: {design_value} {operation} {check_value}')
+            errors.append(f'{key} in {step}{index}: {design_value} {operation} {check_value}')
 
-    return not error
+    return errors
 
 
 def __update_rules(chip, rules, margin):
@@ -155,10 +152,13 @@ if __name__ == "__main__":
 
     librules = rules[mainlib]
     if args.check:
-        if check_rules(chip, args.rules):
-            sys.exit(0)
-        else:
+        errors = check_rules(chip, args.rules)
+        for error in errors:
+            chip.logger.error(error)
+        if errors:
             sys.exit(1)
+        else:
+            sys.exit(0)
 
     if args.update:
         rules[mainlib] = __update_rules(chip, librules, args.margin)

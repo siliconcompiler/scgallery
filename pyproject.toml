@@ -19,4 +19,4 @@ dev = [
 ]
 
 [tool.setuptools]
-py-modules = []
+py-modules = ["scgallery"]

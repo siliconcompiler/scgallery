@@ -32,6 +32,8 @@ class Gallery:
             "designs": set()
         }
 
+        self.__errors = []
+
     def set_gallery(self, path):
         self.__path = path
 
@@ -99,7 +101,7 @@ class Gallery:
         self.__run_config['targets'].clear()
         self.__run_config['targets'].update(targets.values())
 
-    def __setup_design(self, design, target):
+    def _setup_design(self, design, target):
         try:
             chip = design.setup(target=target)
             return chip
@@ -113,6 +115,7 @@ class Gallery:
 
         chip.set('option', 'nodisplay', True)
         chip.set('option', 'quiet', True)
+        chip.set('option', 'resume', True)
 
         try:
             chip.run()
@@ -131,7 +134,20 @@ class Gallery:
         rules_file = os.path.join(design_dir, 'rules.json')
 
         chip.logger.info(f"Checking rules in {rules_file}")
-        if not check_rules(chip, rules_file):
+        try:
+            errors = check_rules(chip, rules_file)
+            for error in errors:
+                chip.logger.error(error)
+        except ValueError:
+            errors = None
+
+        if errors:
+            self.__errors.append({
+                "design": design,
+                "pdk": chip.get('option', 'pdk'),
+                "mainlib": chip.get('asic', 'logiclib')[0],
+                "errors": errors
+            })
             chip.logger.error("Rules mismatch")
         else:
             chip.logger.info("Rules match")
@@ -153,6 +169,7 @@ class Gallery:
     def run(self):
         os.makedirs(self.gallery(), exist_ok=True)
 
+        self.__errors.clear()
         any_failed = False
 
         for design in self.__run_config['designs']:
@@ -168,13 +185,25 @@ class Gallery:
                     pass
             else:
                 for target in self.__run_config['targets']:
-                    chip = self.__setup_design(design, target)
+                    chip = self._setup_design(design, target)
                     chip = self.__run_design(chip)
                     if not chip:
                         any_failed = True
                     self.__finalize(design, chip)
 
+        self.summary()
         return not any_failed
+
+    def summary(self):
+        print("Run summary:")
+        for failed in self.__errors:
+            print(f"Design: {failed['design'].__name__}")
+            print(f"PDK: {failed['pdk']}")
+            print(f"Mainlib: {failed['mainlib']}")
+            for error in failed['errors']:
+                print(f"  {error}")
+        if not self.__errors:
+            print('Add passed')
 
     def __design_has_runner(self, module):
         return getattr(module, 'run', None) is not None

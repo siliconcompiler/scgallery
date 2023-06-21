@@ -121,7 +121,24 @@ if __name__ == "__main__":
         "finish__timing__wns_percent_delay": None
     }
 
+    scale_adj = {
+        "asap7sc7p5t_rvt": {
+            "cts__timing__setup__ws": 0.001,
+            "cts__timing__setup__ws__pre_repair": 0.001,
+            "cts__timing__setup__ws__post_repair": 0.001,
+            "globalroute__timing__clock__slack": 0.001,
+            "globalroute__timing__setup__ws": 0.001,
+            "finish__timing__setup__ws": 0.001,
+            "finish__timing__drv__max_slew_limit": 1,
+            "finish__timing__drv__max_cap_limit": 1
+        }
+    }
+
     new_rules = []
+
+    scale = {}
+    if args.library in scale_adj:
+        scale = scale_adj[args.library]
 
     for orfs_rule_name, orfs_rule_params in orfs_rules.items():
         if orfs_rule_name not in rule_mapping:
@@ -134,6 +151,9 @@ if __name__ == "__main__":
         new_rule = copy.deepcopy(new_rule)
         new_rule['op'] = orfs_rule_params['compare']
         new_rule['value'] = orfs_rule_params['value']
+
+        if orfs_rule_name in scale:
+            new_rule['value'] *= scale[orfs_rule_name]
 
         new_rules.append(new_rule)
 
