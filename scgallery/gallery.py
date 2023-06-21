@@ -102,12 +102,10 @@ class Gallery:
         self.__run_config['targets'].update(targets.values())
 
     def _setup_design(self, design, target):
-        try:
-            chip = design.setup(target=target)
-            return chip
-        except FileNotFoundError as e:
-            print(f'{design} for {target} threw an error: {e}')
-            return None
+        chip = design.setup(target=target)
+        if not chip.valid('input', 'constraint', 'sdc'):
+            return chip, False
+        return chip, True
 
     def __run_design(self, chip):
         jobname = chip.get('option', 'target').split('.')[-1]
@@ -146,7 +144,8 @@ class Gallery:
                 "design": design,
                 "pdk": chip.get('option', 'pdk'),
                 "mainlib": chip.get('asic', 'logiclib')[0],
-                "errors": errors
+                "errors": errors,
+                "chip": chip
             })
             chip.logger.error("Rules mismatch")
         else:
@@ -170,7 +169,6 @@ class Gallery:
         os.makedirs(self.gallery(), exist_ok=True)
 
         self.__errors.clear()
-        any_failed = False
 
         for design in self.__run_config['designs']:
             print(f'Running {design.__name__}')
@@ -178,32 +176,31 @@ class Gallery:
                 run = getattr(design, 'run')
                 try:
                     chip = run()
-                    if not chip:
-                        any_failed = True
                     self.__finalize(design, chip)
                 except Exception:
                     pass
             else:
                 for target in self.__run_config['targets']:
-                    chip = self._setup_design(design, target)
+                    chip, valid = self._setup_design(design, target)
+                    if not valid:
+                        continue
+
                     chip = self.__run_design(chip)
-                    if not chip:
-                        any_failed = True
                     self.__finalize(design, chip)
 
         self.summary()
-        return not any_failed
+        return not self.__errors
 
     def summary(self):
         print("Run summary:")
         for failed in self.__errors:
-            print(f"Design: {failed['design'].__name__}")
+            print(f"Design: {failed['chip'].design}")
             print(f"PDK: {failed['pdk']}")
             print(f"Mainlib: {failed['mainlib']}")
             for error in failed['errors']:
                 print(f"  {error}")
         if not self.__errors:
-            print('Add passed')
+            print('Run passed')
 
     def __design_has_runner(self, module):
         return getattr(module, 'run', None) is not None

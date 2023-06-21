@@ -29,8 +29,13 @@ def __check_rules(chip, rules):
         check_value = rule['value']
 
         if 'file' in rule:
-            with open(os.path.join(chip._getworkdir(step=step, index=index),
-                                   rule['file']), 'r') as f:
+            metric_file = os.path.join(chip._getworkdir(step=step, index=index),
+                                       rule['file'])
+            if not os.path.exists(metric_file):
+                errors.append(f'Design file {metric_file} does not exist')
+                continue
+
+            with open(metric_file, 'r') as f:
                 file_data = json.load(f)
 
             if key not in file_data:
@@ -44,6 +49,10 @@ def __check_rules(chip, rules):
                 continue
 
             design_value = chip.get(*key, step=step, index=index)
+
+        if design_value is None:
+            errors.append(f'{key} in {step}{index} does not contain any data')
+            continue
 
         if not chip._safecompare(design_value, operation, check_value):
             errors.append(f'{key} in {step}{index}: {design_value} {operation} {check_value}')

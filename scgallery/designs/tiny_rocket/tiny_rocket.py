@@ -31,10 +31,8 @@ def setup(target=freepdk45_demo,
 
     mainlib = chip.get('asic', 'logiclib')[0]
     sdc = os.path.join(sdc_root, f'{mainlib}.sdc')
-    if not os.path.exists(sdc):
-        raise FileNotFoundError(f'Cannot find {sdc} constraints')
-
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    if os.path.exists(sdc):
+        chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
 
     chip.set('option', 'define', 'SYNTHESIS')
 

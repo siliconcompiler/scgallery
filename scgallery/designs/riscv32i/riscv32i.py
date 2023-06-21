@@ -49,10 +49,8 @@ def setup(target=skywater130_demo,
 
     mainlib = chip.get('asic', 'logiclib')[0]
     sdc = os.path.join(sdc_root, f'{mainlib}.sdc')
-    if not os.path.exists(sdc):
-        raise FileNotFoundError(f'Cannot find {sdc} constraints')
-
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    if os.path.exists(sdc):
+        chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
 
     if mainlib.startswith('sky130'):
         chip.set('constraint', 'density', 45)
