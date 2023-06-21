@@ -9,6 +9,7 @@ import siliconcompiler
 from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo
 
 from scgallery.designs import all_designs as sc_all_designs
+from scgallery.rules import check_rules
 
 
 class Gallery:
@@ -111,18 +112,33 @@ class Gallery:
         chip.set('option', 'jobname', f"{chip.get('option', 'jobname')}_{jobname}")
 
         chip.set('option', 'nodisplay', True)
+        chip.set('option', 'quiet', True)
 
         try:
             chip.run()
-            chip.summary()
         except Exception:
             return chip
 
         return chip
 
-    def __copy_chip_data(self, chip):
+    def __finalize(self, design, chip):
         if not chip:
             return
+
+        chip.summary()
+
+        design_dir = os.path.dirname(design.__file__)
+        rules_file = os.path.join(design_dir, 'rules.json')
+
+        chip.logger.info(f"Checking rules in {rules_file}")
+        if not check_rules(chip, rules_file):
+            chip.logger.error("Rules mismatch")
+        else:
+            chip.logger.info("Rules match")
+
+        self.__copy_chip_data(chip)
+
+    def __copy_chip_data(self, chip):
         jobname = chip.get('option', 'jobname')
         png = os.path.join(chip._getworkdir(), f'{chip.design}.png')
 
@@ -147,7 +163,7 @@ class Gallery:
                     chip = run()
                     if not chip:
                         any_failed = True
-                    self.__copy_chip_data(chip)
+                    self.__finalize(design, chip)
                 except Exception:
                     pass
             else:
@@ -156,7 +172,7 @@ class Gallery:
                     chip = self.__run_design(chip)
                     if not chip:
                         any_failed = True
-                    self.__copy_chip_data(chip)
+                    self.__finalize(design, chip)
 
         return not any_failed
 

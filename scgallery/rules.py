@@ -51,7 +51,7 @@ def __check_rules(chip, rules):
             error = True
             chip.logger.error(f'{key} in {step}{index}: {design_value} {operation} {check_value}')
 
-    return error
+    return not error
 
 
 def __update_rules(chip, rules, margin):
@@ -113,6 +113,18 @@ def __update_rules(chip, rules, margin):
     return new_rules
 
 
+def check_rules(chip, rules_file):
+    mainlib = chip.get('asic', 'logiclib')[0]
+
+    with open(rules_file, 'r') as f:
+        rules = json.load(f)
+
+    if mainlib not in rules:
+        raise ValueError(mainlib)
+
+    return __check_rules(chip, rules[mainlib])
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('check')
     parser.add_argument('-cfg')
@@ -143,7 +155,7 @@ if __name__ == "__main__":
 
     librules = rules[mainlib]
     if args.check:
-        if __check_rules(chip, librules):
+        if check_rules(chip, args.rules):
             sys.exit(0)
         else:
             sys.exit(1)
