@@ -17,3 +17,6 @@ dynamic = ["version"]
 dev = [
     "flake8>=5.0.0"
 ]
+
+[tool.setuptools]
+py-modules = []

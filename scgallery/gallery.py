@@ -3,7 +3,6 @@
 import os
 import shutil
 import argparse
-import json
 import sys
 
 import siliconcompiler
