@@ -211,6 +211,9 @@ class Gallery:
     def __design_has_runner(self, design):
         return getattr(self.__designs[design]['module'], 'run', None) is not None
 
+    def _get_design(self, design):
+        return self.__designs[design]
+
 
 def main():
     gallery = Gallery()
