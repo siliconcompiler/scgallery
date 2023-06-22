@@ -189,12 +189,12 @@ class Gallery:
         self.__errors.clear()
 
         for design in self.__run_config['designs']:
-            print(f'Running "{design}"')
             if design not in self.__designs:
                 print('  Error: design is not available in gallery')
                 continue
 
             if self.__design_has_runner(design):
+                print(f'Running "{design}"')
                 run = getattr(design, 'run')
                 try:
                     chip = run()
@@ -203,7 +203,7 @@ class Gallery:
                     pass
             else:
                 for target in self.__run_config['targets']:
-                    print(f'  with "{target}"')
+                    print(f'Running "{design}" with "{target}"')
                     chip, valid = self.__setup_design(design, target)
                     if not valid:
                         continue
@@ -232,8 +232,10 @@ class Gallery:
         return self.__designs[design]
 
 
-def main():
-    gallery = Gallery()
+def main(cls=None):
+    if not cls:
+        cls = Gallery
+    gallery = cls()
     gallery.argparse()
 
     if not gallery.run():
