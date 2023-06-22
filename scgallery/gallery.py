@@ -17,15 +17,15 @@ class Gallery:
     def __init__(self, path=None):
         self.__path = path
 
-        self.__targets = {
-            "freepdk45_demo": freepdk45_demo,
-            "skywater130_demo": skywater130_demo,
-            "asap7_demo": asap7_demo
-        }
+        self.__targets = {}
+        for name, target in (("freepdk45_demo", freepdk45_demo),
+                             ("skywater130_demo", skywater130_demo),
+                             ("asap7_demo", asap7_demo)):
+            self.add_target(name, target)
 
-        self.__designs = {
-            **sc_all_designs()
-        }
+        self.__designs = {}
+        for name, design in sc_all_designs().items():
+            self.add_design(name, design)
 
         self.__run_config = {
             "targets": set(),
