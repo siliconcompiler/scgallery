@@ -228,8 +228,14 @@ class Gallery:
     def __design_has_runner(self, design):
         return getattr(self.__designs[design]['module'], 'run', None) is not None
 
-    def _get_design(self, design):
-        return self.__designs[design]
+    def get_design(self, design):
+        return self.__designs[design].copy()
+
+    def get_designs(self):
+        return self.__designs.keys()
+
+    def get_targets(self):
+        return self.__targets.keys()
 
 
 def main(cls=None):
