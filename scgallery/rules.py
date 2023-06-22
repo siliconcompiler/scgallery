@@ -119,14 +119,24 @@ def __update_rules(chip, rules, margin):
     return new_rules
 
 
-def check_rules(chip, rules_file):
+def check_rules(chip, rules_files):
     mainlib = chip.get('asic', 'logiclib')[0]
 
-    with open(rules_file, 'r') as f:
-        rules = json.load(f)
+    if not isinstance(rules_files, (list, tuple)):
+        rules_files = [rules_files]
 
-    if mainlib not in rules:
-        raise ValueError(mainlib)
+    rules = None
+    for rules_file in rules_files:
+        with open(rules_file, 'r') as f:
+            rules = json.load(f)
+
+        if mainlib in rules:
+            break
+
+        rules = None
+
+    if not rules:
+        raise ValueError(f'{mainlib} not found in rules')
 
     return __check_rules(chip, rules[mainlib])
 

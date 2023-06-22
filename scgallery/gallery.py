@@ -47,8 +47,8 @@ class Gallery:
         if name in self.__targets:
             del self.__targets[name]
 
-    def add_design(self, name, module):
-        self.__designs[name] = module
+    def add_design(self, name, design):
+        self.__designs[name] = design
 
     def remove_design(self, name):
         if name in self.__designs:
@@ -95,14 +95,14 @@ class Gallery:
 
     def set_run_designs(self, designs):
         self.__run_config['designs'].clear()
-        self.__run_config['designs'].update(designs.values())
+        self.__run_config['designs'].update(designs.keys())
 
     def set_run_targets(self, targets):
         self.__run_config['targets'].clear()
-        self.__run_config['targets'].update(targets.values())
+        self.__run_config['targets'].update(targets.keys())
 
     def _setup_design(self, design, target):
-        chip = design.setup(target=target)
+        chip = self.__designs[design]['module'].setup(target=target)
         if not chip.valid('input', 'constraint', 'sdc'):
             return chip, False
         return chip, True
@@ -128,15 +128,17 @@ class Gallery:
 
         chip.summary()
 
-        design_dir = os.path.dirname(design.__file__)
-        rules_file = os.path.join(design_dir, 'rules.json')
+        rules_files = self.__designs[design]['rules']
 
-        chip.logger.info(f"Checking rules in {rules_file}")
-        try:
-            errors = check_rules(chip, rules_file)
-            for error in errors:
-                chip.logger.error(error)
-        except ValueError:
+        if rules_files:
+            chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
+            try:
+                errors = check_rules(chip, rules_files)
+                for error in errors:
+                    chip.logger.error(error)
+            except ValueError:
+                errors = None
+        else:
             errors = None
 
         if errors:
@@ -171,7 +173,11 @@ class Gallery:
         self.__errors.clear()
 
         for design in self.__run_config['designs']:
-            print(f'Running {design.__name__}')
+            print(f'Running "{design}"')
+            if design not in self.__designs:
+                print('  Error: design is not available in gallery')
+                continue
+
             if self.__design_has_runner(design):
                 run = getattr(design, 'run')
                 try:
@@ -202,8 +208,8 @@ class Gallery:
         if not self.__errors:
             print('Run passed')
 
-    def __design_has_runner(self, module):
-        return getattr(module, 'run', None) is not None
+    def __design_has_runner(self, design):
+        return getattr(self.__designs[design]['module'], 'run', None) is not None
 
 
 def main():
