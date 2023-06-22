@@ -136,7 +136,7 @@ def check_rules(chip, rules_files):
         rules = None
 
     if not rules:
-        raise ValueError(f'{mainlib} not found in rules')
+        raise [f'{mainlib} not found in rules']
 
     return __check_rules(chip, rules[mainlib])
 

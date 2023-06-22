@@ -7,7 +7,8 @@ from siliconcompiler.targets import asap7_demo
 
 
 def setup(target=asap7_demo,
-          use_cmd_file=False):
+          use_cmd_file=False,
+          additional_setup=None):
     chip = Chip('gcd')
 
     if use_cmd_file:
@@ -41,6 +42,10 @@ def setup(target=asap7_demo,
         chip.set('constraint', 'corearea', [(1.08, 1.08),
                                             (15.12, 15.12)])
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.35')
+
+    if additional_setup:
+        for setup_func in additional_setup:
+            setup_func(chip)
 
     return chip
 

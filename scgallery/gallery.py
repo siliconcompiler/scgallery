@@ -48,7 +48,22 @@ class Gallery:
             del self.__targets[name]
 
     def add_design(self, name, design):
+        design = design.copy()
+        if 'module' not in design:
+            raise KeyError(f'{name} must have a module')
+
+        if 'rules' not in design:
+            design['rules'] = []
+        if 'setup' not in design:
+            design['setup'] = []
+
         self.__designs[name] = design
+
+    def add_design_rule(self, design, rule):
+        self.__designs[design]['rules'].append(rule)
+
+    def add_design_setup(self, design, func):
+        self.__designs[design]['setup'].append(func)
 
     def remove_design(self, name):
         if name in self.__designs:
@@ -132,12 +147,9 @@ class Gallery:
 
         if rules_files:
             chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
-            try:
-                errors = check_rules(chip, rules_files)
-                for error in errors:
-                    chip.logger.error(error)
-            except ValueError:
-                errors = None
+            errors = check_rules(chip, rules_files)
+            for error in errors:
+                chip.logger.error(error)
         else:
             errors = None
 
@@ -150,7 +162,7 @@ class Gallery:
                 "chip": chip
             })
             chip.logger.error("Rules mismatch")
-        else:
+        elif rules_files:
             chip.logger.info("Rules match")
 
         self.__copy_chip_data(chip)
