@@ -116,7 +116,7 @@ class Gallery:
         self.__run_config['targets'].clear()
         self.__run_config['targets'].update(targets.keys())
 
-    def _setup_design(self, design, target):
+    def __setup_design(self, design, target):
         chip = self.__designs[design]['module'].setup(
             target=self.__targets[target],
             use_cmd_file=False,
@@ -203,7 +203,8 @@ class Gallery:
                     pass
             else:
                 for target in self.__run_config['targets']:
-                    chip, valid = self._setup_design(design, target)
+                    print(f'  with "{target}"')
+                    chip, valid = self.__setup_design(design, target)
                     if not valid:
                         continue
 
