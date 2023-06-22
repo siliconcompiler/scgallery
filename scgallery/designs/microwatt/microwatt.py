@@ -4,7 +4,6 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import skywater130_demo
-from scgallery.designs.microwatt.libraries.skywater130 import microwatt_ip
 
 
 def setup(target=skywater130_demo,
@@ -19,31 +18,29 @@ def setup(target=skywater130_demo,
     src_root = os.path.join(aes_root, 'microwatt')
     sdc_root = os.path.join(aes_root, 'constraints')
 
-    for src in (
-        'decode_types.vhdl', 'common.vhdl', 'wishbone_types.vhdl', 'fetch1.vhdl',
-        'utils.vhdl', 'plrufn.vhdl', 'cache_ram.vhdl', 'icache.vhdl',
-        'predecode.vhdl', 'decode1.vhdl', 'helpers.vhdl', 'insn_helpers.vhdl',
-        'control.vhdl', 'decode2.vhdl', 'register_file.vhdl',
-        'cr_file.vhdl', 'crhelpers.vhdl', 'ppc_fx_insns.vhdl', 'rotator.vhdl',
-        'logical.vhdl', 'countbits.vhdl', 'multiply.vhdl', 'multiply-32s.vhdl', 'divider.vhdl',
-        'execute1.vhdl', 'loadstore1.vhdl', 'mmu.vhdl', 'dcache.vhdl', 'writeback.vhdl',
-        'core_debug.vhdl', 'core.vhdl', 'fpu.vhdl', 'pmu.vhdl', ):
+    for src in ('decode_types.vhdl', 'common.vhdl', 'wishbone_types.vhdl', 'fetch1.vhdl',
+                'utils.vhdl', 'plrufn.vhdl', 'cache_ram.vhdl', 'icache.vhdl',
+                'predecode.vhdl', 'decode1.vhdl', 'helpers.vhdl', 'insn_helpers.vhdl',
+                'control.vhdl', 'decode2.vhdl', 'register_file.vhdl',
+                'cr_file.vhdl', 'crhelpers.vhdl', 'ppc_fx_insns.vhdl', 'rotator.vhdl',
+                'logical.vhdl', 'countbits.vhdl', 'multiply.vhdl', 'multiply-32s.vhdl',
+                'divider.vhdl', 'execute1.vhdl', 'loadstore1.vhdl', 'mmu.vhdl', 'dcache.vhdl',
+                'writeback.vhdl', 'core_debug.vhdl', 'core.vhdl', 'fpu.vhdl', 'pmu.vhdl'):
         chip.input(os.path.join(src_root, src))
 
-    for src in (
-        'wishbone_arbiter.vhdl', 'wishbone_bram_wrapper.vhdl', 'sync_fifo.vhdl',
-        'wishbone_debug_master.vhdl', 'xics.vhdl', 'syscon.vhdl', 'gpio.vhdl', 'soc.vhdl',
-        'spi_rxtx.vhdl', 'spi_flash_ctrl.vhdl'):
+    for src in ('wishbone_arbiter.vhdl', 'wishbone_bram_wrapper.vhdl', 'sync_fifo.vhdl',
+                'wishbone_debug_master.vhdl', 'xics.vhdl', 'syscon.vhdl', 'gpio.vhdl', 'soc.vhdl',
+                'spi_rxtx.vhdl', 'spi_flash_ctrl.vhdl'):
         chip.input(os.path.join(src_root, src))
 
-    for src in (
-        'dmi_dtm_dummy.vhdl', 'fpga/soc_reset.vhdl', 'fpga/pp_fifo.vhd',
-        'fpga/pp_soc_uart.vhd', 'fpga/main_bram.vhdl', 'nonrandom.vhdl', 'fpga/clk_gen_bypass.vhd',
-        'fpga/top-generic.vhdl'):
+    for src in ('dmi_dtm_dummy.vhdl', 'fpga/soc_reset.vhdl', 'fpga/pp_fifo.vhd',
+                'fpga/pp_soc_uart.vhd', 'fpga/main_bram.vhdl', 'nonrandom.vhdl',
+                'fpga/clk_gen_bypass.vhd', 'fpga/top-generic.vhdl'):
         chip.input(os.path.join(src_root, src))
 
 # -gMEMORY_SIZE=$(MEMORY_SIZE) -gRAM_INIT_FILE=$(RAM_INIT_FILE) \
-# 	-gRESET_LOW=$(RESET_LOW) -gCLK_INPUT=$(CLK_INPUT) -gCLK_FREQUENCY=$(CLK_FREQUENCY) -gICACHE_NUM_LINES=$(ICACHE_NUM_LINES) \
+# 	-gRESET_LOW=$(RESET_LOW) -gCLK_INPUT=$(CLK_INPUT) -gCLK_FREQUENCY=$(CLK_FREQUENCY) \
+#   -gICACHE_NUM_LINES=$(ICACHE_NUM_LINES) \
 # 	$(LITEDRAM_GHDL_ARG)
 
 
