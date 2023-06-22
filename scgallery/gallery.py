@@ -117,7 +117,11 @@ class Gallery:
         self.__run_config['targets'].update(targets.keys())
 
     def _setup_design(self, design, target):
-        chip = self.__designs[design]['module'].setup(target=self.__targets[target])
+        chip = self.__designs[design]['module'].setup(
+            target=self.__targets[target],
+            use_cmd_file=False,
+            additional_setup=self.__designs[design]['setup'])
+
         if not chip.valid('input', 'constraint', 'sdc'):
             return chip, False
         return chip, True
