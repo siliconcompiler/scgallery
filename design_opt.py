@@ -61,7 +61,8 @@ def main():
             #     "index": "1"
             # }
         ],
-        experiments=3
+        experiments=4,
+        parallel_limit=2
     )
     chip.summary()
 
