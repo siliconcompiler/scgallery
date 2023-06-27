@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 # Copyright 2020 Silicon Compiler Authors. All Rights Reserved.
 
-from scgallery.designs.ibex import ibex
+import os
+from scgallery.designs.heartbeat import heartbeat as design
 from siliconcompiler.targets import asap7_demo
 
 
 def main():
     '''Simple asicflow example.'''
 
-    chip = ibex.setup(target=asap7_demo, use_cmd_file=False)
+    chip = design.setup(target=asap7_demo, use_cmd_file=False)
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
+    chip.set('option', 'credentials', os.path.join(os.path.dirname(__file__), 'azure.cred'))
+    chip.set('option', 'remote', True)
 
     chip.optimize_parameters(
         [
