@@ -62,7 +62,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 7558
+            "value": 7557
         },
         {
             "key": "sc__step__design__instance__count__hold_buffer",
@@ -70,7 +70,7 @@
             "step": "cts",
             "index": "0",
             "op": "<=",
-            "value": 7558
+            "value": 7557
         },
         {
             "key": [
@@ -98,7 +98,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -5.82
+            "value": -1.95
         },
         {
             "key": [
@@ -116,7 +116,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -5.04
+            "value": -5.02
         },
         {
             "key": "sc__metric__timing__drv__max_fanout_limit",
@@ -132,7 +132,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -1.73
+            "value": -4.34
         },
         {
             "key": [

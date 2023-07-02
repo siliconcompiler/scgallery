@@ -132,7 +132,7 @@
             "step": "export",
             "index": "1",
             "op": ">=",
-            "value": -1.4
+            "value": -1.64
         },
         {
             "key": [
