@@ -2,7 +2,7 @@
 # Copyright 2020 Silicon Compiler Authors. All Rights Reserved.
 
 import os
-from scgallery.designs.heartbeat import heartbeat as design
+from scgallery.designs.ibex import ibex as design
 from siliconcompiler.targets import asap7_demo
 
 
@@ -18,7 +18,7 @@ def main():
         [
             {
                 "key": ['constraint', 'density'],
-                "values": [10, 40],
+                "values": [10, 80],
             },
             {
                 "key": ['tool', 'yosys', 'task', 'syn_asic', 'var', 'hier_threshold'],
@@ -28,8 +28,15 @@ def main():
                 "index": "0"
             },
             {
+                "key": ['tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten'],
+                "values": ['true', 'false'],
+                "type": 'enum',
+                "step": "syn",
+                "index": "0"
+            },
+            {
                 "key": ['tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy'],
-                "values": ['', 'AREA0', 'DELAY0', 'AREA3', 'DELAY4'],
+                "values": ['', 'AREA0', 'AREA1', 'AREA2', 'AREA3', 'DELAY0', 'DELAY1', 'DELAY2', 'DELAY3', 'DELAY4'],
                 "type": 'enum',
                 "step": "syn",
                 "index": "0"
@@ -44,7 +51,23 @@ def main():
             {
                 "key": ['tool', 'openroad', 'task', 'cts', 'var', 'cts_cluster_diameter'],
                 "values": [10, 100],
-                "type": 'int'
+                "type": 'int',
+                "step": "cts",
+                "index": "0"
+            },
+            {
+                "key": ['tool', 'openroad', 'task', 'cts', 'var', 'cts_distance_between_buffers'],
+                "values": [10, 100],
+                "type": 'int',
+                "step": "cts",
+                "index": "0"
+            },
+            {
+                "key": ['tool', 'openroad', 'task', 'cts', 'var', 'rsz_repair_tns'],
+                "values": [0, 100],
+                "type": 'float',
+                "step": "cts",
+                "index": "0"
             }
         ],
         [
@@ -61,8 +84,8 @@ def main():
             #     "index": "1"
             # }
         ],
-        experiments=4,
-        parallel_limit=2
+        experiments=64,
+        parallel_limit=4
     )
     chip.summary()
 
