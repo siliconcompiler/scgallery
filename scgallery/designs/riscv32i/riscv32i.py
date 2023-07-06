@@ -7,11 +7,11 @@ from siliconcompiler.targets import skywater130_demo
 
 
 def setup(target=skywater130_demo,
-          use_cmd_file=False):
+          use_cmdline=False):
     chip = Chip('riscv32i')
     chip.set('option', 'entrypoint', 'riscv')
 
-    if use_cmd_file:
+    if use_cmdline:
         chip.create_cmdline(chip.design)
 
     aes_root = os.path.dirname(__file__)
@@ -67,7 +67,7 @@ def setup(target=skywater130_demo,
 
 
 if __name__ == '__main__':
-    chip = setup(use_cmd_file=True)
+    chip = setup(use_cmdline=True)
 
     chip.run()
     chip.summary()

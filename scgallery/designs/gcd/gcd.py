@@ -7,11 +7,10 @@ from siliconcompiler.targets import asap7_demo
 
 
 def setup(target=asap7_demo,
-          use_cmd_file=False,
-          additional_setup=None):
+          use_cmdline=False):
     chip = Chip('gcd')
 
-    if use_cmd_file:
+    if use_cmdline:
         chip.create_cmdline(chip.design)
 
     aes_root = os.path.dirname(__file__)
@@ -43,15 +42,11 @@ def setup(target=asap7_demo,
                                             (15.12, 15.12)])
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.35')
 
-    if additional_setup:
-        for setup_func in additional_setup:
-            setup_func(chip)
-
     return chip
 
 
 if __name__ == '__main__':
-    chip = setup(use_cmd_file=True)
+    chip = setup(use_cmdline=True)
 
     chip.run()
     chip.summary()

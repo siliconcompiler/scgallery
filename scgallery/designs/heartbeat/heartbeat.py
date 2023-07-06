@@ -7,10 +7,10 @@ from siliconcompiler.targets import asap7_demo
 
 
 def setup(target=asap7_demo,
-          use_cmd_file=False):
+          use_cmdline=False):
     chip = Chip('heartbeat')
 
-    if use_cmd_file:
+    if use_cmdline:
         chip.create_cmdline(chip.design)
 
     aes_root = os.path.dirname(__file__)
@@ -32,7 +32,7 @@ def setup(target=asap7_demo,
 
 
 if __name__ == '__main__':
-    chip = setup(use_cmd_file=True)
+    chip = setup(use_cmdline=True)
 
     chip.run()
     chip.summary()

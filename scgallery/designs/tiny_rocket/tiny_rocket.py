@@ -8,11 +8,11 @@ from scgallery.libraries.freepdk45.fakeram45 import fakeram45
 
 
 def setup(target=freepdk45_demo,
-          use_cmd_file=False):
+          use_cmdline=False):
     chip = Chip('tiny_rocket')
     chip.set('option', 'entrypoint', 'RocketTile')
 
-    if use_cmd_file:
+    if use_cmdline:
         chip.create_cmdline(chip.design)
 
     aes_root = os.path.dirname(__file__)
@@ -54,7 +54,7 @@ def setup(target=freepdk45_demo,
 
 
 if __name__ == '__main__':
-    chip = setup(use_cmd_file=True)
+    chip = setup(use_cmdline=True)
 
     chip.run()
     chip.summary()

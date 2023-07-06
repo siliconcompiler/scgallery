@@ -119,8 +119,12 @@ class Gallery:
     def __setup_design(self, design, target):
         chip = self.__designs[design]['module'].setup(
             target=self.__targets[target],
-            use_cmd_file=False,
-            additional_setup=self.__designs[design]['setup'])
+            use_cmd_file=False)
+
+        # Perform additional setup functions
+        if self.__designs[design]['setup']:
+            for setup_func in self.__designs[design]['setup']:
+                setup_func(chip)
 
         if not chip.valid('input', 'constraint', 'sdc'):
             return chip, False
