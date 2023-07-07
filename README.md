@@ -4,6 +4,16 @@
 Design gallery for SiliconCompiler.
 This library uses the rtl2gds flow in SiliconCompiler to compile the designs from RTL to a GDS file.
 
+# To install:
+Utilize the same python environment as SiliconCompiler.
+
+    git clone https://github.com/siliconcompiler/scgallery.git
+    cd scgallery
+    python3 -m pip install -e .
+    git submodule update --init scgallery/designs/zerosoc/zerosoc/
+
+Initialize submodules for other designs as needed.
+
 # To run a design:
 
     python3 scgallery/gallery.py -design sha3  # Will run on all supported targets
