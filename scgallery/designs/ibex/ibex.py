@@ -13,9 +13,8 @@ def setup(target=asap7_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
-    src_root = os.path.join(mod_root, 'src')
-    sdc_root = os.path.join(mod_root, 'constraints')
+    src_root = os.path.join('ibex', 'src')
+    sdc_root = os.path.join('ibex', 'constraints')
 
     for src in ('ibex_alu.v',
                 'ibex_branch_predict.v',
@@ -54,13 +53,13 @@ def setup(target=asap7_demo):
                 'prim_secded_72_64_dec.v',
                 'prim_secded_72_64_enc.v',
                 'prim_xilinx_clock_gating.v'):
-        chip.input(os.path.join(src_root, src))
+        chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     if mainlib.startswith('asap7sc7p5t'):
         chip.set('constraint', 'density', 40)

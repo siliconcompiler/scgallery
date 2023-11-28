@@ -1,0 +1,218 @@
+[
+    {
+        "design": "aes",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "aes",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "aes",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "ariane",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "ariane",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "ariane",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "black_parrot",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "caliptra-datavault",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "caliptra-datavault",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "caliptra-datavault",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "chameleon",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "dynamic_node",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "ethmac",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "ethmac",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "ethmac",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "gcd",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "gcd",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "gcd",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "heartbeat",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "heartbeat",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "heartbeat",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "ibex",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "ibex",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "ibex",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "jpeg",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "jpeg",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "jpeg",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "microwatt",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "mock_alu",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "mock_alu",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "openmsp430",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "openmsp430",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "openmsp430",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "riscv32i",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "riscv32i",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "riscv32i",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "spi",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "spi",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "spi",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "swerv",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "tiny_rocket",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "tiny_rocket",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "tiny_rocket",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "uart",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "uart",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "uart",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "zerosoc_flat",
+        "target": null
+    },
+    {
+        "design": "zerosoc_hierarchy",
+        "target": null
+    }
+]

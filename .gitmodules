@@ -1,3 +1,0 @@
-[submodule "scgallery/designs/zerosoc/zerosoc"]
-	path = scgallery/designs/zerosoc/zerosoc
-	url = https://github.com/siliconcompiler/zerosoc.git

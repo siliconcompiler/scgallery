@@ -14,9 +14,8 @@ def setup(target=skywater130_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
-    src_root = os.path.join(mod_root, 'src')
-    sdc_root = os.path.join(mod_root, 'constraints')
+    src_root = os.path.join('chameleon', 'src')
+    sdc_root = os.path.join('chameleon', 'constraints')
 
     for src in ('soc_core.v',
                 'AHB_sys_0/AHBlite_sys_0.v',
@@ -37,13 +36,13 @@ def setup(target=skywater130_demo):
                 'IPs/spi_master.v',
                 'IPs/TIMER32.v',
                 'IPs/WDT32.v'):
-        chip.input(os.path.join(src_root, src))
+        chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     if mainlib.startswith('sky130'):
         chip.use(chameleon_ip)

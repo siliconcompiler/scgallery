@@ -12,22 +12,21 @@ def setup(target=asap7_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
-    src_root = os.path.join(mod_root, 'src')
-    extra_root = os.path.join(mod_root, 'extra')
-    sdc_root = os.path.join(mod_root, 'constraints')
+    src_root = os.path.join('swerv', 'src')
+    extra_root = os.path.join('swerv', 'extra')
+    sdc_root = os.path.join('swerv', 'constraints')
 
     for src in ('swerv_wrapper.sv2v.v',):
-        chip.input(os.path.join(src_root, src))
+        chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     if mainlib == 'nangate45':
-        chip.input(os.path.join(extra_root, f'{mainlib}.v'))
+        chip.input(os.path.join(extra_root, f'{mainlib}.v'), package='scgallery-designs')
 
         chip.set('constraint', 'outline', [(0, 0),
                                            (1100, 1000)])

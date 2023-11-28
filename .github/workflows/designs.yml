@@ -25,9 +25,31 @@ jobs:
       - name: Get design matrix
         id: designs
         run: |
-          echo "designs=$(python3 -c "import json; print(json.dumps(json.loads(open('$GITHUB_WORKSPACE/.github/workflows/config/quick.json').read())))")" >> $GITHUB_OUTPUT
+          echo "designs=$(python3 -c "import json; print(json.dumps(json.loads(open('$GITHUB_WORKSPACE/.github/workflows/config/designs.json').read())))")" >> $GITHUB_OUTPUT
 
+  wheel:
+    name: Build wheel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build wheel
+        run: |
+          pip install --upgrade pip
+          pip install --upgrade build
+          python3 -m build
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v3
+        with:
+          name: wheel
+          path: dist/*.whl
+          retention-days: 7
+        
   sc_version:
+    needs: wheel
     name: Get SiliconCompiler version
     runs-on: ubuntu-latest
 
@@ -35,13 +57,15 @@ jobs:
       version: ${{ steps.sc_version.outputs.version }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v3
+        with:
+          name: wheel
+          path: dist
 
       - name: Install gallery
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -e $GITHUB_WORKSPACE/.
+          pip install --upgrade pip
+          pip install dist/*.whl
 
       - name: Get version
         id: sc_version
@@ -56,7 +80,7 @@ jobs:
       sc_version: ${{ needs.sc_version.outputs.version }}
 
   designs_test:
-    needs: [docker_image, designs]
+    needs: [wheel, docker_image, designs]
     timeout-minutes: 120
     runs-on: ubuntu-latest
     container:
@@ -67,38 +91,42 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.designs.outputs.designs) }}
+      matrix:
+        include: ${{ fromJson(needs.designs.outputs.designs) }}
 
     name: 'Run design'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/download-artifact@v3
         with:
-          path: scgallery
-          submodules: recursive
+          name: wheel
+          path: dist
 
-      - name: Checkout SiliconCompiler
-        uses: actions/checkout@v4
-        with:
-          repository: siliconcompiler/siliconcompiler
-          path: siliconcompiler
+      - name: Install gallery
+        run: |
+          pip install --upgrade pip
+          pip install dist/*.whl
 
       - name: Run gallery
         run: |
-          python3 -m venv clean_env
-          source clean_env/bin/activate
+          if [ -z "${{ matrix.target }}" ] ; then
+            sc-gallery -design ${{ matrix.design }}
+          else
+            sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }}
+          fi
 
-          python3 -m pip install --upgrade pip
-          python3 -m pip install -e $GITHUB_WORKSPACE/scgallery/.
-
-          export SCPATH=$GITHUB_WORKSPACE/siliconcompiler/siliconcompiler
-
-          sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }}
-
-      - name: Upload gallery artifacts
+      - name: Upload gallery image
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: gallery
-          path: gallery
+          name: images
+          path: gallery/*/*.png
+          retention-days: 7
+
+      - name: Upload run artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: gallery/*/*.tgz
           retention-days: 1
+  

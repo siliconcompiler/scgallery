@@ -10,10 +10,7 @@ Utilize the same python environment as SiliconCompiler.
 
     git clone https://github.com/siliconcompiler/scgallery.git
     cd scgallery
-    python3 -m pip install -e .
-
-    # To enable zerosoc
-    git submodule update --init scgallery/designs/zerosoc/zerosoc/
+    python3 -m pip install .
 
 # To run a design:
 

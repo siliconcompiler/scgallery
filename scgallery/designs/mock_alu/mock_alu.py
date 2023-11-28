@@ -13,12 +13,11 @@ def setup(target=asap7_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
-    src_root = os.path.join(mod_root, 'src')
-    sdc_root = os.path.join(mod_root, 'constraints')
+    src_root = os.path.join('mock_alu', 'src')
+    sdc_root = os.path.join('mock_alu', 'constraints')
 
     for src in ('build.sbt',):
-        chip.input(os.path.join(src_root, src))
+        chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     chip.set('option', 'frontend', 'chisel')
     chip.set('tool', 'chisel', 'task', 'convert', 'var', 'application',
@@ -47,7 +46,7 @@ def setup(target=asap7_demo):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     if mainlib.startswith('asap7sc7p5t'):
         chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument',

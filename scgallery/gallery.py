@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import os
 import shutil
 import sys
@@ -13,6 +14,7 @@ from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo
 from scgallery.designs import all_designs as sc_all_designs
 from scgallery.rules import check_rules
 from scgallery import report
+from scgallery import __version__
 
 
 class Gallery:
@@ -351,6 +353,8 @@ class Gallery:
         chip = self.__designs[design]['module'].setup(
             target=self.__targets[target])
 
+        chip.register_package_source(name='scgallery-designs', path='python://scgallery.designs')
+
         # Perform additional setup functions
         if self.__designs[design]['setup']:
             for setup_func in self.__designs[design]['setup']:
@@ -445,22 +449,9 @@ class Gallery:
     def __design_has_runner(self, design):
         return getattr(self.__designs[design]['module'], 'run', None) is not None
 
-    def run(self):
-        '''
-        Main run function which will iterate over the design gallery and generate images and
-        summaries for the listed designs and targets.
-
-        Returns:
-            boolean: True, if all designs succeeded and no rules were violated, False otherwise.
-        '''
-        os.makedirs(self.path, exist_ok=True)
-
-        self.__status.clear()
-        self.__report_chips.clear()
-
+    def __get_runnable_jobs(self):
         regular_jobs = []
         runner_jobs = []
-
         for design in self.__run_config['designs']:
             if design not in self.__designs:
                 print('  Error: design is not available in gallery')
@@ -476,10 +467,63 @@ class Gallery:
                         continue
                     regular_jobs.append({'print': f'Running "{design}" with "{target}"',
                                          "design": design,
-                                         "chip": chip})
+                                         "chip": chip,
+                                         "target": target})
 
         runner_jobs = sorted(runner_jobs, key=lambda x: x["print"])
         regular_jobs = sorted(regular_jobs, key=lambda x: x["print"])
+        return regular_jobs, runner_jobs
+
+    def __generate_reports(self):
+        # Generate overview
+        overview_data = []
+        for design, design_datas in self.__report_chips.items():
+            for design_data in design_datas:
+                if 'path' not in design_data:
+                    continue
+                overview_data.append({
+                    "path": design_data["path"],
+                    "platform": design_data["platform"],
+                    "design": design
+                })
+        if overview_data:
+            overview_file = 'overview'
+            if self.__jobname:
+                overview_file += f"_{self.__jobname}"
+            report.generate_overview(self.title,
+                                     overview_data,
+                                     os.path.join(self.path,
+                                                  f"{overview_file}.html"))
+
+            # Generate detailed view
+            detail_data = {}
+            for design, design_datas in self.__report_chips.items():
+                for design_data in design_datas:
+                    detail_data.setdefault(design, []).append({
+                        "chip": design_data['chip'],
+                        "rules": design_data['rules']
+                    })
+            details_file = 'details'
+            if self.__jobname:
+                details_file += f"_{self.__jobname}"
+            report.generate_details(self.title,
+                                    detail_data,
+                                    os.path.join(self.path, f"{details_file}.html"))
+
+    def run(self):
+        '''
+        Main run function which will iterate over the design gallery and generate images and
+        summaries for the listed designs and targets.
+
+        Returns:
+            boolean: True, if all designs succeeded and no rules were violated, False otherwise.
+        '''
+        os.makedirs(self.path, exist_ok=True)
+
+        self.__status.clear()
+        self.__report_chips.clear()
+
+        regular_jobs, runner_jobs = self.__get_runnable_jobs()
 
         if self.is_remote:
             def _run_remote(chip, design):
@@ -516,43 +560,10 @@ class Gallery:
             except Exception:
                 pass
 
-        # Generate overview
-        overview_data = []
-        for design, design_datas in self.__report_chips.items():
-            for design_data in design_datas:
-                if 'path' not in design_data:
-                    continue
-                overview_data.append({
-                    "path": design_data["path"],
-                    "platform": design_data["platform"],
-                    "design": design
-                })
-        if overview_data:
-            overview_file = 'overview'
-            if self.__jobname:
-                overview_file += f"_{self.__jobname}"
-            report.generate_overview(self.title,
-                                     overview_data,
-                                     os.path.join(self.path,
-                                                  f"{overview_file}.html"))
-
-            # Generate detailed view
-            detail_data = {}
-            for design, design_datas in self.__report_chips.items():
-                for design_data in design_datas:
-                    detail_data.setdefault(design, []).append({
-                        "chip": design_data['chip'],
-                        "rules": design_data['rules']
-                    })
-            details_file = 'details'
-            if self.__jobname:
-                details_file += f"_{self.__jobname}"
-            report.generate_details(self.title,
-                                    detail_data,
-                                    os.path.join(self.path, f"{details_file}.html"))
-
         self.summary()
-        return not self.__status
+
+        failed = any([data["errors"] for data in self.__status])
+        return not failed
 
     def summary(self):
         '''
@@ -656,6 +667,12 @@ Designs: {designs_help}
                             metavar='<module>',
                             help='Python module for custom galleries')
 
+        parser.add_argument('-json',
+                            metavar='<path>',
+                            help='Generate json matrix of designs and targets')
+
+        parser.add_argument('-version', action='version', version=__version__)
+
         args = parser.parse_args()
 
         gallery.set_path(args.path)
@@ -671,6 +688,18 @@ Designs: {designs_help}
             gallery.set_run_designs({design: gallery.__designs[design] for design in args.design})
         else:
             gallery.set_run_designs(gallery.__designs)
+
+        if args.json:
+            regular_jobs, runner_jobs = gallery.__get_runnable_jobs()
+            matrix = []
+            for data in regular_jobs:
+                matrix.append({"design": data["design"], "target": data["target"]})
+            for data in runner_jobs:
+                matrix.append({"design": data["design"], "target": None})
+
+            with open(args.json, 'w') as f:
+                f.write(json.dumps(matrix, indent=4, sort_keys=True))
+            return 0
 
         if not gallery.run():
             return 1

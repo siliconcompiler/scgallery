@@ -18,24 +18,23 @@ def setup(target=freepdk45_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
-    src_root = os.path.join(mod_root, 'src')
-    extra_root = os.path.join(mod_root, 'extra')
-    sdc_root = os.path.join(mod_root, 'constraints')
+    src_root = os.path.join('black_parrot', 'src')
+    extra_root = os.path.join('black_parrot', 'extra')
+    sdc_root = os.path.join('black_parrot', 'constraints')
 
     for src in ('pickled.v',):
-        chip.input(os.path.join(src_root, src))
+        chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     chip.set('option', 'define', 'SYNTHESIS')
 
     _common.add_lambdapdk_memory(chip)
-    chip.input(os.path.join(extra_root, 'lambda.v'))
+    chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
 
     if mainlib == 'nangate45':
         chip.set('constraint', 'outline', [(0, 0),

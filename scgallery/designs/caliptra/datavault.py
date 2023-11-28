@@ -19,8 +19,7 @@ def setup(target=freepdk45_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
-    sdc_root = os.path.join(mod_root, 'constraints', 'datavault')
+    sdc_root = os.path.join('caliptra', 'constraints', 'datavault')
 
     add_datavault(chip)
     add_libs(chip)
@@ -33,7 +32,7 @@ def setup(target=freepdk45_demo):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     return chip
 

@@ -13,9 +13,8 @@ def setup(target=skywater130_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
     src_root = os.path.join('core', 'rtl', 'verilog')
-    sdc_root = os.path.join(mod_root, 'constraints')
+    sdc_root = os.path.join('openmsp430', 'constraints')
 
     chip.register_package_source(name='openmsp430',
                                  path='git+https://github.com/olgirard/openmsp430.git',
@@ -48,7 +47,7 @@ def setup(target=skywater130_demo):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     return chip
 

@@ -40,11 +40,6 @@ docs = [
 "Homepage" = "https://github.com/siliconcompiler/scgallery"
 "Bug Tracker" = "https://github.com/siliconcompiler/scgallery/issues"
 
-[tool.poetry]
-include = ["scgallery/designs/*",
-           "scgallery/libraries/*",
-           "scgallery/templates/*"]
-
 [project.scripts]
 sc-gallery = "scgallery.apps.sc_gallery:main"
 

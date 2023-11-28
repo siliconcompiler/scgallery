@@ -19,18 +19,17 @@ def setup(target=freepdk45_demo):
     if __name__ == '__main__':
         chip.create_cmdline(chip.design)
 
-    mod_root = os.path.dirname(__file__)
-    src_root = os.path.join(mod_root, 'src')
-    sdc_root = os.path.join(mod_root, 'constraints')
+    src_root = os.path.join('ariane', 'src')
+    sdc_root = os.path.join('ariane', 'constraints')
 
     for src in ('ariane.sv2v.v', 'macros.v'):
-        chip.input(os.path.join(src_root, src))
+        chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'))
+    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'preserve_modules', [
