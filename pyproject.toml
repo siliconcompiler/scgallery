@@ -29,7 +29,8 @@ dynamic = ["version"]
 dev = [
     "flake8>=5.0.0",
     "pytest",
-    "pytest-xdist"
+    "pytest-xdist",
+    "tclint"
 ]
 docs = [
     "sphinx",
@@ -45,3 +46,12 @@ sc-gallery = "scgallery.apps.sc_gallery:main"
 
 [tool.pytest.ini_options]
 testpaths = "tests"
+
+[tool.tclint]
+exclude = [
+    'build/',
+    'orfs/'
+]
+
+[tool.tclint.style]
+line-length = 100

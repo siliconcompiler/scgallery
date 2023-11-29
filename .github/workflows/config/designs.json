@@ -12,18 +12,6 @@
         "target": "skywater130_demo"
     },
     {
-        "design": "ariane",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "ariane",
-        "target": "freepdk45_demo"
-    },
-    {
-        "design": "ariane",
-        "target": "skywater130_demo"
-    },
-    {
         "design": "black_parrot",
         "target": "freepdk45_demo"
     },
@@ -206,13 +194,5 @@
     {
         "design": "uart",
         "target": "skywater130_demo"
-    },
-    {
-        "design": "zerosoc_flat",
-        "target": null
-    },
-    {
-        "design": "zerosoc_hierarchy",
-        "target": null
     }
 ]

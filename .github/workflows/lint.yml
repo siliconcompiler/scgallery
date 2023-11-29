@@ -15,10 +15,26 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install Requirements
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
       - name: Lint with Flake8
         run: flake8 --statistics .
+
+  lint_tcl:
+    name: Lint TCL Code
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+      - name: Install Requirements
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install .[dev]
+      - name: Lint with tclint
+        run: tclint .
+      
