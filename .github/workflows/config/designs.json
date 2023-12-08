@@ -12,10 +12,30 @@
         "target": "skywater130_demo"
     },
     {
+        "design": "ariane",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "ariane",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "ariane",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "black_parrot",
+        "target": "asap7_demo"
+    },
+    {
         "design": "black_parrot",
         "target": "freepdk45_demo"
     },
     {
+        "design": "black_parrot",
+        "target": "skywater130_demo"
+    },
+    {
         "design": "caliptra-datavault",
         "target": "asap7_demo"
     },
@@ -49,10 +69,6 @@
     },
     {
         "design": "caliptra-sha512",
-        "target": "skywater130_demo"
-    },
-    {
-        "design": "chameleon",
         "target": "skywater130_demo"
     },
     {
@@ -117,10 +133,6 @@
     },
     {
         "design": "jpeg",
-        "target": "skywater130_demo"
-    },
-    {
-        "design": "microwatt",
         "target": "skywater130_demo"
     },
     {
