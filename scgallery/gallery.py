@@ -11,7 +11,6 @@ import siliconcompiler
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo
 
-from scgallery.designs import all_designs as sc_all_designs
 from scgallery.rules import check_rules
 from scgallery import report
 from scgallery import __version__
@@ -29,6 +28,7 @@ class Gallery:
             self.add_target(name, target)
 
         self.__designs = {}
+        from scgallery.designs import all_designs as sc_all_designs
         for name, design in sc_all_designs().items():
             self.add_design(name, design["module"], rules=design["rules"])
 
