@@ -5,6 +5,7 @@ import os
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
 from scgallery.designs import _common
+from scgallery import Gallery
 
 
 def setup(target=freepdk45_demo):
@@ -12,7 +13,7 @@ def setup(target=freepdk45_demo):
     chip.set('option', 'entrypoint', 'RocketTile')
 
     if __name__ == '__main__':
-        chip.create_cmdline(chip.design)
+        Gallery.design_commandline(chip)
 
     src_root = os.path.join('tiny_rocket', 'src')
     extra_root = os.path.join('tiny_rocket', 'extra')

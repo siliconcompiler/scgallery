@@ -11,13 +11,14 @@ import os
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
 from scgallery.designs import _common
+from scgallery import Gallery
 
 
 def setup(target=freepdk45_demo):
     chip = Chip('ariane')
 
     if __name__ == '__main__':
-        chip.create_cmdline(chip.design)
+        Gallery.design_commandline(chip)
 
     src_root = os.path.join('ariane', 'src')
     sdc_root = os.path.join('ariane', 'constraints')

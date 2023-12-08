@@ -10,13 +10,14 @@ from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
 from siliconcompiler.tools.openroad import openroad
 from scgallery.designs import _common
+from scgallery import Gallery
 
 
 def setup(target=freepdk45_demo):
     chip = Chip('black_parrot')
 
     if __name__ == '__main__':
-        chip.create_cmdline(chip.design)
+        Gallery.design_commandline(chip)
 
     src_root = os.path.join('black_parrot', 'src')
     extra_root = os.path.join('black_parrot', 'extra')
@@ -65,7 +66,7 @@ def setup(target=freepdk45_demo):
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_macros', '12')
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_max_macros', '4')
 
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'psm_enable', 'false')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'psm_enable', 'false')
 
     return chip
 

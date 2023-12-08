@@ -17,13 +17,14 @@ from scgallery.designs.caliptra._common import (
     add_libs,
     add_caliptra_top_defines
 )
+from scgallery import Gallery
 
 
 def setup(target=freepdk45_demo):
     chip = Chip('caliptra-sha512')
 
     if __name__ == '__main__':
-        chip.create_cmdline(chip.design)
+        Gallery.design_commandline(chip)
 
     sdc_root = os.path.join('caliptra', 'constraints', 'sha512')
 

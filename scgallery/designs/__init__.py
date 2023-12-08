@@ -4,13 +4,11 @@ from .aes import aes
 from .ariane import ariane
 from .black_parrot import black_parrot
 from .dynamic_node import dynamic_node
-from .chameleon import chameleon
 from .ethmac import ethmac
 from .gcd import gcd
 from .heartbeat import heartbeat
 from .ibex import ibex
 from .jpeg import jpeg
-from .microwatt import microwatt
 from .mock_alu import mock_alu
 from .openmsp430 import openmsp430
 from .riscv32i import riscv32i
@@ -44,14 +42,12 @@ __designs = (
     black_parrot,
     datavault,
     dynamic_node,
-    chameleon,
     ethmac,
     gcd,
     heartbeat,
     ibex,
     jpeg,
     keyvault,
-    microwatt,
     mock_alu,
     openmsp430,
     riscv32i,

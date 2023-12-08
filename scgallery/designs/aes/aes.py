@@ -10,6 +10,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
+from scgallery import Gallery
 
 
 def setup(target=asap7_demo):
@@ -17,7 +18,7 @@ def setup(target=asap7_demo):
     chip.set('option', 'entrypoint', 'aes_cipher_top')
 
     if __name__ == '__main__':
-        chip.create_cmdline(chip.design)
+        Gallery.design_commandline(chip)
 
     src_root = os.path.join('aes', 'src')
     sdc_root = os.path.join('aes', 'constraints')

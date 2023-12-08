@@ -4,6 +4,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import skywater130_demo
+from scgallery import Gallery
 
 
 def setup(target=skywater130_demo):
@@ -11,7 +12,7 @@ def setup(target=skywater130_demo):
     chip.set('option', 'entrypoint', 'openMSP430')
 
     if __name__ == '__main__':
-        chip.create_cmdline(chip.design)
+        Gallery.design_commandline(chip)
 
     src_root = os.path.join('core', 'rtl', 'verilog')
     sdc_root = os.path.join('openmsp430', 'constraints')

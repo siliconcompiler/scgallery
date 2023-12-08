@@ -353,7 +353,7 @@ class Gallery:
         chip = self.__designs[design]['module'].setup(
             target=self.__targets[target])
 
-        chip.register_package_source(name='scgallery-designs', path='python://scgallery.designs')
+        Gallery._register_design_sources(chip)
 
         # Perform additional setup functions
         if self.__designs[design]['setup']:
@@ -584,6 +584,16 @@ class Gallery:
                 print("  Passed")
         if not failed:
             print('Run passed')
+
+    @staticmethod
+    def _register_design_sources(chip):
+        chip.register_package_source(name='scgallery-designs',
+                                     path='python://scgallery.designs')
+
+    @staticmethod
+    def design_commandline(chip):
+        Gallery._register_design_sources(chip)
+        chip.create_cmdline(chip.design)
 
     @classmethod
     def main(cls):

@@ -4,6 +4,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
+from scgallery import Gallery
 
 
 def setup(target=asap7_demo):
@@ -11,7 +12,7 @@ def setup(target=asap7_demo):
     chip.set('option', 'entrypoint', 'dynamic_node_top_wrap')
 
     if __name__ == '__main__':
-        chip.create_cmdline(chip.design)
+        Gallery.design_commandline(chip)
 
     src_root = os.path.join('dynamic_node', 'src')
     sdc_root = os.path.join('dynamic_node', 'constraints')
