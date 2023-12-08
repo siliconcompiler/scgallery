@@ -1,4 +1,3 @@
-import lambdapdk
 from lambdapdk.freepdk45.libs import fakeram45
 from lambdapdk.asap7.libs import fakeram7
 from lambdapdk.sky130.libs import sky130sram
@@ -12,8 +11,6 @@ def register_lambdapdk(chip):
 
 def add_lambdapdk_memory(chip):
     pdk = chip.get('option', 'pdk')
-
-    lambdapdk.register_data_source(chip)
 
     if pdk == 'freepdk45':
         chip.use(fakeram45)
