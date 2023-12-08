@@ -11,6 +11,7 @@ from .ibex import ibex
 from .jpeg import jpeg
 from .mock_alu import mock_alu
 from .openmsp430 import openmsp430
+from .picorv32 import picorv32
 from .riscv32i import riscv32i
 from .spi import spi
 from .swerv import swerv
@@ -50,6 +51,7 @@ __designs = (
     keyvault,
     mock_alu,
     openmsp430,
+    picorv32,
     riscv32i,
     spi,
     swerv,
