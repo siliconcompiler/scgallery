@@ -60,11 +60,11 @@ def setup(target=freepdk45_demo):
                  ['10', '10'])
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'macro_place_channel',
                  ['20', '20'])
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_instances', '5000')
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_max_instances', '30000')
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_macros', '12')
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_max_macros', '4')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_instances', '5000')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_max_instances', '30000')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_macros', '12')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_max_macros', '4')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'psm_enable', 'false')
 
