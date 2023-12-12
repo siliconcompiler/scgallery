@@ -12,18 +12,16 @@ def register_lambdapdk(chip):
 def add_lambdapdk_memory(chip):
     pdk = chip.get('option', 'pdk')
 
+    macros = set(chip.getkeys('library'))
     if pdk == 'freepdk45':
         chip.use(fakeram45)
-        chip.add('option', 'ydir', 'lambdapdk/freepdk45/libs/fakeram45/lambda', package='lambdapdk')
-        chip.add('asic', 'macrolib', [macro for macro in chip.getkeys('library')
-                                      if macro.startswith('fakeram45_')])
     elif pdk == 'skywater130':
         chip.use(sky130sram)
-        chip.add('option', 'ydir', 'lambdapdk/sky130/libs/sky130sram/lambda', package='lambdapdk')
-        chip.add('asic', 'macrolib', [macro for macro in chip.getkeys('library')
-                                      if macro.startswith('sky130_sram_')])
     elif pdk == 'asap7':
         chip.use(fakeram7)
-        chip.add('option', 'ydir', 'lambdapdk/asap7/libs/fakeram7/lambda', package='lambdapdk')
-        chip.add('asic', 'macrolib', [macro for macro in chip.getkeys('library')
-                                      if macro.startswith('fakeram7_')])
+    else:
+        raise ValueError(f"{pdk} is not a supported pdk for lambdapdk memories")
+
+    # Add memory macros to macrolib
+    new_macros = set(chip.getkeys('library'))
+    chip.add('asic', 'macrolib', list(new_macros.difference(macros)))
