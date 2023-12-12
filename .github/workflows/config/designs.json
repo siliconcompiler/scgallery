@@ -156,6 +156,18 @@
         "target": "skywater130_demo"
     },
     {
+        "design": "picorv32",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "picorv32",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "picorv32",
+        "target": "skywater130_demo"
+    },
+    {
         "design": "riscv32i",
         "target": "asap7_demo"
     },
@@ -206,5 +218,13 @@
     {
         "design": "uart",
         "target": "skywater130_demo"
+    },
+    {
+        "design": "zerosoc_flat",
+        "target": null
+    },
+    {
+        "design": "zerosoc_hierarchy",
+        "target": null
     }
 ]

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import inspect
 import json
 import os
 import shutil
@@ -348,31 +349,60 @@ class Gallery:
         self.__run_config['targets'].clear()
         self.__run_config['targets'].update(targets.keys())
 
-    def __setup_design(self, design, target):
-        print(f'Setting up "{design}" with "{target}"')
-        chip = self.__designs[design]['module'].setup(
-            target=self.__targets[target])
+    def __design_has_clock(self, chip):
+        for pin in chip.getkeys('datasheet', 'pin'):
+            if chip.get('datasheet', 'pin', pin, 'type', 'global') == "clock":
+                return True
 
-        Gallery._register_design_sources(chip)
+        return False
+
+    def __design_has_sdc(self, chip):
+        # Reject if no SDC is provided
+        if not chip.valid('input', 'constraint', 'sdc'):
+            return False
+
+        # Reject of SDC cannot be found
+        sdcs = [sdc for sdc in chip.find_files('input', 'constraint', 'sdc', missing_ok=True)
+                if sdc]
+        if not sdcs:
+            return False
+
+        return True
+
+    def __setup_design(self, design, target):
+        if target:
+            print(f'Setting up "{design}" with "{target}"')
+            chip = self.__designs[design]['module'].setup(
+                target=self.__targets[target])
+        else:
+            print(f'Setting up "{design}"')
+            chip = self.__designs[design]['module'].setup()
+
+        self._register_design_sources(chip)
 
         # Perform additional setup functions
         if self.__designs[design]['setup']:
             for setup_func in self.__designs[design]['setup']:
                 setup_func(chip)
 
-        # Reject if no SDC is provided
-        if not chip.valid('input', 'constraint', 'sdc'):
-            return chip, False
+        has_sdc = self.__design_has_sdc(chip)
+        has_clock = self.__design_has_clock(chip)
 
-        # Reject of SDC cannot be found
-        sdcs = [sdc for sdc in chip.find_files('input', 'constraint', 'sdc', missing_ok=True)
-                if sdc]
-        if not sdcs:
-            return chip, False
+        is_valid = has_sdc or has_clock
 
-        return chip, True
+        return chip, is_valid
 
-    def __run_design(self, chip):
+    def __run_design(self, design):
+        chip = design['chip']
+
+        runtime_setup = design['runtime_setup']
+        if runtime_setup:
+            print(f'Executing runtime setup for: {design["design"]}')
+            if self.__design_has_target_option(design, setup_func=runtime_setup):
+                chip = runtime_setup(target=design['target'])
+            else:
+                chip = runtime_setup()
+
         jobname = chip.get('option', 'target').split('.')[-1]
         if self.__jobname:
             jobname += f"_{self.__jobname}"
@@ -446,33 +476,52 @@ class Gallery:
         chip.archive(include=['reports', '*.log'],
                      archive_name=os.path.join(self.path, f'{file_root}.tgz'))
 
-    def __design_has_runner(self, design):
-        return getattr(self.__designs[design]['module'], 'run', None) is not None
+    def __design_has_target_option(self, design, setup_func=None):
+        '''
+        Checks if a design as a setup function with a target argument.
+        If false, this design cannot be matrixed with targets
+        '''
+        if not setup_func:
+            setup_func = getattr(self.__designs[design]['module'], 'setup', None)
+
+        if not setup_func:
+            return False
+
+        return 'target' in inspect.getfullargspec(setup_func).args
+
+    def __design_runtime_setup(self, design):
+        return getattr(self.__designs[design]['module'], 'runtime_setup', None)
 
     def __get_runnable_jobs(self):
         regular_jobs = []
-        runner_jobs = []
         for design in self.__run_config['designs']:
             if design not in self.__designs:
                 print('  Error: design is not available in gallery')
                 continue
 
-            if self.__design_has_runner(design):
-                runner_jobs.append({'print': f'Running "{design}"',
-                                    "design": design})
-            else:
-                for target in self.__run_config['targets']:
+            targets = self.__run_config['targets']
+
+            runtime_setup = self.__design_runtime_setup(design)
+
+            if not self.__design_has_target_option(design, setup_func=runtime_setup):
+                targets = [None]
+
+            for target in targets:
+                if not runtime_setup:
                     chip, valid = self.__setup_design(design, target)
                     if not valid:
                         continue
-                    regular_jobs.append({'print': f'Running "{design}" with "{target}"',
-                                         "design": design,
-                                         "chip": chip,
-                                         "target": target})
+                else:
+                    chip = None
 
-        runner_jobs = sorted(runner_jobs, key=lambda x: x["print"])
+                regular_jobs.append({'print': f'Running "{design}" with "{target}"',
+                                     "design": design,
+                                     "runtime_setup": runtime_setup,
+                                     "chip": chip,
+                                     "target": target})
+
         regular_jobs = sorted(regular_jobs, key=lambda x: x["print"])
-        return regular_jobs, runner_jobs
+        return regular_jobs
 
     def __generate_reports(self):
         # Generate overview
@@ -523,16 +572,18 @@ class Gallery:
         self.__status.clear()
         self.__report_chips.clear()
 
-        regular_jobs, runner_jobs = self.__get_runnable_jobs()
+        regular_jobs = self.__get_runnable_jobs()
 
         if self.is_remote:
-            def _run_remote(chip, design):
-                chip = self.__run_design(chip)
+            def _run_remote(chip, design, job):
+                if not chip:
+                    return
+                chip = self.__run_design(job)
                 self.__finalize(design, chip)
 
             jobs = [threading.Thread(
                 target=_run_remote,
-                args=(job['chip'], job['design']))
+                args=(job['chip'], job['design'], job))
                 for job in regular_jobs]
 
             # Submit jobs in parallel
@@ -548,17 +599,8 @@ class Gallery:
                 design = job['design']
 
                 print(job['print'])
-                chip = self.__run_design(chip)
+                chip = self.__run_design(job)
                 self.__finalize(design, chip)
-
-        for job in runner_jobs:
-            runner_module = self.__designs[job['design']]['module']
-            run = getattr(runner_module, 'run')
-            try:
-                chip = run()
-                self.__finalize(design, chip)
-            except Exception:
-                pass
 
         self.summary()
 
@@ -700,12 +742,9 @@ Designs: {designs_help}
             gallery.set_run_designs(gallery.__designs)
 
         if args.json:
-            regular_jobs, runner_jobs = gallery.__get_runnable_jobs()
             matrix = []
-            for data in regular_jobs:
+            for data in gallery.__get_runnable_jobs():
                 matrix.append({"design": data["design"], "target": data["target"]})
-            for data in runner_jobs:
-                matrix.append({"design": data["design"], "target": None})
 
             with open(args.json, 'w') as f:
                 f.write(json.dumps(matrix, indent=4, sort_keys=True))

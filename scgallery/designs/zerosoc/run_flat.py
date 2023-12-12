@@ -1,9 +1,6 @@
 from . import init_zerosoc
 
 
-def run():
+def setup():
     build = init_zerosoc()
-    return build.build_top_flat(verify=False,
-                                remote=False,
-                                resume=False,
-                                floorplan=False)
+    return build.setup_top_flat()
