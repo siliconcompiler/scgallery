@@ -11,6 +11,7 @@ def setup(target=asap7_demo):
     chip = Chip('mock_alu')
     chip.set('option', 'entrypoint', 'MockAlu')
 
+    chip.set('option', 'frontend', 'chisel')
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
 
@@ -20,7 +21,6 @@ def setup(target=asap7_demo):
     for src in ('build.sbt',):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
-    chip.set('option', 'frontend', 'chisel')
     chip.set('tool', 'chisel', 'task', 'convert', 'var', 'application',
              'GenerateMockAlu')
     chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument',
@@ -49,14 +49,9 @@ def setup(target=asap7_demo):
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
-    if mainlib.startswith('asap7sc7p5t'):
+    if mainlib.startswith('asap7sc7p5t') or mainlib.startswith('sky130'):
         chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument',
                  f'--tech {mainlib}')
-
-        chip.set('constraint', 'density', 50)
-        chip.set('constraint', 'aspectratio', 1)
-        chip.set('constraint', 'coremargin', 2)
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.75')
     else:
         chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument',
                  '--tech none')
