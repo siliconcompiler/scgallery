@@ -11,50 +11,47 @@ def setup(target=asap7_demo):
     chip = Chip('ibex')
     chip.set('option', 'entrypoint', 'ibex_core')
 
+    chip.set('option', 'frontend', 'systemverilog')
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
 
-    src_root = os.path.join('ibex', 'src')
     sdc_root = os.path.join('ibex', 'constraints')
 
-    for src in ('ibex_alu.v',
-                'ibex_branch_predict.v',
-                'ibex_compressed_decoder.v',
-                'ibex_controller.v',
-                'ibex_core.v',
-                'ibex_counter.v',
-                'ibex_cs_registers.v',
-                'ibex_csr.v',
-                'ibex_decoder.v',
-                'ibex_dummy_instr.v',
-                'ibex_ex_block.v',
-                'ibex_fetch_fifo.v',
-                'ibex_icache.v',
-                'ibex_id_stage.v',
-                'ibex_if_stage.v',
-                'ibex_load_store_unit.v',
-                'ibex_multdiv_fast.v',
-                'ibex_multdiv_slow.v',
-                'ibex_pmp.v',
-                'ibex_prefetch_buffer.v',
-                'ibex_register_file_ff.v',
-                'ibex_register_file_fpga.v',
-                'ibex_register_file_latch.v',
-                'ibex_wb_stage.v',
-                'prim_badbit_ram_1p.v',
-                'prim_clock_gating.v',
-                'prim_generic_clock_gating.v',
-                'prim_generic_ram_1p.v',
-                'prim_lfsr.v',
-                'prim_ram_1p.v',
-                'prim_secded_28_22_dec.v',
-                'prim_secded_28_22_enc.v',
-                'prim_secded_39_32_dec.v',
-                'prim_secded_39_32_enc.v',
-                'prim_secded_72_64_dec.v',
-                'prim_secded_72_64_enc.v',
-                'prim_xilinx_clock_gating.v'):
-        chip.input(os.path.join(src_root, src), package='scgallery-designs')
+    chip.register_package_source('opentitan',
+                                 path='git+https://github.com/lowRISC/opentitan.git',
+                                 ref='6074460f410bd6302cec90f32c7bb96aa8011243')
+    chip.register_package_source('ibex',
+                                 path='git+https://github.com/lowRISC/ibex.git',
+                                 ref='d097c918f5758b11995098103fdad6253fe555e7')
+
+    for src in ('ibex_pkg.sv',
+                'ibex_alu.sv',
+                'ibex_compressed_decoder.sv',
+                'ibex_controller.sv',
+                'ibex_counter.sv',
+                'ibex_cs_registers.sv',
+                'ibex_decoder.sv',
+                'ibex_ex_block.sv',
+                'ibex_id_stage.sv',
+                'ibex_if_stage.sv',
+                'ibex_load_store_unit.sv',
+                'ibex_multdiv_slow.sv',
+                'ibex_multdiv_fast.sv',
+                'ibex_prefetch_buffer.sv',
+                'ibex_fetch_fifo.sv',
+                'ibex_register_file_ff.sv',
+                'ibex_core.sv',
+                'ibex_csr.sv',
+                'ibex_wb_stage.sv',):
+        chip.input(os.path.join('rtl', src), package='ibex')
+    for src in ('hw/ip/prim/rtl/prim_assert.sv',):
+        chip.input(src, package='opentitan')
+    chip.input('hw/dv/sv/dv_utils/dv_fcov_macros.svh',
+               fileset='rtl',
+               filetype='verilog',
+               package='opentitan')
+
+    chip.add('option', 'define', 'SYNTHESIS')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
