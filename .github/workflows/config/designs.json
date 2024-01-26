@@ -24,54 +24,6 @@
         "target": "skywater130_demo"
     },
     {
-        "design": "black_parrot",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "black_parrot",
-        "target": "freepdk45_demo"
-    },
-    {
-        "design": "black_parrot",
-        "target": "skywater130_demo"
-    },
-    {
-        "design": "caliptra-datavault",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "caliptra-datavault",
-        "target": "freepdk45_demo"
-    },
-    {
-        "design": "caliptra-datavault",
-        "target": "skywater130_demo"
-    },
-    {
-        "design": "caliptra-keyvault",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "caliptra-keyvault",
-        "target": "freepdk45_demo"
-    },
-    {
-        "design": "caliptra-keyvault",
-        "target": "skywater130_demo"
-    },
-    {
-        "design": "caliptra-sha512",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "caliptra-sha512",
-        "target": "freepdk45_demo"
-    },
-    {
-        "design": "caliptra-sha512",
-        "target": "skywater130_demo"
-    },
-    {
         "design": "dynamic_node",
         "target": "freepdk45_demo"
     },
@@ -142,6 +94,10 @@
     {
         "design": "mock_alu",
         "target": "skywater130_demo"
+    },
+    {
+        "design": "mock_alu",
+        "target": "freepdk45_demo"
     },
     {
         "design": "openmsp430",
