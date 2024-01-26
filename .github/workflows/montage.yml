@@ -1,0 +1,63 @@
+name: Update Montage
+on:
+  # Manual Dispatch
+  workflow_dispatch:
+    inputs:
+      workflow-id:
+        description: 'Workflow ID'
+        required: true
+
+jobs:
+  generate_montage:
+    name: Generate montage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Get images
+        uses: actions/download-artifact@v4
+        with:
+          name: images
+          run-id: ${{ inputs.workflow-id }}
+
+      - name: Handle requirements
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick
+          SC_VERSION=$(ls)
+          echo SC_VERSION="$SC_VERSION" > $GITHUB_ENV
+
+      - name: Resize
+        run:
+          cd ${{ env.SC_VERSION }}
+          mkdir -p ./resized
+          find . -maxdepth 1 -name "*.png" -exec convert -resize 50% {} ./resized/{} \;
+
+      - name: Montage
+        run:
+          mkdir -p ./resized
+          montage -background '#000000' -geometry +1+1 ${{ env.SC_VERSION }}/resized/*.png montage.jpg
+          mv montage.jpg images/
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: montage
+          path: images/montage.jpg
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+          title: "Update montage"
+          author: "SiliconCompiler Bot <bot@siliconcompiler.com>"
+          committer: "SiliconCompiler Bot <bot@siliconcompiler.com>"
+          commit-message: Update montage
+          add-paths: images/montage.jpg
+          branch: bot/montage
+          base: main
+          delete-branch: true

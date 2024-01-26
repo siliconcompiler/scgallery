@@ -5,6 +5,8 @@
 Design gallery for [SiliconCompiler](https://github.com/silicompiler/siliconcompiler).
 This library uses the rtl2gds flow in SiliconCompiler to compile the designs from RTL to a GDS file.
 
+![Gallery](images/montage.jpg)
+
 # To install:
 Utilize the same python environment as SiliconCompiler.
 
