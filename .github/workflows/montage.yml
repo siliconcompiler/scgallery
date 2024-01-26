@@ -5,7 +5,7 @@ on:
     inputs:
       workflow-id:
         description: 'Workflow ID'
-        required: true
+        required: false
 
 jobs:
   generate_montage:
@@ -18,12 +18,23 @@ jobs:
         with:
           ref: main
 
+      - name: Get workflow ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "${{ inputs.workflow-id }}" ] ; then
+            WID=$(gh run list --workflow .github/workflows/designs.yml --status completed --branch main --json databaseId --jq '.[0] | .databaseId')
+          else
+            WID=${{ inputs.workflow-id }}
+          fi
+          echo WORKFLOW_ID=$WID > $GITHUB_ENV
+
       - name: Get images
         uses: actions/download-artifact@v4
         with:
           name: images
           path: gallery
-          run-id: ${{ inputs.workflow-id }}
+          run-id: ${{ env.WORKFLOW_ID }}
           github-token: ${{ github.token }}
 
       - name: Handle requirements
