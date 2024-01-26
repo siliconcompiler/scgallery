@@ -44,7 +44,7 @@ def setup(target=freepdk45_demo):
     elif mainlib.startswith('asap7'):
         pass
     elif mainlib.startswith('sky130'):
-        pass
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.4')
 
     return chip
 
