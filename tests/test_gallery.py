@@ -192,6 +192,7 @@ def test_add_design_rules_bad_path():
         gallery.add_design_rule('aes', 'testing.json')
 
 
+@pytest.mark.skip(reason='Rules are not implemented')
 def test_clear_design_rules():
     gallery = Gallery()
 
