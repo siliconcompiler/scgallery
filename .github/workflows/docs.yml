@@ -28,7 +28,7 @@ jobs:
           make html
 
       - name: Save HTML
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: html
           path: docs/_build/html
