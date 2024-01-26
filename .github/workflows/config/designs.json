@@ -25,7 +25,15 @@
     },
     {
         "design": "dynamic_node",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "dynamic_node",
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "dynamic_node",
+        "target": "skywater130_demo"
     },
     {
         "design": "ethmac",
@@ -93,11 +101,11 @@
     },
     {
         "design": "mock_alu",
-        "target": "skywater130_demo"
+        "target": "freepdk45_demo"
     },
     {
         "design": "mock_alu",
-        "target": "freepdk45_demo"
+        "target": "skywater130_demo"
     },
     {
         "design": "openmsp430",
@@ -149,7 +157,15 @@
     },
     {
         "design": "swerv",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "swerv",
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "swerv",
+        "target": "skywater130_demo"
     },
     {
         "design": "tiny_rocket",
