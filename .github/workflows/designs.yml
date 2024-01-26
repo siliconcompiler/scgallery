@@ -47,7 +47,7 @@ jobs:
           name: wheel
           path: dist/*.whl
           retention-days: 7
-        
+
   sc_version:
     needs: wheel
     name: Get SiliconCompiler version
@@ -114,19 +114,44 @@ jobs:
             sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }}
           fi
 
+      - name: Generate artifact name
+        if: always()
+        run: |
+          if [ -z "${{ matrix.target }}" ] ; then
+            ART_NAME=${{ matrix.design }}
+          else
+            ART_NAME=${{ matrix.design }}-${{ matrix.target }}
+          fi
+
+          echo ART_NAME=${ART_NAME} >> $GITHUB_ENV # update GitHub ENV vars
+
       - name: Upload gallery image
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: images
+          name: images-${{ env.ART_NAME }}
           path: gallery/*/*.png
-          retention-days: 7
+          retention-days: 1
 
       - name: Upload run artifacts
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: build
+          name: build-${{ env.ART_NAME }}
           path: gallery/*/*.tgz
-          retention-days: 1
-  
+          retention-days: 2
+
+  merge_images:
+    name: Merge image artifacts
+    runs-on: ubuntu-latest
+    if: always()
+    needs: designs_test
+
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: images
+          pattern: images-*
+          delete-merged: true
+          retention-days: 7
