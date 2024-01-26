@@ -5,7 +5,7 @@ on:
     inputs:
       workflow-id:
         description: 'Workflow ID'
-        required: true
+        required: false
 
 jobs:
   generate_montage:
@@ -18,29 +18,42 @@ jobs:
         with:
           ref: main
 
+      - name: Get workflow ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "${{ inputs.workflow-id }}" ] ; then
+            WID=$(gh run list --workflow .github/workflows/designs.yml --status completed --branch main --json databaseId --jq '.[0] | .databaseId')
+          else
+            WID=${{ inputs.workflow-id }}
+          fi
+          echo WORKFLOW_ID=$WID > $GITHUB_ENV
+
       - name: Get images
         uses: actions/download-artifact@v4
         with:
           name: images
-          run-id: ${{ inputs.workflow-id }}
+          path: gallery
+          run-id: ${{ env.WORKFLOW_ID }}
+          github-token: ${{ github.token }}
 
       - name: Handle requirements
         run: |
           sudo apt-get update
           sudo apt-get install -y imagemagick
-          SC_VERSION=$(ls)
+          SC_VERSION=$(ls gallery)
           echo SC_VERSION="$SC_VERSION" > $GITHUB_ENV
 
       - name: Resize
-        run:
-          cd ${{ env.SC_VERSION }}
+        run: |
+          cd gallery/${{ env.SC_VERSION }}
           mkdir -p ./resized
           find . -maxdepth 1 -name "*.png" -exec convert -resize 50% {} ./resized/{} \;
 
       - name: Montage
-        run:
+        run: |
           mkdir -p ./resized
-          montage -background '#000000' -geometry +1+1 ${{ env.SC_VERSION }}/resized/*.png montage.jpg
+          montage -background '#000000' -geometry +1+1 gallery/${{ env.SC_VERSION }}/resized/*.png montage.jpg
           mv montage.jpg images/
 
       - name: Upload
@@ -55,6 +68,7 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           title: "Update montage"
           author: "SiliconCompiler Bot <bot@siliconcompiler.com>"
+          body: "Update montage to ${{ env.SC_VERSION }}"
           committer: "SiliconCompiler Bot <bot@siliconcompiler.com>"
           commit-message: Update montage
           add-paths: images/montage.jpg
