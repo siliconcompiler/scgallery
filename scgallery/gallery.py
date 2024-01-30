@@ -420,6 +420,10 @@ class Gallery:
             chip.set('option', 'credentials', self.__remote)
             chip.set('option', 'remote', True)
 
+        if not chip.get('option', 'entrypoint'):
+            chip.set('option', 'entrypoint', chip.design)
+        chip.set('design', design["design"])
+
         try:
             chip.run()
         except Exception:
