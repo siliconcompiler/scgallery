@@ -400,9 +400,9 @@ class Gallery:
             print(f'Executing runtime setup for: {design["design"]}')
             try:
                 if self.__design_has_target_option(design, setup_func=runtime_setup):
-                    chip = runtime_setup(target=design['target'])
+                    chip = runtime_setup(self, target=design['target'])
                 else:
-                    chip = runtime_setup()
+                    chip = runtime_setup(self)
             except Exception:
                 return chip
 
