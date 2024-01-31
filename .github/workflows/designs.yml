@@ -81,7 +81,6 @@ jobs:
 
   designs_test:
     needs: [wheel, docker_image, designs]
-    timeout-minutes: 120
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
@@ -107,6 +106,7 @@ jobs:
           pip install dist/*.whl
 
       - name: Run gallery
+        timeout-minutes: 120
         run: |
           if [ -z "${{ matrix.target }}" ] ; then
             sc-gallery -design ${{ matrix.design }}
