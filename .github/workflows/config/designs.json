@@ -12,15 +12,15 @@
         "target": "skywater130_demo"
     },
     {
-        "design": "ariane",
+        "design": "caliptra-keyvault",
         "target": "asap7_demo"
     },
     {
-        "design": "ariane",
+        "design": "caliptra-keyvault",
         "target": "freepdk45_demo"
     },
     {
-        "design": "ariane",
+        "design": "caliptra-keyvault",
         "target": "skywater130_demo"
     },
     {
