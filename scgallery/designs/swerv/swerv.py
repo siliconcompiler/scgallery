@@ -32,6 +32,8 @@ def setup(target=asap7_demo):
                                             (1090, 990)])
 
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.45')
+    elif mainlib.startswith('asap7sc7p5t'):
+        chip.set('constraint', 'density', 40)
 
     return chip
 

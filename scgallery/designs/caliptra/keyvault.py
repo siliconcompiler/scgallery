@@ -35,6 +35,9 @@ def setup(target=freepdk45_demo):
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
+    chip.set('constraint', 'density', 20)
+    chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.25')
+
     return chip
 
 
