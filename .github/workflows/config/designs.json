@@ -24,6 +24,18 @@
         "target": "skywater130_demo"
     },
     {
+        "design": "caliptra-sha512",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "target": "skywater130_demo"
+    },
+    {
         "design": "dynamic_node",
         "target": "asap7_demo"
     },
