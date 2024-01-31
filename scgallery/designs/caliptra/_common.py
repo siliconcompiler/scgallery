@@ -4,7 +4,7 @@ import os
 def __add_sources(chip, root, files):
     chip.register_package_source(name='caliptra-rtl',
                                  path='git+https://github.com/chipsalliance/caliptra-rtl.git',
-                                 ref='440a21d2ce0173139273cf7261a66f490bc630f6')
+                                 ref='v1.0')
 
     for src in files:
         chip.input(os.path.join(root, src),
