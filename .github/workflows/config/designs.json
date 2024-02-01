@@ -8,22 +8,6 @@
         "target": "freepdk45_demo"
     },
     {
-        "design": "aes",
-        "target": "skywater130_demo"
-    },
-    {
-        "design": "caliptra-keyvault",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "caliptra-keyvault",
-        "target": "freepdk45_demo"
-    },
-    {
-        "design": "caliptra-keyvault",
-        "target": "skywater130_demo"
-    },
-    {
         "design": "caliptra-sha512",
         "target": "asap7_demo"
     },
@@ -169,15 +153,7 @@
     },
     {
         "design": "swerv",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "swerv",
         "target": "freepdk45_demo"
-    },
-    {
-        "design": "swerv",
-        "target": "skywater130_demo"
     },
     {
         "design": "tiny_rocket",
