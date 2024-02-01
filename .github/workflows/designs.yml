@@ -108,10 +108,15 @@ jobs:
       - name: Run gallery
         timeout-minutes: 120
         run: |
+          REMOTE_ARGS=""
+          if [[ "${{ matrix.remote }}" = "true" ]] ; then
+            yes | sc-remote -configure -server https://server.siliconcompiler.com -credentials credentials.json
+            REMOTE_ARGS="-remote credentials.json"
+          fi
           if [ -z "${{ matrix.target }}" ] ; then
-            sc-gallery -design ${{ matrix.design }}
+            sc-gallery -design ${{ matrix.design }} $REMOTE_ARGS
           else
-            sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }}
+            sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }} $REMOTE_ARGS
           fi
 
       - name: Generate artifact name
