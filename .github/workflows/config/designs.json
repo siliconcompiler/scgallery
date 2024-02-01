@@ -1,190 +1,327 @@
 [
     {
         "design": "aes",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "aes",
+        "remote": false,
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "aes",
+        "remote": false,
+        "skip": "Routing takes too long > 1.5 hours",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "ariane",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "ariane",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "ariane",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "caliptra-datavault",
+        "remote": false,
+        "skip": "Unable to route due to routing congrestion",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "caliptra-datavault",
+        "remote": false,
+        "skip": "Unable to route due to routing congrestion",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "caliptra-datavault",
+        "remote": false,
+        "skip": "Unable to route due to routing congrestion",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "remote": false,
+        "skip": "Unable to route due to routing congrestion",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "remote": false,
+        "skip": "Unable to route due to routing congrestion",
+        "target": "freepdk45_demo"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "remote": false,
+        "skip": "Unable to route due to routing congrestion",
+        "target": "skywater130_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "remote": false,
+        "target": "asap7_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "caliptra-sha512",
-        "target": "asap7_demo"
-    },
-    {
-        "design": "caliptra-sha512",
-        "target": "freepdk45_demo"
-    },
-    {
-        "design": "caliptra-sha512",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "dynamic_node",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "dynamic_node",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "dynamic_node",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "ethmac",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "ethmac",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "ethmac",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "gcd",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "gcd",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "gcd",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "heartbeat",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "heartbeat",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "heartbeat",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "ibex",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "ibex",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "ibex",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "jpeg",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "jpeg",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "jpeg",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "mock_alu",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "mock_alu",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "mock_alu",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "openmsp430",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "openmsp430",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "openmsp430",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "picorv32",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "picorv32",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "picorv32",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "riscv32i",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "riscv32i",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "riscv32i",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "spi",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "spi",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "spi",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "swerv",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "asap7_demo"
+    },
+    {
+        "design": "swerv",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
+        "design": "swerv",
+        "remote": false,
+        "skip": "Requires too much memory for github runner",
+        "target": "skywater130_demo"
+    },
+    {
         "design": "tiny_rocket",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "tiny_rocket",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "tiny_rocket",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "uart",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
         "design": "uart",
+        "remote": false,
         "target": "freepdk45_demo"
     },
     {
         "design": "uart",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
         "design": "zerosoc_flat",
+        "remote": false,
         "target": null
     },
     {
         "design": "zerosoc_hierarchy",
+        "remote": false,
         "target": null
     }
 ]
