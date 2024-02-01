@@ -751,7 +751,30 @@ Designs: {designs_help}
         if args.json:
             matrix = []
             for data in gallery.__get_runnable_jobs():
-                matrix.append({"design": data["design"], "target": data["target"]})
+                matrix.append({"design": data["design"], "target": data["target"], "remote": False})
+
+            if os.path.exists(args.json):
+                json_matrix = []
+                with open(args.json, 'r') as f:
+                    json_matrix = json.load(f)
+
+                spare_fields = ('skip',)
+                for config in json_matrix:
+                    has_extra = False
+                    for key in spare_fields:
+                        if key in config:
+                            has_extra = True
+
+                    if has_extra:
+                        # Copy extra information
+                        for new_config in matrix:
+                            match = [
+                                new_config[key] == config[key] for key in ('design',
+                                                                           'target')
+                            ]
+                            if all(match):
+                                for key, value in config.items():
+                                    new_config[key] = value
 
             with open(args.json, 'w') as f:
                 f.write(json.dumps(matrix, indent=4, sort_keys=True))

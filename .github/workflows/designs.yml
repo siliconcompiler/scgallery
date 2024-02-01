@@ -25,7 +25,7 @@ jobs:
       - name: Get design matrix
         id: designs
         run: |
-          echo "designs=$(python3 -c "import json; print(json.dumps(json.loads(open('$GITHUB_WORKSPACE/.github/workflows/config/designs.json').read())))")" >> $GITHUB_OUTPUT
+          echo "designs=$(python3 $GITHUB_WORKSPACE/.github/workflows/config/get_jobs.py)" >> $GITHUB_OUTPUT
 
   wheel:
     name: Build wheel
