@@ -337,7 +337,7 @@ class Gallery:
             designs (list [str]): list of design names
         '''
         self.__run_config['designs'].clear()
-        self.__run_config['designs'].update(designs.keys())
+        self.__run_config['designs'].update(designs)
 
     def set_run_targets(self, targets):
         '''
@@ -347,7 +347,7 @@ class Gallery:
             targets (list [str]): list of target names
         '''
         self.__run_config['targets'].clear()
-        self.__run_config['targets'].update(targets.keys())
+        self.__run_config['targets'].update(targets)
 
     def __design_has_clock(self, chip):
         for pin in chip.getkeys('datasheet', 'pin'):
@@ -503,7 +503,7 @@ class Gallery:
         regular_jobs = []
         for design in self.__run_config['designs']:
             if design not in self.__designs:
-                print('  Error: design is not available in gallery')
+                print(f'  Error: design "{design}" is not available in gallery')
                 continue
 
             targets = self.__run_config['targets']
@@ -529,6 +529,9 @@ class Gallery:
 
         regular_jobs = sorted(regular_jobs, key=lambda x: x["print"])
         return regular_jobs
+
+    def get_run_report(self):
+        return self.__report_chips.copy()
 
     def __generate_reports(self):
         # Generate overview
@@ -739,14 +742,14 @@ Designs: {designs_help}
         gallery.set_remote(args.remote)
 
         if args.target:
-            gallery.set_run_targets({target: gallery.__targets[target] for target in args.target})
+            gallery.set_run_targets(args.target)
         else:
-            gallery.set_run_targets(gallery.__targets)
+            gallery.set_run_targets(gallery.__targets.keys())
 
         if args.design:
-            gallery.set_run_designs({design: gallery.__designs[design] for design in args.design})
+            gallery.set_run_designs(args.design)
         else:
-            gallery.set_run_designs(gallery.__designs)
+            gallery.set_run_designs(gallery.__designs.keys())
 
         if args.json:
             matrix = []

@@ -60,6 +60,11 @@ def setup(target=freepdk45_demo):
                  ['10', '10'])
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'macro_place_channel',
                  ['20', '20'])
+    elif mainlib.startswith('asap7sc7p5t'):
+        chip.set('constraint', 'density', 40)
+    elif mainlib.startswith('sky130'):
+        chip.set('constraint', 'density', 40)
+
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_instances', '5000')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_max_instances', '30000')
