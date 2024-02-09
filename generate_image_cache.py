@@ -2,7 +2,6 @@
 
 import json
 import os
-from scgallery import Gallery
 
 import argparse
 import sys
@@ -31,6 +30,8 @@ def print_github():
 
 
 def run_cache(resume, dry_run):
+    from scgallery import Gallery
+
     cached_jobs = [job for job in all_jobs if "cache" in job and job["cache"]]
 
     for job in cached_jobs:
