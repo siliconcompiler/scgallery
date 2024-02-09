@@ -10,7 +10,7 @@ import threading
 
 import siliconcompiler
 from siliconcompiler.utils import default_credentials_file
-from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo
+from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo, gf180_demo
 
 from scgallery.rules import check_rules
 from scgallery import report
@@ -25,7 +25,8 @@ class Gallery:
         self.__targets = {}
         for name, target in (("freepdk45_demo", freepdk45_demo),
                              ("skywater130_demo", skywater130_demo),
-                             ("asap7_demo", asap7_demo)):
+                             ("asap7_demo", asap7_demo),
+                             ("gf180_demo", gf180_demo)):
             self.add_target(name, target)
 
         self.__designs = {}

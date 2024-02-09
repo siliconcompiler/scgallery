@@ -1,7 +1,7 @@
-set clk_period 62.0
+set clk_period 52.0
 set clk_io_pct 0.2
 
-set clk_port [get_ports dco_clk]
+set clk_port [get_ports clk]
 
 create_clock -name clk -period $clk_period $clk_port
 
