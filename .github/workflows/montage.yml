@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: main
 
       - name: Get workflow ID
         env:
@@ -46,14 +44,24 @@ jobs:
 
       - name: Resize
         run: |
+          mkdir resized
+          # First resize cached images
+          cd images
+          mkdir -p ./resized
+          find . -maxdepth 1 -name "*.png" -exec convert -resize 50% {} ./resized/{} \;
+          cd ..
+          mv images/resized/* ./resized
+          # Handle new images
           cd gallery/${{ env.SC_VERSION }}
           mkdir -p ./resized
           find . -maxdepth 1 -name "*.png" -exec convert -resize 50% {} ./resized/{} \;
+          cd ../..
+          mv gallery/${{ env.SC_VERSION }}/resized/* ./resized
 
       - name: Montage
         run: |
           mkdir -p ./resized
-          montage -background '#000000' -geometry +1+1 gallery/${{ env.SC_VERSION }}/resized/*.png montage.jpg
+          montage -background '#000000' -geometry +1+1 ./resized/*.png montage.jpg
           mv montage.jpg images/
 
       - name: Upload

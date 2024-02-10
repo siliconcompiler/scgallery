@@ -94,10 +94,15 @@ def setup(target=freepdk45_demo):
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
                  'rtlmp_max_macros',
                  '4')
-    elif mainlib.startswith('sky130'):
-        pass
     elif mainlib.startswith('asap7sc7p5t'):
-        pass
+        chip.set('constraint', 'density', 40)
+        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M2_adjustment', '0.7')
+        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M3_adjustment', '0.6')
+        chip.set('tool', 'openroad', 'task', 'route', 'var', 'grt_signal_max_layer', 'M8')
+        chip.set('tool', 'openroad', 'task', 'route', 'var', 'grt_clock_max_layer', 'M8')
+        chip.set('pdk', 'asap7', 'maxlayer', chip.get('option', 'stackup'), 'M8')
+    elif mainlib.startswith('sky130'):
+        chip.set('constraint', 'density', 40)
 
     return chip
 

@@ -25,7 +25,7 @@ jobs:
       - name: Get design matrix
         id: designs
         run: |
-          echo "designs=$(python3 $GITHUB_WORKSPACE/.github/workflows/config/get_jobs.py)" >> $GITHUB_OUTPUT
+          echo "designs=$(python3 $GITHUB_WORKSPACE/generate_image_cache.py --github)" >> $GITHUB_OUTPUT
 
   wheel:
     name: Build wheel

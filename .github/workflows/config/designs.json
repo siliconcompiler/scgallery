@@ -10,78 +10,91 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": true,
         "design": "aes",
         "remote": false,
         "skip": "Routing takes too long > 1.5 hours",
         "target": "skywater130_demo"
     },
     {
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Requires too much memory for github runner 32GB+",
         "target": "asap7_demo"
     },
     {
+        "cache": true,
         "design": "ariane",
         "remote": false,
         "skip": "Requires too much memory for github runner",
         "target": "freepdk45_demo"
     },
     {
+        "cache": true,
         "design": "ariane",
         "remote": false,
         "skip": "Requires too much memory for github runner",
         "target": "skywater130_demo"
     },
     {
+        "cache": true,
         "design": "black_parrot",
         "remote": false,
         "skip": "Requires too much memory for github runner",
         "target": "asap7_demo"
     },
     {
+        "cache": true,
         "design": "black_parrot",
         "remote": false,
         "skip": "Requires too much memory for github runner",
         "target": "freepdk45_demo"
     },
     {
+        "cache": true,
         "design": "black_parrot",
         "remote": false,
         "skip": "Requires too much memory for github runner",
         "target": "skywater130_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "Unable to route due to routing congrestion",
         "target": "asap7_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "Unable to route due to routing congrestion",
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "Unable to route due to routing congrestion",
         "target": "skywater130_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "Unable to route due to routing congrestion",
         "target": "asap7_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "Unable to route due to routing congrestion",
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "Unable to route due to routing congrestion",
@@ -268,9 +281,10 @@
         "target": "skywater130_demo"
     },
     {
+        "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Requires too much memory for github runner, openroad terminates with -9",
         "target": "asap7_demo"
     },
     {
@@ -279,9 +293,10 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Requires too much memory for github runner and unable to detail route",
         "target": "skywater130_demo"
     },
     {
