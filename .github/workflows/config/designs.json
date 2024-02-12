@@ -10,6 +10,11 @@
         "target": "freepdk45_demo"
     },
     {
+        "design": "aes",
+        "remote": false,
+        "target": "gf180_demo"
+    },
+    {
         "cache": true,
         "design": "aes",
         "remote": false,
@@ -31,6 +36,13 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
+        "design": "ariane",
+        "remote": false,
+        "skip": "OpenROAD unable to place macros.",
+        "target": "gf180_demo"
+    },
+    {
         "cache": true,
         "design": "ariane",
         "remote": false,
@@ -52,6 +64,13 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "OpenROAD unable to place macros.",
+        "target": "gf180_demo"
+    },
+    {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
@@ -113,6 +132,11 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
+        "target": "gf180_demo"
+    },
+    {
+        "design": "caliptra-sha512",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
@@ -128,6 +152,11 @@
     {
         "design": "dynamic_node",
         "remote": false,
+        "target": "gf180_demo"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
@@ -139,6 +168,11 @@
         "design": "ethmac",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "ethmac",
@@ -154,6 +188,11 @@
         "design": "gcd",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "gcd",
@@ -169,6 +208,11 @@
         "design": "heartbeat",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "heartbeat",
@@ -184,6 +228,11 @@
         "design": "ibex",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "ibex",
@@ -199,6 +248,11 @@
         "design": "jpeg",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "jpeg",
@@ -214,6 +268,11 @@
         "design": "mock_alu",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "mock_alu",
@@ -229,6 +288,11 @@
         "design": "openmsp430",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "openmsp430",
@@ -244,6 +308,11 @@
         "design": "picorv32",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "picorv32",
@@ -259,6 +328,11 @@
         "design": "riscv32i",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "riscv32i",
@@ -274,6 +348,11 @@
         "design": "spi",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "spi",
@@ -291,6 +370,13 @@
         "design": "swerv",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "cache": true,
+        "design": "swerv",
+        "remote": false,
+        "skip": "Takes too long to complete on github runner.",
+        "target": "gf180_demo"
     },
     {
         "cache": false,
@@ -312,6 +398,11 @@
     {
         "design": "tiny_rocket",
         "remote": false,
+        "target": "gf180_demo"
+    },
+    {
+        "design": "tiny_rocket",
+        "remote": false,
         "target": "skywater130_demo"
     },
     {
@@ -323,6 +414,11 @@
         "design": "uart",
         "remote": false,
         "target": "freepdk45_demo"
+    },
+    {
+        "design": "uart",
+        "remote": false,
+        "target": "gf180_demo"
     },
     {
         "design": "uart",

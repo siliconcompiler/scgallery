@@ -10,7 +10,7 @@ import threading
 
 import siliconcompiler
 from siliconcompiler.utils import default_credentials_file
-from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo
+from siliconcompiler.targets import asap7_demo, freepdk45_demo, skywater130_demo, gf180_demo
 
 from scgallery.rules import check_rules
 from scgallery import report
@@ -25,7 +25,8 @@ class Gallery:
         self.__targets = {}
         for name, target in (("freepdk45_demo", freepdk45_demo),
                              ("skywater130_demo", skywater130_demo),
-                             ("asap7_demo", asap7_demo)):
+                             ("asap7_demo", asap7_demo),
+                             ("gf180_demo", gf180_demo)):
             self.add_target(name, target)
 
         self.__designs = {}
@@ -761,7 +762,7 @@ Designs: {designs_help}
                 with open(args.json, 'r') as f:
                     json_matrix = json.load(f)
 
-                spare_fields = ('skip',)
+                spare_fields = ('skip', 'cache')
                 for config in json_matrix:
                     has_extra = False
                     for key in spare_fields:
@@ -776,6 +777,8 @@ Designs: {designs_help}
                                                                            'target')
                             ]
                             if all(match):
+                                if 'skip' in config:
+                                    new_config['cache'] = False
                                 for key, value in config.items():
                                     new_config[key] = value
 

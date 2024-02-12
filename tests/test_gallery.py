@@ -92,7 +92,8 @@ def test_default_targets():
 
     assert gallery.get_targets() == ["freepdk45_demo",
                                      "skywater130_demo",
-                                     "asap7_demo"]
+                                     "asap7_demo",
+                                     "gf180_demo"]
 
 
 def test_add_design():
