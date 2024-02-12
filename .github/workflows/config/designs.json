@@ -36,6 +36,7 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
         "design": "ariane",
         "remote": false,
         "skip": "OpenROAD unable to place macros.",
@@ -63,6 +64,7 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
         "skip": "OpenROAD unable to place macros.",
@@ -370,6 +372,7 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": true,
         "design": "swerv",
         "remote": false,
         "skip": "Takes too long to complete on github runner.",

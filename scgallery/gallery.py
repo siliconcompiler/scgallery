@@ -762,7 +762,7 @@ Designs: {designs_help}
                 with open(args.json, 'r') as f:
                     json_matrix = json.load(f)
 
-                spare_fields = ('skip',)
+                spare_fields = ('skip', 'cache')
                 for config in json_matrix:
                     has_extra = False
                     for key in spare_fields:
@@ -777,6 +777,8 @@ Designs: {designs_help}
                                                                            'target')
                             ]
                             if all(match):
+                                if 'skip' in config:
+                                    new_config['cache'] = False
                                 for key, value in config.items():
                                     new_config[key] = value
 
