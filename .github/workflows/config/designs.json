@@ -2,6 +2,16 @@
     {
         "design": "aes",
         "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "aes",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
+        "design": "aes",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
@@ -15,11 +25,30 @@
         "target": "gf180_demo"
     },
     {
+        "design": "aes",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
         "cache": true,
         "design": "aes",
         "remote": false,
         "skip": "Routing takes too long > 1.5 hours",
         "target": "skywater130_demo"
+    },
+    {
+        "design": "ariane",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt",
+        "skip": "Requires too much memory for github runner",
+        "cache": true
+    },
+    {
+        "design": "ariane",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt",
+        "skip": "Requires too much memory for github runner",
+        "cache": true
     },
     {
         "cache": false,
@@ -43,11 +72,30 @@
         "target": "gf180_demo"
     },
     {
+        "design": "ariane",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
         "cache": true,
         "design": "ariane",
         "remote": false,
         "skip": "Requires too much memory for github runner",
         "target": "skywater130_demo"
+    },
+    {
+        "design": "black_parrot",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt",
+        "skip": "Requires too much memory for github runner",
+        "cache": true
+    },
+    {
+        "design": "black_parrot",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt",
+        "skip": "Requires too much memory for github runner",
+        "cache": true
     },
     {
         "cache": true,
@@ -71,6 +119,11 @@
         "target": "gf180_demo"
     },
     {
+        "design": "black_parrot",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
@@ -78,6 +131,16 @@
         "target": "skywater130_demo"
     },
     {
+        "design": "caliptra-datavault",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "caliptra-datavault",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
         "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
@@ -97,6 +160,16 @@
         "remote": false,
         "skip": "Unable to route due to routing congrestion",
         "target": "skywater130_demo"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "caliptra-keyvault",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
@@ -122,6 +195,16 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "caliptra-sha512",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
+        "design": "caliptra-sha512",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
@@ -137,7 +220,24 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "skip": "Times out on github runner",
+        "cache": true
+    },
+    {
+        "design": "caliptra-sha512",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "dynamic_node",
@@ -157,7 +257,22 @@
     {
         "design": "dynamic_node",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ethmac",
@@ -177,7 +292,22 @@
     {
         "design": "ethmac",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "gcd",
@@ -197,7 +327,22 @@
     {
         "design": "gcd",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "heartbeat",
@@ -217,7 +362,22 @@
     {
         "design": "heartbeat",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ibex",
@@ -237,7 +397,22 @@
     {
         "design": "ibex",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "jpeg",
@@ -257,7 +432,22 @@
     {
         "design": "jpeg",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "mock_alu",
@@ -277,7 +467,22 @@
     {
         "design": "mock_alu",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "openmsp430",
@@ -297,7 +502,22 @@
     {
         "design": "openmsp430",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "picorv32",
@@ -317,7 +537,22 @@
     {
         "design": "picorv32",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "riscv32i",
@@ -337,7 +572,22 @@
     {
         "design": "riscv32i",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "spi",
@@ -357,7 +607,22 @@
     {
         "design": "spi",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "spi",
+        "remote": false,
         "target": "skywater130_demo"
+    },
+    {
+        "design": "swerv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "swerv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
@@ -379,6 +644,13 @@
         "target": "gf180_demo"
     },
     {
+        "design": "swerv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "skip": "Times out on github runner",
+        "cache": true
+    },
+    {
         "cache": false,
         "design": "swerv",
         "remote": false,
@@ -388,6 +660,16 @@
     {
         "design": "tiny_rocket",
         "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "tiny_rocket",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
+        "design": "tiny_rocket",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
@@ -399,6 +681,11 @@
         "design": "tiny_rocket",
         "remote": false,
         "target": "gf180_demo"
+    },
+    {
+        "design": "tiny_rocket",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "tiny_rocket",
@@ -408,6 +695,16 @@
     {
         "design": "uart",
         "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "uart",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
+        "design": "uart",
+        "remote": false,
         "target": "asap7_demo"
     },
     {
@@ -419,6 +716,11 @@
         "design": "uart",
         "remote": false,
         "target": "gf180_demo"
+    },
+    {
+        "design": "uart",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "uart",

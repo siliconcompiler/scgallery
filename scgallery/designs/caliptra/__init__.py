@@ -29,7 +29,7 @@ def setup(chip):
     libs_root = os.path.join('src', 'libs', 'rtl')
     integration_root = os.path.join('src', 'integration', 'rtl')
     datavault_root = os.path.join('src', 'datavault', 'rtl')
-    datavault_root = os.path.join('src', 'keyvault', 'rtl')
+    keyvault_root = os.path.join('src', 'keyvault', 'rtl')
     pcrvault_root = os.path.join('src', 'pcrvault', 'rtl')
     sha512_root = os.path.join('src', 'sha512', 'rtl')
     return [
@@ -69,7 +69,7 @@ def setup(chip):
         __make_lib(
             chip,
             'caliptra_keyvault',
-            datavault_root,
+            keyvault_root,
             (
                 'kv_reg_pkg.sv',
                 'kv_reg.sv',
