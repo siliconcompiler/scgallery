@@ -35,16 +35,15 @@ class Gallery:
         self.set_path(path)
 
         self.__targets = {}
-        for target in (
-                freepdk45_demo,
-                skywater130_demo,
-                asap7_demo,
-                gf180_demo,
-                asap7_asap7sc7p5t_lvt,
-                asap7_asap7sc7p5t_slvt,
-                gf180_gf180mcu_fd_sc_mcu7t5v0):
-            target_name = target.__name__.split('.')[-1]
-            self.add_target(target_name, target)
+        for name, target in (
+                ("freepdk45_demo", freepdk45_demo),
+                ("skywater130_demo", skywater130_demo),
+                ("asap7_demo", asap7_demo),
+                ("gf180_demo", gf180_demo),
+                ("asap7_asap7sc7p5t_lvt", asap7_asap7sc7p5t_lvt),
+                ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),
+                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0)):
+            self.add_target(name, target)
 
         self.__designs = {}
         from scgallery.designs import all_designs as sc_all_designs
