@@ -106,3 +106,7 @@ def all_designs():
 __all__ = [
     *all_designs().keys()
 ]
+
+
+def root():
+    return path.dirname(path.abspath(__file__))
