@@ -18,7 +18,7 @@ with open(jobs_file, 'r') as f:
     all_jobs = json.load(f)
 
 
-def print_github():
+def print_github(print_size):
     github_jobs = []
     preserve_fields = ('design', 'target', 'remote')
     for job in all_jobs:
@@ -27,6 +27,8 @@ def print_github():
         github_jobs.append({key: job[key] for key in preserve_fields})
 
     print(json.dumps(github_jobs))
+    if print_size:
+        print(f"Total jobs on github: {len(github_jobs)}")
 
 
 def run_cache(resume, dry_run):
@@ -57,6 +59,9 @@ if __name__ == "__main__":
     parser.add_argument('--github',
                         action="store_true",
                         help="Get json matrix of github jobs")
+    parser.add_argument('--github_job_count',
+                        action="store_true",
+                        help="Prints the size of the github jobs")
     parser.add_argument('--generate_cache',
                         action="store_true",
                         help="Update cached images")
@@ -74,7 +79,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.github:
-        print_github()
+        print_github(args.github_job_count)
         sys.exit(0)
 
     if args.generate_cache:
