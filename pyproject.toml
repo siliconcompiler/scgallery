@@ -21,7 +21,7 @@ dependencies = [
     "siliconcompiler>=0.21.2",
     "GitPython>=3.1.0",
     "Jinja2>=2.11.3",
-    "lambdapdk==0.1.11",
+    "lambdapdk==0.1.12",
     "lambdalib==0.2.0"
 ]
 dynamic = ["version"]
