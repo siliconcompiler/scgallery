@@ -19,20 +19,20 @@ requires-python = ">=3.8"
 license = {file = "LICENSE"}
 dependencies = [
     "siliconcompiler>=0.21.2",
-    "GitPython>=3.1.0",
-    "Jinja2>=2.11.3",
-    "lambdapdk==0.1.12",
-    "lambdalib==0.2.0"
+    "GitPython>=3.1.31",
+    "Jinja2>=3.1.2",
+    "lambdapdk>=0.1.12",
+    "lambdalib>=0.2.0"
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
 # Dev dependencies.
 dev = [
-    "flake8>=5.0.0",
-    "pytest",
-    "pytest-xdist",
-    "tclint"
+    "flake8==7.0.0",
+    "pytest==8.1.1",
+    "pytest-xdist==3.3.1",
+    "tclint==0.2.3"
 ]
 docs = [
     "sphinx",
