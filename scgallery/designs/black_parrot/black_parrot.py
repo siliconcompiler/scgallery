@@ -50,11 +50,11 @@ def setup(target=freepdk45_demo):
             chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
                      '0.05')
             chip.set('tool', 'openroad', 'task', task, 'var', 'ppl_arguments',
-                     ['-exclude left:*',
-                      '-exclude right:*',
-                      '-exclude top:*',
-                      '-exclude bottom:0-100',
-                      '-exclude bottom:1200-1350'])
+                     ['-exclude', 'left:*',
+                      '-exclude', 'right:*',
+                      '-exclude', 'top:*',
+                      '-exclude', 'bottom:0-100',
+                      '-exclude', 'bottom:1200-1350'])
 
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'macro_place_halo',
                  ['10', '10'])
