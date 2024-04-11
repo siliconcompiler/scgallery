@@ -71,11 +71,11 @@ def setup(target=freepdk45_demo):
         for task in ('floorplan', 'place'):
             chip.set('tool', 'openroad', 'task', task, 'var',
                      'ppl_arguments', [
-                         '-exclude left:0-500',
-                         '-exclude left:1000-1500',
-                         '-exclude right:*',
-                         '-exclude top:*',
-                         '-exclude bottom:*'])
+                         '-exclude', 'left:0-500',
+                         '-exclude', 'left:1000-1500',
+                         '-exclude', 'right:*',
+                         '-exclude', 'top:*',
+                         '-exclude', 'bottom:*'])
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
                  'macro_place_halo',
                  ['10', '10'])

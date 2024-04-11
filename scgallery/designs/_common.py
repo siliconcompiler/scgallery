@@ -13,7 +13,7 @@ def add_lambdapdk_memory(chip):
         chip.add('option', 'library', 'lambdalib_fakeram45')
     elif pdk == 'skywater130':
         chip.use(sky130sram)
-        chip.add('option', 'library', 'lambdalib_gky130sram')
+        chip.add('option', 'library', 'lambdalib_sky130sram')
     elif pdk == 'asap7':
         chip.use(fakeram7)
         chip.add('option', 'library', 'lambdalib_fakeram7')
