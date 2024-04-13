@@ -5,11 +5,14 @@ requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 write_to = "scgallery/_version.py"
 write_to_template = '__version__ = "{version}" # noqa W292'
 
-[tool.setuptools.packages]
-find = {}
+[tool.setuptools]
+include-package-data = true
+packages = [
+    "scgallery"
+]
 
 [project]
-name = "scgallery"
+name = "sc-gallery"
 authors = [
     {name = "Peter Gadfort", email = "gadfort@zeroasic.com"},
 ]
@@ -57,3 +60,8 @@ exclude = [
 
 [tool.tclint.style]
 line-length = 100
+
+[tool.check-wheel-contents]
+ignore = [
+    "W002"
+]
