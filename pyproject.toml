@@ -12,7 +12,7 @@ packages = [
 ]
 
 [project]
-name = "scgallery"
+name = "sc-gallery"
 authors = [
     {name = "Peter Gadfort", email = "gadfort@zeroasic.com"},
 ]
