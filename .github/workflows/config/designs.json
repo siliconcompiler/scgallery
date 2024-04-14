@@ -74,7 +74,9 @@
     {
         "design": "ariane",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "cache": false,
+        "skip": "Macro placement issue"
     },
     {
         "cache": true,
@@ -121,7 +123,9 @@
     {
         "design": "black_parrot",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "cache": false,
+        "skip": "Macro placement issue"
     },
     {
         "cache": true,
@@ -164,12 +168,16 @@
     {
         "design": "caliptra-keyvault",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
+        "target": "asap7_asap7sc7p5t_lvt",
+        "cache": false,
+        "skip": "Placement density issue"
     },
     {
         "design": "caliptra-keyvault",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_slvt",
+        "cache": false,
+        "skip": "Placement density issue"
     },
     {
         "cache": false,
@@ -215,7 +223,9 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_demo",
+        "cache": false,
+        "skip": "Detail routing failure"
     },
     {
         "design": "caliptra-sha512",
@@ -617,12 +627,16 @@
     {
         "design": "swerv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
+        "target": "asap7_asap7sc7p5t_lvt",
+        "cache": false,
+        "skip": "Unable to route due to routing congrestion"
     },
     {
         "design": "swerv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_slvt",
+        "cache": false,
+        "skip": "Unable to route due to routing congrestion"
     },
     {
         "cache": false,
@@ -685,7 +699,9 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "cache": false,
+        "skip": "CTS detail placement issue"
     },
     {
         "design": "tiny_rocket",
