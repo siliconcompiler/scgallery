@@ -8,11 +8,12 @@ import sys
 import shutil
 
 jobs_file = os.path.join(os.path.dirname(__file__),
+                         '..',
                          '.github',
                          'workflows',
                          'config',
                          'designs.json')
-image_cache = os.path.join(os.path.dirname(__file__), 'images')
+image_cache = os.path.join(os.path.dirname(__file__), '..', 'images')
 
 with open(jobs_file, 'r') as f:
     all_jobs = json.load(f)
