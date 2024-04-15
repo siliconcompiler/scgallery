@@ -49,12 +49,7 @@ def setup(target=asap7_demo):
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
-    if mainlib in ('asap7sc7p5t_rvt', 'sky130hd'):
-        chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument',
-                 f'--tech {mainlib}')
-    else:
-        chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument',
-                 '--tech none')
+    chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument', '--tech none')
 
     return chip
 
