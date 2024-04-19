@@ -641,19 +641,17 @@ class Gallery:
         print("Run summary:")
         failed = False
         for status in self.__status:
-            print(f"Design: {status['chip'].design}")
-            print(f"PDK: {status['pdk']}")
-            print(f"Mainlib: {status['mainlib']}")
+            print(f" Design: {status['chip'].design} on {status['pdk']} pdk with mainlib {status['mainlib']}")
             errors = status['errors']
             if errors:
                 failed = True
                 for error in errors:
                     print(f"  {error}")
             elif errors is None:
-                # Mark as failure
+                # Mark as failed since rules are missing
                 failed = True
             else:
-                print("  Passed")
+                print("  Rules check passed")
         if not failed:
             print('Run passed')
 
