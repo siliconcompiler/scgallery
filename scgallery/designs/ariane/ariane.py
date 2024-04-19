@@ -61,7 +61,7 @@ def setup(target=freepdk45_demo):
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
 
-    _common.add_lambdapdk_memory(chip)
+    _common.add_lambdalib_memory(chip)
 
     if mainlib == 'nangate45':
         chip.set('constraint', 'outline', [(0, 0),

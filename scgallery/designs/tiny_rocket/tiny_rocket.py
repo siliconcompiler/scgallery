@@ -33,7 +33,7 @@ def setup(target=freepdk45_demo):
 
     chip.set('option', 'define', 'SYNTHESIS')
 
-    _common.add_lambdapdk_memory(chip)
+    _common.add_lambdalib_memory(chip)
     chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
 
     if mainlib == 'nangate45':
