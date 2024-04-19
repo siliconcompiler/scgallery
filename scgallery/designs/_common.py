@@ -27,6 +27,8 @@ def register_lambdalib_memory(pdk, module):
     __lambdalib_memories[pdk].append(
         (module, list(libs))
     )
+
+
 register_lambdalib_memory("freepdk45", fakeram45)
 register_lambdalib_memory("asap7", fakeram7)
 register_lambdalib_memory("skywater130", sky130sram)
@@ -38,7 +40,7 @@ def add_lambdalib_memory(chip):
 
     if pdk not in __lambdalib_memories:
         raise ValueError(f"{pdk} is not a supported pdk for lambdapdk memories")
-    
+
     macros = set(chip.getkeys('library'))
     for module, libs in __lambdalib_memories[pdk]:
         chip.use(module)
