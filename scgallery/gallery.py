@@ -641,7 +641,8 @@ class Gallery:
         print("Run summary:")
         failed = False
         for status in self.__status:
-            print(f" Design: {status['chip'].design} on {status['pdk']} pdk with mainlib {status['mainlib']}")
+            print(f" Design: {status['chip'].design} on {status['pdk']} pdk "
+                  f"with mainlib {status['mainlib']}")
             errors = status['errors']
             if errors:
                 failed = True
