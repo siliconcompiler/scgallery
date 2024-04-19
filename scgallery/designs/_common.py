@@ -41,11 +41,12 @@ def add_lambdalib_memory(chip):
     if pdk not in __lambdalib_memories:
         raise ValueError(f"{pdk} is not a supported pdk for lambdapdk memories")
 
-    macros = set(chip.getkeys('library'))
     for module, libs in __lambdalib_memories[pdk]:
         chip.use(module)
-        chip.add('option', 'library', libs)
+        # Add lambdalib
+        chip.add('option', 'library',
+                 [lib for lib in libs if lib.startswith('lambdalib_')])
 
-    # Add memory macros to macrolib
-    new_macros = set([lib for lib in chip.getkeys('library') if 'lambdalib_' not in lib])
-    chip.add('asic', 'macrolib', list(new_macros.difference(macros)))
+        # Add non-lambdalib
+        chip.add('asic', 'macrolib',
+                 [lib for lib in libs if not lib.startswith('lambdalib_')])
