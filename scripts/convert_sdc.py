@@ -16,11 +16,13 @@ def _find_sources(source):
     return sources
 
 
-def __process_file(source, target, subs):
+def __process_file(source, target, subs, output_dir):
     print(f'Processing {source}')
     with open(source, 'r') as f_in:
-        dir_root = os.path.dirname(source)
-        with open(os.path.join(dir_root, f'{target}.sdc'), 'w') as f_out:
+        dir_root = os.path.relpath(os.path.dirname(source), root())
+        design_path = os.path.join(output_dir, dir_root)
+        os.makedirs(design_path, exist_ok=True)
+        with open(os.path.join(design_path, f'{target}.sdc'), 'w') as f_out:
             for line in f_in:
                 for sub_in, sub_out in subs:
                     line = _process_text(line, sub_in, sub_out)
@@ -43,6 +45,8 @@ if __name__ == "__main__":
 
     parser.add_argument('--source', type=str, help='Source main library', required=True)
     parser.add_argument('--target', type=str, help='Target main library', required=True)
+    parser.add_argument('--output_dir', type=str, default=root(),
+                        help='Output designs directory')
 
     parser.add_argument(
         '--sub', type=str, nargs='+',
@@ -56,4 +60,4 @@ if __name__ == "__main__":
         subs.append(sub.split(":"))
 
     for src in _find_sources(args.source):
-        __process_file(src, args.target, subs)
+        __process_file(src, args.target, subs, args.output_dir)
