@@ -649,6 +649,9 @@ class Gallery:
                 failed = True
                 for error in errors:
                     print(f"  {error}")
+            elif errors is None:
+                # Mark as failure
+                failed = True
             else:
                 print("  Passed")
         if not failed:
