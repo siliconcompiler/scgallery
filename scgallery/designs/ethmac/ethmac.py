@@ -63,6 +63,8 @@ def setup(target=asap7_demo):
 
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.60')
 
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
+
     return chip
 
 
