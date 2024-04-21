@@ -37,18 +37,18 @@
         "target": "skywater130_demo"
     },
     {
+        "cache": true,
         "design": "ariane",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt",
         "skip": "Requires too much memory for github runner",
-        "cache": true
+        "target": "asap7_asap7sc7p5t_lvt"
     },
     {
+        "cache": true,
         "design": "ariane",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt",
         "skip": "Requires too much memory for github runner",
-        "cache": true
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
@@ -72,11 +72,11 @@
         "target": "gf180_demo"
     },
     {
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
-        "cache": false,
-        "skip": "Macro placement issue"
+        "skip": "Macro placement issue",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": true,
@@ -86,18 +86,18 @@
         "target": "skywater130_demo"
     },
     {
+        "cache": true,
         "design": "black_parrot",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt",
         "skip": "Requires too much memory for github runner",
-        "cache": true
+        "target": "asap7_asap7sc7p5t_lvt"
     },
     {
+        "cache": true,
         "design": "black_parrot",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt",
         "skip": "Requires too much memory for github runner",
-        "cache": true
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -121,11 +121,11 @@
         "target": "gf180_demo"
     },
     {
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
-        "cache": false,
-        "skip": "Macro placement issue"
+        "skip": "Macro placement issue",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": true,
@@ -166,18 +166,18 @@
         "target": "skywater130_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt",
-        "cache": false,
-        "skip": "Placement density issue"
+        "skip": "Placement density issue",
+        "target": "asap7_asap7sc7p5t_lvt"
     },
     {
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt",
-        "cache": false,
-        "skip": "Placement density issue"
+        "skip": "Placement density issue",
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
@@ -221,18 +221,18 @@
         "target": "freepdk45_demo"
     },
     {
+        "cache": false,
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "gf180_demo",
-        "cache": false,
-        "skip": "Detail routing failure"
+        "skip": "Detail routing failure",
+        "target": "gf180_demo"
     },
     {
+        "cache": true,
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
         "skip": "Times out on github runner",
-        "cache": true
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "caliptra-sha512",
@@ -625,18 +625,18 @@
         "target": "skywater130_demo"
     },
     {
+        "cache": false,
         "design": "swerv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt",
-        "cache": false,
-        "skip": "Unable to route due to routing congrestion"
+        "skip": "Unable to route due to routing congrestion",
+        "target": "asap7_asap7sc7p5t_lvt"
     },
     {
+        "cache": false,
         "design": "swerv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt",
-        "cache": false,
-        "skip": "Unable to route due to routing congrestion"
+        "skip": "Unable to route due to routing congrestion",
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
@@ -658,11 +658,11 @@
         "target": "gf180_demo"
     },
     {
+        "cache": true,
         "design": "swerv",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
         "skip": "Times out on github runner",
-        "cache": true
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
@@ -697,11 +697,11 @@
         "target": "gf180_demo"
     },
     {
+        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
-        "cache": false,
-        "skip": "CTS detail placement issue"
+        "skip": "CTS detail placement issue",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "tiny_rocket",
