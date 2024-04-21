@@ -525,7 +525,7 @@ class Gallery:
             if not runtime_setup:
                 chip, valid = self.__setup_design(design, target)
                 if not valid:
-                    return {}
+                    return
             else:
                 chip = None
 
@@ -560,7 +560,8 @@ class Gallery:
 
         # Wait
         for job in config_jobs:
-            job.join()
+            if job.is_alive():
+                job.join()
 
         return sorted(regular_jobs, key=lambda x: x["print"])
 
