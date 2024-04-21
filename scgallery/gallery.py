@@ -518,6 +518,25 @@ class Gallery:
 
     def __get_runnable_jobs(self):
         regular_jobs = []
+
+        def _run_setup(design, target):
+            runtime_setup = self.__design_runtime_setup(design)
+
+            if not runtime_setup:
+                chip, valid = self.__setup_design(design, target)
+                if not valid:
+                    return {}
+            else:
+                chip = None
+
+            regular_jobs.append({
+                "print": f'Running "{design}" with "{target}"',
+                "design": design,
+                "runtime_setup": runtime_setup,
+                "chip": chip,
+                "target": target})
+
+        config_jobs = []
         for design in self.__run_config['designs']:
             if design not in self.__designs:
                 print(f'  Error: design "{design}" is not available in gallery')
@@ -531,21 +550,19 @@ class Gallery:
                 targets = [None]
 
             for target in targets:
-                if not runtime_setup:
-                    chip, valid = self.__setup_design(design, target)
-                    if not valid:
-                        continue
-                else:
-                    chip = None
+                config_jobs.append(threading.Thread(
+                    target=_run_setup,
+                    args=(design, target)))
 
-                regular_jobs.append({'print': f'Running "{design}" with "{target}"',
-                                     "design": design,
-                                     "runtime_setup": runtime_setup,
-                                     "chip": chip,
-                                     "target": target})
+        # Start jobs in parallel
+        for job in config_jobs:
+            job.start()
 
-        regular_jobs = sorted(regular_jobs, key=lambda x: x["print"])
-        return regular_jobs
+        # Wait
+        for job in config_jobs:
+            job.join()
+
+        return sorted(regular_jobs, key=lambda x: x["print"])
 
     def get_run_report(self):
         return self.__report_chips.copy()
