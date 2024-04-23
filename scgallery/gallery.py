@@ -7,6 +7,8 @@ import os
 import shutil
 import sys
 import threading
+from collections.abc import Container
+import fnmatch
 
 import siliconcompiler
 from siliconcompiler.utils import default_credentials_file
@@ -691,6 +693,30 @@ class Gallery:
         '''
         gallery = cls()
 
+        class ArgChoiceGlob(Container):
+            def __init__(self, choices):
+                super().__init__()
+
+                self.__choices = set(choices)
+
+            def __contains__(self, item):
+                if item in self.__choices:
+                    return True
+
+                if fnmatch.filter(self.__choices, item):
+                    return True
+
+                return False
+
+            def __iter__(self):
+                return self.__choices.__iter__()
+
+            def get_items(self, choices):
+                items = set()
+                for c in choices:
+                    items.update(fnmatch.filter(self.__choices, c))
+                return sorted(list(items))
+
         def format_list(items, prefix_len, max_len=80):
             lines = []
             line = None
@@ -726,6 +752,9 @@ Targets: {targets_help}
 Designs: {designs_help}
 '''
 
+        design_choices = ArgChoiceGlob(gallery.__designs.keys())
+        target_choices = ArgChoiceGlob(gallery.__targets.keys())
+
         parser = argparse.ArgumentParser(
             prog='sc-gallery',
             description=description,
@@ -734,13 +763,13 @@ Designs: {designs_help}
 
         parser.add_argument('-design',
                             action='append',
-                            choices=sorted(gallery.__designs.keys()),
+                            choices=design_choices,
                             metavar='<design>',
                             help='Name of design to run')
 
         parser.add_argument('-target',
                             action='append',
-                            choices=sorted(gallery.__targets.keys()),
+                            choices=target_choices,
                             metavar='<target>',
                             help='Name of target to run')
 
@@ -779,12 +808,12 @@ Designs: {designs_help}
         gallery.set_remote(args.remote)
 
         if args.target:
-            gallery.set_run_targets(args.target)
+            gallery.set_run_targets(target_choices.get_items(args.target))
         else:
             gallery.set_run_targets(gallery.__targets.keys())
 
         if args.design:
-            gallery.set_run_designs(args.design)
+            gallery.set_run_designs(design_choices.get_items(args.design))
         else:
             gallery.set_run_designs(gallery.__designs.keys())
 
