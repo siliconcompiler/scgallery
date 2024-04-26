@@ -89,6 +89,7 @@ def setup(target=freepdk45_demo):
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment', '0.05')
     elif mainlib.startswith('sky130'):
         chip.set('constraint', 'density', 40)
+        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
              'rtlmp_min_instances',
@@ -100,8 +101,8 @@ def setup(target=freepdk45_demo):
              'rtlmp_min_macros',
              '16')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                'rtlmp_max_macros',
-                '4')
+             'rtlmp_max_macros',
+             '4')
 
     return chip
 
