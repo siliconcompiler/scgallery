@@ -64,6 +64,7 @@ def setup(target=freepdk45_demo):
         chip.set('constraint', 'density', 40)
     elif mainlib.startswith('sky130'):
         chip.set('constraint', 'density', 40)
+        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_instances', '5000')
