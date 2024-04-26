@@ -44,10 +44,10 @@
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Global routing congestion",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
