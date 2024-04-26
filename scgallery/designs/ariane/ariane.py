@@ -91,14 +91,14 @@ def setup(target=freepdk45_demo):
         chip.set('constraint', 'density', 40)
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                'rtlmp_min_instances',
-                '5000')
+             'rtlmp_min_instances',
+             '5000')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                'rtlmp_max_instances',
-                '30000')
+             'rtlmp_max_instances',
+             '30000')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                'rtlmp_min_macros',
-                '16')
+             'rtlmp_min_macros',
+             '16')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
                 'rtlmp_max_macros',
                 '4')
