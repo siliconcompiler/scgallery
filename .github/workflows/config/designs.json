@@ -44,10 +44,10 @@
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Global routing congestion",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
@@ -228,10 +228,10 @@
         "target": "gf180_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "caliptra-sha512",
         "remote": false,
-        "skip": "Times out on github runner",
+        "skip": "Ends with loads of DRC violations",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -651,10 +651,10 @@
         "target": "freepdk45_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Takes too long to complete on github runner.",
+        "skip": "Routing fails in detail route with: Error: net17712 24 pin not visited #guides = 156",
         "target": "gf180_demo"
     },
     {

@@ -82,27 +82,28 @@ def setup(target=freepdk45_demo):
         chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
                  'macro_place_channel',
                  ['20', '20'])
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                 'rtlmp_min_instances',
-                 '5000')
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                 'rtlmp_max_instances',
-                 '30000')
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                 'rtlmp_min_macros',
-                 '16')
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                 'rtlmp_max_macros',
-                 '4')
     elif mainlib.startswith('asap7sc7p5t'):
         chip.set('constraint', 'density', 40)
         chip.set('tool', 'openroad', 'task', 'route', 'var', 'M2_adjustment', '0.7')
         chip.set('tool', 'openroad', 'task', 'route', 'var', 'M3_adjustment', '0.6')
-        chip.set('tool', 'openroad', 'task', 'route', 'var', 'grt_signal_max_layer', 'M8')
-        chip.set('tool', 'openroad', 'task', 'route', 'var', 'grt_clock_max_layer', 'M8')
-        chip.set('pdk', 'asap7', 'maxlayer', chip.get('option', 'stackup'), 'M8')
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
+                 '0.05')
     elif mainlib.startswith('sky130'):
         chip.set('constraint', 'density', 40)
+        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
+
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+             'rtlmp_min_instances',
+             '5000')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+             'rtlmp_max_instances',
+             '30000')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+             'rtlmp_min_macros',
+             '16')
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+             'rtlmp_max_macros',
+             '4')
 
     return chip
 
