@@ -12,6 +12,7 @@ from .gcd import gcd
 from .heartbeat import heartbeat
 from .ibex import ibex
 from .jpeg import jpeg
+from .microwatt import microwatt
 from .mock_alu import mock_alu
 from .openmsp430 import openmsp430
 from .picorv32 import picorv32
@@ -66,6 +67,7 @@ __designs = (
     ibex,
     jpeg,
     keyvault,
+    microwatt,
     mock_alu,
     openmsp430,
     picorv32,

@@ -1,0 +1,15 @@
+ram block $_SKY130_SRAM_1R1W_ {
+	abits 8;
+	widths 64 per_port;
+	cost 2048;
+	byte 8;
+	init none;
+	port srsw "A" {
+		clock posedge;
+		rden;
+	}
+	port sr "B" {
+		clock posedge;
+		rden;
+	}
+}
