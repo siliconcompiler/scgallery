@@ -18,6 +18,9 @@ from siliconcompiler.targets import \
     skywater130_demo, \
     gf180_demo
 
+from scgallery.targets import \
+    ihp130_demo
+
 from scgallery.targets.asap7 import (
     asap7sc7p5t_lvt as asap7_asap7sc7p5t_lvt,
     asap7sc7p5t_slvt as asap7_asap7sc7p5t_slvt
@@ -44,7 +47,8 @@ class Gallery:
                 ("gf180_demo", gf180_demo),
                 ("asap7_asap7sc7p5t_lvt", asap7_asap7sc7p5t_lvt),
                 ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),
-                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0)):
+                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
+                ("ihp130_demo", ihp130_demo)):
             self.add_target(name, target)
 
         self.__designs = {}

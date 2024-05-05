@@ -3,6 +3,7 @@ from lambdapdk.freepdk45.libs import fakeram45
 from lambdapdk.asap7.libs import fakeram7
 from lambdapdk.sky130.libs import sky130sram
 from lambdapdk.gf180.libs import gf180sram
+from lambdapdk.ihp130.libs import sg13g2_sram
 
 # Dictionary of lambdalib memories to process
 # "pdk":
@@ -33,6 +34,7 @@ register_lambdalib_memory("freepdk45", fakeram45)
 register_lambdalib_memory("asap7", fakeram7)
 register_lambdalib_memory("skywater130", sky130sram)
 register_lambdalib_memory("gf180", gf180sram)
+register_lambdalib_memory("ihp130", sg13g2_sram)
 
 
 def add_lambdalib_memory(chip):
