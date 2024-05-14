@@ -1,5 +1,10 @@
 on:
   workflow_dispatch:
+    inputs:
+      sc-ref:
+        required: false
+        type: string
+        description: which siliconcompiler ref to use
 
 name: 'All Designs'
 
@@ -55,6 +60,19 @@ jobs:
           pip install --upgrade pip
           pip install dist/*.whl
 
+      - name: Get SC
+        if: ${{ inputs.sc-ref }} != ''
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sc-ref }}
+          path: sc
+          repository: siliconcompiler
+
+      - name: Install SC
+        if: ${{ inputs.sc-ref }} != ''
+        run: |
+          pip install ./siliconcompiler
+
       - name: Get version
         id: sc_version
         run: |
@@ -93,6 +111,19 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install dist/*.whl
+
+      - name: Get SC
+        if: ${{ inputs.sc-ref }} != ''
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sc-ref }}
+          path: sc
+          repository: siliconcompiler
+
+      - name: Install SC
+        if: ${{ inputs.sc-ref }} != ''
+        run: |
+          pip install ./siliconcompiler
 
       - name: Run gallery
         timeout-minutes: 120
