@@ -66,12 +66,12 @@ jobs:
         with:
           ref: ${{ inputs.sc-ref }}
           path: sc
-          repository: siliconcompiler
+          repository: siliconcompiler/siliconcompiler
 
       - name: Install SC
         if: ${{ inputs.sc-ref }} != ''
         run: |
-          pip install ./siliconcompiler
+          pip install ./sc
 
       - name: Get version
         id: sc_version
@@ -118,12 +118,12 @@ jobs:
         with:
           ref: ${{ inputs.sc-ref }}
           path: sc
-          repository: siliconcompiler
+          repository: siliconcompiler/siliconcompiler
 
       - name: Install SC
         if: ${{ inputs.sc-ref }} != ''
         run: |
-          pip install ./siliconcompiler
+          pip install ./sc
 
       - name: Run gallery
         timeout-minutes: 120
