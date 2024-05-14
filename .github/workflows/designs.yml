@@ -83,7 +83,7 @@ jobs:
     name: Get tools image
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
-      sc_version: ${{ needs.sc_version.outputs.version }}
+      sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
 
   designs_test:
     needs: [wheel, docker_image, designs]
@@ -187,7 +187,7 @@ jobs:
           github_token: ${{ github.token }}
           ref: ${{ github.ref }}
           owner: ${{ github.repository_owner }}
-          repo: ${{ github.repository }}
+          repo: scgallery
           workflow_file_name: montage.yml
           wait_interval: 60
           client_payload: '{"workflow-id": "${{ github.run_id }}"}'
