@@ -45,6 +45,7 @@ jobs:
     needs: wheel
     name: Get SiliconCompiler version
     runs-on: ubuntu-latest
+    if: ${{ inputs.sc-ref }} == ''
 
     outputs:
       version: ${{ steps.sc_version.outputs.version }}
@@ -60,19 +61,6 @@ jobs:
           pip install --upgrade pip
           pip install dist/*.whl
 
-      - name: Get SC
-        if: ${{ inputs.sc-ref }} != ''
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.sc-ref }}
-          path: sc
-          repository: siliconcompiler/siliconcompiler
-
-      - name: Install SC
-        if: ${{ inputs.sc-ref }} != ''
-        run: |
-          pip install ./sc
-
       - name: Get version
         id: sc_version
         run: |
@@ -80,6 +68,7 @@ jobs:
 
   docker_image:
     needs: sc_version
+    if: always()
     name: Get tools image
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
