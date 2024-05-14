@@ -30,10 +30,8 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": true,
         "design": "aes",
         "remote": false,
-        "skip": "Routing takes too long > 1.5 hours",
         "target": "skywater130_demo"
     },
     {

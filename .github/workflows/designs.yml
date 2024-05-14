@@ -1,5 +1,10 @@
 on:
   workflow_dispatch:
+    inputs:
+      sc-ref:
+        required: false
+        type: string
+        description: which siliconcompiler ref to use
 
 name: 'All Designs'
 
@@ -37,6 +42,7 @@ jobs:
       - uses: hynek/build-and-inspect-python-package@v2
 
   sc_version:
+    if: inputs.sc-ref == ''
     needs: wheel
     name: Get SiliconCompiler version
     runs-on: ubuntu-latest
@@ -62,14 +68,16 @@ jobs:
 
   docker_image:
     needs: sc_version
+    if: always()
     name: Get tools image
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
-      sc_version: ${{ needs.sc_version.outputs.version }}
+      sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
 
   designs_test:
     needs: [wheel, docker_image, designs]
     runs-on: ubuntu-latest
+    if: always() && !failure() && !cancelled()
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
       credentials:
@@ -93,6 +101,19 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install dist/*.whl
+
+      - name: Get SC
+        if: inputs.sc-ref != ''
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sc-ref }}
+          path: sc
+          repository: siliconcompiler/siliconcompiler
+
+      - name: Install SC
+        if: inputs.sc-ref != ''
+        run: |
+          pip install ./sc
 
       - name: Run gallery
         timeout-minutes: 120
@@ -138,7 +159,7 @@ jobs:
   merge_images:
     name: Merge image artifacts
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && !failure() && !cancelled()
     needs: designs_test
 
     steps:
@@ -149,3 +170,13 @@ jobs:
           pattern: images-*
           delete-merged: true
           retention-days: 7
+
+      - name: Generate montage
+        uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          github_token: ${{ github.token }}
+          ref: ${{ github.ref }}
+          owner: ${{ github.repository_owner }}
+          repo: scgallery
+          workflow_file_name: montage.yml
+          client_payload: '{"workflow-id": "${{ github.run_id }}"}'
