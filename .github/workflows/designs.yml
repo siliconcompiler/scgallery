@@ -42,10 +42,10 @@ jobs:
       - uses: hynek/build-and-inspect-python-package@v2
 
   sc_version:
+    if: inputs.sc-ref == ''
     needs: wheel
     name: Get SiliconCompiler version
     runs-on: ubuntu-latest
-    if: ${{ inputs.sc-ref }} == ''
 
     outputs:
       version: ${{ steps.sc_version.outputs.version }}
@@ -102,7 +102,7 @@ jobs:
           pip install dist/*.whl
 
       - name: Get SC
-        if: ${{ inputs.sc-ref }} != ''
+        if: inputs.sc-ref != ''
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.sc-ref }}
@@ -110,7 +110,7 @@ jobs:
           repository: siliconcompiler/siliconcompiler
 
       - name: Install SC
-        if: ${{ inputs.sc-ref }} != ''
+        if: inputs.sc-ref != ''
         run: |
           pip install ./sc
 
