@@ -76,7 +76,7 @@ jobs:
           token: ${{ secrets.BOT_TOKEN }}
           title: "Update montage"
           author: "SiliconCompiler Bot <bot@siliconcompiler.com>"
-          body: "Update montage to ${{ env.SC_VERSION }}"
+          body: "Update montage to ${{ env.SC_VERSION }} / https://github.com/siliconcompiler/scgallery/actions/runs/${{ env.WORKFLOW_ID }}"
           committer: "SiliconCompiler Bot <bot@siliconcompiler.com>"
           commit-message: Update montage
           add-paths: images/montage.jpg
