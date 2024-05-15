@@ -5,6 +5,10 @@ on:
         required: false
         type: string
         description: which siliconcompiler ref to use
+      lambdapdk-ref:
+        required: false
+        type: string
+        description: which lambdapdk ref to use
 
 name: 'All Designs'
 
@@ -80,9 +84,6 @@ jobs:
     if: always() && !failure() && !cancelled()
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
-      credentials:
-        username: ${{ secrets.PACKAGES_ACTOR }}
-        password: ${{ secrets.PACKAGES_TOKEN }}
 
     strategy:
       fail-fast: false
@@ -90,7 +91,7 @@ jobs:
       matrix:
         include: ${{ fromJson(needs.designs.outputs.designs) }}
 
-    name: 'Run design'
+    name: Run design
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -114,6 +115,19 @@ jobs:
         if: inputs.sc-ref != ''
         run: |
           pip install ./sc
+
+      - name: Get lambdapdk
+        if: inputs.lambdapdk-ref != ''
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.lambdapdk-ref }}
+          path: lambdapdk
+          repository: siliconcompiler/lambdapdk
+
+      - name: Install Lambdapdk
+        if: inputs.lambdapdk-ref != ''
+        run: |
+          pip install -e ./lambdapdk
 
       - name: Run gallery
         timeout-minutes: 120
@@ -144,15 +158,15 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: images-${{ env.ART_NAME }}
+          name: ${{ env.ART_NAME }}-image
           path: gallery/*/*.png
-          retention-days: 1
+          retention-days: 2
 
       - name: Upload run artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ env.ART_NAME }}
+          name: ${{ env.ART_NAME }}-build
           path: gallery/*/*.tgz
           retention-days: 2
 
@@ -167,9 +181,8 @@ jobs:
         uses: actions/upload-artifact/merge@v4
         with:
           name: images
-          pattern: images-*
+          pattern: '*-image'
           delete-merged: true
-          retention-days: 7
 
       - name: Generate montage
         uses: convictional/trigger-workflow-and-wait@v1.6.5
