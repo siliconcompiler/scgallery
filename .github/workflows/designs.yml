@@ -5,6 +5,10 @@ on:
         required: false
         type: string
         description: which siliconcompiler ref to use
+      lambdapdk-ref:
+        required: false
+        type: string
+        description: which lambdapdk ref to use
 
 name: 'All Designs'
 
@@ -114,6 +118,19 @@ jobs:
         if: inputs.sc-ref != ''
         run: |
           pip install ./sc
+
+      - name: Get lambdapdk
+        if: inputs.lambdapdk-ref != ''
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.lambdapdk-ref }}
+          path: lambdapdk
+          repository: siliconcompiler/lambdapdk
+
+      - name: Install Lambdapdk
+        if: inputs.lambdapdk-ref != ''
+        run: |
+          pip install -e ./lambdapdk
 
       - name: Run gallery
         timeout-minutes: 120
