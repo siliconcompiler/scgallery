@@ -67,7 +67,7 @@ def setup(target=asap7_demo):
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
                  '0.2')
     elif mainlib.startswith('sky130'):
-        chip.set('constraint', 'density', 45)
+        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'false')
 
     return chip
 
