@@ -63,34 +63,11 @@ def setup(target=freepdk45_demo):
 
     _common.add_lambdalib_memory(chip)
 
-    if mainlib == 'nangate45':
-        chip.set('constraint', 'outline', [(0, 0),
-                                           (1500, 1500)])
-        chip.set('constraint', 'corearea', [(10, 12),
-                                            (1448, 1448)])
-        for task in ('floorplan', 'place'):
-            chip.set('tool', 'openroad', 'task', task, 'var',
-                     'ppl_arguments', [
-                         '-exclude', 'left:0-500',
-                         '-exclude', 'left:1000-1500',
-                         '-exclude', 'right:*',
-                         '-exclude', 'top:*',
-                         '-exclude', 'bottom:*'])
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                 'macro_place_halo',
-                 ['10', '10'])
-        chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
-                 'macro_place_channel',
-                 ['20', '20'])
-    elif mainlib.startswith('asap7sc7p5t'):
-        chip.set('constraint', 'density', 40)
+    if mainlib.startswith('asap7sc7p5t'):
         chip.set('tool', 'openroad', 'task', 'route', 'var', 'M2_adjustment', '0.7')
         chip.set('tool', 'openroad', 'task', 'route', 'var', 'M3_adjustment', '0.6')
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
-                 '0.05')
-    elif mainlib.startswith('sky130'):
-        chip.set('constraint', 'density', 40)
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
+
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
              'rtlmp_min_instances',

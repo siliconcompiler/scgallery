@@ -86,16 +86,6 @@ def setup(target=asap7_demo):
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
-    if mainlib == 'nangate45':
-        chip.set('constraint', 'outline', [(0, 0),
-                                           (1100, 1000)])
-        chip.set('constraint', 'corearea', [(10, 10),
-                                            (1090, 990)])
-
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.45')
-    elif mainlib.startswith('asap7sc7p5t'):
-        chip.set('constraint', 'density', 40)
-
     return chip
 
 

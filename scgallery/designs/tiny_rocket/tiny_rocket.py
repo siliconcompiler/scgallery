@@ -36,16 +36,6 @@ def setup(target=freepdk45_demo):
     _common.add_lambdalib_memory(chip)
     chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
 
-    if mainlib == 'nangate45':
-        chip.set('constraint', 'outline', [(0, 0),
-                                           (924.92, 799.4)])
-        chip.set('constraint', 'corearea', [(10.07, 9.8),
-                                            (914.85, 789.6)])
-    elif mainlib.startswith('asap7'):
-        pass
-    elif mainlib.startswith('sky130'):
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.4')
-
     return chip
 
 

@@ -49,18 +49,6 @@ def setup(target=skywater130_demo):
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
-    if mainlib.startswith('sky130'):
-        chip.set('constraint', 'density', 45)
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
-                 '0.20')
-    elif mainlib.startswith('asap7sc7p5t'):
-        chip.set('constraint', 'outline', [(0, 0),
-                                           (80, 80)])
-        chip.set('constraint', 'corearea', [(5, 5),
-                                            (75, 75)])
-
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.50')
-
     return chip
 
 
