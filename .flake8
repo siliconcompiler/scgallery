@@ -7,5 +7,6 @@ extend-exclude =
     scgallery/libraries/skywater130/sram/sky130_sram_1rw1r_64x256_8
     scgallery/libraries/skywater130/sram/sky130_sram_1rw1r_80x64_8
     build/
+    .venv/
 max-line-length = 100
 ignore =

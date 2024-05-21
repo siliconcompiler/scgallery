@@ -8,7 +8,6 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
-from siliconcompiler.tools.openroad import openroad
 from scgallery.designs import _common
 from scgallery import Gallery
 
