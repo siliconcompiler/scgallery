@@ -37,7 +37,12 @@ def setup(target=asap7_demo):
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
-    chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.65')
+    if mainlib.startswith('sky130'):
+        # Decrease density due to high routing runtime
+        chip.set('constraint', 'density', 30)
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.50')
+    else:
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.65')
 
     return chip
 
