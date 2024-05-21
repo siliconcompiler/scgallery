@@ -64,6 +64,8 @@ def setup(target=freepdk45_demo):
     _common.add_lambdalib_memory(chip)
 
     if mainlib.startswith('asap7sc7p5t'):
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
+                 '0.05')
         chip.set('tool', 'openroad', 'task', 'route', 'var', 'M2_adjustment', '0.7')
         chip.set('tool', 'openroad', 'task', 'route', 'var', 'M3_adjustment', '0.6')
 

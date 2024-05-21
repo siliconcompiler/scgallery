@@ -37,8 +37,12 @@ def setup(target=freepdk45_demo):
     _common.add_lambdalib_memory(chip)
     chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
 
+    if mainlib.startswith('sky130'):
+        pass
+    else:
+        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy', 'AREA3')
+
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy', 'AREA3')
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
