@@ -60,12 +60,9 @@ def setup(target=asap7_demo):
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     if mainlib.startswith('asap7sc7p5t'):
-        chip.set('constraint', 'density', 40)
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'enable_dpo', 'false')
     elif mainlib == 'nangate45':
-        chip.set('constraint', 'density', 50)
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
-                 '0.2')
+        pass
     elif mainlib.startswith('sky130'):
         chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'false')
 

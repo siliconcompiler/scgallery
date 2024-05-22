@@ -25,21 +25,8 @@ def setup(target=asap7_demo):
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
-    if mainlib == 'nangate45':
-        chip.set('constraint', 'density', 55)
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy', 'AREA3')
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'false')
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
-                 '0.2')
-    elif mainlib.startswith('sky130'):
-        chip.set('constraint', 'density', 40)
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'false')
-    elif mainlib.startswith('asap7sc7p5t'):
-        chip.set('constraint', 'outline', [(0, 0),
-                                           (16.2, 16.2)])
-        chip.set('constraint', 'corearea', [(1.08, 1.08),
-                                            (15.12, 15.12)])
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.35')
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy', 'AREA3')
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'false')
 
     return chip
 
