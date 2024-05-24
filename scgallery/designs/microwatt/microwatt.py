@@ -19,22 +19,21 @@ def register_microwatt(chip):
         'd7458d5bebe19d20a6231471b6e0a7823365c2a6')
 
 
-def convert_setup(target):
-    # Tempoary solution until multiple file types are supported.
+def setup(target=skywater130_demo):
+    chip = Chip('microwatt')
+    chip.set('option', 'entrypoint', _top_module)
+    chip.set('option', 'frontend', 'vhdl')
 
-    convert_chip = Chip('microwatt')
-    convert_chip.set('option', 'entrypoint', _top_module)
+    register_microwatt(chip)
 
-    register_microwatt(convert_chip)
+    if __name__ == '__main__':
+        Gallery.design_commandline(chip)
 
-    convert_chip.add('option', 'define', 'LOG_LENGTH=0')
-    convert_chip.add('option', 'define',
-        'RAM_INIT_FILE=' + \
-            sc_package.path(convert_chip, 'microwatt') + '/hello_world/hello_world.hex')
+    sdc_root = os.path.join('microwatt', 'constraints')
+    extra_root = os.path.join('microwatt', 'extra')
 
-    convert_chip.set('option', 'frontend', 'vhdl')
-    convert_chip.set('option', 'to', 'import')
-    convert_chip.set('option', 'jobname', 'convert_to_verilog')
+    chip.add('option', 'define', 'LOG_LENGTH=0')
+    chip.add('option', 'define', 'RAM_INIT_FILE=' + sc_package.path(chip, 'microwatt') + '/hello_world/hello_world.hex')
 
     for src in ('decode_types.vhdl',
                 'common.vhdl',
@@ -84,27 +83,7 @@ def convert_setup(target):
                 'fpga/clk_gen_ecp5.vhd',
                 'fpga/top-generic.vhdl',
                 'dmi_dtm_dummy.vhdl'):
-        convert_chip.input(src, package='microwatt')
-
-    if not convert_chip.get('option', 'target'):
-        convert_chip.load_target(target)
-
-    convert_chip.run()
-
-    return convert_chip.find_result('v', step='import')
-
-
-def setup(target=skywater130_demo):
-    chip = Chip('microwatt')
-    chip.set('option', 'entrypoint', _top_module)
-
-    register_microwatt(chip)
-
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-
-    sdc_root = os.path.join('microwatt', 'constraints')
-    extra_root = os.path.join('microwatt', 'extra')
+        chip.input(src, package='microwatt')
 
     for src in ('uart16550/uart_top.v',
                 'uart16550/uart_regs.v',
@@ -116,8 +95,6 @@ def setup(target=skywater130_demo):
                 'uart16550/uart_rfifo.v',
                 'uart16550/raminfr.v'):
         chip.input(src, package='microwatt')
-
-    chip.input(convert_setup(target))
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
