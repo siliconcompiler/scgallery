@@ -9,6 +9,11 @@ on:
         required: false
         type: string
         description: which lambdapdk ref to use
+      concurrency:
+        required: false
+        type: int
+        default: 50
+        description: how many concurrent runners to use
 
 name: 'All Designs'
 
@@ -87,7 +92,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 50
+      max-parallel: ${{ inputs.concurrency }}
       matrix:
         include: ${{ fromJson(needs.designs.outputs.designs) }}
 
@@ -161,6 +166,7 @@ jobs:
           name: ${{ env.ART_NAME }}-image
           path: gallery/*/*.png
           retention-days: 2
+          if-no-files-found: error
 
       - name: Upload run artifacts
         if: always()
@@ -169,6 +175,7 @@ jobs:
           name: ${{ env.ART_NAME }}-build
           path: gallery/*/*.tgz
           retention-days: 2
+          if-no-files-found: error
 
   merge_images:
     name: Merge image artifacts
