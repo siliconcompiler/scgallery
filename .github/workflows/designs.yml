@@ -92,7 +92,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: ${{ inputs.concurrency }}
+      max-parallel: ${{ github.event.inputs.concurrency }}
       matrix:
         include: ${{ fromJson(needs.designs.outputs.designs) }}
 
