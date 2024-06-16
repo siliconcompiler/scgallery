@@ -408,9 +408,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": false,
         "design": "ibex",
-        "skip": "Detail routing speed regression",
         "remote": false,
+        "skip": "Detail routing speed regression",
         "target": "skywater130_demo"
     },
     {
@@ -444,9 +445,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": false,
         "design": "jpeg",
-        "skip": "Detail routing/cts/place speed regression",
         "remote": false,
+        "skip": "Detail routing/cts/place speed regression",
         "target": "skywater130_demo"
     },
     {
@@ -704,9 +706,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": false,
         "design": "tiny_rocket",
-        "skip": "Detail routing speed regression",
         "remote": false,
+        "skip": "Detail routing speed regression",
         "target": "skywater130_demo"
     },
     {
