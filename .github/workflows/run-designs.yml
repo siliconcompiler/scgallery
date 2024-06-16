@@ -40,6 +40,7 @@ jobs:
         id: designs
         run: |
           echo "designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py --github)" >> $GITHUB_OUTPUT
+          echo "$(python3 $GITHUB_WORKSPACE/scripts/report_configs.py)" >> $GITHUB_STEP_SUMMARY
 
   wheel:
     name: Build wheel
