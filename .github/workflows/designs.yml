@@ -11,186 +11,28 @@ on:
         description: which lambdapdk ref to use
       concurrency:
         required: false
-        type: int
+        type: number
         default: 50
         description: how many concurrent runners to use
 
-name: 'All Designs'
-
-defaults:
-  run:
-    shell: bash
-
-env:
-  REGISTRY: ghcr.io
+name: 'Run Gallery Designs'
 
 jobs:
   designs:
-    name: Get design matrix
-    runs-on: ubuntu-latest
-
-    outputs:
-      designs: ${{ steps.designs.outputs.designs }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Get design matrix
-        id: designs
-        run: |
-          echo "designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py --github)" >> $GITHUB_OUTPUT
-
-  wheel:
-    name: Build wheel
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - uses: hynek/build-and-inspect-python-package@v2
-
-  sc_version:
-    if: inputs.sc-ref == ''
-    needs: wheel
-    name: Get SiliconCompiler version
-    runs-on: ubuntu-latest
-
-    outputs:
-      version: ${{ steps.sc_version.outputs.version }}
-
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: Packages
-          path: dist
-
-      - name: Install gallery
-        run: |
-          pip install --upgrade pip
-          pip install dist/*.whl
-
-      - name: Get version
-        id: sc_version
-        run: |
-          echo "version=v$(sc -version)" >> $GITHUB_OUTPUT
-
-  docker_image:
-    needs: sc_version
-    if: always()
-    name: Get tools image
-    uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
+    uses: ./.github/workflows/run-designs.yml
     with:
-      sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
+      sc-ref: ${{ inputs.sc-ref }}
+      lambdapdk-ref: ${{ inputs.lambdapdk-ref }}
+      concurrency: ${{ fromJson(inputs.concurrency) }}
+    secrets: inherit
 
-  designs_test:
-    needs: [wheel, docker_image, designs]
-    runs-on: ubuntu-latest
-    if: always() && !failure() && !cancelled()
-    container:
-      image: ${{ needs.docker_image.outputs.sc_tool }}
-
-    strategy:
-      fail-fast: false
-      max-parallel: ${{ inputs.concurrency }}
-      matrix:
-        include: ${{ fromJson(needs.designs.outputs.designs) }}
-
-    name: Run design
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: Packages
-          path: dist
-
-      - name: Install gallery
-        run: |
-          pip install --upgrade pip
-          pip install dist/*.whl
-
-      - name: Get SC
-        if: inputs.sc-ref != ''
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.sc-ref }}
-          path: sc
-          repository: siliconcompiler/siliconcompiler
-
-      - name: Install SC
-        if: inputs.sc-ref != ''
-        run: |
-          pip install ./sc
-
-      - name: Get lambdapdk
-        if: inputs.lambdapdk-ref != ''
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.lambdapdk-ref }}
-          path: lambdapdk
-          repository: siliconcompiler/lambdapdk
-
-      - name: Install Lambdapdk
-        if: inputs.lambdapdk-ref != ''
-        run: |
-          pip install -e ./lambdapdk
-
-      - name: Run gallery
-        timeout-minutes: 120
-        run: |
-          REMOTE_ARGS=""
-          if [[ "${{ matrix.remote }}" = "true" ]] ; then
-            yes | sc-remote -configure -server https://server.siliconcompiler.com -credentials credentials.json
-            REMOTE_ARGS="-remote credentials.json"
-          fi
-          if [ -z "${{ matrix.target }}" ] ; then
-            sc-gallery -design ${{ matrix.design }} $REMOTE_ARGS
-          else
-            sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }} $REMOTE_ARGS
-          fi
-
-      - name: Generate artifact name
-        if: always()
-        run: |
-          if [ -z "${{ matrix.target }}" ] ; then
-            ART_NAME=${{ matrix.design }}
-          else
-            ART_NAME=${{ matrix.design }}-${{ matrix.target }}
-          fi
-
-          echo ART_NAME=${ART_NAME} >> $GITHUB_ENV # update GitHub ENV vars
-
-      - name: Upload gallery image
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ART_NAME }}-image
-          path: gallery/*/*.png
-          retention-days: 2
-          if-no-files-found: error
-
-      - name: Upload run artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ART_NAME }}-build
-          path: gallery/*/*.tgz
-          retention-days: 2
-          if-no-files-found: error
-
-  merge_images:
+  update_montage:
     name: Merge image artifacts
     runs-on: ubuntu-latest
     if: always() && !failure() && !cancelled()
-    needs: designs_test
+    needs: designs
 
     steps:
-      - name: Merge Artifacts
-        uses: actions/upload-artifact/merge@v4
-        with:
-          name: images
-          pattern: '*-image'
-          delete-merged: true
-
       - name: Generate montage
         uses: convictional/trigger-workflow-and-wait@v1.6.5
         with:
