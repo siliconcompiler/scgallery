@@ -14,6 +14,11 @@ on:
         type: number
         default: 50
         description: how many concurrent runners to use
+      scgallery-ref:
+        required: false
+        type: string
+        default: 'main'
+        description: switch scgallery to use
 
 name: 'All Gallery Designs Workflow'
 
@@ -34,7 +39,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: siliconcompiler/scgallery
-          ref: main
+          ref: ${{ inputs.scgallery-ref }}
 
       - name: Get design matrix
         id: designs
@@ -51,7 +56,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: siliconcompiler/scgallery
-          ref: main
+          ref: ${{ inputs.scgallery-ref }}
 
       - uses: hynek/build-and-inspect-python-package@v2
 

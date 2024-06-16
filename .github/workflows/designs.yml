@@ -24,6 +24,7 @@ jobs:
       sc-ref: ${{ inputs.sc-ref }}
       lambdapdk-ref: ${{ inputs.lambdapdk-ref }}
       concurrency: ${{ fromJson(inputs.concurrency) }}
+      scgallery-ref: ${{ github.ref }}
     secrets: inherit
 
   update_montage:
