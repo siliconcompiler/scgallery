@@ -409,7 +409,6 @@
     },
     {
         "design": "ibex",
-        "skip": "Detail routing speed regression",
         "remote": false,
         "target": "skywater130_demo"
     },
@@ -445,7 +444,6 @@
     },
     {
         "design": "jpeg",
-        "skip": "Detail routing/cts/place speed regression",
         "remote": false,
         "target": "skywater130_demo"
     },
@@ -705,7 +703,6 @@
     },
     {
         "design": "tiny_rocket",
-        "skip": "Detail routing speed regression",
         "remote": false,
         "target": "skywater130_demo"
     },
