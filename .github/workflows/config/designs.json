@@ -438,8 +438,10 @@
         "target": "gf180_demo"
     },
     {
+        "cache": false,
         "design": "jpeg",
         "remote": false,
+        "skip": "Detail routing/cts/place speed regression",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
