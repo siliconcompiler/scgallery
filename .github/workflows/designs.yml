@@ -25,6 +25,7 @@ jobs:
       lambdapdk-ref: ${{ inputs.lambdapdk-ref }}
       concurrency: ${{ fromJson(inputs.concurrency) }}
       scgallery-ref: ${{ github.ref }}
+      fail-fast: false
     secrets: inherit
 
   update_montage:

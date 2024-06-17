@@ -19,6 +19,11 @@ on:
         type: string
         default: 'main'
         description: switch scgallery to use
+      fail-fast:
+        required: false
+        type: boolean
+        default: true
+        description: use fail-fast when running
 
 name: 'All Gallery Designs Workflow'
 
@@ -101,7 +106,7 @@ jobs:
       image: ${{ needs.docker_image.outputs.sc_tool }}
 
     strategy:
-      fail-fast: false
+      fail-fast: ${{ inputs.fail-fast }}
       max-parallel: ${{ inputs.concurrency }}
       matrix:
         include: ${{ fromJson(needs.designs.outputs.designs) }}
