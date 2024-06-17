@@ -233,10 +233,8 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
         "design": "caliptra-sha512",
         "remote": false,
-        "skip": "Times out on github runner",
         "target": "skywater130_demo"
     },
     {
@@ -410,10 +408,8 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
         "design": "ibex",
         "remote": false,
-        "skip": "Detail routing speed regression",
         "target": "skywater130_demo"
     },
     {
@@ -708,10 +704,8 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "Detail routing speed regression",
         "target": "skywater130_demo"
     },
     {
