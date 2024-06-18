@@ -14,10 +14,7 @@ jobs_file = os.path.join(os.path.dirname(__file__),
 
 def print_table(markdown, data):
     if not data:
-        if markdown:
-            print(f'| None | - | - |')
-        else:
-            print(f'No designs')
+        print(f'No designs')
         return
 
     len_designs = max(len(d['design']) for d in data)
