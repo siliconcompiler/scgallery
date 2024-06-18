@@ -14,6 +14,11 @@ on:
         type: number
         default: 50
         description: how many concurrent runners to use
+      runall:
+        required: false
+        type: boolean
+        default: false
+        description: run all possible designs to check for possible regression improvements
 
 name: 'Run Gallery Designs'
 
@@ -26,6 +31,7 @@ jobs:
       concurrency: ${{ fromJson(inputs.concurrency) }}
       scgallery-ref: ${{ github.ref }}
       fail-fast: false
+      runall: ${{ inputs.runall }}
     secrets: inherit
 
   update_montage:

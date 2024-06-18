@@ -24,6 +24,11 @@ on:
         type: boolean
         default: true
         description: use fail-fast when running
+      runall:
+        required: false
+        type: boolean
+        default: false
+        description: run all possible designs
 
 name: 'All Gallery Designs Workflow'
 
@@ -45,6 +50,18 @@ jobs:
         with:
           repository: siliconcompiler/scgallery
           ref: ${{ inputs.scgallery-ref }}
+          fetch-depth: 0
+
+      - name: Generate full matrix
+        if: ${{ inputs.runall }}
+        run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
+          pip3 install .
+          # Remove current design matrix
+          rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
+          # Replace with full matrix
+          sc-gallery -json $GITHUB_WORKSPACE/.github/workflows/config/designs.json
 
       - name: Get design matrix
         id: designs
@@ -62,6 +79,7 @@ jobs:
         with:
           repository: siliconcompiler/scgallery
           ref: ${{ inputs.scgallery-ref }}
+          fetch-depth: 0
 
       - uses: hynek/build-and-inspect-python-package@v2
 
