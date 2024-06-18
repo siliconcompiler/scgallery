@@ -50,10 +50,13 @@ jobs:
         with:
           repository: siliconcompiler/scgallery
           ref: ${{ inputs.scgallery-ref }}
+          fetch-depth: 0
 
       - name: Generate full matrix
         if: ${{ inputs.runall }}
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
           pip3 install .
           # Remove current design matrix
           rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
@@ -76,6 +79,7 @@ jobs:
         with:
           repository: siliconcompiler/scgallery
           ref: ${{ inputs.scgallery-ref }}
+          fetch-depth: 0
 
       - uses: hynek/build-and-inspect-python-package@v2
 
