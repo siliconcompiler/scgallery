@@ -179,6 +179,16 @@ def test_set_unset_resume():
     assert not gallery.is_resume
 
 
+def test_set_unset_strict():
+    gallery = Gallery()
+
+    assert gallery.is_strict
+    gallery.set_strict(False)
+    assert not gallery.is_strict
+    gallery.set_strict(True)
+    assert gallery.is_strict
+
+
 def test_add_design_rules():
     gallery = Gallery()
 
