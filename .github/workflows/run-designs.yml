@@ -216,7 +216,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.artifact_name.outputs.name }}-issue
-          path: build/*/*/sc_issue*.tgz
+          path: build/*/*/sc_issue*.tar.gz
           retention-days: 7
           if-no-files-found: ignore
 
