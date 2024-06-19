@@ -503,7 +503,8 @@ class Gallery:
         self.__status.append({
             "design": design,
             "pdk": chip.get('option', 'pdk'),
-            "mainlib": chip.get('asic', 'logiclib')[0],
+            "mainlib": chip.get('asic', 'logiclib',
+                                step='global', index='global')[0],
             "errors": errors,
             "chip": chip
         })
