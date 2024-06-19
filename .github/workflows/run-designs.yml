@@ -182,7 +182,8 @@ jobs:
           fi
 
       - name: Generate artifact name
-        if: always()
+        if: ${{ !cancelled() }}
+        id: artifact_name
         run: |
           if [ -z "${{ matrix.target }}" ] ; then
             ART_NAME=${{ matrix.design }}
@@ -190,30 +191,39 @@ jobs:
             ART_NAME=${{ matrix.design }}-${{ matrix.target }}
           fi
 
-          echo ART_NAME=${ART_NAME} >> $GITHUB_ENV # update GitHub ENV vars
+          echo name=${ART_NAME} >> $GITHUB_OUTPUT # update GitHub vars
 
       - name: Upload gallery image
-        if: always()
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ART_NAME }}-image
+          name: ${{ steps.artifact_name.outputs.name }}-image
           path: gallery/*/*.png
           retention-days: 2
           if-no-files-found: error
 
       - name: Upload run artifacts
-        if: always()
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.ART_NAME }}-build
+          name: ${{ steps.artifact_name.outputs.name }}-build
           path: gallery/*/*.tgz
           retention-days: 2
           if-no-files-found: error
 
+      - name: Upload issue artifacts
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact_name.outputs.name }}-issue
+          path: build/*/*/sc_issue*.tgz
+          retention-days: 7
+          if-no-files-found: ignore
+
   merge_images:
     name: Merge image artifacts
     runs-on: ubuntu-latest
-    if: always() && !failure() && !cancelled()
+    if: ${{ always() && !failure() && !cancelled() }}
     needs: designs_test
 
     steps:
