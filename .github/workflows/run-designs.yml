@@ -93,7 +93,7 @@ jobs:
       version: ${{ steps.sc_version.outputs.version }}
 
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: Packages
           path: dist
@@ -131,7 +131,7 @@ jobs:
 
     name: Run design
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4.1.7
         with:
           name: Packages
           path: dist
@@ -195,7 +195,7 @@ jobs:
 
       - name: Upload gallery image
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: ${{ steps.artifact_name.outputs.name }}-image
           path: gallery/*/*.png
@@ -204,7 +204,7 @@ jobs:
 
       - name: Upload run artifacts
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: ${{ steps.artifact_name.outputs.name }}-build
           path: gallery/*/*.tgz
@@ -213,7 +213,7 @@ jobs:
 
       - name: Upload issue artifacts
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: ${{ steps.artifact_name.outputs.name }}-issue
           path: build/*/*/sc_issue*.tar.gz
@@ -243,7 +243,7 @@ jobs:
 
     steps:
       - name: Get gallery builds
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.7
         with:
           pattern: '*-build'
 
@@ -252,7 +252,7 @@ jobs:
           find -name "*.tgz" -exec tar xvf {} \;
 
       - name: Upload manifests
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: manifests
           path: build/*/*/*.pkg.json
