@@ -63,6 +63,7 @@ class Gallery:
         self.__jobname = None
         self.set_resume(False)
         self.set_remote(None)
+        self.set_strict(True)
 
     #######################################################
     @property
@@ -276,6 +277,30 @@ class Gallery:
         return self.__resume
 
     #######################################################
+    def set_strict(self, strict):
+        '''
+        Set if the gallery should use strict mode when running siliconcompiler.
+
+        Parameters:
+            strict (boolean): Flag to indicate if strict should be used
+        '''
+        if strict:
+            strict = True
+        else:
+            strict = False
+        self.__strict = strict
+
+    @property
+    def is_strict(self):
+        '''
+        Determine if the gallery is set to strict mode
+
+        Returns:
+            boolean: True, if using strict, False if not
+        '''
+        return self.__strict
+
+    #######################################################
     def add_design_rule(self, design, rule):
         '''
         Add a new rules file to a design.
@@ -432,6 +457,7 @@ class Gallery:
 
         chip.set('option', 'nodisplay', True)
         chip.set('option', 'quiet', True)
+        chip.set('option', 'strict', self.is_strict)
 
         chip.set('option', 'resume', self.is_resume)
 
