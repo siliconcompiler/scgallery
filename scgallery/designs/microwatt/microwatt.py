@@ -26,14 +26,8 @@ def setup(target=skywater130_demo):
 
     register_microwatt(chip)
 
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-
     sdc_root = os.path.join('microwatt', 'constraints')
     extra_root = os.path.join('microwatt', 'extra')
-
-    chip.add('option', 'define', 'LOG_LENGTH=0')
-    chip.add('option', 'define', 'RAM_INIT_FILE=' + sc_package.path(chip, 'microwatt') + '/hello_world/hello_world.hex')
 
     for src in ('decode_types.vhdl',
                 'common.vhdl',
@@ -95,6 +89,12 @@ def setup(target=skywater130_demo):
                 'uart16550/uart_rfifo.v',
                 'uart16550/raminfr.v'):
         chip.input(src, package='microwatt')
+
+    if __name__ == '__main__':
+        Gallery.design_commandline(chip)
+
+    chip.add('option', 'define', 'LOG_LENGTH=0')
+    chip.add('option', 'define', 'RAM_INIT_FILE=' + sc_package.path(chip, 'microwatt') + '/hello_world/hello_world.hex')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
