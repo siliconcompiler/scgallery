@@ -238,7 +238,7 @@ jobs:
   collect_manifests:
     name: Collect manifests
     runs-on: ubuntu-latest
-    if: ${{ always() && !cancelled() }}
+    if: ${{ !always() }}
     needs: designs_test
 
     steps:
