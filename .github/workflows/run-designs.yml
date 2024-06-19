@@ -233,3 +233,29 @@ jobs:
           name: images
           pattern: '*-image'
           delete-merged: true
+          retention-days: 7
+
+  collect_manifests:
+    name: Collect manifests
+    runs-on: ubuntu-latest
+    if: ${{ always() && !cancelled() }}
+    needs: designs_test
+
+    steps:
+      - name: Get gallery builds
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-build'
+
+      - name: Extract manifests
+        run:
+          find -name "*.tgz" -exec tar xvf {} \;
+
+      - name: Upload manifests
+        uses: actions/upload-artifact@v4
+        with:
+          name: manifests
+          path: build/*/*.pkg.json
+          retention-days: 7
+          if-no-files-found: error
+          overwrite: true
