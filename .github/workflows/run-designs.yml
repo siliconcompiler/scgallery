@@ -255,7 +255,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: manifests
-          path: build/*/*.pkg.json
+          path: build/*/*/*.pkg.json
           retention-days: 7
           if-no-files-found: error
           overwrite: true
