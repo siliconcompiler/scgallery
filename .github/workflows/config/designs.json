@@ -42,10 +42,10 @@
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
@@ -77,10 +77,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "pdngen ran out of memory",
+        "skip": "[DRT] Ends with 3 DRC violations (shorts)",
         "target": "skywater130_demo"
     },
     {
@@ -126,10 +126,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "pdngen ran out of memory",
+        "skip": "[INFO DPL-0034] Detailed placement failed on the following 1530 instances:",
         "target": "skywater130_demo"
     },
     {
@@ -158,38 +158,38 @@
         "target": "skywater130_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "freepdk45_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "skywater130_demo"
     },
     {
@@ -218,10 +218,10 @@
         "target": "gf180_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "caliptra-sha512",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[INFO DRT-0199]   Number of violations = 753.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -430,10 +430,10 @@
         "target": "gf180_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "jpeg",
         "remote": false,
-        "skip": "Runtime ~2 hours",
+        "skip": "[INFO DRT-0199]   Number of violations = 81.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -650,10 +650,10 @@
         "target": "gf180_demo"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[INFO DRT-0199]   Number of violations = 2002.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
