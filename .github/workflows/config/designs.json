@@ -38,98 +38,98 @@
         "cache": true,
         "design": "ariane",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
         "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Global routing congestion",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "ariane",
         "remote": false,
-        "skip": "Requires too much memory for github runner 32GB+",
+        "skip": "Timeout on github runner",
         "target": "asap7_demo"
     },
     {
         "cache": true,
         "design": "ariane",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Runtime ~2 hours",
         "target": "freepdk45_demo"
     },
     {
         "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "OpenROAD unable to place macros.",
+        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
         "target": "gf180_demo"
     },
     {
         "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Macro placement issue",
+        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "[DRT] Ends with 3 DRC violations (shorts)",
         "target": "skywater130_demo"
     },
     {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Timeout on github runner",
         "target": "asap7_demo"
     },
     {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "Timeout on github runner + running out of memory",
         "target": "freepdk45_demo"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "OpenROAD unable to place macros.",
+        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
         "target": "gf180_demo"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Macro placement issue",
+        "skip": "[ERROR PDN-0179] Unable to repair all channels",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Requires too much memory for github runner",
+        "skip": "[INFO DPL-0034] Detailed placement failed on the following 1530 instances:",
         "target": "skywater130_demo"
     },
     {
@@ -143,59 +143,53 @@
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
-        "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
         "target": "asap7_demo"
     },
     {
-        "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
         "target": "freepdk45_demo"
     },
     {
-        "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
         "target": "skywater130_demo"
     },
     {
         "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Placement density issue",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
         "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Placement density issue",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_demo"
     },
     {
         "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "freepdk45_demo"
     },
     {
         "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "skywater130_demo"
     },
     {
@@ -219,17 +213,15 @@
         "target": "freepdk45_demo"
     },
     {
-        "cache": false,
         "design": "caliptra-sha512",
         "remote": false,
-        "skip": "Detail routing failure",
         "target": "gf180_demo"
     },
     {
         "cache": false,
         "design": "caliptra-sha512",
         "remote": false,
-        "skip": "Ends with loads of DRC violations",
+        "skip": "[INFO DRT-0199]   Number of violations = 753.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -441,7 +433,7 @@
         "cache": false,
         "design": "jpeg",
         "remote": false,
-        "skip": "Detail routing/cts/place speed regression",
+        "skip": "[INFO DRT-0199]   Number of violations = 81.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -628,47 +620,47 @@
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Unable to route due to routing congrestion",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Requires too much memory for github runner, openroad terminates with -9",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "asap7_demo"
     },
     {
         "design": "swerv",
         "remote": false,
         "target": "freepdk45_demo"
-    },
-    {
-        "cache": false,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Routing fails in detail route with: Error: net17712 24 pin not visited #guides = 156",
-        "target": "gf180_demo"
     },
     {
         "cache": true,
         "design": "swerv",
         "remote": false,
-        "skip": "Times out on github runner",
+        "skip": "Timeout on github runner",
+        "target": "gf180_demo"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "[INFO DRT-0199]   Number of violations = 2002.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Requires too much memory for github runner and unable to detail route",
+        "skip": "[ERROR GRT-0119] Routing congestion too high.",
         "target": "skywater130_demo"
     },
     {
@@ -697,10 +689,8 @@
         "target": "gf180_demo"
     },
     {
-        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "CTS detail placement issue",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
