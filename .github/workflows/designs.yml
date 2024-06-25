@@ -43,3 +43,4 @@ jobs:
     if: always() && !failure() && !cancelled()
     needs: designs
     uses: ./.github/workflows/montage.yml
+    secrets: inherit
