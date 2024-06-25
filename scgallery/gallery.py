@@ -26,9 +26,9 @@ from scgallery.targets.gf180 import (
     gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0
 )
 
-from scgallery.rules import check_rules
-from scgallery import report
 from scgallery import __version__
+
+from scgallery.checklists import asicflow_rules
 
 
 class Gallery:
@@ -64,6 +64,7 @@ class Gallery:
         self.set_resume(False)
         self.set_remote(None)
         self.set_strict(True)
+        self.set_rules_to_skip(None)
 
     #######################################################
     @property
@@ -300,6 +301,30 @@ class Gallery:
         '''
         return self.__strict
 
+    ###################################################
+    def set_rules_to_skip(self, rules):
+        '''
+        Set if the gallery should resume a previous run.
+
+        Parameters:
+            rules (list): Flag to indicate if resume should be used
+        '''
+        if not rules:
+            rules = []
+        elif isinstance(rules, str):
+            rules = [rules]
+        self.__skip_rules = rules
+
+    @property
+    def rules_to_skip(self):
+        '''
+        Set of rules to skip at the end of run checks.
+
+        Returns:
+            list: List of rules to skip during checks
+        '''
+        return self.__skip_rules
+
     #######################################################
     def add_design_rule(self, design, rule):
         '''
@@ -493,22 +518,22 @@ class Gallery:
 
         if rules_files:
             chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
-            errors = check_rules(chip, rules_files)
-            report_data["rules"] = errors
-            for error in errors:
-                chip.logger.error(error)
+            chip.use(asicflow_rules, rules_files=rules_files, skip_rules=self.__skip_rules)
+            error = not chip.check_checklist('asicflow_rules',
+                                             verbose=True,
+                                             require_reports=False)
         else:
-            errors = None
+            error = None
 
         self.__status.append({
             "design": design,
             "pdk": chip.get('option', 'pdk'),
             "mainlib": chip.get('asic', 'logiclib',
                                 step='global', index='global')[0],
-            "errors": errors,
+            "error": error,
             "chip": chip
         })
-        if errors:
+        if error:
             chip.logger.error("Rules mismatch")
         elif rules_files:
             chip.logger.info("Rules match")
@@ -678,7 +703,7 @@ class Gallery:
 
         self.summary()
 
-        failed = any([data["errors"] for data in self.__status])
+        failed = any([data["error"] for data in self.__status])
         return not failed
 
     def summary(self):
@@ -690,12 +715,11 @@ class Gallery:
         for status in self.__status:
             print(f" Design: {status['chip'].design} on {status['pdk']} pdk "
                   f"with mainlib {status['mainlib']}")
-            errors = status['errors']
-            if errors:
+            error = status['error']
+            if error:
                 failed = True
-                for error in errors:
-                    print(f"  {error}")
-            elif errors is None:
+                print("  Rules check failed")
+            elif error is None:
                 # Mark as failed since rules are missing
                 failed = True
             else:
@@ -822,6 +846,11 @@ Designs: {designs_help}
                             metavar='<module>',
                             help='Python module for custom galleries')
 
+        parser.add_argument('-skip_rules',
+                            metavar='<rule>',
+                            nargs='+',
+                            help='List of regex names for rules to skip in checks')
+
         parser.add_argument('-json',
                             metavar='<path>',
                             help='Generate json matrix of designs and targets')
@@ -875,9 +904,10 @@ Designs: {designs_help}
                                     new_config[key] = value
 
             with open(args.json, 'w') as f:
-                f.write(json.dumps(matrix, indent=4, sort_keys=True))
+                json.dump(matrix, f, indent=4, sort_keys=True)
             return 0
 
+        gallery.set_rules_to_skip(args.skip_rules)
         if not gallery.run():
             return 1
         return 0
