@@ -43,7 +43,7 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
-      - name: Lint with tclint
+      - name: Check spelling
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
