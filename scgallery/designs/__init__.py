@@ -32,8 +32,16 @@ def __get_rules(design):
     if not design:
         return []
     rules = path.join(path.dirname(design.__file__), "rules.json")
+
     if path.exists(rules):
         return [rules]
+
+    modname = design.__name__.split('.')[-1]
+    rules = path.join(path.dirname(design.__file__), f"rules-{modname}.json")
+
+    if path.exists(rules):
+        return [rules]
+
     return []
 
 
