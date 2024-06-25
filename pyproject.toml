@@ -49,12 +49,14 @@ docs = [
 sc-gallery = "scgallery.apps.sc_gallery:main"
 
 [tool.pytest.ini_options]
+markers = [
+    "eda: this test requires EDA tools installed to run."
+]
 testpaths = "tests"
 
 [tool.tclint]
 exclude = [
-    'build/',
-    'orfs/'
+    'build/'
 ]
 
 [tool.tclint.style]

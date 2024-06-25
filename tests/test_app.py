@@ -1,5 +1,6 @@
 import siliconcompiler
 from scgallery.apps import sc_gallery
+import pytest
 
 
 def test_help(monkeypatch, capfd):
@@ -8,12 +9,23 @@ def test_help(monkeypatch, capfd):
     '''
     monkeypatch.setattr('sys.argv', ['sc-gallery', '-h'])
 
-    try:
+    with pytest.raises(SystemExit):
         sc_gallery.main()
-    except SystemExit:
-        pass
 
     out, _ = capfd.readouterr()
     assert "Targets: " in out
     assert "Designs: " in out
     assert f"SiliconCompiler {siliconcompiler.__version__}" in out
+
+
+@pytest.mark.eda
+def test_end2end_gcd(monkeypatch):
+    '''
+    Check if app runs through
+    '''
+    monkeypatch.setattr('sys.argv', [
+        'sc-gallery',
+        '-design', 'gcd',
+        '-target', 'freepdk45_demo'])
+
+    assert sc_gallery.main() == 0
