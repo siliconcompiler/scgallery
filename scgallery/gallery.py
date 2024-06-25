@@ -622,42 +622,6 @@ class Gallery:
     def get_run_report(self):
         return self.__report_chips.copy()
 
-    def __generate_reports(self):
-        # Generate overview
-        overview_data = []
-        for design, design_datas in self.__report_chips.items():
-            for design_data in design_datas:
-                if 'path' not in design_data:
-                    continue
-                overview_data.append({
-                    "path": design_data["path"],
-                    "platform": design_data["platform"],
-                    "design": design
-                })
-        if overview_data:
-            overview_file = 'overview'
-            if self.__jobname:
-                overview_file += f"_{self.__jobname}"
-            report.generate_overview(self.title,
-                                     overview_data,
-                                     os.path.join(self.path,
-                                                  f"{overview_file}.html"))
-
-            # Generate detailed view
-            detail_data = {}
-            for design, design_datas in self.__report_chips.items():
-                for design_data in design_datas:
-                    detail_data.setdefault(design, []).append({
-                        "chip": design_data['chip'],
-                        "rules": design_data['rules']
-                    })
-            details_file = 'details'
-            if self.__jobname:
-                details_file += f"_{self.__jobname}"
-            report.generate_details(self.title,
-                                    detail_data,
-                                    os.path.join(self.path, f"{details_file}.html"))
-
     def run(self):
         '''
         Main run function which will iterate over the design gallery and generate images and
