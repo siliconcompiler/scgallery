@@ -1,6 +1,7 @@
 name: Update Montage
 on:
   # Manual Dispatch
+  workflow_call:
   workflow_dispatch:
     inputs:
       workflow-id:
@@ -20,10 +21,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ -z "${{ inputs.workflow-id }}" ] ; then
+          if [ -z "${{ inputs.workflow-id || github.run_id }}" ] ; then
             WID=$(gh run list --workflow .github/workflows/designs.yml --status completed --branch main --json databaseId --jq '.[0] | .databaseId')
           else
-            WID=${{ inputs.workflow-id }}
+            WID=${{ inputs.workflow-id || github.run_id }}
           fi
           echo WORKFLOW_ID=$WID > $GITHUB_ENV
 

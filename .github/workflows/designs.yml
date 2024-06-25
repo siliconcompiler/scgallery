@@ -42,11 +42,4 @@ jobs:
 
     steps:
       - name: Generate montage
-        uses: convictional/trigger-workflow-and-wait@v1.6.5
-        with:
-          github_token: ${{ github.token }}
-          ref: ${{ github.ref }}
-          owner: ${{ github.repository_owner }}
-          repo: scgallery
-          workflow_file_name: montage.yml
-          client_payload: '{"workflow-id": "${{ github.run_id }}"}'
+        uses: ./.github/workflows/montage.yml
