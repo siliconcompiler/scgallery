@@ -34,11 +34,12 @@ dev = [
     "flake8==7.1.0",
     "pytest==8.2.2",
     "pytest-xdist==3.6.1",
-    "tclint==0.3.1"
+    "tclint==0.3.1",
+    "codespell==2.2.5"
 ]
 docs = [
-    "sphinx",
-    "sphinx-rtd-theme"
+    "sphinx==7.3.7",
+    "sphinx-rtd-theme==2.0.0"
 ]
 
 [project.urls]
@@ -66,3 +67,8 @@ line-length = 100
 ignore = [
     "W002"
 ]
+
+[tool.codespell]
+skip = '*.json,./scgallery/designs/*/src/*.v,./scgallery/designs/*/extra/*.v'
+count = true
+quiet-level = 3

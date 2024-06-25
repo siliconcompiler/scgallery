@@ -35,4 +35,17 @@ jobs:
           python3 -m pip install .[dev]
       - name: Lint with tclint
         run: tclint .
-      
+
+  spelling:
+    name: Check spelling
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Check spelling
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install .[dev]
+          rm -rf build
+          codespell
