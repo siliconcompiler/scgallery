@@ -24,11 +24,11 @@ on:
         type: boolean
         default: true
         description: use fail-fast when running
-      runall:
+      run:
         required: false
-        type: boolean
-        default: false
-        description: run all possible designs
+        type: string
+        default: default
+        description: types of designs to run
 
 name: 'All Gallery Designs Workflow'
 
@@ -52,16 +52,21 @@ jobs:
           ref: ${{ inputs.scgallery-ref }}
           fetch-depth: 0
 
-      - name: Generate full matrix
-        if: ${{ inputs.runall }}
+      - name: Generate run matrix
+        if: ${{ inputs.run != 'default' }}
         run: |
           python3 -m venv .venv
           . .venv/bin/activate
           pip3 install .
           # Remove current design matrix
           rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
-          # Replace with full matrix
-          sc-gallery -json $GITHUB_WORKSPACE/.github/workflows/config/designs.json
+          if ${{ inputs.run == 'all' }}; then
+            # Replace with full matrix
+            sc-gallery -json $GITHUB_WORKSPACE/.github/workflows/config/designs.json
+          else
+            # Replace with tiny matrix
+            sc-gallery -design heartbeat -json $GITHUB_WORKSPACE/.github/workflows/config/designs.json
+          fi
 
       - name: Get design matrix
         id: designs
