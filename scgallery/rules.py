@@ -60,7 +60,11 @@ def new_value(chip, metric, job, step, index, operator, padding, margin, bounds)
     return newvalue
 
 
-def update_rule_value(chip, metric, job, step, index, operator, check_value, padding, margin, bounds, method):
+def update_rule_value(chip, metric,
+                      job, step, index,
+                      operator, check_value,
+                      padding, margin, bounds,
+                      method):
     value = chip.get('metric', metric, job=job, step=step, index=index)
 
     is_passing = chip._safecompare(value, operator, check_value)
@@ -74,7 +78,8 @@ def update_rule_value(chip, metric, job, step, index, operator, check_value, pad
         # nothing to change
         return check_value
 
-    if method == UpdateMethod.TightenPassing and not chip._safecompare(new_check_value, operator, check_value):
+    if method == UpdateMethod.TightenPassing and \
+       not chip._safecompare(new_check_value, operator, check_value):
         return check_value
 
     return new_check_value
@@ -105,7 +110,7 @@ def create_rules(chip):
                 try:
                     value = new_value(
                         chip,
-                        criteria['metric'],\
+                        criteria['metric'],
                         job, step, index,
                         criteria['operator'],
                         criteria['update']['padding'],
@@ -145,7 +150,7 @@ def update_rules(chip, method, rules):
 
         if len(nodes) > 1:
             continue
-    
+
         for criteria in info['criteria']:
             for step, index in nodes:
                 if step == '*' or index == '*':
@@ -154,7 +159,7 @@ def update_rules(chip, method, rules):
                 try:
                     value = update_rule_value(
                         chip,
-                        criteria['metric'],\
+                        criteria['metric'],
                         job, step, index,
                         criteria['operator'],
                         criteria['value'],
@@ -167,7 +172,9 @@ def update_rules(chip, method, rules):
 
                 if criteria['value'] != value:
                     criteria_prefix = f"{criteria['metric']}{criteria['operator']}"
-                    chip.logger.info(f"Updating {rule} for {job}/{step}{index} from {criteria_prefix}{criteria['value']} to {criteria_prefix}{value}")
+                    chip.logger.info(
+                        f"Updating {rule} for {job}/{step}{index} from "
+                        f"{criteria_prefix}{criteria['value']} to {criteria_prefix}{value}")
                     criteria['value'] = value
 
 
