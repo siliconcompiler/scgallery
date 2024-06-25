@@ -40,10 +40,6 @@ jobs:
 
   update_montage:
     name: Merge image artifacts
-    runs-on: ubuntu-latest
     if: always() && !failure() && !cancelled()
     needs: designs
-
-    steps:
-      - name: Generate montage
-        uses: ./.github/workflows/montage.yml
+    uses: ./.github/workflows/montage.yml
