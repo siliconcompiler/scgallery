@@ -258,7 +258,7 @@ def test_update_value_tightenpassing(metrics_chip):
                                    'job0', 'syn', '2',
                                    '>=', 120, 0.1, 0, {}, method) == 135
 
-    # already thight
+    # already tight
     assert rules.update_rule_value(metrics_chip, 'cells',
                                    'job0', 'syn', '2',
                                    '>=', 140, 0.1, 0, {}, method) == 140
