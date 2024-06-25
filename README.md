@@ -26,10 +26,13 @@ Utilize the same python environment as SiliconCompiler.
     sc-gallery -gallery private.gallery -design aes  # Will run on all supported targets in your private gallery
     sc-gallery -gallery private.gallery  # Will run all designs on all targets in your private gallery
 
-# To check rules:
+# To check, create, and update rules:
 
-    python3 scgallery/rules.py -cfg <cfg> -rules <rules> -check  # Check if run met the rule requirements.
-    python3 scgallery/rules.py -cfg <cfg> -rules <rules> -update  # Update rules based on last run.
+    python3 -m scgallery.rules -cfg <cfg> -rules <rules> -check  # Check if run met the rule requirements.
+    python3 -m scgallery.rules -cfg <cfg> -rules <rules> -create  # Create an initial set of rules.
+    python3 -m scgallery.rules -cfg <cfg> -rules <rules> -update_all  # Update rules based on the run.
+    python3 -m scgallery.rules -cfg <cfg> -rules <rules> -tighten_passing  # Update passing rules based on the run.
+    python3 -m scgallery.rules -cfg <cfg> -rules <rules> -update_failing  # Update failing rules based on the run.
 
 # Contributing
 

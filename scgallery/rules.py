@@ -1,10 +1,12 @@
 import argparse
-import siliconcompiler
+from siliconcompiler import Chip, SiliconCompilerError
 import os
 import sys
 import json
 import math
 from enum import Enum, auto
+from datetime import datetime
+from scgallery.checklists import asicflow_rules
 
 
 class UpdateMethod(Enum):
@@ -13,378 +15,167 @@ class UpdateMethod(Enum):
     TightenPassing = auto()
 
 
-def __rule_name(rule):
-    if isinstance(rule['key'], (list, tuple)):
-        base = ",".join(rule['key'][1:])
-    else:
-        base = rule['key']
-    return f"{base}-{rule['step']}{rule['index']}"
+def new_value(chip, metric, job, step, index, operator, padding, margin, bounds):
+    value = chip.get('metric', metric, job=job, step=step, index=index)
 
-
-def __new_value(value, update_rule):
     if value is None:
         return None
 
-    vtype = type(value)
+    if operator == '==':
+        return value
 
-    new_value = value
-    if update_rule['method'] == 'padding':
-        new_value *= update_rule['value']
-    elif update_rule['method'] == 'sum':
-        new_value += update_rule['value']
+    sc_type = chip.get('metric', metric, field='type', job=job)
 
-    if update_rule['bounds']['min_value'] is not None:
-        check_value = new_value
-        min_value = update_rule['bounds']['min_value']
+    newvalue = value
+    if padding:
+        if '>' in operator:
+            if newvalue < 0:
+                newvalue *= 1 + padding
+            else:
+                newvalue *= 1 - padding
+        elif '<' in operator:
+            if newvalue < 0:
+                newvalue *= 1 - padding
+            else:
+                newvalue *= 1 + padding
+    elif margin:
+        if '>' in operator:
+            newvalue -= margin
+        elif '<' in operator:
+            newvalue += margin
 
-        if update_rule['bounds']['mode'] == 'sum':
-            check_value += min_value
-        elif update_rule['bounds']['mode'] == 'multiply':
-            check_value = value * min_value
-            min_value = new_value
+    if sc_type == 'int':
+        if '>' in operator:
+            newvalue = math.floor(newvalue)
+        elif '<' in operator:
+            newvalue = math.ceil(newvalue)
+        newvalue = int(newvalue)
 
-        new_value = min(check_value, min_value)
+    if bounds:
+        if 'max' in bounds:
+            newvalue = min(bounds['max'], newvalue)
+        if 'min' in bounds:
+            newvalue = max(bounds['min'], newvalue)
 
-    if update_rule['bounds']['max_value'] is not None:
-        check_value = new_value
-        max_value = update_rule['bounds']['max_value']
-
-        if update_rule['bounds']['mode'] == 'sum':
-            check_value += max_value
-        elif update_rule['bounds']['mode'] == 'multiply':
-            check_value = value * max_value
-            max_value = new_value
-
-        new_value = max(check_value, max_value)
-
-    if math.isinf(new_value) or math.isnan(new_value):
-        new_value = value
-
-    if update_rule['round']:
-        new_value = round(new_value)
-    else:
-        new_value = math.ceil(new_value * 1000) / 1000.0
-
-    return vtype(new_value)
+    return newvalue
 
 
-def __get_rule_value(chip, rule, errors=None):
-    if errors is None:
-        errors = []
+def update_rule_value(chip, metric,
+                      job, step, index,
+                      operator, check_value,
+                      padding, margin, bounds,
+                      method):
+    value = chip.get('metric', metric, job=job, step=step, index=index)
 
-    key = rule['key']
-    step = rule['step']
-    index = rule['index']
+    is_passing = chip._safecompare(value, operator, check_value)
+    if method == UpdateMethod.OnlyFailing and is_passing:
+        # already passing
+        return check_value
 
-    if 'file' in rule:
-        metric_file = os.path.join(chip._getworkdir(step=step, index=index),
-                                   rule['file'])
-        if not os.path.exists(metric_file):
-            errors.append(f'Design file {metric_file} does not exist for {key}')
-            return None
+    new_check_value = new_value(chip, metric, job, step, index, operator, padding, margin, bounds)
 
-        with open(metric_file, 'r') as f:
-            file_data = json.load(f)
+    if new_check_value == check_value:
+        # nothing to change
+        return check_value
 
-        if key not in file_data:
-            errors.append(f'Design file {rule["file"]} does not contain {key}')
-            return None
+    if method == UpdateMethod.TightenPassing and \
+       not chip._safecompare(new_check_value, operator, check_value):
+        return check_value
 
-        design_value = file_data[key]
-    else:
-        if not chip.valid(*key):
-            errors.append(f'Design does not contain {key}')
-            return None
-
-        design_value = chip.get(*key, step=step, index=index)
-
-    if design_value is None:
-        return None
-
-    return design_value
-
-
-def __check_rule(chip, rule, errors=None):
-    if errors is None:
-        errors = []
-
-    key = rule['key']
-    step = rule['step']
-    index = rule['index']
-    compare = rule['compare']
-    check_value = rule['value']
-    design_value = __get_rule_value(chip, rule, errors)
-
-    if design_value is None:
-        errors.append(f'{key} in {step}{index} does not contain any data')
-        return False
-
-    if not chip._safecompare(design_value, compare, check_value):
-        errors.append(f'{key} in {step}{index}: {design_value} {compare} {check_value}')
-        return False
-
-    return True
-
-
-def __check_rules(chip, rules):
-    errors = []
-    for rule in rules:
-        __check_rule(chip, rule, errors=errors)
-
-    return errors
-
-
-def __update_rule(chip, rule, method):
-    is_passing = __check_rule(chip, rule)
-    if method == UpdateMethod.OnlyFailing:
-        if is_passing:
-            return
-
-    metric_value = __get_rule_value(chip, rule)
-
-    old_value = rule['value']
-    new_value = __new_value(metric_value, rule['update'])
-    op = rule['compare']
-    update = new_value != old_value
-    if method == UpdateMethod.TightenPassing:
-        update = update and chip._safecompare(metric_value, op, new_value)
-    if update:
-        rule['value'] = new_value
-        chip.logger.info(f'Updating rule for {__rule_name(rule)} '
-                         f'from {op} {old_value} to {op} {new_value}')
+    return new_check_value
 
 
 def create_rules(chip):
-    # TODO create base list of rules
-    new_rules = [
-        {
-            "key": [
-                "metric",
-                "cellarea"
-            ],
-            "step": "syn",
-            "index": "0",
-            "compare": "<=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 1.15,
-                "bounds": {
-                    "mode": None,
-                    "min_value": None,
-                    "max_value": None
-                },
-                "round": False
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "cellarea"
-            ],
-            "step": "place",
-            "index": "0",
-            "compare": "<=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 1.15,
-                "bounds": {
-                    "mode": None,
-                    "min_value": None,
-                    "max_value": None
-                },
-                "round": True
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "cells"
-            ],
-            "step": "place",
-            "index": "0",
-            "compare": "<=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 1.15,
-                "bounds": {
-                    "mode": None,
-                    "min_value": None,
-                    "max_value": None
-                },
-                "round": True
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "setupslack"
-            ],
-            "step": "cts",
-            "index": "0",
-            "compare": ">=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 0.75,
-                "bounds": {
-                    "mode": None,
-                    "min_value": 0,
-                    "max_value": None
-                },
-                "round": False
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "wirelength"
-            ],
-            "step": "route",
-            "index": "0",
-            "compare": "<=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 1.15,
-                "bounds": {
-                    "mode": None,
-                    "min_value": None,
-                    "max_value": None
-                },
-                "round": True
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "setupslack"
-            ],
-            "step": "export",
-            "index": "1",
-            "compare": ">=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 0.95,
-                "bounds": {
-                    "mode": None,
-                    "min_value": 0.0,
-                    "max_value": None
-                },
-                "round": False
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "cellarea"
-            ],
-            "step": "export",
-            "index": "1",
-            "compare": "<=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 1.15,
-                "bounds": {
-                    "mode": None,
-                    "min_value": None,
-                    "max_value": None
-                },
-                "round": True
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "setuppaths"
-            ],
-            "step": "export",
-            "index": "1",
-            "compare": "<=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 1.2,
-                "bounds": {
-                    "mode": "sum",
-                    "min_value": None,
-                    "max_value": 10
-                },
-                "round": True
-            }
-        },
-        {
-            "key": [
-                "metric",
-                "holdpaths"
-            ],
-            "step": "export",
-            "index": "1",
-            "compare": "<=",
-            "value": None,
-            "update": {
-                "method": "padding",
-                "value": 1.2,
-                "bounds": {
-                    "mode": "sum",
-                    "min_value": None,
-                    "max_value": 10
-                },
-                "round": True
-            }
-        }
-    ]
+    template = os.path.join(os.path.dirname(__file__), 'checklists', 'asicflow_template.json')
+    with open(template) as f:
+        new_rules = json.load(f)
 
-    design_rules = []
-    for new_rule in new_rules:
-        metric_value = __get_rule_value(chip, new_rule)
-        new_rule['value'] = metric_value
-        if new_rule['value'] is not None:
-            chip.logger.info(f"Setting {__rule_name(new_rule)} to "
-                             f"{new_rule['compare']} {new_rule['value']}")
-            design_rules.append(new_rule)
-    return design_rules
+    job = chip.get('option', 'jobname')
+
+    # create initial check values
+    for info in new_rules.values():
+        nodes = set([(node['step'], node['index']) for node in info['nodes']])
+
+        used_nodes = set()
+        for criteria in info['criteria']:
+            if len(nodes) > 1:
+                used_nodes = nodes
+                continue
+
+            for step, index in nodes:
+                if step == '*' or index == '*':
+                    used_nodes.add((step, index))
+                    continue
+
+                try:
+                    value = new_value(
+                        chip,
+                        criteria['metric'],
+                        job, step, index,
+                        criteria['operator'],
+                        criteria['update']['padding'],
+                        criteria['update']['margin'],
+                        criteria['update']['bounds'])
+                except SiliconCompilerError:
+                    continue
+
+                criteria['value'] = value
+                used_nodes.add((step, index))
+
+        info['nodes'] = [{"step": step, "index": index} for step, index in used_nodes]
+
+    for rule in list(new_rules.keys()):
+        if not new_rules[rule]['nodes']:
+            del new_rules[rule]
+
+    return new_rules
 
 
-def update_all_rules(chip, rules):
-    for rule in rules:
-        __update_rule(chip, rule, UpdateMethod.All)
+def update_rules(chip, method, rules):
+    rules["date"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
-
-def update_failing_rules(chip, rules):
-    for rule in rules:
-        __update_rule(chip, rule, UpdateMethod.OnlyFailing)
-
-
-def update_passing_rules(chip, rules):
-    for rule in rules:
-        __update_rule(chip, rule, UpdateMethod.TightenPassing)
-
-
-def check_rules(chip, rules_files):
     mainlib = chip.get('asic', 'logiclib')[0]
 
-    if not isinstance(rules_files, (list, tuple)):
-        rules_files = [rules_files]
+    if mainlib not in rules:
+        raise ValueError(f'{mainlib} is missing from rules')
 
-    rules = None
-    for rules_file in rules_files:
-        with open(rules_file, 'r') as f:
-            rules = json.load(f)
+    job = chip.get('option', 'jobname')
 
-        if mainlib in rules:
-            break
+    flow = chip.get('option', 'flow')
+    if flow not in rules[mainlib]:
+        raise ValueError(f'{flow} is missing from rules')
 
-        rules = None
+    for rule, info in rules[mainlib][flow]['rules'].items():
+        nodes = set([(node['step'], node['index']) for node in info['nodes']])
 
-    if not rules:
-        return [f'{mainlib} not found in rules']
+        if len(nodes) > 1:
+            continue
 
-    return __check_rules(chip, rules[mainlib])
+        for criteria in info['criteria']:
+            for step, index in nodes:
+                if step == '*' or index == '*':
+                    continue
+
+                try:
+                    value = update_rule_value(
+                        chip,
+                        criteria['metric'],
+                        job, step, index,
+                        criteria['operator'],
+                        criteria['value'],
+                        criteria['update']['padding'],
+                        criteria['update']['margin'],
+                        criteria['update']['bounds'],
+                        method)
+                except SiliconCompilerError:
+                    continue
+
+                if criteria['value'] != value:
+                    criteria_prefix = f"{criteria['metric']}{criteria['operator']}"
+                    chip.logger.info(
+                        f"Updating {rule} for {job}/{step}{index} from "
+                        f"{criteria_prefix}{criteria['value']} to {criteria_prefix}{value}")
+                    criteria['value'] = value
 
 
 if __name__ == "__main__":
@@ -415,41 +206,52 @@ if __name__ == "__main__":
     if not os.path.exists(args.cfg):
         raise FileNotFoundError(args.cfg)
 
-    if not os.path.exists(args.rules):
-        raise FileNotFoundError(args.rules)
-
-    chip = siliconcompiler.Chip('check')
+    chip = Chip('check')
     chip.read_manifest(args.cfg)
 
-    mainlib = chip.get('asic', 'logiclib')[0]
-
-    with open(args.rules, 'r') as f:
-        rules = json.load(f)
+    mainlib = chip.get('asic', 'logiclib', step='global', index='global')[0]
 
     if args.create:
+        # create initial set of rules
+        if args.rules and os.path.exists(args.rules):
+            with open(args.rules, 'r') as f:
+                rules = json.load(f)
+        else:
+            rules = {}
+
         if mainlib in rules:
             raise ValueError(mainlib)
-        rules[mainlib] = create_rules(chip)
-    else:
-        if mainlib not in rules:
-            raise ValueError(mainlib)
 
-        librules = rules[mainlib]
+        rules[mainlib] = {
+            chip.get('option', 'flow'): {
+                "date": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
+                "rules": create_rules(chip)
+            }
+        }
+    else:
+        if args.rules:
+            if not os.path.exists(args.rules):
+                raise FileNotFoundError(args.rules)
+        else:
+            raise ValueError('rules file is required.')
+
+        with open(args.rules, 'r') as f:
+            rules = json.load(f)
+
         if args.check:
-            errors = check_rules(chip, args.rules)
-            for error in errors:
-                chip.logger.error(error)
-            if errors:
+            chip.summary(generate_image=False, generate_html=False)
+            chip.use(asicflow_rules, rules_file=args.rules)
+            if not chip.check_checklist('asicflow_rules', verbose=True, require_reports=False):
                 sys.exit(1)
             else:
                 sys.exit(0)
 
         if args.update_all:
-            update_all_rules(chip, librules)
+            update_rules(chip, UpdateMethod.All, rules)
         elif args.tighten_passing:
-            update_passing_rules(chip, librules)
+            update_rules(chip, UpdateMethod.TightenPassing, rules)
         elif args.update_failing:
-            update_failing_rules(chip, librules)
+            update_rules(chip, UpdateMethod.OnlyFailing, rules)
 
     with open(args.rules, 'w') as f:
         json.dump(rules, f, indent=4, sort_keys=True)
