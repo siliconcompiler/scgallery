@@ -1,4 +1,4 @@
-[![Python CI](https://github.com/siliconcompiler/scgallery/actions/workflows/python_ci.yml/badge.svg)](https://github.com/siliconcompiler/scgallery/actions/workflows/python_ci.yml)
+[![General CI](https://github.com/siliconcompiler/scgallery/actions/workflows/general_ci.yml/badge.svg)](https://github.com/siliconcompiler/scgallery/actions/workflows/general_ci.yml)
 [![Lint](https://github.com/siliconcompiler/scgallery/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/siliconcompiler/scgallery/actions/workflows/lint.yml)
 
 # SiliconCompiler Design Gallery
