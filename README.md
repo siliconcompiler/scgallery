@@ -23,8 +23,8 @@ Utilize the same python environment as SiliconCompiler.
 
 # Extending with proprietary design and technologies:
 
-    sc-gallery -gallery orfs.gallery -design aes  # Will run on all supported targets in ORFS
-    sc-gallery -gallery orfs.gallery  # Will run all designs on all targets in ORFS
+    sc-gallery -gallery private.gallery -design aes  # Will run on all supported targets in your private gallery
+    sc-gallery -gallery private.gallery  # Will run all designs on all targets in your private gallery
 
 # To check rules:
 
