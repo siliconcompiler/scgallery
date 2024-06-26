@@ -115,7 +115,7 @@ jobs:
 
   docker_image:
     needs: sc_version
-    if: always()
+    if: inputs.sc-ref != '' || needs.sc_version.result == 'success'
     name: Get tools image
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
@@ -254,7 +254,7 @@ jobs:
           retention-days: 7
 
   collect_manifests:
-    name: Collect manifests
+    name: Merge manifests artifacts
     runs-on: ubuntu-latest
     if: ${{ always() && !failure() && !cancelled() }}
     needs: designs_test
