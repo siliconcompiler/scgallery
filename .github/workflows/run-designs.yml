@@ -53,7 +53,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate run matrix
-        if: ${{ inputs.run != 'default' }}
+        if: inputs.run != 'default'
         run: |
           python3 -m venv .venv
           . .venv/bin/activate
@@ -115,7 +115,7 @@ jobs:
 
   docker_image:
     needs: sc_version
-    if: always()
+    if: inputs.sc-ref != '' || needs.sc_version.result == 'success'
     name: Get tools image
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
@@ -124,7 +124,6 @@ jobs:
   designs_test:
     needs: [wheel, docker_image, designs]
     runs-on: ubuntu-latest
-    if: always() && !failure() && !cancelled()
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
 
@@ -187,7 +186,7 @@ jobs:
           fi
 
       - name: Generate artifact name
-        if: ${{ !cancelled() }}
+        if: always() && !cancelled()
         id: artifact_name
         run: |
           if [ -z "${{ matrix.target }}" ] ; then
@@ -199,7 +198,7 @@ jobs:
           echo name=${ART_NAME} >> $GITHUB_OUTPUT # update GitHub vars
 
       - name: Upload gallery image
-        if: ${{ !cancelled() }}
+        if: always() && !cancelled()
         continue-on-error: true
         uses: actions/upload-artifact@v4.3.3
         with:
@@ -209,7 +208,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload run manifest
-        if: ${{ !cancelled() }}
+        if: always() && !cancelled()
         continue-on-error: true
         uses: actions/upload-artifact@v4.3.3
         with:
@@ -219,7 +218,8 @@ jobs:
           if-no-files-found: error
 
       - name: Upload run artifacts
-        if: ${{ !cancelled() }}
+        id: upload_run
+        if: always() && !cancelled()
         continue-on-error: true
         uses: actions/upload-artifact@v4.3.3
         with:
@@ -228,8 +228,18 @@ jobs:
           retention-days: 2
           if-no-files-found: error
 
+      - name: Upload build directory
+        if: always() && !cancelled() && steps.upload_run.outputs.artifact-id == ''
+        continue-on-error: true
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: ${{ steps.artifact_name.outputs.name }}-builddir
+          path: build/
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Upload issue artifacts
-        if: ${{ !cancelled() }}
+        if: always() && !cancelled()
         continue-on-error: true
         uses: actions/upload-artifact@v4.3.3
         with:
@@ -241,7 +251,7 @@ jobs:
   merge_images:
     name: Merge image artifacts
     runs-on: ubuntu-latest
-    if: ${{ always() && !failure() && !cancelled() }}
+    if: always() && !failure() && !cancelled()
     needs: designs_test
 
     steps:
@@ -254,9 +264,9 @@ jobs:
           retention-days: 7
 
   collect_manifests:
-    name: Collect manifests
+    name: Merge manifests artifacts
     runs-on: ubuntu-latest
-    if: ${{ always() && !failure() && !cancelled() }}
+    if: always() && !failure() && !cancelled()
     needs: designs_test
 
     steps:
