@@ -29,6 +29,11 @@ on:
         type: string
         default: default
         description: types of designs to run
+      timeout:
+        required: false
+        type: number
+        default: 120
+        description: timeout for design matrix in minutes
 
 name: 'All Gallery Designs Workflow'
 
@@ -57,6 +62,7 @@ jobs:
         run: |
           python3 -m venv .venv
           . .venv/bin/activate
+
           pip3 install .
           # Remove current design matrix
           rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
@@ -173,7 +179,7 @@ jobs:
           pip install -e ./lambdapdk
 
       - name: Run gallery
-        timeout-minutes: 120
+        timeout-minutes: ${{ inputs.timeout }}
         run: |
           REMOTE_ARGS=""
           if [[ "${{ matrix.remote }}" = "true" ]] ; then
