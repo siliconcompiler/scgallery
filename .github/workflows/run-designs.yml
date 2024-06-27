@@ -57,6 +57,10 @@ jobs:
           ref: ${{ inputs.scgallery-ref }}
           fetch-depth: 0
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Generate run matrix
         if: inputs.run != 'default'
         run: |
@@ -95,6 +99,10 @@ jobs:
           ref: ${{ inputs.scgallery-ref }}
           fetch-depth: 0
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - uses: hynek/build-and-inspect-python-package@v2.6.0
         id: wheel
         with:
@@ -114,6 +122,10 @@ jobs:
         with:
           ref: ${{ inputs.lambdapdk-ref }}
           repository: siliconcompiler/lambdapdk
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - uses: hynek/build-and-inspect-python-package@v2.6.0
         id: wheel
@@ -135,6 +147,10 @@ jobs:
           ref: ${{ inputs.sc-ref }}
           repository: siliconcompiler/siliconcompiler
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - uses: hynek/build-and-inspect-python-package@v2.6.0
         id: wheel
         with:
@@ -153,6 +169,10 @@ jobs:
         with:
           name: ${{ needs.package_sc.outputs.name }}
           path: dist
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - name: Install gallery
         run: |
@@ -187,6 +207,10 @@ jobs:
 
     name: Run design
     steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Update pip
         run: |
           pip3 install --upgrade pip
