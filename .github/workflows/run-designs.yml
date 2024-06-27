@@ -81,8 +81,11 @@ jobs:
           echo "$(python3 $GITHUB_WORKSPACE/scripts/report_configs.py --markdown)" >> $GITHUB_STEP_SUMMARY
 
   wheel:
-    name: Build wheel
+    name: Package gallery
     runs-on: ubuntu-latest
+
+    outputs:
+      name: ${{ steps.wheel.outputs.artifact-name }}
 
     steps:
       - name: Checkout repository
@@ -92,7 +95,30 @@ jobs:
           ref: ${{ inputs.scgallery-ref }}
           fetch-depth: 0
 
-      - uses: hynek/build-and-inspect-python-package@v2
+      - uses: hynek/build-and-inspect-python-package@v2.6.0
+        id: wheel
+        with:
+          upload-name-suffix: '-gallery'
+
+  package_lambdapdk:
+    if: inputs.lambdapdk-ref != ''
+    name: Package lambdapdk
+    runs-on: ubuntu-latest
+
+    outputs:
+      name: ${{ steps.wheel.outputs.artifact-name }}
+
+    steps:
+      - name: Get lambdapdk
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.lambdapdk-ref }}
+          repository: siliconcompiler/lambdapdk
+
+      - uses: hynek/build-and-inspect-python-package@v2.6.0
+        id: wheel
+        with:
+          upload-name-suffix: '-lambdapdk'
 
   sc_version:
     if: inputs.sc-ref == ''
@@ -106,13 +132,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4.1.7
         with:
-          name: Packages
+          name: ${{ needs.wheel.outputs.name }}
           path: dist
 
       - name: Install gallery
         run: |
-          pip install --upgrade pip
-          pip install dist/*.whl
+          pip3 install --upgrade pip
+          pip3 install dist/*.whl
 
       - name: Get version
         id: sc_version
@@ -128,7 +154,7 @@ jobs:
       sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
 
   designs_test:
-    needs: [wheel, docker_image, designs]
+    needs: [wheel, docker_image, designs, package_lambdapdk]
     if: always() && !cancelled()
     runs-on: ubuntu-latest
     container:
@@ -144,13 +170,11 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4.1.7
         with:
-          name: Packages
-          path: dist
+          name: ${{ needs.wheel.outputs.name }}
+          path: dist-gallery
 
       - name: Install gallery
-        run: |
-          pip install --upgrade pip
-          pip install dist/*.whl
+        run: pip3 install dist-gallery/*.whl
 
       - name: Get SC
         if: inputs.sc-ref != ''
@@ -167,16 +191,14 @@ jobs:
 
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
-        uses: actions/checkout@v4
+        uses: actions/download-artifact@v4.1.7
         with:
-          ref: ${{ inputs.lambdapdk-ref }}
-          path: lambdapdk
-          repository: siliconcompiler/lambdapdk
+          name: ${{ needs.package_lambdapdk.outputs.name }}
+          path: dist-pdk
 
       - name: Install Lambdapdk
         if: inputs.lambdapdk-ref != ''
-        run: |
-          pip install -e ./lambdapdk
+        run: pip3 install dist-pdk/*.whl
 
       - name: Run gallery
         timeout-minutes: ${{ inputs.timeout }}
