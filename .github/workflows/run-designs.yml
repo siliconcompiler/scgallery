@@ -115,7 +115,7 @@ jobs:
 
   docker_image:
     needs: sc_version
-    if: inputs.sc-ref != '' || needs.sc_version.result == 'success'
+    if: always() && !cancelled()
     name: Get tools image
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
