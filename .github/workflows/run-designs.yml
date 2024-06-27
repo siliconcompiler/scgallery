@@ -29,6 +29,11 @@ on:
         type: string
         default: default
         description: types of designs to run
+      timeout:
+        required: false
+        type: number
+        default: 120
+        description: timeout for design matrix in minutes
 
 name: 'All Gallery Designs Workflow'
 
@@ -55,8 +60,6 @@ jobs:
       - name: Generate run matrix
         if: inputs.run != 'default'
         run: |
-          python3 -m venv .venv
-          . .venv/bin/activate
           pip3 install .
           # Remove current design matrix
           rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
@@ -75,8 +78,11 @@ jobs:
           echo "$(python3 $GITHUB_WORKSPACE/scripts/report_configs.py --markdown)" >> $GITHUB_STEP_SUMMARY
 
   wheel:
-    name: Build wheel
+    name: Package gallery
     runs-on: ubuntu-latest
+
+    outputs:
+      name: ${{ steps.wheel.outputs.artifact-name }}
 
     steps:
       - name: Checkout repository
@@ -86,11 +92,53 @@ jobs:
           ref: ${{ inputs.scgallery-ref }}
           fetch-depth: 0
 
-      - uses: hynek/build-and-inspect-python-package@v2
+      - uses: hynek/build-and-inspect-python-package@v2.6.0
+        id: wheel
+        with:
+          upload-name-suffix: '-gallery'
+
+  package_lambdapdk:
+    if: inputs.lambdapdk-ref != ''
+    name: Package lambdapdk
+    runs-on: ubuntu-latest
+
+    outputs:
+      name: ${{ steps.wheel.outputs.artifact-name }}
+
+    steps:
+      - name: Get lambdapdk
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.lambdapdk-ref }}
+          repository: siliconcompiler/lambdapdk
+
+      - uses: hynek/build-and-inspect-python-package@v2.6.0
+        id: wheel
+        with:
+          upload-name-suffix: '-lambdapdk'
+
+  package_sc:
+    if: inputs.sc-ref != ''
+    name: Package siliconcompiler
+    runs-on: ubuntu-latest
+
+    outputs:
+      name: ${{ steps.wheel.outputs.artifact-name }}
+
+    steps:
+      - name: Get SiliconCompiler
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sc-ref }}
+          repository: siliconcompiler/siliconcompiler
+
+      - uses: hynek/build-and-inspect-python-package@v2.6.0
+        id: wheel
+        with:
+          upload-name-suffix: '-siliconcompiler'
 
   sc_version:
-    if: inputs.sc-ref == ''
-    needs: wheel
+    needs: package_sc
     name: Get SiliconCompiler version
     runs-on: ubuntu-latest
 
@@ -100,13 +148,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4.1.7
         with:
-          name: Packages
+          name: ${{ needs.package_sc.outputs.name }}
           path: dist
 
       - name: Install gallery
         run: |
-          pip install --upgrade pip
-          pip install dist/*.whl
+          pip3 install --upgrade pip
+          pip3 install dist/*.whl
 
       - name: Get version
         id: sc_version
@@ -122,7 +170,7 @@ jobs:
       sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
 
   designs_test:
-    needs: [wheel, docker_image, designs]
+    needs: [wheel, docker_image, designs, package_sc, package_lambdapdk]
     if: always() && !cancelled()
     runs-on: ubuntu-latest
     container:
@@ -136,44 +184,42 @@ jobs:
 
     name: Run design
     steps:
+      - name: Update pip
+        run: |
+          pip3 install --upgrade pip
+
       - uses: actions/download-artifact@v4.1.7
         with:
-          name: Packages
-          path: dist
+          name: ${{ needs.wheel.outputs.name }}
+          path: dist-gallery
 
       - name: Install gallery
-        run: |
-          pip install --upgrade pip
-          pip install dist/*.whl
+        run: pip3 install dist-gallery/*.whl
 
       - name: Get SC
         if: inputs.sc-ref != ''
-        uses: actions/checkout@v4
+        uses: actions/download-artifact@v4.1.7
         with:
-          ref: ${{ inputs.sc-ref }}
-          path: sc
-          repository: siliconcompiler/siliconcompiler
+          name: ${{ needs.package_sc.outputs.name }}
+          path: dist-sc
 
       - name: Install SC
         if: inputs.sc-ref != ''
-        run: |
-          pip install ./sc
+        run: pip3 install dist-sc/*.whl
 
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
-        uses: actions/checkout@v4
+        uses: actions/download-artifact@v4.1.7
         with:
-          ref: ${{ inputs.lambdapdk-ref }}
-          path: lambdapdk
-          repository: siliconcompiler/lambdapdk
+          name: ${{ needs.package_lambdapdk.outputs.name }}
+          path: dist-pdk
 
       - name: Install Lambdapdk
         if: inputs.lambdapdk-ref != ''
-        run: |
-          pip install -e ./lambdapdk
+        run: pip3 install dist-pdk/*.whl
 
       - name: Run gallery
-        timeout-minutes: 120
+        timeout-minutes: ${{ inputs.timeout }}
         run: |
           REMOTE_ARGS=""
           if [[ "${{ matrix.remote }}" = "true" ]] ; then
