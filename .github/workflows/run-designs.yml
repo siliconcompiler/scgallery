@@ -123,6 +123,7 @@ jobs:
 
   designs_test:
     needs: [wheel, docker_image, designs]
+    if: always() && !cancelled()
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
