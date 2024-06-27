@@ -137,9 +137,6 @@ jobs:
     name: Package siliconcompiler
     runs-on: ubuntu-latest
 
-    outputs:
-      name: ${{ steps.wheel.outputs.artifact-name }}
-
     steps:
       - name: Get SiliconCompiler
         uses: actions/checkout@v4
@@ -151,12 +148,23 @@ jobs:
         with:
           python-version: '3.11'
 
-      - uses: hynek/build-and-inspect-python-package@v2.6.0
-        id: wheel
+      - name: Build wheel
+        run:
+          python3 setup.py bdist_wheel
+
+      - name: Upload siliconcompiler wheel
+        id: upload
+        if: always() && !cancelled()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4.3.3
         with:
-          upload-name-suffix: '-siliconcompiler'
+          name: gallery-siliconcompiler-wheel
+          path: dist/*.whl
+          retention-days: 2
+          if-no-files-found: error
 
   sc_version:
+    if: inputs.sc-ref == ''
     needs: package_sc
     name: Get SiliconCompiler version
     runs-on: ubuntu-latest
@@ -167,7 +175,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4.1.7
         with:
-          name: ${{ needs.package_sc.outputs.name }}
+          name: gallery-siliconcompiler-wheel
           path: dist
 
       - uses: actions/setup-python@v5
@@ -227,7 +235,7 @@ jobs:
         if: inputs.sc-ref != ''
         uses: actions/download-artifact@v4.1.7
         with:
-          name: ${{ needs.package_sc.outputs.name }}
+          name: gallery-siliconcompiler-wheel
           path: dist-sc
 
       - name: Install SC
