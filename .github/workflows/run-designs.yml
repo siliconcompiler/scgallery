@@ -168,9 +168,6 @@ jobs:
 
     name: Run design
     steps:
-      - name: Update pip
-        run: pip3 install --upgrade pip
-
       - uses: actions/download-artifact@v4.1.7
         with:
           name: ${{ needs.wheel.outputs.name }}
