@@ -60,6 +60,9 @@ jobs:
       - name: Generate run matrix
         if: inputs.run != 'default'
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
+
           pip3 install .
           # Remove current design matrix
           rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
