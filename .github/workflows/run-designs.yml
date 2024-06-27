@@ -150,6 +150,7 @@ jobs:
 
       - name: Build wheel
         run:
+          pip3 install wheel
           python3 setup.py bdist_wheel
 
       - name: Upload siliconcompiler wheel
