@@ -93,3 +93,12 @@ jobs:
         run: |
           . .venv/bin/activate
           pytest -m "eda"
+
+  designs_workflow:
+    name: Github Action Workflow Check
+    uses: ./.github/workflows/run-designs.yml
+    with:
+      scgallery-ref: ${{ github.ref }}
+      fail-fast: false
+      run: 'tiny'
+    secrets: inherit
