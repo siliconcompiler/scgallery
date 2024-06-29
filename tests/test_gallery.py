@@ -96,7 +96,8 @@ def test_default_targets():
                                      "gf180_demo",
                                      "asap7_asap7sc7p5t_lvt",
                                      "asap7_asap7sc7p5t_slvt",
-                                     "gf180_gf180mcu_fd_sc_mcu7t5v0"]
+                                     "gf180_gf180mcu_fd_sc_mcu7t5v0",
+                                     "None"]
 
 
 def test_add_design():

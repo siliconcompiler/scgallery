@@ -44,7 +44,8 @@ class Gallery:
                 ("gf180_demo", gf180_demo),
                 ("asap7_asap7sc7p5t_lvt", asap7_asap7sc7p5t_lvt),
                 ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),
-                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0)):
+                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
+                ("None", None)):
             self.add_target(name, target)
 
         self.__designs = {}
@@ -601,7 +602,13 @@ class Gallery:
             runtime_setup = self.__design_runtime_setup(design)
 
             if not self.__design_has_target_option(design, setup_func=runtime_setup):
-                targets = [None]
+                if "None" in targets:
+                    targets = [None]
+                else:
+                    # no target has not been specified
+                    continue
+            else:
+                targets = [target for target in targets if target != "None"]
 
             for target in targets:
                 config_jobs.append(threading.Thread(
