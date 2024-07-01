@@ -30,8 +30,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": true,
         "design": "aes",
         "remote": false,
+        "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
         "target": "skywater130_demo"
     },
     {
