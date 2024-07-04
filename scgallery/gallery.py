@@ -700,8 +700,8 @@ class Gallery:
 
     @staticmethod
     def _register_design_sources(chip):
-        chip.register_package_source(name='scgallery-designs',
-                                     path='python://scgallery.designs')
+        chip.register_source(name='scgallery-designs',
+                             path='python://scgallery.designs')
 
     @staticmethod
     def design_commandline(chip):
