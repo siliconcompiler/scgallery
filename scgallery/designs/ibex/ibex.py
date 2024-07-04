@@ -17,12 +17,12 @@ def setup(target=asap7_demo):
 
     sdc_root = os.path.join('ibex', 'constraints')
 
-    chip.register_package_source('opentitan',
-                                 path='git+https://github.com/lowRISC/opentitan.git',
-                                 ref='6074460f410bd6302cec90f32c7bb96aa8011243')
-    chip.register_package_source('ibex',
-                                 path='git+https://github.com/lowRISC/ibex.git',
-                                 ref='d097c918f5758b11995098103fdad6253fe555e7')
+    chip.register_source('opentitan',
+                         path='git+https://github.com/lowRISC/opentitan.git',
+                         ref='6074460f410bd6302cec90f32c7bb96aa8011243')
+    chip.register_source('ibex',
+                         path='git+https://github.com/lowRISC/ibex.git',
+                         ref='d097c918f5758b11995098103fdad6253fe555e7')
 
     for src in ('ibex_pkg.sv',
                 'ibex_alu.sv',

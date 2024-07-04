@@ -3,7 +3,7 @@ from siliconcompiler import Library
 
 
 def __register(lib):
-    lib.register_package_source(
+    lib.register_source(
         name='caliptra-rtl',
         path='git+https://github.com/chipsalliance/caliptra-rtl.git',
         ref='v1.0')

@@ -16,9 +16,9 @@ def setup(target=asap7_demo):
 
     sdc_root = os.path.join('dynamic_node', 'constraints')
 
-    chip.register_package_source('OPDB',
-                                 path='git+https://github.com/PrincetonUniversity/OPDB.git',
-                                 ref='a80e536ba29779faed68e32d4a202f6b7a93bc9b')
+    chip.register_source('OPDB',
+                         path='git+https://github.com/PrincetonUniversity/OPDB.git',
+                         ref='a80e536ba29779faed68e32d4a202f6b7a93bc9b')
 
     chip.input('modules/dynamic_node_2dmesh/NETWORK_2dmesh/dynamic_node_2dmesh.pickle.v',
                package='OPDB')

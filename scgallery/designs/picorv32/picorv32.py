@@ -15,9 +15,9 @@ def setup(target=skywater130_demo):
 
     sdc_root = os.path.join('picorv32', 'constraints')
 
-    chip.register_package_source(name='picorv32',
-                                 path='git+https://github.com/YosysHQ/picorv32.git',
-                                 ref='c0acaebf0d50afc6e4d15ea9973b60f5f4d03c42')
+    chip.register_source(name='picorv32',
+                         path='git+https://github.com/YosysHQ/picorv32.git',
+                         ref='c0acaebf0d50afc6e4d15ea9973b60f5f4d03c42')
 
     for src in ('picorv32.v',):
         chip.input(src, package='picorv32')

@@ -15,9 +15,9 @@ def setup(target=asap7_demo):
 
     sdc_root = os.path.join('swerv', 'constraints')
 
-    chip.register_package_source('swerv-eh1',
-                                 path='git+https://github.com/chipsalliance/Cores-VeeR-EH1.git',
-                                 ref='695883a674c4a59cf96fae874ff4bfac5fecf4e8')
+    chip.register_source('swerv-eh1',
+                         path='git+https://github.com/chipsalliance/Cores-VeeR-EH1.git',
+                         ref='695883a674c4a59cf96fae874ff4bfac5fecf4e8')
 
     chip.input('swerv/config/common_defines.vh',
                fileset='rtl',

@@ -17,9 +17,9 @@ def setup(target=skywater130_demo):
     src_root = os.path.join('core', 'rtl', 'verilog')
     sdc_root = os.path.join('openmsp430', 'constraints')
 
-    chip.register_package_source(name='openmsp430',
-                                 path='git+https://github.com/olgirard/openmsp430.git',
-                                 ref='92c883abb4518dbc35b027e6cad5ffef5b2fbb81')
+    chip.register_source(name='openmsp430',
+                         path='git+https://github.com/olgirard/openmsp430.git',
+                         ref='92c883abb4518dbc35b027e6cad5ffef5b2fbb81')
 
     for src in ('openMSP430.v',
                 'omsp_frontend.v',
