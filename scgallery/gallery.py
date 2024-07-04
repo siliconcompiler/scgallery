@@ -543,7 +543,7 @@ class Gallery:
 
     def __copy_chip_data(self, chip, report_data):
         jobname = chip.get('option', 'jobname')
-        png = os.path.join(chip._getworkdir(), f'{chip.design}.png')
+        png = os.path.join(chip.getworkdir(), f'{chip.design}.png')
 
         file_root = f'{chip.design}_{jobname}'
 

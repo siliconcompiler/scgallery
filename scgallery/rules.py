@@ -7,6 +7,7 @@ import math
 from enum import Enum, auto
 from datetime import datetime
 from scgallery.checklists import asicflow_rules
+from siliconcompiler import utils
 
 
 class UpdateMethod(Enum):
@@ -67,7 +68,7 @@ def update_rule_value(chip, metric,
                       method):
     value = chip.get('metric', metric, job=job, step=step, index=index)
 
-    is_passing = chip._safecompare(value, operator, check_value)
+    is_passing = utils.safecompare(chip, value, operator, check_value)
     if method == UpdateMethod.OnlyFailing and is_passing:
         # already passing
         return check_value
@@ -79,7 +80,7 @@ def update_rule_value(chip, metric,
         return check_value
 
     if method == UpdateMethod.TightenPassing and \
-       not chip._safecompare(new_check_value, operator, check_value):
+       not utils.safecompare(chip, new_check_value, operator, check_value):
         return check_value
 
     return new_check_value
