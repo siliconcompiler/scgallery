@@ -498,14 +498,11 @@ class Gallery:
         try:
             chip.run()
         except Exception:
-            return chip
+            return chip, False
 
-        return chip
+        return chip, True
 
-    def __finalize(self, design, chip):
-        if not chip:
-            return
-
+    def __finalize(self, design, chip, succeeded):
         report_data = {
             "chip": chip,
             "platform": chip.get('option', 'pdk'),
@@ -513,18 +510,21 @@ class Gallery:
         }
         self.__report_chips.setdefault(design, []).append(report_data)
 
-        chip.summary()
+        if succeeded:
+            chip.summary()
 
-        rules_files = self.__designs[design]['rules']
+            rules_files = self.__designs[design]['rules']
 
-        if rules_files:
-            chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
-            chip.use(asicflow_rules, rules_files=rules_files, skip_rules=self.__skip_rules)
-            error = not chip.check_checklist('asicflow_rules',
-                                             verbose=True,
-                                             require_reports=False)
+            if rules_files:
+                chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
+                chip.use(asicflow_rules, rules_files=rules_files, skip_rules=self.__skip_rules)
+                error = not chip.check_checklist('asicflow_rules',
+                                                 verbose=True,
+                                                 require_reports=False)
+            else:
+                error = None
         else:
-            error = None
+            error = True
 
         self.__status.append({
             "design": design,
@@ -534,7 +534,9 @@ class Gallery:
             "error": error,
             "chip": chip
         })
-        if error:
+        if not succeeded:
+            chip.logger.error("Run failed")
+        elif error:
             chip.logger.error("Rules mismatch")
         elif rules_files:
             chip.logger.info("Rules match")
@@ -648,8 +650,8 @@ class Gallery:
             def _run_remote(chip, design, job):
                 if not chip:
                     return
-                chip = self.__run_design(job)
-                self.__finalize(design, chip)
+                chip, succeeded = self.__run_design(job)
+                self.__finalize(design, chip, succeeded)
 
             jobs = [threading.Thread(
                 target=_run_remote,
@@ -669,8 +671,8 @@ class Gallery:
                 design = job['design']
 
                 print(job['print'])
-                chip = self.__run_design(job)
-                self.__finalize(design, chip)
+                chip, succeeded = self.__run_design(job)
+                self.__finalize(design, chip, succeeded)
 
         self.summary()
 
