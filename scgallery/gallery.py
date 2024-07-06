@@ -474,7 +474,7 @@ class Gallery:
                 else:
                     chip = runtime_setup(self)
             except Exception:
-                return chip
+                return chip, False
 
         jobname = chip.get('option', 'target').split('.')[-1]
         if self.__jobname:
