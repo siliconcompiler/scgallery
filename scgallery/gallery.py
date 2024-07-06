@@ -586,8 +586,12 @@ class Gallery:
             else:
                 chip = None
 
+            print_text = f'Running "{design}"'
+            if target:
+                print_text += f' with "{target}"'
+
             regular_jobs.append({
-                "print": f'Running "{design}" with "{target}"',
+                "print": print_text,
                 "design": design,
                 "runtime_setup": runtime_setup,
                 "chip": chip,
