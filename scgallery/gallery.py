@@ -485,7 +485,7 @@ class Gallery:
         chip.set('option', 'quiet', True)
         chip.set('option', 'strict', self.is_strict)
 
-        chip.set('option', 'resume', self.is_resume)
+        chip.set('option', 'clean', not self.is_resume)
 
         if self.is_remote:
             chip.set('option', 'credentials', self.__remote)
