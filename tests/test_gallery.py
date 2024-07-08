@@ -170,14 +170,14 @@ def test_set_remote_invalid_file():
         gallery.set_remote("file not found")
 
 
-def test_set_unset_resume():
+def test_set_unset_clean():
     gallery = Gallery()
 
-    assert not gallery.is_resume
-    gallery.set_resume(True)
-    assert gallery.is_resume
-    gallery.set_resume(False)
-    assert not gallery.is_resume
+    assert not gallery.is_clean
+    gallery.set_clean(True)
+    assert gallery.is_clean
+    gallery.set_clean(False)
+    assert not gallery.is_clean
 
 
 def test_set_unset_strict():

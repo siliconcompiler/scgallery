@@ -32,7 +32,7 @@ def print_github(print_size):
         print(f"Total jobs on github: {len(github_jobs)}")
 
 
-def run_cache(resume, dry_run):
+def run_cache(clean, dry_run):
     from scgallery import Gallery
 
     cached_jobs = [job for job in all_jobs if "cache" in job and job["cache"]]
@@ -41,7 +41,7 @@ def run_cache(resume, dry_run):
         gal = Gallery()
         gal.set_run_designs([job['design']])
         gal.set_run_targets([job['target']])
-        gal.set_resume(resume)
+        gal.set_clean(clean)
         print(f"{job['design']} - {job['target']}")
 
         if not dry_run:
@@ -84,5 +84,5 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if args.generate_cache:
-        run_cache(not args.dont_resume, args.dry_run)
+        run_cache(args.dont_resume, args.dry_run)
         sys.exit(0)
