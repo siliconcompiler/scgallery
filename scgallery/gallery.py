@@ -62,7 +62,7 @@ class Gallery:
         self.__report_chips = {}
 
         self.__jobname = None
-        self.set_resume(False)
+        self.set_clean(False)
         self.set_remote(None)
         self.set_strict(True)
         self.set_rules_to_skip(None)
@@ -255,28 +255,28 @@ class Gallery:
         return False
 
     #######################################################
-    def set_resume(self, resume):
+    def set_clean(self, clean):
         '''
-        Set if the gallery should resume a previous run.
+        Set if the gallery should clean a previous run.
 
         Parameters:
-            resume (boolean): Flag to indicate if resume should be used
+            clean (boolean): Flag to indicate if clean should be used
         '''
-        if resume:
-            resume = True
+        if clean:
+            clean = True
         else:
-            resume = False
-        self.__resume = resume
+            clean = False
+        self.__clean = clean
 
     @property
-    def is_resume(self):
+    def is_clean(self):
         '''
-        Determine if the gallery is set to resume a previous run
+        Determine if the gallery is set to clean a previous run
 
         Returns:
             boolean: True, if resuming, False if not
         '''
-        return self.__resume
+        return self.__clean
 
     #######################################################
     def set_strict(self, strict):
@@ -305,10 +305,10 @@ class Gallery:
     ###################################################
     def set_rules_to_skip(self, rules):
         '''
-        Set if the gallery should resume a previous run.
+        Set rules to skip during checks
 
         Parameters:
-            rules (list): Flag to indicate if resume should be used
+            rules (list): List of glob rules
         '''
         if not rules:
             rules = []
@@ -485,7 +485,7 @@ class Gallery:
         chip.set('option', 'quiet', True)
         chip.set('option', 'strict', self.is_strict)
 
-        chip.set('option', 'clean', not self.is_resume)
+        chip.set('option', 'clean', self.is_clean)
 
         if self.is_remote:
             chip.set('option', 'credentials', self.__remote)
@@ -815,9 +815,9 @@ Designs: {designs_help}
                             help='Perform a remote run, '
                                  'optionally provides path to remote credentials')
 
-        parser.add_argument('-resume',
+        parser.add_argument('-clean',
                             action='store_true',
-                            help='Use option,resume')
+                            help='Use option,clean')
 
         parser.add_argument('-gallery',
                             metavar='<module>',
@@ -837,7 +837,7 @@ Designs: {designs_help}
         args = parser.parse_args()
 
         gallery.set_path(args.path)
-        gallery.set_resume(args.resume)
+        gallery.set_clean(args.clean)
         gallery.set_remote(args.remote)
 
         if args.target:
