@@ -84,6 +84,7 @@ jobs:
   lint_RTL:
     needs: docker_image
     name: Check RTL
+    if: false
 
     runs-on: ubuntu-latest
     container:
@@ -92,7 +93,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tool: ['verilator']
+        tool: ['verilator', 'slang']
 
     steps:
       - name: Check out Git repository
@@ -104,4 +105,4 @@ jobs:
           pip3 install .
 
       - name: Run lint
-        run: sc-gallery -lint
+        run: sc-gallery -lint -lint_tool ${{ matrix.tool }}

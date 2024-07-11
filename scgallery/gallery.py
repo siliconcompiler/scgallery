@@ -485,7 +485,7 @@ class Gallery:
             chip.set('option', 'entrypoint', chip.design)
         chip.set('design', name)
 
-    def __lint(self, design):
+    def __lint(self, design, tool):
         chip = design['chip']
 
         if not chip:
@@ -494,7 +494,7 @@ class Gallery:
 
         if 'lintflow' in chip.getkeys('flowgraph'):
             chip.schema.remove('flowgraph', 'lintflow')
-        chip.use(lintflow)
+        chip.use(lintflow, tool=tool)
 
         self.__setup_run_chip(chip, design["design"], jobsuffix="_lint")
 
@@ -666,7 +666,7 @@ class Gallery:
     def get_run_report(self):
         return self.__report_chips.copy()
 
-    def lint(self):
+    def lint(self, tool):
         '''
         Run lint on the enabled designs.
         '''
@@ -676,7 +676,7 @@ class Gallery:
         error = False
         for job in self.__get_runnable_jobs():
             print(job['print'])
-            lint_status = self.__lint(job)
+            lint_status = self.__lint(job, tool)
             if lint_status is not None:
                 error |= not lint_status
 
@@ -898,6 +898,11 @@ Designs: {designs_help}
                             action='store_true',
                             help='Run lint only')
 
+        parser.add_argument('-lint_tool',
+                            choices=['verilator', 'slang'],
+                            default='verilator',
+                            help='Tool to use for linting')
+
         parser.add_argument('-version', action='version', version=__version__)
 
         args = parser.parse_args()
@@ -951,7 +956,7 @@ Designs: {designs_help}
             return 0
 
         if args.lint:
-            if gallery.lint():
+            if gallery.lint(args.lint_tool):
                 return 0
 
             return 1
