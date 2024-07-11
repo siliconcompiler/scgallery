@@ -73,7 +73,6 @@ jobs:
 
   docker_image:
     needs: sc_version
-    if: always() && !cancelled()
     name: Get tools image
     permissions:
       contents: write
@@ -86,7 +85,6 @@ jobs:
     needs: docker_image
     name: Check RTL
 
-    if: always() && !cancelled()
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
