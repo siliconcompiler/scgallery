@@ -488,6 +488,10 @@ class Gallery:
     def __lint(self, design):
         chip = design['chip']
 
+        if not chip:
+            # custom flow, so accept
+            return True
+
         if 'lintflow' in chip.getkeys('flowgraph'):
             chip.schema.remove('flowgraph', 'lintflow')
         chip.use(lintflow)
