@@ -25,6 +25,7 @@ from scgallery.targets.asap7 import (
 from scgallery.targets.gf180 import (
     gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0
 )
+from siliconcompiler.flows import lintflow
 
 from scgallery import __version__
 
@@ -462,23 +463,12 @@ class Gallery:
 
         return chip, is_valid
 
-    def __run_design(self, design):
-        chip = design['chip']
-
-        runtime_setup = design['runtime_setup']
-        if runtime_setup:
-            print(f'Executing runtime setup for: {design["design"]}')
-            try:
-                if self.__design_has_target_option(design, setup_func=runtime_setup):
-                    chip = runtime_setup(self, target=design['target'])
-                else:
-                    chip = runtime_setup(self)
-            except Exception:
-                return chip, False
-
+    def __setup_run_chip(self, chip, name, jobsuffix=None):
         jobname = chip.get('option', 'target').split('.')[-1]
         if self.__jobname:
             jobname += f"_{self.__jobname}"
+        if jobsuffix:
+            jobname += jobsuffix
         chip.set('option', 'jobname', f"{chip.get('option', 'jobname')}_{jobname}")
 
         chip.set('option', 'nodisplay', True)
@@ -493,7 +483,48 @@ class Gallery:
 
         if not chip.get('option', 'entrypoint'):
             chip.set('option', 'entrypoint', chip.design)
-        chip.set('design', design["design"])
+        chip.set('design', name)
+
+    def __lint(self, design, tool):
+        chip = design['chip']
+
+        if not chip:
+            # custom flow, so accept
+            return None
+
+        if 'lintflow' in chip.getkeys('flowgraph'):
+            chip.schema.remove('flowgraph', 'lintflow')
+        chip.use(lintflow, tool=tool)
+
+        self.__setup_run_chip(chip, design["design"], jobsuffix="_lint")
+
+        chip.set('option', 'flow', 'lintflow')
+
+        if chip.get('option', 'frontend') not in ('verilog', 'systemverilog'):
+            # Right now there are no linting for non-verilog
+            return None
+
+        try:
+            chip.run()
+        except Exception:
+            return False
+        return True
+
+    def __run_design(self, design):
+        chip = design['chip']
+
+        runtime_setup = design['runtime_setup']
+        if runtime_setup:
+            print(f'Executing runtime setup for: {design["design"]}')
+            try:
+                if self.__design_has_target_option(design, setup_func=runtime_setup):
+                    chip = runtime_setup(self, target=design['target'])
+                else:
+                    chip = runtime_setup(self)
+            except Exception:
+                return chip
+
+        self.__setup_run_chip(chip, design["design"])
 
         try:
             chip.run()
@@ -634,6 +665,37 @@ class Gallery:
 
     def get_run_report(self):
         return self.__report_chips.copy()
+
+    def lint(self, tool):
+        '''
+        Run lint on the enabled designs.
+        '''
+
+        status = {}
+
+        error = False
+        for job in self.__get_runnable_jobs():
+            print(job['print'])
+            lint_status = self.__lint(job, tool)
+            if lint_status is not None:
+                error |= not lint_status
+
+                status[job['design'], job['target']] = lint_status
+
+        for job, result in status.items():
+            design, target = job
+
+            title = f"Lint on \"{design}\""
+            if target:
+                title += f" with \"{target}\""
+
+            print(title)
+            if result:
+                print("  Passed")
+            else:
+                print("  Failed")
+
+        return not error
 
     def run(self):
         '''
@@ -832,6 +894,15 @@ Designs: {designs_help}
                             metavar='<path>',
                             help='Generate json matrix of designs and targets')
 
+        parser.add_argument('-lint',
+                            action='store_true',
+                            help='Run lint only')
+
+        parser.add_argument('-lint_tool',
+                            choices=['verilator', 'slang'],
+                            default='verilator',
+                            help='Tool to use for linting')
+
         parser.add_argument('-version', action='version', version=__version__)
 
         args = parser.parse_args()
@@ -883,6 +954,12 @@ Designs: {designs_help}
             with open(args.json, 'w') as f:
                 json.dump(matrix, f, indent=4, sort_keys=True)
             return 0
+
+        if args.lint:
+            if gallery.lint(args.lint_tool):
+                return 0
+
+            return 1
 
         gallery.set_rules_to_skip(args.skip_rules)
         if not gallery.run():
