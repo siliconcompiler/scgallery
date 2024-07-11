@@ -49,3 +49,61 @@ jobs:
           python3 -m pip install .[dev]
           rm -rf build
           codespell
+
+  sc_version:
+    name: Get SiliconCompiler version
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.sc_version.outputs.version }}
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install gallery
+        run: |
+          pip3 install --upgrade pip
+          pip3 install .
+
+      - name: Get version
+        id: sc_version
+        run: |
+          echo "version=v$(sc -version)" >> $GITHUB_OUTPUT
+
+  docker_image:
+    needs: sc_version
+    if: always() && !cancelled()
+    name: Get tools image
+    permissions:
+      contents: write
+      packages: read
+    uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
+    with:
+      sc_version: ${{ needs.sc_version.outputs.version }}
+
+  lint_RTL:
+    needs: docker_image
+    name: Check RTL
+
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ needs.docker_image.outputs.sc_tool }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        tool: ['verilator']
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Install gallery
+        run: |
+          pip3 install --upgrade pip
+          pip3 install .
+
+      - name: Run lint
+        run: sc-gallery -lint
