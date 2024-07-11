@@ -490,7 +490,7 @@ class Gallery:
 
         if not chip:
             # custom flow, so accept
-            return True
+            return None
 
         if 'lintflow' in chip.getkeys('flowgraph'):
             chip.schema.remove('flowgraph', 'lintflow')
@@ -502,7 +502,7 @@ class Gallery:
 
         if chip.get('option', 'frontend') not in ('verilog', 'systemverilog'):
             # Right now there are no linting for non-verilog
-            return True
+            return None
 
         try:
             chip.run()
@@ -670,10 +670,30 @@ class Gallery:
         '''
         Run lint on the enabled designs.
         '''
+
+        status = {}
+
         error = False
         for job in self.__get_runnable_jobs():
             print(job['print'])
-            error |= not self.__lint(job)
+            lint_status = self.__lint(job)
+            if lint_status is not None:
+                error |= not lint_status
+
+                status[job['design'], job['target']] = lint_status
+
+        for job, result in status.items():
+            design, target = job
+
+            title = f"Lint on \"{design}\""
+            if target:
+                title += f" with \"{target}\""
+
+            print(title)
+            if result:
+                print("  Passed")
+            else:
+                print("  Failed")
 
         return not error
 
