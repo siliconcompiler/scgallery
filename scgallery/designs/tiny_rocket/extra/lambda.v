@@ -19,7 +19,12 @@ module data_arrays_0_ext(
                  ,{8{RW0_wmask[0]}}}
       ),
     .addr  (RW0_addr  ),
-    .din    (RW0_wdata  )
+    .din    (RW0_wdata  ),
+    .test(),
+    .ctrl(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
@@ -101,7 +106,12 @@ module data_arrays_0_0_ext(
                  ,{8{RW0_wmask}}}
       ),
     .addr  (RW0_addr  ),
-    .din    (RW0_wdata  )
+    .din    (RW0_wdata  ),
+    .test(),
+    .ctrl(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
@@ -139,7 +149,12 @@ module mem_ext(
                  ,{8{W0_mask[0]}}}
       ),
     .addr  (addr_int  ),
-    .din    (W0_data  )
+    .din    (W0_data  ),
+    .test(),
+    .ctrl(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 

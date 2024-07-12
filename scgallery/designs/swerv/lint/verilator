@@ -1,0 +1,6 @@
+`verilator_config
+
+lint_off -rule UNSUPPORTED -file "*/design/lsu/lsu.sv" -lines 388
+lint_off -rule UNSUPPORTED -file "*/design/lsu/lsu_stbuf.sv" -lines 407
+
+lint_off -rule UNOPTFLAT -file "*/design/pic_ctrl.sv" -lines 467 - 468

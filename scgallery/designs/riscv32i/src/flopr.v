@@ -1,4 +1,3 @@
-`timescale 1ns/1ns
 module flopr #(parameter WIDTH = 8)
    (input                  clk, reset,
     input      [WIDTH-1:0] d, 

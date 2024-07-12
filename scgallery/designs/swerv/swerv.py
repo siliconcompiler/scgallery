@@ -14,6 +14,7 @@ def setup(target=asap7_demo):
         Gallery.design_commandline(chip)
 
     sdc_root = os.path.join('swerv', 'constraints')
+    lint_root = os.path.join('swerv', 'lint')
 
     chip.register_source('swerv-eh1',
                          path='git+https://github.com/chipsalliance/Cores-VeeR-EH1.git',
@@ -85,6 +86,10 @@ def setup(target=asap7_demo):
 
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
+
+    # Lint setup
+    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
+             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
 
     return chip
 
