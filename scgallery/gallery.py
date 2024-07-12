@@ -25,6 +25,7 @@ from scgallery.targets.asap7 import (
 from scgallery.targets.gf180 import (
     gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0
 )
+from scgallery.targets import linting as gallery_lint
 from siliconcompiler.flows import lintflow
 
 from scgallery import __version__
@@ -458,8 +459,9 @@ class Gallery:
 
         has_sdc = self.__design_has_sdc(chip)
         has_clock = self.__design_has_clock(chip)
+        is_lint = target == "lint"
 
-        is_valid = has_sdc or has_clock
+        is_valid = has_sdc or has_clock or is_lint
 
         return chip, is_valid
 
@@ -956,6 +958,9 @@ Designs: {designs_help}
             return 0
 
         if args.lint:
+            gallery.add_target("lint", gallery_lint)
+            gallery.set_run_targets(["lint"])
+
             if gallery.lint(args.lint_tool):
                 return 0
 
