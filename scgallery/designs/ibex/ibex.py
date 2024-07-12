@@ -44,12 +44,9 @@ def setup(target=asap7_demo):
                 'ibex_csr.sv',
                 'ibex_wb_stage.sv',):
         chip.input(os.path.join('rtl', src), package='ibex')
-    for src in ('hw/ip/prim/rtl/prim_assert.sv',):
-        chip.input(src, package='opentitan')
-    chip.input('hw/dv/sv/dv_utils/dv_fcov_macros.svh',
-               fileset='rtl',
-               filetype='verilog',
-               package='opentitan')
+
+    chip.add('option', 'idir', 'hw/ip/prim/rtl', package='opentitan')
+    chip.add('option', 'idir', 'hw/dv/sv/dv_utils', package='opentitan')
 
     chip.add('option', 'define', 'SYNTHESIS')
 

@@ -31,6 +31,8 @@ def setup(target=asap7_demo):
                 'aes_sbox.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
+    chip.add('option', 'idir', src_root, package='scgallery-designs')
+
     if not chip.get('option', 'target'):
         chip.load_target(target)
 

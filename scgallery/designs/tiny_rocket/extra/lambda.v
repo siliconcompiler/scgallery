@@ -84,7 +84,7 @@ module data_arrays_0_0_ext(
   input [5:0] RW0_addr,
   input RW0_en,
   input RW0_wmode,
-  input [0:0] RW0_wmask,
+  input RW0_wmask,
   input [31:0] RW0_wdata,
   output [31:0] RW0_rdata
 );
@@ -95,10 +95,10 @@ module data_arrays_0_0_ext(
     .dout   (RW0_rdata  ),
     .ce    (RW0_en    ),
     .we    (RW0_wmode     ),
-    .wmask({  {8{RW0_wmask[3]}}
-                 ,{8{RW0_wmask[2]}}
-                 ,{8{RW0_wmask[1]}}
-                 ,{8{RW0_wmask[0]}}}
+    .wmask({  {8{RW0_wmask}}
+                 ,{8{RW0_wmask}}
+                 ,{8{RW0_wmask}}
+                 ,{8{RW0_wmask}}}
       ),
     .addr  (RW0_addr  ),
     .din    (RW0_wdata  )
