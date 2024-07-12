@@ -1,0 +1,8 @@
+`verilator_config
+
+lint_off -rule WIDTHEXPAND -file "*/src/uart_rx.v" -lines 111
+lint_off -rule WIDTHEXPAND -file "*/src/uart_rx.v" -lines 118
+lint_off -rule WIDTHEXPAND -file "*/src/uart_rx.v" -lines 133
+lint_off -rule WIDTHEXPAND -file "*/src/uart_tx.v" -lines 95
+lint_off -rule WIDTHEXPAND -file "*/src/uart_tx.v" -lines 104
+lint_off -rule WIDTHEXPAND -file "*/src/uart_tx.v" -lines 108
