@@ -45,6 +45,10 @@ def setup(target=asap7_demo):
                 'ibex_wb_stage.sv',):
         chip.input(os.path.join('rtl', src), package='ibex')
 
+    chip.input('vendor/lowrisc_ip/ip/prim/rtl/prim_cipher_pkg.sv', package='ibex')
+
+    chip.add('option', 'idir', 'rtl', package='ibex')
+
     chip.add('option', 'idir', 'hw/ip/prim/rtl', package='opentitan')
     chip.add('option', 'idir', 'hw/dv/sv/dv_utils', package='opentitan')
 
