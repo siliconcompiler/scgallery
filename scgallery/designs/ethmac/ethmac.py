@@ -59,6 +59,9 @@ def setup(target=asap7_demo):
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
 
+    # Lint setup
+    chip.set('tool', 'slang', 'task', 'lint', 'option', '--timescale 1ns/1ns')
+
     return chip
 
 
