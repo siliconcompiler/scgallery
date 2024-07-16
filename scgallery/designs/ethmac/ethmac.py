@@ -45,6 +45,8 @@ def setup(target=asap7_demo):
                 'eth_wishbone.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
+    chip.add('option', 'idir', src_root, package='scgallery-designs')
+
     if not chip.get('option', 'target'):
         chip.load_target(target)
 
@@ -56,6 +58,9 @@ def setup(target=asap7_demo):
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
+
+    # Lint setup
+    chip.set('tool', 'slang', 'task', 'lint', 'option', '--timescale 1ns/1ns')
 
     return chip
 

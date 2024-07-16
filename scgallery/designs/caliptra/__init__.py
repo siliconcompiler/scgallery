@@ -11,16 +11,17 @@ def __register(lib):
 
 def __add_sources(lib, root, files):
     for src in files:
-        lib.input(os.path.join(root, src),
-                  fileset='rtl',
-                  filetype='verilog')
+        lib.input(os.path.join(root, src))
 
 
-def __make_lib(chip, name, root, files):
+def __make_lib(chip, name, root, files, idirs=None):
     lib = Library(chip, name, package='caliptra-rtl')
     __register(lib)
 
     __add_sources(lib, root, files)
+
+    if idirs:
+        lib.add('option', 'idir', idirs)
 
     return lib
 
@@ -37,25 +38,28 @@ def setup(chip):
             chip,
             'caliptra_libs',
             libs_root,
-            ('caliptra_sva.svh',
-             'caliptra_macros.svh',
-             'caliptra_sram.sv',
-             'ahb_defines_pkg.sv',
-             'caliptra_ahb_srom.sv',
-             'apb_slv_sif.sv',
-             'ahb_slv_sif.sv',
-             'caliptra_icg.sv',
-             'clk_gate.sv',
-             'caliptra_2ff_sync.sv',
-             'ahb_to_reg_adapter.sv')),
+            (
+                'caliptra_sram.sv',
+                'ahb_defines_pkg.sv',
+                'caliptra_ahb_srom.sv',
+                'apb_slv_sif.sv',
+                'ahb_slv_sif.sv',
+                'caliptra_icg.sv',
+                'clk_gate.sv',
+                'caliptra_2ff_sync.sv',
+                'ahb_to_reg_adapter.sv'
+            ),
+            [
+                libs_root
+            ]),
         __make_lib(
             chip,
             'caliptra_top_defines',
             integration_root,
-            (
-                'config_defines.svh',
-                'caliptra_reg_defines.svh'
-            )),
+            [],
+            [
+                integration_root
+            ]),
         __make_lib(
             chip,
             'caliptra_datavault',
@@ -65,7 +69,10 @@ def setup(chip):
                 'dv_reg.sv',
                 'dv_defines_pkg.sv',
                 'dv.sv'
-            )),
+            ),
+            [
+                datavault_root
+            ]),
         __make_lib(
             chip,
             'caliptra_keyvault',
@@ -77,9 +84,11 @@ def setup(chip):
                 'kv.sv',
                 'kv_fsm.sv',
                 'kv_read_client.sv',
-                'kv_write_client.sv',
-                'kv_macros.svh'
-            )),
+                'kv_write_client.sv'
+            ),
+            [
+                keyvault_root
+            ]),
         __make_lib(
             chip,
             'caliptra_pcrvault',
@@ -89,9 +98,11 @@ def setup(chip):
                 'pv_reg.sv',
                 'pv_defines_pkg.sv',
                 'pv.sv',
-                'pv_macros.svh',
                 'pv_gen_hash.sv'
-            )),
+            ),
+            [
+                pcrvault_root
+            ]),
         __make_lib(
             chip,
             'caliptra_sha512',

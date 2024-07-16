@@ -16,7 +16,12 @@ module hard_mem_1rw_d512_w64_wrapper(clk_i, v_i, reset_i, data_i,
     .wmask({64{w_i}}),
     .addr(addr_i),
     .din(data_i),
-    .dout(data_o)
+    .dout(data_o),
+    .ctrl(),
+    .test(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
@@ -39,7 +44,12 @@ module hard_mem_1rw_bit_mask_d64_w96_wrapper(clk_i, reset_i, data_i,
     .wmask({96{w_i}}),
     .addr(addr_i),
     .din(data_i),
-    .dout(data_o)
+    .dout(data_o),
+    .ctrl(),
+    .test(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
@@ -73,7 +83,12 @@ module hard_mem_1rw_byte_mask_d512_w64_wrapper(clk_i, reset_i, data_i,
             {8{write_mask_i[0]}}}),
     .addr(addr_i),
     .din(data_i),
-    .dout(data_o)
+    .dout(data_o),
+    .ctrl(),
+    .test(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
@@ -96,7 +111,12 @@ module hard_mem_1rw_bit_mask_d64_w7_wrapper(clk_i, reset_i, data_i,
     .wmask({7{w_i}}),
     .addr(addr_i),
     .din(data_i),
-    .dout(data_o)
+    .dout(data_o),
+    .ctrl(),
+    .test(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
@@ -119,7 +139,12 @@ module hard_mem_1rw_bit_mask_d64_w15_wrapper(clk_i, reset_i, data_i,
     .wmask({15{w_i}}),
     .addr(addr_i),
     .din(data_i),
-    .dout(data_o)
+    .dout(data_o),
+    .ctrl(),
+    .test(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
@@ -143,7 +168,12 @@ module hard_mem_1rw_d256_w95_wrapper(clk_i, v_i, reset_i, data_i,
     .wmask({95{w_i}}),
     .addr(addr_i),
     .din(data_i),
-    .dout(data_o)
+    .dout(data_o),
+    .ctrl(),
+    .test(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule
