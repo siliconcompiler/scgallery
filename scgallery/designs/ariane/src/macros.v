@@ -26,7 +26,12 @@ module SyncSpRamBeNx64_00000008_00000100_0_2
     .wmask({64{1'b1}}),
     .addr(Addr_DI),
     .din(WrData_DI),
-    .dout(RdData_DO)
+    .dout(RdData_DO),
+    .test(),
+    .ctrl(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 endmodule // SyncSpRamBeNx64_00000008_00000100_0_2
 
@@ -62,7 +67,12 @@ module limping_SyncSpRamBeNx64_00000008_00000100_0_2
     .wmask({16{1'b1}}),
     .addr(Addr_DI),
     .din(WrData_DI[15:0]),
-    .dout(RdData_DO[15:0])
+    .dout(RdData_DO[15:0]),
+    .test(),
+    .ctrl(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
    assign RdData_DO[63:16] = 48'h0;
@@ -100,7 +110,12 @@ module SyncSpRamBeNx64_00000008_00000100_0_2_d45
     .wmask({45{1'b1}}),
     .addr(Addr_DI),
     .din(WrData_DI),
-    .dout(RdData_DO)
+    .dout(RdData_DO),
+    .test(),
+    .ctrl(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule // SyncSpRamBeNx64_00000008_00000100_0_2_d45
@@ -136,7 +151,12 @@ module SyncSpRamBeNx64_00000008_00000100_0_2_d44
     .wmask({44{1'b1}}),
     .addr(Addr_DI),
     .din(WrData_DI),
-    .dout(RdData_DO)
+    .dout(RdData_DO),
+    .test(),
+    .ctrl(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule // SyncSpRamBeNx64_00000008_00000100_0_2_d44

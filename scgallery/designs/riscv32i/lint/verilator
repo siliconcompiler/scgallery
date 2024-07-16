@@ -1,0 +1,17 @@
+`verilator_config
+
+lint_off -rule TIMESCALEMOD -file "*/src/adder.v"
+lint_off -rule TIMESCALEMOD -file "*/src/alu.v"
+lint_off -rule TIMESCALEMOD -file "*/src/aludec.v"
+lint_off -rule TIMESCALEMOD -file "*/src/controller.v"
+lint_off -rule TIMESCALEMOD -file "*/src/datapath.v"
+lint_off -rule TIMESCALEMOD -file "*/src/dmem.v"
+
+lint_off -rule WIDTHEXPAND -file "*/src/alu.v" -lines 14
+lint_off -rule WIDTHEXPAND -file "*/src/alu.v" -lines 16
+
+lint_off -rule WIDTHTRUNC -file "*/src/alu.v" -lines 15
+lint_off -rule WIDTHTRUNC -file "*/src/alu.v" -lines 20
+lint_off -rule WIDTHTRUNC -file "*/src/alu.v" -lines 21
+
+lint_off -rule CASEX -file "*/src/aludec.v" -lines 14

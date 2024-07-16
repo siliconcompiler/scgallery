@@ -16,6 +16,7 @@ def setup(target=asap7_demo):
 
     src_root = os.path.join('jpeg', 'src')
     sdc_root = os.path.join('jpeg', 'constraints')
+    lint_root = os.path.join('jpeg', 'lint')
 
     chip.set('option', 'idir', os.path.join(src_root, 'include'), package='scgallery-designs')
     for src in ('jpeg_encoder.v',
@@ -38,6 +39,10 @@ def setup(target=asap7_demo):
 
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
+
+    # Lint setup
+    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
+             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
 
     return chip
 

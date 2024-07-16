@@ -3,6 +3,7 @@ from lambdapdk.freepdk45.libs import fakeram45
 from lambdapdk.asap7.libs import fakeram7
 from lambdapdk.sky130.libs import sky130sram
 from lambdapdk.gf180.libs import gf180sram
+import lambdalib
 
 # Dictionary of lambdalib memories to process
 # "pdk":
@@ -33,6 +34,7 @@ register_lambdalib_memory("freepdk45", fakeram45)
 register_lambdalib_memory("asap7", fakeram7)
 register_lambdalib_memory("skywater130", sky130sram)
 register_lambdalib_memory("gf180", gf180sram)
+register_lambdalib_memory(None, lambdalib)
 
 
 def add_lambdalib_memory(chip):
@@ -43,10 +45,14 @@ def add_lambdalib_memory(chip):
 
     for module, libs in __lambdalib_memories[pdk]:
         chip.use(module)
-        # Add lambdalib
-        chip.add('option', 'library',
-                 [lib for lib in libs if lib.startswith('lambdalib_')])
+        if module is lambdalib:
+            # Add lambdalib
+            chip.add('option', 'library', 'lambdalib_ramlib')
+        else:
+            # Add lambdalib
+            chip.add('option', 'library',
+                     [lib for lib in libs if lib.startswith('lambdalib_')])
 
-        # Add non-lambdalib
-        chip.add('asic', 'macrolib',
-                 [lib for lib in libs if not lib.startswith('lambdalib_')])
+            # Add non-lambdalib
+            chip.add('asic', 'macrolib',
+                     [lib for lib in libs if not lib.startswith('lambdalib_')])

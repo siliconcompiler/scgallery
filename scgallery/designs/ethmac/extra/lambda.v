@@ -1,3 +1,5 @@
+`include "timescale.v"
+
 module vs_hdsp_256x32_bw(
   input CK,
   input CEN,
@@ -21,7 +23,12 @@ module vs_hdsp_256x32_bw(
             {8{WEN[1]}},
             {8{WEN[0]}}}),
     .addr(ADR),
-    .din(DI)
+    .din(DI),
+    .ctrl(),
+    .test(),
+    .vdd(),
+    .vss(),
+    .vddio()
   );
 
 endmodule

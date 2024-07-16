@@ -1,0 +1,12 @@
+`verilator_config
+
+lint_off -rule WIDTHEXPAND -file "*/src/div_uu.v" -lines 115
+lint_off -rule WIDTHEXPAND -file "*/src/div_uu.v" -lines 151
+lint_off -rule WIDTHEXPAND -file "*/src/div_su.v" -lines 141
+lint_off -rule WIDTHEXPAND -file "*/src/jpeg_rle1.v" -lines 187
+
+lint_off -rule WIDTHTRUNC -file "*/src/div_su.v" -lines 147
+
+lint_off -rule CASEX -file "*/src/jpeg_rle1.v" -lines 131
+
+lint_off -rule MULTIDRIVEN -file "*/src/div_uu.v" -lines 123 - 124

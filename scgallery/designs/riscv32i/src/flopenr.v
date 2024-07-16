@@ -1,4 +1,3 @@
-`timescale 1ns/1ns
 module flopenr #(parameter WIDTH = 8)
    (input                  clk, reset,
     input                  en,

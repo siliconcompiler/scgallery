@@ -1,4 +1,3 @@
-`timescale 1ns/1ns
 module flopens #(parameter WIDTH = 8)
    (input                  clk, set,
     input 		   en,
