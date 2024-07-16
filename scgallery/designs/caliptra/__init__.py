@@ -98,9 +98,11 @@ def setup(chip):
                 'pv_reg.sv',
                 'pv_defines_pkg.sv',
                 'pv.sv',
-                'pv_macros.svh',
                 'pv_gen_hash.sv'
-            )),
+            ),
+            [
+                pcrvault_root
+            ]),
         __make_lib(
             chip,
             'caliptra_sha512',
