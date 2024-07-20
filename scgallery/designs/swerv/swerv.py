@@ -22,11 +22,7 @@ def setup(target=asap7_demo):
 
     chip.input('swerv/config/common_defines.vh',
                fileset='rtl',
-               filetype='verilog', package='scgallery-designs')
-
-    for src in ('design/include/build.h',
-                'design/include/global.h'):
-        chip.input(src, fileset='rtl', filetype='verilog', package='swerv-eh1')
+               filetype='systemverilog', package='scgallery-designs')
 
     for src in ('design/include/swerv_types.sv',
                 'design/lib/beh_lib.sv',
