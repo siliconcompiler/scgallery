@@ -11,6 +11,7 @@ from collections.abc import Container
 import fnmatch
 
 import siliconcompiler
+from siliconcompiler import Schema
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.targets import \
     asap7_demo, \
@@ -483,7 +484,7 @@ class Gallery:
             chip.set('option', 'credentials', self.__remote)
             chip.set('option', 'remote', True)
 
-        if not chip.get('option', 'entrypoint'):
+        if not chip.get('option', 'entrypoint', step=Schema.GLOBAL_KEY, index=Schema.GLOBAL_KEY):
             chip.set('option', 'entrypoint', chip.design)
         chip.set('design', name)
 
