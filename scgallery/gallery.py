@@ -504,10 +504,18 @@ class Gallery:
 
         chip.set('option', 'flow', 'lintflow')
 
+        chip.set('arg', 'step', Schema.GLOBAL_KEY)
+        chip.set('arg', 'index', Schema.GLOBAL_KEY)
         if not has_input_files(chip, 'input', 'rtl', 'verilog') and \
                 not has_input_files(chip, 'input', 'rtl', 'systemverilog'):
             # Right now there are no linting for non-verilog
             return None
+        chip.set('arg', 'step', None)
+        chip.set('arg', 'index', None)
+
+        # Make sure there are not set
+        chip.unset('asic', 'logiclib')
+        chip.unset('asic', 'macrolib')
 
         try:
             chip.run()
