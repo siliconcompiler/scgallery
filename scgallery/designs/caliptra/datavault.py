@@ -30,7 +30,6 @@ def setup(target=freepdk45_demo):
     ])
 
     chip.set('option', 'entrypoint', 'dv')
-    chip.set('option', 'frontend', 'systemverilog')
 
     if not chip.get('option', 'target'):
         chip.load_target(target)
