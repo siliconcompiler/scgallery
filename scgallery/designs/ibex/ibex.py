@@ -11,7 +11,6 @@ def setup(target=asap7_demo):
     chip = Chip('ibex')
     chip.set('option', 'entrypoint', 'ibex_core')
 
-    chip.set('option', 'frontend', 'systemverilog')
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
 

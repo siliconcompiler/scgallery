@@ -11,7 +11,6 @@ def setup(target=asap7_demo):
     chip = Chip('mock_alu')
     chip.set('option', 'entrypoint', 'MockAlu')
 
-    chip.set('option', 'frontend', 'chisel')
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
 

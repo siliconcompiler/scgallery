@@ -75,8 +75,6 @@ def setup(target=asap7_demo):
 
     chip.add('option', 'define', 'PHYSICAL')
 
-    chip.set('option', 'frontend', 'systemverilog')
-
     if not chip.get('option', 'target'):
         chip.load_target(target)
 
