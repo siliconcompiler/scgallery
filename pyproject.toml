@@ -32,7 +32,7 @@ dynamic = ["version"]
 # Dev dependencies.
 dev = [
     "flake8==7.1.0",
-    "pytest==8.3.1",
+    "pytest==8.3.2",
     "pytest-xdist==3.6.1",
     "tclint==0.3.2",
     "codespell==2.3.0"
