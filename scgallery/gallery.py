@@ -535,7 +535,7 @@ class Gallery:
                 else:
                     chip = runtime_setup(self)
             except Exception:
-                return chip
+                return chip, False
 
         self.__setup_run_chip(chip, design["design"])
 
