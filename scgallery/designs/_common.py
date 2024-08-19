@@ -1,4 +1,4 @@
-from siliconcompiler import Chip
+from siliconcompiler import Chip, Schema
 from lambdapdk.freepdk45.libs import fakeram45
 from lambdapdk.asap7.libs import fakeram7
 from lambdapdk.sky130.libs import sky130sram
@@ -53,6 +53,11 @@ def add_lambdalib_memory(chip):
             chip.add('option', 'library',
                      [lib for lib in libs if lib.startswith('lambdalib_')])
 
-            # Add non-lambdalib
-            chip.add('asic', 'macrolib',
-                     [lib for lib in libs if not lib.startswith('lambdalib_')])
+            has_asic_macros = any(
+                [len(chip.get('asic', 'macrolib',
+                              step=Schema.GLOBAL_KEY, index=Schema.GLOBAL_KEY)) > 0
+                 for lib in libs if lib.startswith('lambdalib_')])
+            if not has_asic_macros:
+                # Add non-lambdalib
+                chip.add('asic', 'macrolib',
+                         [lib for lib in libs if not lib.startswith('lambdalib_')])
