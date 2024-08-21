@@ -10,7 +10,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
-from scgallery.designs import caliptra
+from scgallery.designs.caliptra.src import sha512
 from scgallery import Gallery
 
 
@@ -22,14 +22,7 @@ def setup(target=freepdk45_demo):
 
     sdc_root = os.path.join('caliptra', 'constraints', 'sha512')
 
-    chip.use(caliptra)
-    chip.add('option', 'library', [
-        'caliptra_sha512',
-        'caliptra_pcrvault',
-        'caliptra_keyvault',
-        'caliptra_libs',
-        'caliptra_top_defines'
-    ])
+    chip.use(sha512)
 
     chip.set('option', 'entrypoint', 'sha512_ctrl')
 

@@ -10,7 +10,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
-from scgallery.designs import caliptra
+from scgallery.designs.caliptra.src import keyvault
 from scgallery import Gallery
 
 
@@ -22,12 +22,7 @@ def setup(target=freepdk45_demo):
 
     sdc_root = os.path.join('caliptra', 'constraints', 'keyvault')
 
-    chip.use(caliptra)
-    chip.add('option', 'library', [
-        'caliptra_keyvault',
-        'caliptra_libs',
-        'caliptra_top_defines'
-    ])
+    chip.use(keyvault)
 
     chip.set('option', 'entrypoint', 'kv')
 
