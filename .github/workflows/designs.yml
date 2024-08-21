@@ -24,6 +24,10 @@ on:
           - default
           - tiny
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.sc-ref }}-${{ inputs.lambdapdk-ref }}
+  cancel-in-progress: true
+
 name: 'Run Gallery Designs'
 
 jobs:
