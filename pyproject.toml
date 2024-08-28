@@ -31,7 +31,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 # Dev dependencies.
 dev = [
-    "flake8==7.1.0",
+    "flake8==7.1.1",
     "pytest==8.3.2",
     "pytest-xdist==3.6.1",
     "tclint==0.3.2",
