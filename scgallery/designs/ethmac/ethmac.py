@@ -13,6 +13,8 @@ def setup(target=asap7_demo):
 
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
+    else:
+        chip.load_target(target)
 
     src_root = os.path.join('ethmac', 'src')
     sdc_root = os.path.join('ethmac', 'constraints')
@@ -46,9 +48,6 @@ def setup(target=asap7_demo):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     chip.add('option', 'idir', src_root, package='scgallery-designs')
-
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
 
     _common.add_lambdalib_memory(chip)
     chip.add('option', 'define', 'ETH_VIRTUAL_SILICON_RAM')

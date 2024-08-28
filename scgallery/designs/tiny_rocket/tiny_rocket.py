@@ -14,6 +14,8 @@ def setup(target=freepdk45_demo):
 
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
+    else:
+        chip.load_target(target)
 
     src_root = os.path.join('tiny_rocket', 'src')
     extra_root = os.path.join('tiny_rocket', 'extra')
@@ -24,9 +26,6 @@ def setup(target=freepdk45_demo):
                 'ClockDivider2.v',
                 'plusarg_reader.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
-
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')

@@ -14,6 +14,7 @@ import siliconcompiler
 from siliconcompiler import Schema
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.tools._common import has_input_files
+from siliconcompiler.tools._common.asic import get_mainlib
 from siliconcompiler.targets import \
     asap7_demo, \
     freepdk45_demo, \
@@ -468,7 +469,7 @@ class Gallery:
         return chip, is_valid
 
     def __setup_run_chip(self, chip, name, jobsuffix=None):
-        jobname = chip.get('option', 'target').split('.')[-1]
+        jobname = f"{chip.get('option', 'pdk')}_{get_mainlib(chip)}"
         if self.__jobname:
             jobname += f"_{self.__jobname}"
         if jobsuffix:

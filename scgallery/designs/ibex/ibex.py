@@ -13,6 +13,8 @@ def setup(target=asap7_demo):
 
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
+    else:
+        chip.load_target(target)
 
     sdc_root = os.path.join('ibex', 'constraints')
 
@@ -52,9 +54,6 @@ def setup(target=asap7_demo):
     chip.add('option', 'idir', 'hw/dv/sv/dv_utils', package='opentitan')
 
     chip.add('option', 'define', 'SYNTHESIS')
-
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')

@@ -13,6 +13,8 @@ def setup(target=skywater130_demo):
 
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
+    else:
+        chip.load_target(target)
 
     src_root = os.path.join('riscv32i', 'src')
     sdc_root = os.path.join('riscv32i', 'constraints')
@@ -43,9 +45,6 @@ def setup(target=skywater130_demo):
                 'signext.v',
                 'top.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
-
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')

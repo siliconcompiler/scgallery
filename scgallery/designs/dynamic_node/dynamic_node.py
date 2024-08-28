@@ -13,6 +13,8 @@ def setup(target=asap7_demo):
 
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
+    else:
+        chip.load_target(target)
 
     sdc_root = os.path.join('dynamic_node', 'constraints')
 
@@ -22,9 +24,6 @@ def setup(target=asap7_demo):
 
     chip.input('modules/dynamic_node_2dmesh/NETWORK_2dmesh/dynamic_node_2dmesh.pickle.v',
                package='OPDB')
-
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
 
     mainlib = chip.get('asic', 'logiclib')[0]
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
