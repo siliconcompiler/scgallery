@@ -10,6 +10,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
+from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery.designs.caliptra.src import sha512
 from scgallery import Gallery
 
@@ -19,6 +20,8 @@ def setup(target=freepdk45_demo):
 
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
+    else:
+        chip.load_target(target)
 
     sdc_root = os.path.join('caliptra', 'constraints', 'sha512')
 
@@ -26,10 +29,7 @@ def setup(target=freepdk45_demo):
 
     chip.set('option', 'entrypoint', 'sha512_ctrl')
 
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
-
-    mainlib = chip.get('asic', 'logiclib')[0]
+    mainlib = get_mainlib(chip)
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     chip.set('constraint', 'density', 30)

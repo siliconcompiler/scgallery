@@ -4,6 +4,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
+from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery.designs import _common
 from scgallery import Gallery
 
@@ -13,6 +14,8 @@ def setup(target=asap7_demo):
 
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
+    else:
+        chip.load_target(target)
 
     src_root = os.path.join('ethmac', 'src')
     sdc_root = os.path.join('ethmac', 'constraints')
@@ -47,14 +50,11 @@ def setup(target=asap7_demo):
 
     chip.add('option', 'idir', src_root, package='scgallery-designs')
 
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
-
     _common.add_lambdalib_memory(chip)
     chip.add('option', 'define', 'ETH_VIRTUAL_SILICON_RAM')
     chip.input(os.path.join('ethmac', 'extra', 'lambda.v'), package='scgallery-designs')
 
-    mainlib = chip.get('asic', 'logiclib')[0]
+    mainlib = get_mainlib(chip)
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')

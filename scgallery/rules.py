@@ -1,5 +1,6 @@
 import argparse
 from siliconcompiler import Chip, SiliconCompilerError
+from siliconcompiler.tools._common.asic import get_mainlib
 import os
 import sys
 import json
@@ -135,7 +136,7 @@ def create_rules(chip):
 def update_rules(chip, method, rules):
     rules["date"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
-    mainlib = chip.get('asic', 'logiclib')[0]
+    mainlib = get_mainlib(chip)
 
     if mainlib not in rules:
         raise ValueError(f'{mainlib} is missing from rules')
