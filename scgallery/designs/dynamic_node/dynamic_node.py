@@ -4,6 +4,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
+from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 
 
@@ -25,7 +26,7 @@ def setup(target=asap7_demo):
     chip.input('modules/dynamic_node_2dmesh/NETWORK_2dmesh/dynamic_node_2dmesh.pickle.v',
                package='OPDB')
 
-    mainlib = chip.get('asic', 'logiclib')[0]
+    mainlib = get_mainlib(chip)
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     return chip

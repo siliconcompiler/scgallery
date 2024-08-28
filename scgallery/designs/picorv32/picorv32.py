@@ -4,6 +4,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import skywater130_demo
+from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 
 
@@ -24,7 +25,7 @@ def setup(target=skywater130_demo):
     for src in ('picorv32.v',):
         chip.input(src, package='picorv32')
 
-    mainlib = chip.get('asic', 'logiclib')[0]
+    mainlib = get_mainlib(chip)
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     return chip

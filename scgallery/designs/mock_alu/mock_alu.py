@@ -4,6 +4,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
+from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 
 
@@ -44,7 +45,7 @@ def setup(target=asap7_demo):
     chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument',
              f'--operations {",".join(operations)}')
 
-    mainlib = chip.get('asic', 'logiclib')[0]
+    mainlib = get_mainlib(chip)
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     chip.add('tool', 'chisel', 'task', 'convert', 'var', 'argument', '--tech none')

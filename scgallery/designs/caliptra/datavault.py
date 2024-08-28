@@ -10,6 +10,7 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
+from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery.designs.caliptra.src import datavault
 from scgallery import Gallery
 
@@ -28,7 +29,7 @@ def setup(target=freepdk45_demo):
 
     chip.set('option', 'entrypoint', 'dv')
 
-    mainlib = chip.get('asic', 'logiclib')[0]
+    mainlib = get_mainlib(chip)
     chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
     chip.set('constraint', 'density', 30)
