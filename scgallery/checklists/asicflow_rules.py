@@ -3,7 +3,7 @@ import json
 import fnmatch
 
 
-def setup(job=None, flow=None, mainlib=None, nodes=None, rules_files=None, skip_rules=None):
+def setup(job=None, flow=None, mainlib=None, flow_nodes=None, rules_files=None, skip_rules=None):
     '''
     '''
 
@@ -24,8 +24,8 @@ def setup(job=None, flow=None, mainlib=None, nodes=None, rules_files=None, skip_
     if not mainlib:
         raise ValueError('mainlib is required')
 
-    if not nodes:
-        raise ValueError('nodes is required')
+    if flow_nodes is None:
+        raise ValueError('flow_nodes is required')
 
     checklist = Checklist(standard)
 
@@ -55,20 +55,20 @@ def setup(job=None, flow=None, mainlib=None, nodes=None, rules_files=None, skip_
             if skip:
                 continue
 
-        # for node in info['nodes']:
-        #     if node['step'] == '*':
-        #         steps = chip.getkeys('flowgraph', flow)
-        #     else:
-        #         steps = [node['step']]
+        for node in info['nodes']:
+            if node['step'] == '*':
+                steps = [step for step, _ in flow_nodes]
+            else:
+                steps = [node['step']]
 
-        #     for step in steps:
-        #         if node['index'] == '*':
-        #             indexes = chip.getkeys('flowgraph', flow, step)
-        #         else:
-        #             indexes = [node['index']]
+            for step in steps:
+                if node['index'] == '*':
+                    steps = [index for nstep, index in flow_nodes if step == nstep]
+                else:
+                    indexes = [node['index']]
 
-        #         for index in indexes:
-        #             nodes.add((job, step, index))
+                for index in indexes:
+                    nodes.add((job, step, index))
 
         for rule in info['criteria']:
             if rule['value'] is None:

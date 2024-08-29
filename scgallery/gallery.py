@@ -633,7 +633,7 @@ class Gallery:
                     job=chip.get('option', 'jobname'),
                     flow=chip.get('option', 'flow'),
                     mainlib=mainlib,
-                    nodes=nodes_to_execute(chip, flow=chip.get('option', 'flow')),
+                    flow_nodes=nodes_to_execute(chip, flow=chip.get('option', 'flow')),
                     rules_files=rules_files,
                     skip_rules=self.__skip_rules)
                 error = not chip.check_checklist('asicflow_rules',

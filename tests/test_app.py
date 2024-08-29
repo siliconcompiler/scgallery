@@ -126,7 +126,7 @@ def test_end2end_gcd(monkeypatch):
     monkeypatch.setattr('sys.argv', [
         'sc-gallery',
         '-design', 'gcd',
-        '-target', 'freepdk45_demo',
+        '-target', 'freepdk45_nangate45',
         '-skip_rules', 'runtime*'])
 
     assert sc_gallery.main() == 0

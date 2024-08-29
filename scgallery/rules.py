@@ -242,7 +242,13 @@ if __name__ == "__main__":
 
         if args.check:
             chip.summary(generate_image=False, generate_html=False)
-            chip.use(asicflow_rules, rules_file=args.rules)
+            chip.use(
+                asicflow_rules,
+                job=chip.get('option', 'jobname'),
+                flow=chip.get('option', 'flow'),
+                mainlib=mainlib,
+                flow_nodes=nodes_to_execute(chip, flow=chip.get('option', 'flow')),
+                rules_file=args.rules)
             if not chip.check_checklist('asicflow_rules', verbose=True, require_reports=False):
                 sys.exit(1)
             else:
