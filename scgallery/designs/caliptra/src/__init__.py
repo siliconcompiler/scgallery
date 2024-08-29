@@ -14,8 +14,8 @@ def __add_sources(lib, root, files):
         lib.input(os.path.join(root, src))
 
 
-def make_lib(chip, name, root, files, idirs=None):
-    lib = Library(chip, name, package='caliptra-rtl', auto_enable=True)
+def make_lib(name, root, files, idirs=None):
+    lib = Library(name, package='caliptra-rtl', auto_enable=True)
     __register(lib)
 
     __add_sources(lib, root, files)

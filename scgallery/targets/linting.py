@@ -7,3 +7,7 @@ def setup(chip):
     '''
 
     chip.set('asic', 'logiclib', 'lint_target')
+
+
+def register_lambdalib(gallery):
+    pass

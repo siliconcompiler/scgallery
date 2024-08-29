@@ -7,7 +7,7 @@ from scgallery import rules
 @pytest.fixture
 def metrics_chip():
     chip = Chip('test')
-    chip.load_target(freepdk45_demo)
+    chip.use(freepdk45_demo)
 
     chip.set('metric', 'cells', 4, step='syn', index='0')
     chip.set('metric', 'cells', 75, step='syn', index='1')

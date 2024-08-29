@@ -15,18 +15,22 @@ from siliconcompiler import Schema
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.tools._common import has_input_files
 from siliconcompiler.tools._common.asic import get_mainlib
-from siliconcompiler.targets import \
-    asap7_demo, \
-    freepdk45_demo, \
-    skywater130_demo, \
-    gf180_demo
+from siliconcompiler.flowgraph import nodes_to_execute
 
+from scgallery.targets.freepdk45 import (
+    nangate45 as freepdk45_nangate45
+)
 from scgallery.targets.asap7 import (
+    asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt,
     asap7sc7p5t_lvt as asap7_asap7sc7p5t_lvt,
     asap7sc7p5t_slvt as asap7_asap7sc7p5t_slvt
 )
+from scgallery.targets.skywater130 import (
+    sky130hd as sky130_sky130hd
+)
 from scgallery.targets.gf180 import (
-    gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0
+    gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0,
+    gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0
 )
 from scgallery.targets import linting as gallery_lint
 from siliconcompiler.flows import lintflow
@@ -41,14 +45,16 @@ class Gallery:
         self.__name = name
         self.set_path(path)
 
+        self.__lambdalib_techs = {}
+
         self.__targets = {}
         for name, target in (
-                ("freepdk45_demo", freepdk45_demo),
-                ("skywater130_demo", skywater130_demo),
-                ("asap7_demo", asap7_demo),
-                ("gf180_demo", gf180_demo),
+                ("freepdk45_nangate45", freepdk45_nangate45),
+                ("sky130_sky130hd", sky130_sky130hd),
+                ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
                 ("asap7_asap7sc7p5t_lvt", asap7_asap7sc7p5t_lvt),
                 ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),
+                ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
                 ("None", None)):
             self.add_target(name, target)
@@ -147,6 +153,9 @@ class Gallery:
             module (module): python module for the target
         '''
         self.__targets[name] = module
+
+        if module:
+            module.register_lambdalib(self)
 
     def remove_target(self, name):
         '''
@@ -404,6 +413,39 @@ class Gallery:
         self.__jobname = suffix
 
     #######################################################
+    def register_lambdalib(self, pdk, mainlib, library, swaps, add_macrolibs=False):
+        '''
+        Sets a suffix to the default job names.
+
+        Parameters:
+            pdk (str): pdk this library belongs to.
+            mainlib (str): main library to match this library to, can be a glob.
+            library (module): module to load.
+            swaps (list of (str, str)]): library pairs to swap to perform techmapping.
+            add_macrolibs (boolean): add additional macros libraries
+        '''
+        if pdk not in self.__lambdalib_techs:
+            self.__lambdalib_techs[pdk] = {}
+
+        if mainlib not in self.__lambdalib_techs[pdk]:
+            self.__lambdalib_techs[pdk][mainlib] = []
+
+        macrolibs = []
+        if add_macrolibs:
+            for lib in library.setup():
+                if lib.design.startswith('lambdalib_'):
+                    continue
+                macrolibs.append(lib.design)
+
+        self.__lambdalib_techs[pdk][mainlib].append(
+            {
+                "library": library,
+                "swap": swaps,
+                "macrolibs": macrolibs
+            }
+        )
+
+    #######################################################
     def set_run_designs(self, designs):
         '''
         Sets the designs to execute during a run.
@@ -414,6 +456,7 @@ class Gallery:
         self.__run_config['designs'].clear()
         self.__run_config['designs'].update(designs)
 
+    #######################################################
     def set_run_targets(self, targets):
         '''
         Sets the targets to use during a run.
@@ -424,6 +467,7 @@ class Gallery:
         self.__run_config['targets'].clear()
         self.__run_config['targets'].update(targets)
 
+    #######################################################
     def __design_has_clock(self, chip):
         for pin in chip.getkeys('datasheet', 'pin'):
             if chip.get('datasheet', 'pin', pin, 'type', 'global') == "clock":
@@ -469,7 +513,9 @@ class Gallery:
         return chip, is_valid
 
     def __setup_run_chip(self, chip, name, jobsuffix=None):
-        jobname = f"{chip.get('option', 'pdk')}_{get_mainlib(chip)}"
+        pdk = chip.get('option', 'pdk')
+        mainlib = get_mainlib(chip)
+        jobname = f"{pdk}_{mainlib}"
         if self.__jobname:
             jobname += f"_{self.__jobname}"
         if jobsuffix:
@@ -489,6 +535,20 @@ class Gallery:
         if not chip.get('option', 'entrypoint', step=Schema.GLOBAL_KEY, index=Schema.GLOBAL_KEY):
             chip.set('option', 'entrypoint', chip.design)
         chip.set('design', name)
+
+        # Perform lambdalib swaps
+        if pdk in self.__lambdalib_techs:
+            swaps = set()
+            for tech, libraries in self.__lambdalib_techs[pdk].items():
+                if fnmatch.fnmatch(mainlib, tech):
+                    for library in libraries:
+                        chip.use(library['library'])
+                        swaps.update(library['swap'])
+
+                        chip.add('asic', 'macrolib', library['macrolibs'])
+
+            for src_lib, dst_lib in swaps:
+                chip.swap_library(src_lib, dst_lib)
 
     def __lint(self, design, tool):
         chip = design['chip']
@@ -555,6 +615,12 @@ class Gallery:
         }
         self.__report_chips.setdefault(design, []).append(report_data)
 
+        chip.set('arg', 'step', Schema.GLOBAL_KEY)
+        chip.set('arg', 'index', Schema.GLOBAL_KEY)
+        mainlib = get_mainlib(chip)
+        chip.unset('arg', 'step')
+        chip.unset('arg', 'index')
+
         if succeeded:
             chip.summary()
 
@@ -562,7 +628,14 @@ class Gallery:
 
             if rules_files:
                 chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
-                chip.use(asicflow_rules, rules_files=rules_files, skip_rules=self.__skip_rules)
+                chip.use(
+                    asicflow_rules,
+                    job=chip.get('option', 'jobname'),
+                    flow=chip.get('option', 'flow'),
+                    mainlib=mainlib,
+                    nodes=nodes_to_execute(chip, flow=chip.get('option', 'flow')),
+                    rules_files=rules_files,
+                    skip_rules=self.__skip_rules)
                 error = not chip.check_checklist('asicflow_rules',
                                                  verbose=True,
                                                  require_reports=False)
@@ -574,8 +647,7 @@ class Gallery:
         self.__status.append({
             "design": design,
             "pdk": chip.get('option', 'pdk'),
-            "mainlib": chip.get('asic', 'logiclib',
-                                step='global', index='global')[0],
+            "mainlib": mainlib,
             "error": error,
             "chip": chip
         })

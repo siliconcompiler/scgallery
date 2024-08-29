@@ -11,8 +11,8 @@ import os
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
 from siliconcompiler.tools._common.asic import get_mainlib
-from scgallery.designs import _common
 from scgallery import Gallery
+from lambdalib import ramlib
 
 
 def setup(target=freepdk45_demo):
@@ -21,7 +21,7 @@ def setup(target=freepdk45_demo):
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
     else:
-        chip.load_target(target)
+        chip.use(target)
 
     src_root = os.path.join('ariane', 'src')
     sdc_root = os.path.join('ariane', 'constraints')
@@ -61,7 +61,7 @@ def setup(target=freepdk45_demo):
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
 
-    _common.add_lambdalib_memory(chip)
+    chip.use(ramlib)
 
     if mainlib.startswith('asap7sc7p5t'):
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
