@@ -2,9 +2,8 @@ from ..src import make_lib
 from ..src import libs
 
 
-def setup(chip):
+def setup():
     lib = make_lib(
-        chip,
         'caliptra_pcrvault',
         'src/pcrvault/rtl',
         (

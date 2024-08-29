@@ -2,9 +2,8 @@ from ..src import make_lib
 from ..src import pcrvault, keyvault
 
 
-def setup(chip):
+def setup():
     lib = make_lib(
-        chip,
         'caliptra_sha512',
         'src/sha512/rtl',
         (

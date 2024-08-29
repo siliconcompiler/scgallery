@@ -15,7 +15,7 @@ def setup(target=skywater130_demo):
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
     else:
-        chip.load_target(target)
+        chip.use(target)
 
     src_root = os.path.join('riscv32i', 'src')
     sdc_root = os.path.join('riscv32i', 'constraints')

@@ -90,12 +90,12 @@ def test_remove_target_not_found():
 def test_default_targets():
     gallery = Gallery()
 
-    assert gallery.get_targets() == ["freepdk45_demo",
-                                     "skywater130_demo",
-                                     "asap7_demo",
-                                     "gf180_demo",
+    assert gallery.get_targets() == ["freepdk45_nangate45",
+                                     "sky130_sky130hd",
+                                     "asap7_asap7sc7p5t_rvt",
                                      "asap7_asap7sc7p5t_lvt",
                                      "asap7_asap7sc7p5t_slvt",
+                                     "gf180_gf180mcu_fd_sc_mcu9t5v0",
                                      "gf180_gf180mcu_fd_sc_mcu7t5v0",
                                      "None"]
 

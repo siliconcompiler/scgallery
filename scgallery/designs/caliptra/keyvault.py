@@ -21,7 +21,7 @@ def setup(target=freepdk45_demo):
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
     else:
-        chip.load_target(target)
+        chip.use(target)
 
     sdc_root = os.path.join('caliptra', 'constraints', 'keyvault')
 

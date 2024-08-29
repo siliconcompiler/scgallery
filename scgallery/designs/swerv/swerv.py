@@ -14,7 +14,7 @@ def setup(target=asap7_demo):
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
     else:
-        chip.load_target(target)
+        chip.use(target)
 
     sdc_root = os.path.join('swerv', 'constraints')
     lint_root = os.path.join('swerv', 'lint')

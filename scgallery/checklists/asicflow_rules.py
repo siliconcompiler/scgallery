@@ -3,7 +3,7 @@ import json
 import fnmatch
 
 
-def setup(chip, rules_files=None, skip_rules=None):
+def setup(job=None, flow=None, mainlib=None, flow_nodes=None, rules_files=None, skip_rules=None):
     '''
     '''
 
@@ -15,10 +15,19 @@ def setup(chip, rules_files=None, skip_rules=None):
 
     standard = 'asicflow_rules'
 
-    job = chip.get('option', 'jobname')
-    flow = chip.get('option', 'flow')
+    if not job:
+        raise ValueError('job is required')
 
-    checklist = Checklist(chip, standard)
+    if not flow:
+        raise ValueError('flow is required')
+
+    if not mainlib:
+        raise ValueError('mainlib is required')
+
+    if flow_nodes is None:
+        raise ValueError('flow_nodes is required')
+
+    checklist = Checklist(standard)
 
     # read in all rules
     rules = {}
@@ -26,12 +35,9 @@ def setup(chip, rules_files=None, skip_rules=None):
         with open(rules_file, 'r') as f:
             rules.update(json.load(f))
 
-    mainlib = chip.get('asic', 'logiclib', step='global', index='global')[0]
-
     if mainlib not in rules:
         raise ValueError(f'{mainlib} is missing from rules')
 
-    flow = chip.get('option', 'flow')
     if flow not in rules[mainlib]:
         raise ValueError(f'{flow} is missing from rules')
 
@@ -51,13 +57,13 @@ def setup(chip, rules_files=None, skip_rules=None):
 
         for node in info['nodes']:
             if node['step'] == '*':
-                steps = chip.getkeys('flowgraph', flow)
+                steps = [step for step, _ in flow_nodes]
             else:
                 steps = [node['step']]
 
             for step in steps:
                 if node['index'] == '*':
-                    indexes = chip.getkeys('flowgraph', flow, step)
+                    steps = [index for nstep, index in flow_nodes if step == nstep]
                 else:
                     indexes = [node['index']]
 

@@ -24,4 +24,4 @@ def init_zerosoc():
         if path not in sys.path:
             sys.path.append(path)
 
-    return importlib.import_module(f'{package_name}.build')
+    return importlib.import_module(f'{package_name}.make')

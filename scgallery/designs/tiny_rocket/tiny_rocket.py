@@ -5,8 +5,8 @@ import os
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
 from siliconcompiler.tools._common.asic import get_mainlib
-from scgallery.designs import _common
 from scgallery import Gallery
+from lambdalib import ramlib
 
 
 def setup(target=freepdk45_demo):
@@ -16,7 +16,7 @@ def setup(target=freepdk45_demo):
     if __name__ == '__main__':
         Gallery.design_commandline(chip)
     else:
-        chip.load_target(target)
+        chip.use(target)
 
     src_root = os.path.join('tiny_rocket', 'src')
     extra_root = os.path.join('tiny_rocket', 'extra')
@@ -33,8 +33,8 @@ def setup(target=freepdk45_demo):
 
     chip.set('option', 'define', 'SYNTHESIS')
 
-    _common.add_lambdalib_memory(chip)
     chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
+    chip.use(ramlib)
 
     return chip
 

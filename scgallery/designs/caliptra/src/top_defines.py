@@ -1,9 +1,8 @@
 from ..src import make_lib
 
 
-def setup(chip):
+def setup():
     lib = make_lib(
-        chip,
         'caliptra_top_defines',
         'src/integration/rtl',
         [],
