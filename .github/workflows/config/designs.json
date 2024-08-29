@@ -12,17 +12,17 @@
     {
         "design": "aes",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "aes",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "aes",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "aes",
@@ -34,7 +34,7 @@
         "design": "aes",
         "remote": false,
         "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "cache": true,
@@ -55,21 +55,21 @@
         "design": "ariane",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "cache": true,
         "design": "ariane",
         "remote": false,
         "skip": "Runtime ~2 hours",
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "ariane",
         "remote": false,
         "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
@@ -83,7 +83,7 @@
         "design": "ariane",
         "remote": false,
         "skip": "[DRT] Ends with 3 DRC violations (shorts)",
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "cache": true,
@@ -104,21 +104,21 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
         "skip": "Timeout on github runner + running out of memory",
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
         "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
@@ -132,7 +132,7 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "[INFO DPL-0034] Detailed placement failed on the following 1530 instances:",
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "caliptra-datavault",
@@ -149,19 +149,19 @@
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "caliptra-datavault",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "cache": true,
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "cache": false,
@@ -182,21 +182,21 @@
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "caliptra-sha512",
@@ -211,17 +211,17 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
@@ -233,7 +233,7 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "dynamic_node",
@@ -248,17 +248,17 @@
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "dynamic_node",
@@ -268,7 +268,7 @@
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "ethmac",
@@ -283,17 +283,17 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "ethmac",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "ethmac",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "ethmac",
@@ -303,7 +303,7 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "gcd",
@@ -318,17 +318,17 @@
     {
         "design": "gcd",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "gcd",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "gcd",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "gcd",
@@ -338,7 +338,7 @@
     {
         "design": "gcd",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "heartbeat",
@@ -353,17 +353,17 @@
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "heartbeat",
@@ -373,7 +373,7 @@
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "ibex",
@@ -388,17 +388,17 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "ibex",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "ibex",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "ibex",
@@ -408,7 +408,7 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "jpeg",
@@ -423,17 +423,17 @@
     {
         "design": "jpeg",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "jpeg",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "jpeg",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
@@ -445,7 +445,7 @@
     {
         "design": "jpeg",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "mock_alu",
@@ -460,17 +460,17 @@
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "mock_alu",
@@ -480,7 +480,7 @@
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "openmsp430",
@@ -495,17 +495,17 @@
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "openmsp430",
@@ -515,7 +515,7 @@
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "picorv32",
@@ -530,17 +530,17 @@
     {
         "design": "picorv32",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "picorv32",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "picorv32",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "picorv32",
@@ -550,7 +550,7 @@
     {
         "design": "picorv32",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "riscv32i",
@@ -565,17 +565,17 @@
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "riscv32i",
@@ -585,7 +585,7 @@
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "spi",
@@ -600,17 +600,17 @@
     {
         "design": "spi",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "spi",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "spi",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "spi",
@@ -620,7 +620,7 @@
     {
         "design": "spi",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "cache": false,
@@ -641,19 +641,19 @@
         "design": "swerv",
         "remote": false,
         "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "swerv",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "cache": true,
         "design": "swerv",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
@@ -667,7 +667,7 @@
         "design": "swerv",
         "remote": false,
         "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "tiny_rocket",
@@ -682,17 +682,17 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "tiny_rocket",
@@ -702,7 +702,7 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "uart",
@@ -717,17 +717,17 @@
     {
         "design": "uart",
         "remote": false,
-        "target": "asap7_demo"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "uart",
         "remote": false,
-        "target": "freepdk45_demo"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "uart",
         "remote": false,
-        "target": "gf180_demo"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "uart",
@@ -737,7 +737,7 @@
     {
         "design": "uart",
         "remote": false,
-        "target": "skywater130_demo"
+        "target": "skywater130_shy130hd"
     },
     {
         "design": "zerosoc_flat",
