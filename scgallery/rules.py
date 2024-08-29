@@ -9,6 +9,7 @@ from enum import Enum, auto
 from datetime import datetime
 from scgallery.checklists import asicflow_rules
 from siliconcompiler import utils
+from siliconcompiler.flowgraph import nodes_to_execute
 
 
 class UpdateMethod(Enum):
