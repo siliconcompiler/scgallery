@@ -7,4 +7,4 @@ def runtime_setup(gallery):
                                  verify=False,
                                  resume=not gallery.is_clean,
                                  floorplan=False)
-    return build.setup_top_hier(core_chip)
+    return build._setup_top_hier(core_chip)
