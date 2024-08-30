@@ -50,7 +50,7 @@ class Gallery:
         self.__targets = {}
         for name, target in (
                 ("freepdk45_nangate45", freepdk45_nangate45),
-                ("sky130_sky130hd", sky130_sky130hd),
+                ("skywater130_sky130hd", sky130_sky130hd),
                 ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
                 ("asap7_asap7sc7p5t_lvt", asap7_asap7sc7p5t_lvt),
                 ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),

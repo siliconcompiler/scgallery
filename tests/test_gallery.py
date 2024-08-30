@@ -91,7 +91,7 @@ def test_default_targets():
     gallery = Gallery()
 
     assert gallery.get_targets() == ["freepdk45_nangate45",
-                                     "sky130_sky130hd",
+                                     "skywater130_sky130hd",
                                      "asap7_asap7sc7p5t_rvt",
                                      "asap7_asap7sc7p5t_lvt",
                                      "asap7_asap7sc7p5t_slvt",

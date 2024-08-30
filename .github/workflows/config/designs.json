@@ -34,7 +34,7 @@
         "design": "aes",
         "remote": false,
         "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "cache": true,
@@ -83,7 +83,7 @@
         "design": "ariane",
         "remote": false,
         "skip": "[DRT] Ends with 3 DRC violations (shorts)",
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "cache": true,
@@ -132,7 +132,7 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "[INFO DPL-0034] Detailed placement failed on the following 1530 instances:",
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "caliptra-datavault",
@@ -161,7 +161,7 @@
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "cache": false,
@@ -196,7 +196,7 @@
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "caliptra-sha512",
@@ -233,7 +233,7 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "dynamic_node",
@@ -268,7 +268,7 @@
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "ethmac",
@@ -303,7 +303,7 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "gcd",
@@ -338,7 +338,7 @@
     {
         "design": "gcd",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "heartbeat",
@@ -373,7 +373,7 @@
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "ibex",
@@ -408,7 +408,7 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "jpeg",
@@ -445,7 +445,7 @@
     {
         "design": "jpeg",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "mock_alu",
@@ -480,7 +480,7 @@
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "openmsp430",
@@ -515,7 +515,7 @@
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "picorv32",
@@ -550,7 +550,7 @@
     {
         "design": "picorv32",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "riscv32i",
@@ -585,7 +585,7 @@
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "spi",
@@ -620,7 +620,7 @@
     {
         "design": "spi",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "cache": false,
@@ -667,7 +667,7 @@
         "design": "swerv",
         "remote": false,
         "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "tiny_rocket",
@@ -702,7 +702,7 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "uart",
@@ -737,7 +737,7 @@
     {
         "design": "uart",
         "remote": false,
-        "target": "skywater130_shy130hd"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "zerosoc_flat",
