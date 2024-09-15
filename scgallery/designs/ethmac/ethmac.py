@@ -4,21 +4,14 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
-from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 from lambdalib import ramlib
 
 
-def setup(target=asap7_demo):
+def setup():
     chip = Chip('ethmac')
 
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-    else:
-        chip.use(target)
-
     src_root = os.path.join('ethmac', 'src')
-    sdc_root = os.path.join('ethmac', 'constraints')
 
     for src in ('ethmac.v',
                 'ethmac_defines.v',
@@ -54,19 +47,20 @@ def setup(target=asap7_demo):
     chip.input(os.path.join('ethmac', 'extra', 'lambda.v'), package='scgallery-designs')
     chip.use(ramlib)
 
-    mainlib = get_mainlib(chip)
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
-
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
-
     # Lint setup
     chip.set('tool', 'slang', 'task', 'lint', 'option', '--timescale 1ns/1ns')
 
     return chip
 
 
+def setup_physical(chip):
+    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
+
+
 if __name__ == '__main__':
     chip = setup()
+    Gallery.design_commandline(chip, target=asap7_demo)
+    setup_physical(chip)
 
     chip.run()
     chip.summary()

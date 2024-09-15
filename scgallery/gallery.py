@@ -205,6 +205,11 @@ class Gallery:
             setup = []
         if not isinstance(setup, (list, tuple)):
             setup = [setup]
+
+        builtin_setup = getattr(module, 'setup_physical', None)
+        if builtin_setup and builtin_setup not in setup:
+            setup.append(builtin_setup)
+
         for func in setup:
             self.add_design_setup(name, func)
 
@@ -491,8 +496,12 @@ class Gallery:
     def __setup_design(self, design, target):
         if target:
             print(f'Setting up "{design}" with "{target}"')
-            chip = self.__designs[design]['module'].setup(
-                target=self.__targets[target])
+            if not self.__design_needs_target(self.__designs[design]):
+                chip = self.__designs[design]['module'].setup(
+                    target=self.__targets[target])
+            else:
+                chip = self.__designs[design]['module'].setup()
+                chip.use(self.__targets[target])
         else:
             print(f'Setting up "{design}"')
             chip = self.__designs[design]['module'].setup()
@@ -506,6 +515,26 @@ class Gallery:
 
         has_sdc = self.__design_has_sdc(chip)
         has_clock = self.__design_has_clock(chip)
+
+        # Attempt to find a constraints file
+        if not has_clock and not has_sdc:
+            if chip.valid('option', 'dir', 'gallery_sdc_path'):
+                sdc_path = chip.find_files('option', 'dir', 'gallery_sdc_path')
+                if sdc_path:
+                    sdc_path = sdc_path[0]
+            else:
+                sdc_path = os.path.join(
+                    os.path.dirname(self.__designs[design]['module'].__file__),
+                    'constraints')
+
+                if not os.path.exists(sdc_path):
+                    sdc_path = None
+            if sdc_path:
+                sdc_file = os.path.join(sdc_path, f'{get_mainlib(chip)}.sdc')
+                if os.path.exists(sdc_file):
+                    chip.input(sdc_file)
+                    has_sdc = True
+
         is_lint = target == "lint"
 
         is_valid = has_sdc or has_clock or is_lint
@@ -595,6 +624,9 @@ class Gallery:
                     chip = runtime_setup(self, target=design['target'])
                 else:
                     chip = runtime_setup(self)
+
+                if self.__design_needs_target(design):
+                    chip.use(design['target'])
             except Exception:
                 return chip, False
 
@@ -687,6 +719,13 @@ class Gallery:
 
         return 'target' in inspect.getfullargspec(setup_func).args
 
+    def __design_needs_target(self, design):
+        '''
+        Checks if the design has 'gallery_needs_target' set and returns the value.
+        This will default to true.
+        '''
+        return getattr(design['module'], 'gallery_needs_target', True)
+
     def __design_runtime_setup(self, design):
         return getattr(self.__designs[design]['module'], 'runtime_setup', None)
 
@@ -722,13 +761,10 @@ class Gallery:
 
             targets = self.__run_config['targets']
 
-            runtime_setup = self.__design_runtime_setup(design)
-
-            if not self.__design_has_target_option(design, setup_func=runtime_setup):
+            if not self.__design_needs_target(self.__designs[design]):
                 if "None" in targets:
                     targets = [None]
                 else:
-                    # no target has not been specified
                     continue
             else:
                 targets = [target for target in targets if target != "None"]
@@ -858,9 +894,11 @@ class Gallery:
                              path='python://scgallery.designs')
 
     @staticmethod
-    def design_commandline(chip):
+    def design_commandline(chip, target=None):
         Gallery._register_design_sources(chip)
-        chip.create_cmdline(chip.design)
+        args = chip.create_cmdline(chip.design)
+        if target and ("target" not in args or not args["target"]):
+            chip.use(target)
 
     @classmethod
     def main(cls):
