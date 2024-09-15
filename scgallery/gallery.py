@@ -41,6 +41,8 @@ from scgallery.checklists import asicflow_rules
 
 
 class Gallery:
+    SDC_KEY = ('option', 'dir', 'gallery_sdc_path')
+
     def __init__(self, name=None, path=None):
         self.__name = name
         self.set_path(path)
@@ -206,9 +208,9 @@ class Gallery:
         if not isinstance(setup, (list, tuple)):
             setup = [setup]
 
-        builtin_setup = getattr(module, 'setup_physical', None)
-        if builtin_setup and builtin_setup not in setup:
-            setup.append(builtin_setup)
+        for setup_name, builtin_setup in inspect.getmembers(module, inspect.isfunction):
+            if setup_name.startswith('setup_') and builtin_setup not in setup:
+                setup.append(builtin_setup)
 
         for func in setup:
             self.add_design_setup(name, func)
@@ -518,8 +520,8 @@ class Gallery:
 
         # Attempt to find a constraints file
         if not has_clock and not has_sdc:
-            if chip.valid('option', 'dir', 'gallery_sdc_path'):
-                sdc_path = chip.find_files('option', 'dir', 'gallery_sdc_path')
+            if chip.valid(*Gallery.SDC_KEY):
+                sdc_path = chip.find_files(*Gallery.SDC_KEY)
                 if sdc_path:
                     sdc_path = sdc_path[0]
             else:
@@ -625,7 +627,8 @@ class Gallery:
                 else:
                     chip = runtime_setup(self)
 
-                if self.__design_needs_target(design):
+                if self.__design_needs_target(self.__designs[design['design']]) and \
+                        design['target']:
                     chip.use(design['target'])
             except Exception:
                 return chip, False
