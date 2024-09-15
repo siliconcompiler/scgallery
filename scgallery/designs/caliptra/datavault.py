@@ -19,6 +19,8 @@ def setup():
 
     chip.set('option', 'entrypoint', 'dv')
 
+    chip.set(*Gallery.SDC_KEY, 'caliptra/constraints/datavault', package='scgallery-designs')
+
     return chip
 
 

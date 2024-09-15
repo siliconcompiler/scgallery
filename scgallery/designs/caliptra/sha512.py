@@ -19,6 +19,8 @@ def setup():
 
     chip.set('option', 'entrypoint', 'sha512_ctrl')
 
+    chip.set(*Gallery.SDC_KEY, 'caliptra/constraints/sha512', package='scgallery-designs')
+
     return chip
 
 
