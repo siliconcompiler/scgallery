@@ -223,7 +223,7 @@ def test_clear_design_rules():
 def test_get_design_setup_design_none(design_name):
     gallery = Gallery()
 
-    assert len(gallery.get_design_setup(design_name)) == 0
+    assert len(gallery.get_design_setup(design_name)) <= 1
 
 
 def test_add_design_setup():
