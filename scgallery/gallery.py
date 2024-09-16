@@ -837,6 +837,9 @@ class Gallery:
 
         regular_jobs = self.__get_runnable_jobs()
 
+        if not regular_jobs:
+            return False
+
         if self.is_remote:
             def _run_remote(chip, design, job):
                 if not chip:
