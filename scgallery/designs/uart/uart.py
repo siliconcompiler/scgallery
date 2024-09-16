@@ -22,7 +22,7 @@ def setup():
 
 def setup_lint(chip):
     chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             'uart/lint/verilator'), package='scgallery-designs')
+             'uart/lint/verilator', package='scgallery-designs')
 
 
 if __name__ == '__main__':

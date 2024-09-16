@@ -223,7 +223,9 @@ def test_clear_design_rules():
 def test_get_design_setup_design_none(design_name):
     gallery = Gallery()
 
-    assert len(gallery.get_design_setup(design_name)) <= 1
+    funcs = gallery.get_design_setup(design_name)
+
+    assert len([func for func in funcs if not func.__name__.startswith('setup_')]) == 0
 
 
 def test_add_design_setup():
