@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import os
-
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
 from scgallery import Gallery
