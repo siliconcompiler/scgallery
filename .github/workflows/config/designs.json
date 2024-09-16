@@ -7,12 +7,12 @@
     {
         "design": "aes",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "aes",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "aes",
@@ -22,18 +22,16 @@
     {
         "design": "aes",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "aes",
+        "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "aes",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": true,
-        "design": "aes",
-        "remote": false,
-        "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
         "target": "skywater130_sky130hd"
     },
     {
@@ -44,13 +42,6 @@
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
-        "cache": false,
-        "design": "ariane",
-        "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "asap7_asap7sc7p5t_slvt"
-    },
-    {
         "cache": true,
         "design": "ariane",
         "remote": false,
@@ -61,28 +52,35 @@
         "cache": true,
         "design": "ariane",
         "remote": false,
-        "skip": "Runtime ~2 hours",
+        "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
+        "cache": true,
+        "design": "ariane",
+        "remote": false,
+        "skip": "Timeout on github runner",
         "target": "freepdk45_nangate45"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "ariane",
         "remote": false,
-        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "ariane",
-        "remote": false,
-        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
+        "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "ariane",
         "remote": false,
-        "skip": "[DRT] Ends with 3 DRC violations (shorts)",
+        "skip": "Timeout on github runner",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": true,
+        "design": "ariane",
+        "remote": false,
+        "skip": "Too much memory for github runner",
         "target": "skywater130_sky130hd"
     },
     {
@@ -97,6 +95,13 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "cache": true,
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_slvt"
     },
     {
@@ -104,45 +109,33 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "black_parrot",
-        "remote": false,
-        "skip": "Timeout on github runner + running out of memory",
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "black_parrot",
-        "remote": false,
-        "skip": "[ERROR PDN-0179] Unable to repair all channels",
+        "skip": "[ERROR MPL-0040] Failed on cluster (multi_top/rof1_0__core/fe/icache_1)_glue_logic",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[INFO DPL-0034] Detailed placement failed on the following 1530 instances:",
+        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster:",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": true,
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "Too much memory for github runner",
         "target": "skywater130_sky130hd"
     },
     {
         "design": "caliptra-datavault",
         "remote": false,
         "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "caliptra-datavault",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -154,6 +147,11 @@
     {
         "design": "caliptra-datavault",
         "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
+        "design": "caliptra-datavault",
+        "remote": false,
         "target": "freepdk45_nangate45"
     },
     {
@@ -164,38 +162,38 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
+        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "asap7_asap7sc7p5t_slvt"
+        "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "asap7_asap7sc7p5t_rvt"
+        "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
+        "skip": "Timeout on github runner",
         "target": "freepdk45_nangate45"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "caliptra-keyvault",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
+        "skip": "Timeout on github runner",
         "target": "skywater130_sky130hd"
     },
     {
@@ -206,12 +204,12 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "caliptra-sha512",
@@ -219,16 +217,16 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": true,
+        "design": "caliptra-sha512",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
         "design": "caliptra-sha512",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "caliptra-sha512",
-        "remote": false,
-        "skip": "[INFO DRT-0199]   Number of violations = 753.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "caliptra-sha512",
@@ -243,22 +241,17 @@
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "freepdk45_nangate45"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "dynamic_node",
@@ -268,6 +261,11 @@
     {
         "design": "dynamic_node",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -278,12 +276,12 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "ethmac",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ethmac",
@@ -293,12 +291,12 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "ethmac",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "ethmac",
@@ -313,22 +311,17 @@
     {
         "design": "gcd",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "gcd",
         "remote": false,
-        "target": "freepdk45_nangate45"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "gcd",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "gcd",
@@ -338,6 +331,11 @@
     {
         "design": "gcd",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -348,12 +346,12 @@
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "heartbeat",
@@ -363,12 +361,12 @@
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "heartbeat",
@@ -383,22 +381,17 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "ibex",
         "remote": false,
-        "target": "freepdk45_nangate45"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ibex",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "freepdk45_nangate45"
     },
     {
         "design": "ibex",
@@ -408,6 +401,11 @@
     {
         "design": "ibex",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -418,12 +416,12 @@
     {
         "design": "jpeg",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "jpeg",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "jpeg",
@@ -431,16 +429,16 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": true,
+        "design": "jpeg",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
         "design": "jpeg",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "jpeg",
-        "remote": false,
-        "skip": "[INFO DRT-0199]   Number of violations = 81.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "jpeg",
@@ -455,12 +453,12 @@
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "mock_alu",
@@ -470,12 +468,12 @@
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "mock_alu",
@@ -490,12 +488,12 @@
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "openmsp430",
@@ -505,12 +503,12 @@
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "openmsp430",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "openmsp430",
@@ -525,12 +523,12 @@
     {
         "design": "picorv32",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "picorv32",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "picorv32",
@@ -540,12 +538,12 @@
     {
         "design": "picorv32",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "picorv32",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "picorv32",
@@ -560,12 +558,12 @@
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "riscv32i",
@@ -575,12 +573,12 @@
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "riscv32i",
@@ -595,12 +593,12 @@
     {
         "design": "spi",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "spi",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "spi",
@@ -610,12 +608,12 @@
     {
         "design": "spi",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "spi",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "spi",
@@ -623,25 +621,25 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "swerv",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
+        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_lvt"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "swerv",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "asap7_asap7sc7p5t_slvt"
+        "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "swerv",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
-        "target": "asap7_asap7sc7p5t_rvt"
+        "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "swerv",
@@ -653,20 +651,20 @@
         "design": "swerv",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "swerv",
-        "remote": false,
-        "skip": "[INFO DRT-0199]   Number of violations = 2002.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "swerv",
         "remote": false,
-        "skip": "[ERROR GRT-0119] Routing congestion too high.",
+        "skip": "Timeout on github runner",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": true,
+        "design": "swerv",
+        "remote": false,
+        "skip": "Timeout on github runner",
         "target": "skywater130_sky130hd"
     },
     {
@@ -677,12 +675,12 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "tiny_rocket",
@@ -692,12 +690,12 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "tiny_rocket",
@@ -712,12 +710,12 @@
     {
         "design": "uart",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
+        "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "uart",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "uart",
@@ -727,12 +725,12 @@
     {
         "design": "uart",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "uart",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "uart",
