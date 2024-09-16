@@ -47,14 +47,15 @@ def setup():
     chip.input(os.path.join('ethmac', 'extra', 'lambda.v'), package='scgallery-designs')
     chip.use(ramlib)
 
-    # Lint setup
-    chip.set('tool', 'slang', 'task', 'lint', 'option', '--timescale 1ns/1ns')
-
     return chip
 
 
 def setup_physical(chip):
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
+
+
+def setup_lint(chip):
+    chip.set('tool', 'slang', 'task', 'lint', 'option', '--timescale 1ns/1ns')
 
 
 if __name__ == '__main__':

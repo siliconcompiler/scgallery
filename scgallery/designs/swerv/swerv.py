@@ -10,8 +10,6 @@ from scgallery import Gallery
 def setup():
     chip = Chip('swerv')
 
-    lint_root = os.path.join('swerv', 'lint')
-
     chip.register_source('swerv-eh1',
                          path='git+https://github.com/chipsalliance/Cores-VeeR-EH1.git',
                          ref='695883a674c4a59cf96fae874ff4bfac5fecf4e8')
@@ -69,17 +67,17 @@ def setup():
     chip.add('option', 'idir', 'design', package='swerv-eh1')
     chip.add('option', 'idir', 'design/include', package='swerv-eh1')
 
-    chip.add('option', 'define', 'PHYSICAL')
-
-    # Lint setup
-    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
-
     return chip
 
 
 def setup_physical(chip):
     chip.add('option', 'define', 'PHYSICAL')
+
+
+def setup_lint(chip):
+    lint_root = os.path.join('swerv', 'lint')
+    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
+             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
 
 
 if __name__ == '__main__':

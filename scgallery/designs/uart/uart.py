@@ -11,7 +11,6 @@ def setup():
     chip = Chip('uart')
 
     src_root = os.path.join('uart', 'src')
-    lint_root = os.path.join('uart', 'lint')
 
     for src in ('uart.v',
                 'uart_tx.v',
@@ -19,10 +18,14 @@ def setup():
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
     # Lint setup
-    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
 
     return chip
+
+
+def setup_lint(chip):
+    lint_root = os.path.join('uart', 'lint')
+    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
+             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
 
 
 if __name__ == '__main__':

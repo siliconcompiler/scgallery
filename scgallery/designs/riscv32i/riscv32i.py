@@ -12,7 +12,6 @@ def setup():
     chip.set('option', 'entrypoint', 'riscv')
 
     src_root = os.path.join('riscv32i', 'src')
-    lint_root = os.path.join('riscv32i', 'lint')
 
     for src in ('adder.v',
                 'alu.v',
@@ -40,11 +39,13 @@ def setup():
                 'top.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
-    # Lint setup
+    return chip
+
+
+def setup_lint(chip):
+    lint_root = os.path.join('riscv32i', 'lint')
     chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
              os.path.join(lint_root, 'verilator'), package='scgallery-designs')
-
-    return chip
 
 
 if __name__ == '__main__':

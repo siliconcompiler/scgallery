@@ -12,7 +12,6 @@ def setup():
     chip.set('option', 'entrypoint', 'jpeg_encoder')
 
     src_root = os.path.join('jpeg', 'src')
-    lint_root = os.path.join('jpeg', 'lint')
 
     chip.set('option', 'idir', os.path.join(src_root, 'include'), package='scgallery-designs')
     for src in ('jpeg_encoder.v',
@@ -30,11 +29,13 @@ def setup():
                 'zigzag.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
-    # Lint setup
+    return chip
+
+
+def setup_lint(chip):
+    lint_root = os.path.join('jpeg', 'lint')
     chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
              os.path.join(lint_root, 'verilator'), package='scgallery-designs')
-
-    return chip
 
 
 if __name__ == '__main__':
