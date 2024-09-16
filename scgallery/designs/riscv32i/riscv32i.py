@@ -43,9 +43,8 @@ def setup():
 
 
 def setup_lint(chip):
-    lint_root = os.path.join('riscv32i', 'lint')
     chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
+             'riscv32i/lint/verilator', package='scgallery-designs')
 
 
 if __name__ == '__main__':

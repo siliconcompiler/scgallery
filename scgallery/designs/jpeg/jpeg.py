@@ -33,9 +33,8 @@ def setup():
 
 
 def setup_lint(chip):
-    lint_root = os.path.join('jpeg', 'lint')
     chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
+             'jpeg/lint/verilator', package='scgallery-designs')
 
 
 if __name__ == '__main__':
