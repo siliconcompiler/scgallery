@@ -4,20 +4,12 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
-from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 
 
-def setup(target=asap7_demo):
+def setup():
     chip = Chip('ibex')
     chip.set('option', 'entrypoint', 'ibex_core')
-
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-    else:
-        chip.use(target)
-
-    sdc_root = os.path.join('ibex', 'constraints')
 
     chip.register_source('opentitan',
                          path='git+https://github.com/lowRISC/opentitan.git',
@@ -54,23 +46,22 @@ def setup(target=asap7_demo):
     chip.add('option', 'idir', 'hw/ip/prim/rtl', package='opentitan')
     chip.add('option', 'idir', 'hw/dv/sv/dv_utils', package='opentitan')
 
+    return chip
+
+
+def setup_physical(chip):
     chip.add('option', 'define', 'SYNTHESIS')
 
-    mainlib = get_mainlib(chip)
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
-
-    if mainlib.startswith('asap7sc7p5t'):
+    if chip.get('option', 'pdk') == 'asap7':
         chip.set('tool', 'openroad', 'task', 'place', 'var', 'enable_dpo', 'false')
-    elif mainlib == 'nangate45':
-        pass
-    elif mainlib.startswith('sky130'):
+    elif chip.get('option', 'pdk') == 'skywater130':
         chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'false')
-
-    return chip
 
 
 if __name__ == '__main__':
     chip = setup()
+    Gallery.design_commandline(chip, target=asap7_demo)
+    setup_physical(chip)
 
     chip.run()
     chip.summary()

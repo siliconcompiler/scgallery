@@ -8,35 +8,29 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
-from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 from lambdalib import ramlib
 
 
-def setup(target=freepdk45_demo):
+def setup():
     chip = Chip('black_parrot')
-
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-    else:
-        chip.use(target)
 
     src_root = os.path.join('black_parrot', 'src')
     extra_root = os.path.join('black_parrot', 'extra')
-    sdc_root = os.path.join('black_parrot', 'constraints')
 
     for src in ('pickled.v',):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
-    mainlib = get_mainlib(chip)
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
-
-    chip.set('option', 'define', 'SYNTHESIS')
-
     chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
     chip.use(ramlib)
 
-    if mainlib.startswith('sky130'):
+    return chip
+
+
+def setup_physical(chip):
+    chip.set('option', 'define', 'SYNTHESIS')
+
+    if chip.get('option', 'pdk') == 'skywater130':
         pass
     else:
         chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy', 'AREA3')
@@ -50,11 +44,11 @@ def setup(target=freepdk45_demo):
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_min_macros', '12')
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_max_macros', '4')
 
-    return chip
-
 
 if __name__ == '__main__':
     chip = setup()
+    Gallery.design_commandline(chip, target=freepdk45_demo)
+    setup_physical(chip)
 
     chip.run()
     chip.summary()

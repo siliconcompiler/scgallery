@@ -1,23 +1,12 @@
 #!/usr/bin/env python3
 
-import os
-
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
-from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 
 
-def setup(target=asap7_demo):
+def setup():
     chip = Chip('swerv')
-
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-    else:
-        chip.use(target)
-
-    sdc_root = os.path.join('swerv', 'constraints')
-    lint_root = os.path.join('swerv', 'lint')
 
     chip.register_source('swerv-eh1',
                          path='git+https://github.com/chipsalliance/Cores-VeeR-EH1.git',
@@ -76,20 +65,22 @@ def setup(target=asap7_demo):
     chip.add('option', 'idir', 'design', package='swerv-eh1')
     chip.add('option', 'idir', 'design/include', package='swerv-eh1')
 
+    return chip
+
+
+def setup_physical(chip):
     chip.add('option', 'define', 'PHYSICAL')
 
-    mainlib = get_mainlib(chip)
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
 
-    # Lint setup
+def setup_lint(chip):
     chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
-
-    return chip
+             'swerv/lint/verilator', package='scgallery-designs')
 
 
 if __name__ == '__main__':
     chip = setup()
+    Gallery.design_commandline(chip, target=asap7_demo)
+    setup_physical(chip)
 
     chip.run()
     chip.summary()

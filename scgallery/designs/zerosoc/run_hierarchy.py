@@ -1,6 +1,9 @@
 from . import init_zerosoc
 
 
+gallery_needs_target = False
+
+
 def runtime_setup(gallery):
     build = init_zerosoc()
     core_chip = build.build_core(remote=False,

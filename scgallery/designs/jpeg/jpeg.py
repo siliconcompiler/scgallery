@@ -4,22 +4,14 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import asap7_demo
-from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 
 
-def setup(target=asap7_demo):
+def setup():
     chip = Chip('jpeg')
     chip.set('option', 'entrypoint', 'jpeg_encoder')
 
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-    else:
-        chip.use(target)
-
     src_root = os.path.join('jpeg', 'src')
-    sdc_root = os.path.join('jpeg', 'constraints')
-    lint_root = os.path.join('jpeg', 'lint')
 
     chip.set('option', 'idir', os.path.join(src_root, 'include'), package='scgallery-designs')
     for src in ('jpeg_encoder.v',
@@ -37,18 +29,17 @@ def setup(target=asap7_demo):
                 'zigzag.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
-    mainlib = get_mainlib(chip)
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
-
-    # Lint setup
-    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             os.path.join(lint_root, 'verilator'), package='scgallery-designs')
-
     return chip
+
+
+def setup_lint(chip):
+    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
+             'jpeg/lint/verilator', package='scgallery-designs')
 
 
 if __name__ == '__main__':
     chip = setup()
+    Gallery.design_commandline(chip, target=asap7_demo)
 
     chip.run()
     chip.summary()

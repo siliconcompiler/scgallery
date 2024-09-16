@@ -10,28 +10,25 @@ import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo
-from siliconcompiler.tools._common.asic import get_mainlib
 from scgallery import Gallery
 from lambdalib import ramlib
 
 
-def setup(target=freepdk45_demo):
+def setup():
     chip = Chip('ariane')
 
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
-    else:
-        chip.use(target)
-
     src_root = os.path.join('ariane', 'src')
-    sdc_root = os.path.join('ariane', 'constraints')
 
-    for src in ('ariane.sv2v.v', 'macros.v'):
+    for src in ('ariane.sv2v.v',
+                'macros.v'):
         chip.input(os.path.join(src_root, src), package='scgallery-designs')
 
-    mainlib = get_mainlib(chip)
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
+    chip.use(ramlib)
 
+    return chip
+
+
+def setup_physical(chip):
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'preserve_modules', [
              'SyncSpRamBeNx64_00000008_00000100_0_2',
@@ -61,14 +58,6 @@ def setup(target=freepdk45_demo):
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
 
-    chip.use(ramlib)
-
-    if mainlib.startswith('asap7sc7p5t'):
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
-                 '0.05')
-        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M2_adjustment', '0.7')
-        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M3_adjustment', '0.6')
-
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
 
     chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
@@ -84,11 +73,17 @@ def setup(target=freepdk45_demo):
              'rtlmp_max_macros',
              '4')
 
-    return chip
+    if chip.get('option', 'pdk') == 'asap7':
+        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
+                 '0.05')
+        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M2_adjustment', '0.7')
+        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M3_adjustment', '0.6')
 
 
 if __name__ == '__main__':
     chip = setup()
+    Gallery.design_commandline(chip, target=freepdk45_demo)
+    setup_physical(chip)
 
     chip.run()
     chip.summary()
