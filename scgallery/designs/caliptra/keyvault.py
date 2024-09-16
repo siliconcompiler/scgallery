@@ -19,7 +19,7 @@ def setup():
 
     chip.set('option', 'entrypoint', 'kv')
 
-    chip.set(*Gallery.SDC_KEY, 'caliptra/constraints/kayvault', package='scgallery-designs')
+    chip.set(*Gallery.SDC_KEY, 'caliptra/constraints/keyvault', package='scgallery-designs')
 
     return chip
 
