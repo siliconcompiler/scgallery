@@ -210,9 +210,9 @@ jobs:
 
       - name: Install
         run: |
-          mkdir -p dist-sc
-          mkdir -p dist-pdk
-          pip3 install dist-gallery/*.whl dist-sc/*.whl dist-pdk/*.whl
+          wheels=$(find -name "*.whl")
+          echo "$wheels"
+          pip3 install $wheels
 
       - name: Run gallery
         timeout-minutes: ${{ inputs.timeout }}
