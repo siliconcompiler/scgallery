@@ -120,6 +120,26 @@ jobs:
         with:
           upload-name-suffix: '-lambdapdk'
 
+  package_siliconcompiler:
+    if: inputs.sc-ref != ''
+    name: Package siliconcompiler
+    runs-on: ubuntu-latest
+
+    outputs:
+      name: ${{ steps.wheel.outputs.artifact-name }}
+
+    steps:
+      - name: Get siliconcompiler
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.sc-ref }}
+          repository: siliconcompiler/siliconcompiler
+
+      - uses: hynek/build-and-inspect-python-package@v2.6.0
+        id: wheel
+        with:
+          upload-name-suffix: '-siliconcompiler'
+
   sc_version:
     if: inputs.sc-ref == ''
     needs: wheel
@@ -154,7 +174,7 @@ jobs:
       sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
 
   designs_test:
-    needs: [wheel, docker_image, designs, package_lambdapdk]
+    needs: [wheel, docker_image, designs, package_lambdapdk, package_siliconcompiler]
     if: always() && !cancelled()
     runs-on: ubuntu-latest
     container:
@@ -168,26 +188,18 @@ jobs:
 
     name: Run design
     steps:
-      - uses: actions/download-artifact@v4.1.8
+      - name: Get gallery
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist-gallery
 
-      - name: Install gallery
-        run: pip3 install dist-gallery/*.whl
-
-      - name: Get SC
+      - name: Get siliconcompiler
         if: inputs.sc-ref != ''
-        uses: actions/checkout@v4
+        uses: actions/download-artifact@v4.1.8
         with:
-          ref: ${{ inputs.sc-ref }}
-          path: sc
-          repository: siliconcompiler/siliconcompiler
-
-      - name: Install SC
-        if: inputs.sc-ref != ''
-        run: |
-          pip install ./sc
+          name: ${{ needs.package_siliconcompiler.outputs.name }}
+          path: dist-sc
 
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
@@ -196,9 +208,11 @@ jobs:
           name: ${{ needs.package_lambdapdk.outputs.name }}
           path: dist-pdk
 
-      - name: Install Lambdapdk
-        if: inputs.lambdapdk-ref != ''
-        run: pip3 install dist-pdk/*.whl
+      - name: Install
+        run: |
+          wheels=$(find -name "*.whl")
+          echo "$wheels"
+          pip3 install $wheels
 
       - name: Run gallery
         timeout-minutes: ${{ inputs.timeout }}
