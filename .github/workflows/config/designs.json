@@ -32,6 +32,11 @@
     {
         "design": "aes",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "aes",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -75,6 +80,13 @@
         "remote": false,
         "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "ariane",
+        "remote": false,
+        "skip": "Skipped until qualified",
+        "target": "ihp130_sg13g2_stdcell"
     },
     {
         "cache": true,
@@ -126,6 +138,13 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "Skipped until qualified",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
@@ -155,6 +174,13 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
+        "design": "caliptra-datavault",
+        "remote": false,
+        "skip": "Skipped until qualified",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
         "cache": true,
         "design": "caliptra-datavault",
         "remote": false,
@@ -190,6 +216,13 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
+        "design": "caliptra-keyvault",
+        "remote": false,
+        "skip": "Skipped until qualified",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
         "cache": true,
         "design": "caliptra-keyvault",
         "remote": false,
@@ -231,6 +264,11 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "caliptra-sha512",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -266,6 +304,11 @@
     {
         "design": "dynamic_node",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -301,6 +344,11 @@
     {
         "design": "ethmac",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -336,6 +384,11 @@
     {
         "design": "gcd",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -371,6 +424,11 @@
     {
         "design": "heartbeat",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -402,6 +460,11 @@
         "design": "ibex",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
     },
     {
         "design": "ibex",
@@ -443,6 +506,11 @@
     {
         "design": "jpeg",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -478,6 +546,11 @@
     {
         "design": "mock_alu",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -513,6 +586,11 @@
     {
         "design": "openmsp430",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -548,6 +626,11 @@
     {
         "design": "picorv32",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -583,6 +666,11 @@
     {
         "design": "riscv32i",
         "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -614,6 +702,11 @@
         "design": "spi",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
     },
     {
         "design": "spi",
@@ -659,6 +752,13 @@
         "remote": false,
         "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "Skipped until qualified",
+        "target": "ihp130_sg13g2_stdcell"
     },
     {
         "cache": true,
@@ -696,6 +796,13 @@
         "design": "tiny_rocket",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "tiny_rocket",
+        "remote": false,
+        "skip": "Skipped until qualified",
+        "target": "ihp130_sg13g2_stdcell"
     },
     {
         "design": "tiny_rocket",
@@ -731,6 +838,11 @@
         "design": "uart",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "uart",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
     },
     {
         "design": "uart",
