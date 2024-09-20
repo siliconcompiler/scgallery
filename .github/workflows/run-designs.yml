@@ -188,13 +188,11 @@ jobs:
 
     name: Run design
     steps:
-      - uses: actions/download-artifact@v4.1.8
+      - name: Get gallery
+        uses: actions/download-artifact@v4.1.8
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist-gallery
-
-      - name: Install gallery
-        run: pip3 install dist-gallery/*.whl
 
       - name: Get siliconcompiler
         if: inputs.sc-ref != ''
@@ -203,10 +201,6 @@ jobs:
           name: ${{ needs.package_siliconcompiler.outputs.name }}
           path: dist-sc
 
-      - name: Install siliconcompiler
-        if: inputs.sc-ref != ''
-        run: pip3 install dist-sc/*.whl
-
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
         uses: actions/download-artifact@v4.1.8
@@ -214,9 +208,11 @@ jobs:
           name: ${{ needs.package_lambdapdk.outputs.name }}
           path: dist-pdk
 
-      - name: Install Lambdapdk
-        if: inputs.lambdapdk-ref != ''
-        run: pip3 install dist-pdk/*.whl
+      - name: Install
+        run: |
+          mkdir -p dist-sc
+          mkdir -p dist-pdk
+          pip3 install dist-gallery/*.whl dist-sc/*.whl dist-pdk/*.whl
 
       - name: Run gallery
         timeout-minutes: ${{ inputs.timeout }}
