@@ -32,6 +32,9 @@ from scgallery.targets.gf180 import (
     gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0,
     gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0
 )
+from scgallery.targets.ihp130 import (
+    sg13g2_stdcell as ihp130_sg13g2_stdcell
+)
 from scgallery.targets import linting as gallery_lint
 from siliconcompiler.flows import lintflow
 
@@ -58,6 +61,7 @@ class Gallery:
                 ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),
                 ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
+                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
                 ("None", None)):
             self.add_target(name, target)
 
