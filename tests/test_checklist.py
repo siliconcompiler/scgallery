@@ -5,7 +5,6 @@ import scgallery
 from scgallery.checklists import asicflow_rules
 from siliconcompiler import Chip
 from siliconcompiler.tools._common.asic import get_mainlib
-from siliconcompiler.flowgraph import nodes_to_execute
 
 
 @pytest.fixture
@@ -57,7 +56,7 @@ def test_checklist(rules_file, check_chip):
         job=check_chip.get('option', 'jobname'),
         flow=check_chip.get('option', 'flow'),
         mainlib=get_mainlib(check_chip),
-        flow_nodes=nodes_to_execute(check_chip, flow=check_chip.get('option', 'flow')),
+        flow_nodes=[],
         rules_files=['testrules.json'])
 
     assert len(checklist.getkeys('checklist', 'asicflow_rules')) == 15
@@ -71,11 +70,11 @@ def test_checklist_skiprules_all(rules_file, check_chip):
         job=check_chip.get('option', 'jobname'),
         flow=check_chip.get('option', 'flow'),
         mainlib=get_mainlib(check_chip),
-        flow_nodes=nodes_to_execute(check_chip, flow=check_chip.get('option', 'flow')),
+        flow_nodes=[],
         rules_files=['testrules.json'],
         skip_rules=['*'])
 
-    assert len(checklist.getkeys('checklist', 'asicflow_rules')) == 0
+    assert 'asicflow_rules' not in checklist.getkeys('checklist')
 
 
 def test_checklist_skiprules_runtime(rules_file, check_chip):
@@ -86,7 +85,7 @@ def test_checklist_skiprules_runtime(rules_file, check_chip):
         job=check_chip.get('option', 'jobname'),
         flow=check_chip.get('option', 'flow'),
         mainlib=get_mainlib(check_chip),
-        flow_nodes=nodes_to_execute(check_chip, flow=check_chip.get('option', 'flow')),
+        flow_nodes=[],
         rules_files=['testrules.json'],
         skip_rules=['runtime*'])
 
