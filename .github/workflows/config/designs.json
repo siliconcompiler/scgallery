@@ -506,6 +506,7 @@
     {
         "design": "jpeg",
         "remote": false,
+        "skip": "Timeout on github runner",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
