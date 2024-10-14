@@ -61,14 +61,14 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           python3 -m venv .venv
-          .venv/Scripts/activate
+          .venv/Scripts/Activate.ps1
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
 
       - name: Run tests (windows)
         if: runner.os == 'Windows'
         run: |
-          .venv/Scripts/activate
+          .venv/Scripts/Activate.ps1
 
           # change running directory
           mkdir testrun
