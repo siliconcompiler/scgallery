@@ -29,6 +29,10 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
+    defaults:
+      run:
+        shell: bash
+
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
