@@ -57,6 +57,7 @@ testpaths = "tests"
 
 [tool.tclint]
 exclude = [
+    '.venv/',
     'build/'
 ]
 

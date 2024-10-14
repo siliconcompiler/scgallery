@@ -20,10 +20,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Install Requirements
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
       - name: Lint with Flake8
-        run: flake8 --statistics .
+        run: |
+          . .venv/bin/activate
+          flake8 --statistics .
 
   lint_tcl:
     name: Lint TCL Code
@@ -35,10 +39,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Install Requirements
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
       - name: Lint with tclint
-        run: tclint .
+        run: |
+          . .venv/bin/activate
+          tclfmt --check .
+          tclint --no-check-style .
 
   spelling:
     name: Check spelling
@@ -49,6 +58,8 @@ jobs:
 
       - name: Check spelling
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
           rm -rf build
@@ -67,12 +78,15 @@ jobs:
 
       - name: Install gallery
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
           pip3 install --upgrade pip
           pip3 install .
 
       - name: Get version
         id: sc_version
         run: |
+          . .venv/bin/activate
           echo "version=v$(sc -version)" >> $GITHUB_OUTPUT
 
   docker_image:
@@ -105,8 +119,12 @@ jobs:
 
       - name: Install gallery
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
           pip3 install --upgrade pip
           pip3 install .
 
       - name: Run lint
-        run: sc-gallery -lint -lint_tool ${{ matrix.tool }}
+        run: |
+          . .venv/bin/activate
+          sc-gallery -lint -lint_tool ${{ matrix.tool }}
