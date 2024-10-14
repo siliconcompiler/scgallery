@@ -29,10 +29,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    defaults:
-      run:
-        shell: bash
-
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v4
@@ -42,14 +38,16 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      - name: Install Requirements
+      - name: Install Requirements (non-windows)
+        if: runner.os != 'Windows'
         run: |
           python3 -m venv .venv
           . .venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
 
-      - name: Run tests
+      - name: Run tests (non-windows)
+        if: runner.os != 'Windows'
         run: |
           . .venv/bin/activate
 
@@ -59,6 +57,25 @@ jobs:
 
           pytest $GITHUB_WORKSPACE -n auto -m "not eda"
  
+      - name: Install Requirements (windows)
+        if: runner.os == 'Windows'
+        run: |
+          python3 -m venv .venv
+          .venv/Script/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install .[dev]
+
+      - name: Run tests (windows)
+        if: runner.os == 'Windows'
+        run: |
+          .venv/Script/activate
+
+          # change running directory
+          mkdir testrun
+          cd testrun
+
+          pytest $GITHUB_WORKSPACE -n auto -m "not eda"
+
   sc_version:
     name: Get SiliconCompiler version
     runs-on: ubuntu-latest
