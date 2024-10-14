@@ -675,6 +675,46 @@
         "target": "skywater130_sky130hd"
     },
     {
+        "design": "serv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_lvt"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_slvt"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
         "design": "spi",
         "remote": false,
         "target": "asap7_asap7sc7p5t_lvt"

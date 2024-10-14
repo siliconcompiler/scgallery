@@ -13,6 +13,7 @@ from .mock_alu import mock_alu
 from .openmsp430 import openmsp430
 from .picorv32 import picorv32
 from .riscv32i import riscv32i
+from .serv import serv
 from .spi import spi
 from .swerv import swerv
 from .tiny_rocket import tiny_rocket
@@ -61,6 +62,7 @@ __designs = (
     openmsp430,
     picorv32,
     riscv32i,
+    serv,
     spi,
     swerv,
     tiny_rocket,
