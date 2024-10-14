@@ -34,6 +34,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup python
+        id: python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
@@ -41,7 +42,7 @@ jobs:
       - name: Install Requirements (non-windows)
         if: runner.os != 'Windows'
         run: |
-          python3 -m venv .venv
+          ${{ steps.python.outputs.python-path }} -m venv .venv
           . .venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
@@ -60,7 +61,7 @@ jobs:
       - name: Install Requirements (windows)
         if: runner.os == 'Windows'
         run: |
-          python3 -m venv venv
+          ${{ steps.python.outputs.python-path }} -m venv venv
           venv/Scripts/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
@@ -74,7 +75,7 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest $GITHUB_WORKSPACE -n auto -m "not eda"
+          pytest .. -n auto -m "not eda"
 
   sc_version:
     name: Get SiliconCompiler version
