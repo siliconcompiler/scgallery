@@ -36,7 +36,7 @@ def test_glob_args_designs(monkeypatch):
     with open('test.json') as f:
         config = json.load(f)
 
-    assert all([c['design'] in ('swerv', 'spi') for c in config])
+    assert all([c['design'] in ('serv', 'swerv', 'spi') for c in config])
 
 
 def test_glob_args_multi_designs(monkeypatch):
@@ -56,7 +56,7 @@ def test_glob_args_multi_designs(monkeypatch):
     with open('test.json') as f:
         config = json.load(f)
 
-    assert all([c['design'] in ('swerv', 'spi', 'aes', 'ariane') for c in config])
+    assert all([c['design'] in ('serv', 'swerv', 'spi', 'aes', 'ariane') for c in config])
 
 
 def test_glob_args_designs_no_target(monkeypatch):
