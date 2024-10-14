@@ -60,15 +60,15 @@ jobs:
       - name: Install Requirements (windows)
         if: runner.os == 'Windows'
         run: |
-          python3 -m venv .venv
-          .venv/Script/activate
+          python3 -m venv venv
+          venv/Script/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install .[dev]
 
       - name: Run tests (windows)
         if: runner.os == 'Windows'
         run: |
-          .venv/Script/activate
+          venv/Script/activate
 
           # change running directory
           mkdir testrun
