@@ -86,6 +86,7 @@ jobs:
       - name: Get version
         id: sc_version
         run: |
+          . .venv/bin/activate
           echo "version=v$(sc -version)" >> $GITHUB_OUTPUT
 
   docker_image:
