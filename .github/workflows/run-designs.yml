@@ -157,12 +157,15 @@ jobs:
 
       - name: Install gallery
         run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
           pip3 install --upgrade pip
           pip3 install dist/*.whl
 
       - name: Get version
         id: sc_version
         run: |
+          . .venv/bin/activate
           echo "version=v$(sc -version)" >> $GITHUB_OUTPUT
 
   docker_image:
