@@ -492,10 +492,8 @@
         "target": "freepdk45_nangate45"
     },
     {
-        "cache": true,
         "design": "jpeg",
         "remote": false,
-        "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -504,10 +502,8 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "cache": false,
         "design": "jpeg",
         "remote": false,
-        "skip": "Timeout on github runner",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -800,10 +796,8 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "Skipped until qualified",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
