@@ -214,7 +214,6 @@
         "target": "freepdk45_nangate45"
     },
     {
-        "cache": false,
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "Timeout on github runner",
