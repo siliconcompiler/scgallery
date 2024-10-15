@@ -504,6 +504,7 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
         "design": "jpeg",
         "remote": false,
         "skip": "Timeout on github runner",
