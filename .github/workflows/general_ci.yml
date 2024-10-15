@@ -145,3 +145,27 @@ jobs:
       fail-fast: false
       run: 'tiny'
     secrets: inherit
+
+  check_designs:
+    name: Check design config
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate run matrix
+        run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
+
+          pip3 install .
+
+      - name: Get design matrix
+        id: designs
+        run: |
+          . .venv/bin/activate
+
+          scripts/generate_image_cache.py --github
+          scripts/report_configs.py --markdown
+          echo "$(python3 scripts/report_configs.py --markdown)" >> $GITHUB_STEP_SUMMARY
