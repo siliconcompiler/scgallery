@@ -51,7 +51,8 @@ def setup():
 
 
 def setup_physical(chip):
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
+    if chip.get('option', 'pdk') != "ihp130":
+        chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
 
 
 def setup_lint(chip):
