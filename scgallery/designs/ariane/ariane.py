@@ -56,28 +56,30 @@ def setup_physical(chip):
              'store_unit',
              'tlb_00000010_00000001'])
 
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
-
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
 
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_enable', 'true')
+    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var',
              'rtlmp_min_instances',
              '5000')
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var',
              'rtlmp_max_instances',
              '30000')
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var',
              'rtlmp_min_macros',
              '16')
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var',
+    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var',
              'rtlmp_max_macros',
              '4')
 
     if chip.get('option', 'pdk') == 'asap7':
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'gpl_uniform_placement_adjustment',
-                 '0.05')
-        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M2_adjustment', '0.7')
-        chip.set('tool', 'openroad', 'task', 'route', 'var', 'M3_adjustment', '0.6')
+        for task in ('macro_placement', 'global_placement', 'pin_placement'):
+            chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
+                     '0.05')
+
+        for task in ('global_place', 'global_route', 'repair_antenna'):
+            chip.set('tool', 'openroad', 'task', task, 'var', 'M2_adjustment', '0.7')
+            chip.set('tool', 'openroad', 'task', task, 'var', 'M3_adjustment', '0.6')
 
 
 if __name__ == '__main__':

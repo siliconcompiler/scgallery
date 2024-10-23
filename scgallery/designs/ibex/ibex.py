@@ -53,7 +53,7 @@ def setup_physical(chip):
     chip.add('option', 'define', 'SYNTHESIS')
 
     if chip.get('option', 'pdk') == 'asap7':
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'enable_dpo', 'false')
+        chip.set('tool', 'openroad', 'task', 'detailed_placement', 'var', 'enable_dpo', 'false')
     elif chip.get('option', 'pdk') == 'skywater130':
         chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'map_adders', 'false')
 
