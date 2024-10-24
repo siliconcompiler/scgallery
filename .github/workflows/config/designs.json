@@ -68,17 +68,17 @@
         "target": "freepdk45_nangate45"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "ariane",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
