@@ -44,6 +44,12 @@ def report_skipped(markdown):
     with open(jobs_file) as fid:
         data = json.load(fid)
 
+    for d in data:
+        if 'target' not in d:
+            d['target'] = "none"
+        elif not d['target']:
+            d['target'] = "none"
+
     data = [d for d in data if 'skip' in d and d['skip']]
 
     cached = [d for d in data if d['cache']]
