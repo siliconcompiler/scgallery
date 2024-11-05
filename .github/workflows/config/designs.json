@@ -886,15 +886,11 @@
     {
         "design": "zerosoc_flat",
         "remote": false,
-        "target": null,
-        "skip": "causes segfault after opensta update",
-        "cache": false
+        "target": null
     },
     {
         "design": "zerosoc_hierarchy",
         "remote": false,
-        "target": null,
-        "skip": "causes segfault after opensta update",
-        "cache": false
+        "target": null
     }
 ]
