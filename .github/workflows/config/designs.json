@@ -174,8 +174,10 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
         "design": "caliptra-datavault",
         "remote": false,
+        "skip": "Fails with antenna repair",
         "target": "ihp130_sg13g2_stdcell"
     },
     {

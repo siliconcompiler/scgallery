@@ -30,6 +30,9 @@ def setup():
 def setup_physical(chip):
     chip.set('option', 'define', 'SYNTHESIS')
 
+    if chip.get('option', 'pdk') == 'ihp130':
+        chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_enable', 'true')
+
 
 if __name__ == '__main__':
     chip = setup()
