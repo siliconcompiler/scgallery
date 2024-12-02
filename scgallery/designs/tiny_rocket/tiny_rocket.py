@@ -31,7 +31,8 @@ def setup_physical(chip):
     chip.set('option', 'define', 'SYNTHESIS')
 
     if chip.get('option', 'pdk') == 'ihp130':
-        chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_enable', 'true')
+        chip.set('tool', 'openroad', 'task', 'init_floorplan', 'var',
+                 'remove_synth_buffers', False)
 
 
 if __name__ == '__main__':
