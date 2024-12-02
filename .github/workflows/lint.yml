@@ -23,7 +23,7 @@ jobs:
           python3 -m venv .venv
           . .venv/bin/activate
           python3 -m pip install --upgrade pip
-          python3 -m pip install .[dev]
+          python3 -m pip install .[lint]
       - name: Lint with Flake8
         run: |
           . .venv/bin/activate
@@ -42,12 +42,12 @@ jobs:
           python3 -m venv .venv
           . .venv/bin/activate
           python3 -m pip install --upgrade pip
-          python3 -m pip install .[dev]
+          python3 -m pip install .[lint]
       - name: Lint with tclint
         run: |
           . .venv/bin/activate
           tclfmt --check .
-          tclint --no-check-style .
+          tclint .
 
   spelling:
     name: Check spelling
@@ -61,7 +61,7 @@ jobs:
           python3 -m venv .venv
           . .venv/bin/activate
           python3 -m pip install --upgrade pip
-          python3 -m pip install .[dev]
+          python3 -m pip install .[lint]
           rm -rf build
           codespell
 
