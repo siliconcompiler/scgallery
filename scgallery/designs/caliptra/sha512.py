@@ -26,7 +26,8 @@ def setup():
 
 def setup_physical(chip):
     chip.set('constraint', 'density', 30)
-    chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.40')
+    for task in ('global_placement', 'pin_placement'):
+        chip.set('tool', 'openroad', 'task', task, 'var', 'place_density', '0.40')
 
 
 if __name__ == '__main__':

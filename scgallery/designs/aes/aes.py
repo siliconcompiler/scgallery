@@ -33,12 +33,15 @@ def setup():
 
 
 def setup_physical(chip):
-    chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.65')
+    for task in ('global_placement', 'pin_placement'):
+        chip.set('tool', 'openroad', 'task', task, 'var', 'place_density', '0.65')
 
     if chip.get('option', 'pdk') == 'skywater130':
         # Decrease density due to high routing runtime
         chip.set('constraint', 'density', 30)
-        chip.set('tool', 'openroad', 'task', 'place', 'var', 'place_density', '0.50')
+
+        for task in ('global_placement', 'pin_placement'):
+            chip.set('tool', 'openroad', 'task', task, 'var', 'place_density', '0.50')
 
 
 if __name__ == '__main__':
