@@ -467,8 +467,10 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "ibex",
         "remote": false,
+        "skip": "timing out on github runners",
         "target": "skywater130_sky130hd"
     },
     {
