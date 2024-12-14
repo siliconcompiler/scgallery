@@ -19,7 +19,7 @@ def setup():
 
 if __name__ == '__main__':
     chip = setup()
-    Gallery.design_commandline(chip, target=skywater130_demo)
+    Gallery.design_commandline(chip, target=skywater130_demo, module_path=__file__)
 
     chip.run()
     chip.summary()

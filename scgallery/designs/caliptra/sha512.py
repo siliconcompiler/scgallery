@@ -32,7 +32,7 @@ def setup_physical(chip):
 
 if __name__ == '__main__':
     chip = setup()
-    Gallery.design_commandline(chip, target=freepdk45_demo)
+    Gallery.design_commandline(chip, target=freepdk45_demo, module_path=__file__)
     setup_physical(chip)
 
     chip.run()

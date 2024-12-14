@@ -39,7 +39,7 @@ def setup_lint(chip):
 
 if __name__ == '__main__':
     chip = setup()
-    Gallery.design_commandline(chip, target=asap7_demo)
+    Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
 
     chip.run()
     chip.summary()
