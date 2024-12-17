@@ -33,6 +33,7 @@ def setup_physical(chip):
     if chip.get('option', 'pdk') == 'ihp130':
         chip.set('tool', 'openroad', 'task', 'init_floorplan', 'var',
                  'remove_synth_buffers', False)
+        chip.set('pdk', 'ihp130', 'maxlayer', '5M2TL', 'TopMetal1')
 
 
 if __name__ == '__main__':
