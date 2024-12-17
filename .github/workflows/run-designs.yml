@@ -177,14 +177,14 @@ jobs:
       - name: Install
         run: |
           python3 -m venv venv
-          . .venv/bin/activate
+          . venv/bin/activate
           wheels=$(find -name "*.whl")
           echo "$wheels"
           pip3 install $wheels
 
       - name: Gather cache
         run: |
-          . .venv/bin/activate
+          . venv/bin/activate
           python3 .github/workflows/bin/generate_cache.py
 
       - name: Upload
@@ -231,7 +231,7 @@ jobs:
       sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
 
   designs_test:
-    needs: [wheel, docker_image, designs, package_lambdapdk, package_siliconcompiler]
+    needs: [wheel, docker_image, designs, package_lambdapdk, package_siliconcompiler, cache]
     if: always() && !cancelled()
     runs-on: ubuntu-latest
     container:

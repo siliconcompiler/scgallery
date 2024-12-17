@@ -23,7 +23,7 @@ license = {file = "LICENSE"}
 dependencies = [
     "siliconcompiler>=0.29.0",
     "Jinja2>=3.1.2",
-    "lambdapdk>=0.1.32",
+    "lambdapdk>=0.1.41",
     "lambdalib>=0.2.10"
 ]
 dynamic = ["version"]

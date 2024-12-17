@@ -12,11 +12,7 @@ if __name__ == "__main__":
     chip = Chip('cache')
 
     chip.use(lambdalib)
-    for pdk in lambdapdk.get_pdks():
-        chip.use(pdk)
-
-    for lib in lambdapdk.get_libs():
-        chip.use(lib)
+    chip.use(lambdapdk)
 
     cwd = Path(os.getcwd())
     chip.set('option', 'cachedir', cwd / '.sc' / 'cache')
