@@ -140,6 +140,62 @@ jobs:
         with:
           upload-name-suffix: '-siliconcompiler'
 
+  cache:
+    name: Generate cache
+    runs-on: ubuntu-latest
+    needs: [wheel, package_siliconcompiler, package_lambdapdk]
+
+    outputs:
+      name: ${{ steps.wheel.outputs.artifact-name }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          repository: siliconcompiler/scgallery
+          ref: ${{ inputs.scgallery-ref }}
+          fetch-depth: 0
+
+      - name: Get gallery
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: ${{ needs.wheel.outputs.name }}
+          path: dist-gallery
+
+      - name: Get siliconcompiler
+        if: inputs.sc-ref != ''
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: ${{ needs.package_siliconcompiler.outputs.name }}
+          path: dist-sc
+
+      - name: Get lambdapdk
+        if: inputs.lambdapdk-ref != ''
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: ${{ needs.package_lambdapdk.outputs.name }}
+          path: dist-pdk
+
+      - name: Install
+        run: |
+          python3 -m venv venv
+          . .venv/bin/activate
+          wheels=$(find -name "*.whl")
+          echo "$wheels"
+          pip3 install $wheels
+
+      - name: Gather cache
+        run: |
+          . .venv/bin/activate
+          python3 .github/workflows/bin/generate_cache.py
+
+      - name: Upload
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: gallery-cache
+          path: .sc/cache
+          retention-days: 2
+
   sc_version:
     if: inputs.sc-ref == ''
     needs: wheel
