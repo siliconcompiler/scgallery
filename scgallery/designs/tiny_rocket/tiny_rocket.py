@@ -30,10 +30,6 @@ def setup():
 def setup_physical(chip):
     chip.set('option', 'define', 'SYNTHESIS')
 
-    if chip.get('option', 'pdk') == 'ihp130':
-        chip.set('tool', 'openroad', 'task', 'init_floorplan', 'var',
-                 'remove_synth_buffers', False)
-
 
 if __name__ == '__main__':
     chip = setup()

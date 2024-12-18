@@ -38,12 +38,6 @@ def setup_physical(chip):
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
 
-    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_enable', 'true')
-    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_min_instances', '5000')
-    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_max_instances', '30000')
-    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_min_macros', '12')
-    chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_max_macros', '4')
-
 
 if __name__ == '__main__':
     chip = setup()

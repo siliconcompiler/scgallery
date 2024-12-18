@@ -50,11 +50,6 @@ def setup():
     return chip
 
 
-def setup_physical(chip):
-    if chip.get('option', 'pdk') != "ihp130":
-        chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'rtlmp_enable', 'true')
-
-
 def setup_lint(chip):
     chip.set('tool', 'slang', 'task', 'lint', 'option', '--timescale 1ns/1ns')
 
@@ -62,7 +57,6 @@ def setup_lint(chip):
 if __name__ == '__main__':
     chip = setup()
     Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
-    setup_physical(chip)
 
     chip.run()
     chip.summary()
