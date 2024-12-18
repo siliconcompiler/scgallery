@@ -494,18 +494,20 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
         "design": "jpeg",
         "remote": false,
+        "skip": "Macro placement generates poor routing solution.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "design": "jpeg",
         "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -854,8 +856,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
+        "skip": "Macro placement generates poor routing solution.",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
