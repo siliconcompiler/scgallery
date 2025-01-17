@@ -629,7 +629,10 @@ class Gallery:
             chip.run()
         except Exception:
             return False
-        return True
+
+        if chip.get('metric', 'errors', step='lint', index='0') == 0:
+            return True
+        return False
 
     def __run_design(self, design):
         chip = design['chip']
