@@ -1,11 +1,10 @@
 import cvw::*;
 `include "config.vh"
-`include "parameter-defs.vh"
 module wallypipelinedcorewrapper (
    input  logic                  clk, reset,
    // Privileged
    input  logic                  MTimerInt, MExtInt, SExtInt, MSwInt,
-   input  logic [63:0]           MTIME_CLINT, 
+   input  logic [63:0]           MTIME_CLINT,
    // Bus Interface
    input  logic [P.AHBW-1:0]     HRDATA,
    input  logic                  HREADY, HRESP,
@@ -21,5 +20,5 @@ module wallypipelinedcorewrapper (
    output logic                  HMASTLOCK,
    input  logic                  ExternalStall
 );
-	wallypipelinedcore #(P) dut(.*);
+   wallypipelinedcore #(P) dut(.*);
 endmodule
