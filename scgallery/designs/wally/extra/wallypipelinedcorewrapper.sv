@@ -1,5 +1,6 @@
-import cvw::*;
+import cvw::cvw_t;
 `include "config.vh"
+`include "parameter-defs.vh"
 module wallypipelinedcorewrapper (
    input  logic                  clk, reset,
    // Privileged
