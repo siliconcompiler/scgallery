@@ -72,6 +72,6 @@ ignore = [
 ]
 
 [tool.codespell]
-skip = '*.json,./scgallery/designs/*/src/*.v,./scgallery/designs/*/extra/*.v,./scgallery/designs/swerv/config/common_defines.vh'
+skip = './build,./scgallery/designs/*/build,*.json,./scgallery/designs/*/src/*.v,./scgallery/designs/*/extra/*.v,./scgallery/designs/swerv/config/common_defines.vh'
 count = true
 quiet-level = 3
