@@ -37,7 +37,7 @@ dev = [
 lint = [
     "flake8==7.1.1",
     "tclint==0.5.0",
-    "codespell==2.3.0"
+    "codespell==2.4.0"
 ]
 docs = [
     "sphinx==8.1.3",
@@ -72,6 +72,6 @@ ignore = [
 ]
 
 [tool.codespell]
-skip = '*.json,./scgallery/designs/*/src/*.v,./scgallery/designs/*/extra/*.v,./scgallery/designs/swerv/config/common_defines.vh'
+skip = './build,./scgallery/designs/*/build,*.json,./scgallery/designs/*/src/*.v,./scgallery/designs/*/extra/*.v,./scgallery/designs/swerv/config/common_defines.vh'
 count = true
 quiet-level = 3
