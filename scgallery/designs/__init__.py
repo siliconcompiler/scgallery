@@ -5,6 +5,7 @@ from .ariane import ariane
 from .black_parrot import black_parrot
 from .dynamic_node import dynamic_node
 from .ethmac import ethmac
+from .fazyrv import fazyrv
 from .gcd import gcd
 from .heartbeat import heartbeat
 from .ibex import ibex
@@ -53,6 +54,7 @@ __designs = (
     datavault,
     dynamic_node,
     ethmac,
+    fazyrv,
     gcd,
     heartbeat,
     ibex,
