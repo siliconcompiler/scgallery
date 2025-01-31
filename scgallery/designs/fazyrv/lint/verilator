@@ -1,0 +1,10 @@
+`verilator_config
+
+lint_off -rule PINMISSING -file "*/extra/fazyrv_ram_sp.sv" -lines 33
+lint_off -rule PINMISSING -file "*/extra/wb_ram.sv" -lines 39
+
+lint_off -rule WIDTHTRUNC -file "*/rtl/fazyrv_spm_d.sv" -lines 119
+lint_off -rule WIDTHTRUNC -file "*/rtl/fazyrv_spm_d.sv" -lines 120
+lint_off -rule WIDTHTRUNC -file "*/rtl/fazyrv_spm_d.sv" -lines 173
+lint_off -rule WIDTHTRUNC -file "*/rtl/fazyrv_spm_d.sv" -lines 209
+lint_off -rule WIDTHTRUNC -file "*/rtl/fazyrv_spm_d.sv" -lines 240
