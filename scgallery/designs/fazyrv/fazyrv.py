@@ -19,8 +19,8 @@ def setup():
 
     chip.set('option', 'entrypoint', 'fsoc')
 
-    chip.set('option', 'param', 'RFTYPE', 'BRAM')
-    chip.set('option', 'param', 'CONF', 'MIN')
+    chip.set('option', 'param', 'RFTYPE', '"BRAM"')
+    chip.set('option', 'param', 'CONF', '"MIN"')
     chip.set('option', 'param', 'CHUNKSIZE', '8')
 
     for src in (
@@ -64,6 +64,11 @@ def setup_physical(chip):
         chip.set('constraint', 'aspectratio', 0.40)
         chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'macro_place_halo',
                  [10, 40])
+
+
+def setup_lint(chip):
+    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
+             'fazyrv/lint/verilator', package='scgallery-designs')
 
 
 if __name__ == '__main__':
