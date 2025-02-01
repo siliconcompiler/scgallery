@@ -61,9 +61,11 @@ def setup_physical(chip):
         chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'macro_place_halo',
                  [10, 10])
     if chip.get('option', 'pdk') == 'ihp130':
-        chip.set('constraint', 'aspectratio', 0.40)
+        chip.set('constraint', 'aspectratio', 0.25)
         chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'macro_place_halo',
                  [10, 40])
+    if chip.get('option', 'pdk') == 'skywater130':
+        chip.set('constraint', 'aspectratio', 0.80)
 
 
 def setup_lint(chip):
