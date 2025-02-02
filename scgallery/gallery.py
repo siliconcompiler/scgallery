@@ -21,9 +21,7 @@ from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
 )
 from scgallery.targets.asap7 import (
-    asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt,
-    asap7sc7p5t_lvt as asap7_asap7sc7p5t_lvt,
-    asap7sc7p5t_slvt as asap7_asap7sc7p5t_slvt
+    asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt
 )
 from scgallery.targets.skywater130 import (
     sky130hd as sky130_sky130hd
@@ -57,8 +55,6 @@ class Gallery:
                 ("freepdk45_nangate45", freepdk45_nangate45),
                 ("skywater130_sky130hd", sky130_sky130hd),
                 ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
-                ("asap7_asap7sc7p5t_lvt", asap7_asap7sc7p5t_lvt),
-                ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),
                 ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
                 ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
