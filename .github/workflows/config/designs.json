@@ -2,17 +2,7 @@
     {
         "design": "aes",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "aes",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "aes",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "aes",
@@ -44,21 +34,7 @@
         "design": "ariane",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "ariane",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "ariane",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -100,21 +76,7 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "black_parrot",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "black_parrot",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -152,21 +114,11 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "design": "caliptra-datavault",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
         "cache": true,
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "caliptra-datavault",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "caliptra-datavault",
@@ -192,21 +144,7 @@
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -232,17 +170,7 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "caliptra-sha512",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "caliptra-sha512",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "caliptra-sha512",
@@ -274,17 +202,7 @@
     {
         "design": "dynamic_node",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "dynamic_node",
@@ -314,17 +232,7 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ethmac",
@@ -354,17 +262,7 @@
     {
         "design": "fazyrv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "fazyrv",
@@ -394,17 +292,7 @@
     {
         "design": "gcd",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "gcd",
@@ -434,17 +322,7 @@
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "heartbeat",
@@ -474,17 +352,7 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ibex",
@@ -516,17 +384,7 @@
     {
         "design": "jpeg",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "jpeg",
@@ -558,17 +416,7 @@
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "mock_alu",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "mock_alu",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "mock_alu",
@@ -600,21 +448,7 @@
         "design": "openmsp430",
         "remote": false,
         "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": false,
-        "design": "openmsp430",
-        "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": false,
-        "design": "openmsp430",
-        "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": false,
@@ -654,17 +488,7 @@
     {
         "design": "picorv32",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "picorv32",
@@ -694,17 +518,7 @@
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "riscv32i",
@@ -734,17 +548,7 @@
     {
         "design": "serv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "serv",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "serv",
@@ -774,17 +578,7 @@
     {
         "design": "spi",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "spi",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "spi",
@@ -816,21 +610,7 @@
         "design": "swerv",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "swerv",
@@ -868,17 +648,7 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "tiny_rocket",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "tiny_rocket",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "tiny_rocket",
@@ -910,17 +680,7 @@
     {
         "design": "uart",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "uart",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "uart",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "uart",
