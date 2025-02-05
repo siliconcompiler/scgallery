@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import shutil
 import tempfile
 import zipfile
 
@@ -136,6 +137,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    if not args.merge:
+        shutil.rmtree(args.output)
+
     with tempfile.TemporaryDirectory() as workdir:
         images = process_images(args.images, workdir)
         data = process_manifests(args.manifests, workdir)
@@ -161,7 +165,7 @@ if __name__ == "__main__":
                 manifest_path = os.path.join(args.output,
                                              os.path.basename(dat["manifest"]) + ".gz")
                 chip.write_manifest(manifest_path)
-                dat["manifest"] = manifest_path
+                dat["manifest"] = os.path.relpath(manifest_path, args.output)
             else:
                 dat["manifest"] = None
 
