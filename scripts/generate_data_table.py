@@ -9,12 +9,24 @@ import zipfile
 
 from PIL import Image
 from siliconcompiler import Chip, Schema
+from scgallery import designs as gallery_designs
+
+
+def __format_totalarea(value):
+    return f"{int(round(value))} μm²"
+
+
+def __format_fmax(value):
+    value = value / 1e6
+    return f"{value:.1f} MHz"
 
 
 METRICS = [
-    ("write.views", 0, "totalarea"),
-    ("write.views", 0, "fmax")
+    ("write.views", 0, "totalarea", __format_totalarea),
+    ("write.views", 0, "fmax", __format_fmax)
 ]
+
+LINK_BASE = "https://github.com/siliconcompiler/scgallery/tree/main/scgallery/designs/"
 
 
 def __extract_zip(zip_file, workdir):
@@ -56,6 +68,8 @@ def process_manifests(manifest_file, workdir):
 
     data = []
 
+    designs = gallery_designs.all_designs()
+
     for design in os.listdir(manifest_dir):
         design_path = os.path.join(manifest_dir, design)
         for variant in os.listdir(design_path):
@@ -76,21 +90,50 @@ def process_manifests(manifest_file, workdir):
                 "description": "",
                 "pdk": None,
                 "mainlib": None,
-                "image": None
+                "image": None,
+                "title": variant,
+                "link": None
             }
-            for step, index, metric in METRICS:
+            for step, index, metric, fmt in METRICS:
                 design_data[f"metric-{metric}"] = None
             data.append(design_data)
 
+            if design in designs:
+                design_data["link"] = LINK_BASE + \
+                    os.path.relpath(designs[design]["module"].__file__,
+                                    os.path.dirname(gallery_designs.__file__))
+                desc = designs[design]["module"].__doc__
+                if not desc:
+                    desc = ""
+                desc = desc.splitlines()
+                while len(desc) > 0 and not desc[0]:
+                    desc = desc[1:]
+                while len(desc) > 0 and not desc[-1]:
+                    desc = desc[:-1]
+                design_data["description"] = "\n".join(desc)
+
             if not manifest:
                 design_data["success"] = "no"
+
+                if variant.startswith("job0_"):
+                    # Attempt to get pdk and mainlib
+                    pdk, *mainlib = variant[5:].split("_")
+                    if not pdk:
+                        print(mainlib)
+                        pdk, mainlib = mainlib
+
+                    design_data["pdk"] = pdk
+                    design_data["mainlib"] = "_".join(mainlib)
+                    design_data["title"] = design_data["pdk"]
                 continue
 
             schema = Schema(manifest=manifest)
 
-            for step, index, metric in METRICS:
-                design_data[f"metric-{metric}"] = schema.get('metric', metric,
-                                                             step=step, index=index)
+            for step, index, metric, fmt in METRICS:
+                value = schema.get('metric', metric, step=step, index=index)
+                if value is not None:
+                    value = fmt(value)
+                design_data[f"metric-{metric}"] = value
 
             for step, index in [("write.views", "0"), ("write.gds", "0")]:
                 if schema.get('record', 'status', step=step, index=index) != "success":
@@ -98,6 +141,7 @@ def process_manifests(manifest_file, workdir):
 
             design_data["pdk"] = schema.get('option', 'pdk')
             design_data["mainlib"] = schema.get('asic', 'logiclib')[0]
+            design_data["title"] = design_data["pdk"]
 
     return data
 
@@ -138,7 +182,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not args.merge:
-        shutil.rmtree(args.output)
+        try:
+            shutil.rmtree(args.output)
+        except FileNotFoundError:
+            pass
 
     with tempfile.TemporaryDirectory() as workdir:
         images = process_images(args.images, workdir)
@@ -173,6 +220,10 @@ if __name__ == "__main__":
             with open(os.path.join(args.output, "summary.json")) as f:
                 merge_data = json.load(f)
             data = [*merge_data, *data]
+
+        # Filter
+        for variant in ("job0_gf180_gf180mcu_fd_sc_mcu7t5v0",):
+            data = [dat for dat in data if dat["variant"] != variant]
 
         with open(os.path.join(args.output, "summary.json"), 'w') as f:
             json.dump(data, f, indent=2)
