@@ -13,12 +13,16 @@ from scgallery import designs as gallery_designs
 
 
 def __format_totalarea(value):
-    return f"{int(round(value))} μm²"
+    value = int(round(value))
+    if value > 1e6:
+        value = value / 1e6
+        return f"{value:,.2f} mm²"
+    return f"{value:,} μm²"
 
 
 def __format_fmax(value):
     value = value / 1e6
-    return f"{value:.1f} MHz"
+    return f"{value:,.1f} MHz"
 
 
 METRICS = [
@@ -90,6 +94,7 @@ def process_manifests(manifest_file, workdir):
                 "description": "",
                 "pdk": None,
                 "mainlib": None,
+                "technode": None,
                 "image": None,
                 "title": variant,
                 "link": None
@@ -128,6 +133,8 @@ def process_manifests(manifest_file, workdir):
                 continue
 
             schema = Schema(manifest=manifest)
+
+            design_data["technode"] = schema.get("pdk", design_data["pdk"], "node")
 
             for step, index, metric, fmt in METRICS:
                 value = schema.get('metric', metric, step=step, index=index)
@@ -227,3 +234,10 @@ if __name__ == "__main__":
 
         with open(os.path.join(args.output, "summary.json"), 'w') as f:
             json.dump(data, f, indent=2)
+
+        # Remove excess images
+        keep_files = [dat["image"] for dat in data]
+        keep_files.append("summary.json")
+        for fil in os.listdir(args.output):
+            if fil not in keep_files:
+                os.remove(os.path.join(args.output, fil))
