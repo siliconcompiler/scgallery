@@ -185,9 +185,11 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": true,
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0",
+        "skip": "Timeout on github runner"
     },
     {
         "design": "caliptra-sha512",
