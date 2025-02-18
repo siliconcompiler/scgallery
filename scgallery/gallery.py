@@ -77,6 +77,7 @@ class Gallery:
         self.__jobname = None
         self.set_clean(False)
         self.set_remote(None)
+        self.set_scheduler(None)
         self.set_strict(True)
         self.set_rules_to_skip(None)
 
@@ -274,6 +275,36 @@ class Gallery:
         if self.__remote:
             return True
         return False
+
+    #######################################################
+    def set_scheduler(self, scheduler):
+        '''
+        Set the scheduler to use.
+
+        Parameters:
+            scheduler (str): scheduler name
+        '''
+        self.__scheduler = scheduler
+
+    @property
+    def has_scheduler(self):
+        '''
+        Determine if a scheduler is set
+
+        Returns:
+            boolean: True, is scheduler is set
+        '''
+        return self.__scheduler is not None
+
+    @property
+    def scheduler(self):
+        '''
+        Get the name of the scheduler
+
+        Returns:
+            str: name of scheduler
+        '''
+        return self.__scheduler
 
     #######################################################
     def set_clean(self, clean):
@@ -571,7 +602,9 @@ class Gallery:
 
         chip.set('option', 'clean', self.is_clean)
 
-        if self.is_remote:
+        if self.has_scheduler:
+            chip.set('option', 'scheduler', 'name', self.__scheduler)
+        elif self.is_remote:
             chip.set('option', 'credentials', self.__remote)
             chip.set('option', 'remote', True)
 
@@ -1024,6 +1057,10 @@ Designs: {designs_help}
                             help='Perform a remote run, '
                                  'optionally provides path to remote credentials')
 
+        parser.add_argument('-scheduler',
+                            choices=Schema().get('option', 'scheduler', 'name', field='enum'),
+                            help='Select the scheduler to use during exection')
+
         parser.add_argument('-clean',
                             action='store_true',
                             help='Use option,clean')
@@ -1057,6 +1094,9 @@ Designs: {designs_help}
         gallery.set_path(args.path)
         gallery.set_clean(args.clean)
         gallery.set_remote(args.remote)
+
+        if args.scheduler:
+            gallery.set_scheduler(args.scheduler)
 
         if args.target:
             gallery.set_run_targets(target_choices.get_items(args.target))
