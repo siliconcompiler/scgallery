@@ -169,6 +169,17 @@ def test_set_remote_invalid_file():
         gallery.set_remote("file not found")
 
 
+def test_set_scheduler():
+    gallery = Gallery()
+
+    assert not gallery.has_scheduler
+
+    gallery.set_scheduler("docker")
+
+    assert gallery.has_scheduler
+    assert gallery.scheduler == "docker"
+
+
 def test_set_unset_clean():
     gallery = Gallery()
 
