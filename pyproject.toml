@@ -31,16 +31,16 @@ dynamic = ["version"]
 [project.optional-dependencies]
 # Dev dependencies.
 dev = [
-    "pytest==8.3.4",
+    "pytest==8.3.5",
     "pytest-xdist==3.6.1"
 ]
 lint = [
     "flake8==7.1.2",
-    "tclint==0.5.2",
+    "tclint==0.5.3",
     "codespell==2.4.1"
 ]
 docs = [
-    "sphinx==8.2.1",
+    "sphinx==8.2.3",
     "sphinx-rtd-theme==3.0.2"
 ]
 
