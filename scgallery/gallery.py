@@ -706,6 +706,7 @@ class Gallery:
 
         if succeeded:
             chip.summary()
+            chip.snapshot(display=False)
 
             rules_files = self.__designs[design]['rules']
 
