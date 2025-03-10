@@ -102,7 +102,6 @@ jobs:
   lint_RTL:
     needs: docker_image
     name: Check RTL
-    if: false
 
     runs-on: ubuntu-latest
     container:
@@ -122,7 +121,7 @@ jobs:
           python3 -m venv .venv
           . .venv/bin/activate
           pip3 install --upgrade pip
-          pip3 install .
+          pip3 install -e .
 
       - name: Run lint
         run: |
