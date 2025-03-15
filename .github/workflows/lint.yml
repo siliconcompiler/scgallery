@@ -102,7 +102,6 @@ jobs:
   lint_RTL:
     needs: docker_image
     name: Check RTL
-    if: false
 
     runs-on: ubuntu-latest
     container:
