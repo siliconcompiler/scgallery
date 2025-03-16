@@ -212,8 +212,10 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
         "design": "darkriscv",
         "remote": false,
+        "skip": "detailed routing takes too long for github runners",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -222,8 +224,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
         "design": "darkriscv",
         "remote": false,
+        "skip": "detailed routing takes too long for github runners",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
