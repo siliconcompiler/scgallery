@@ -75,11 +75,11 @@ def setup_physical(chip):
         chip.set('constraint', 'density', 25)
         for task in ('macro_placement', 'global_placement', 'pin_placement'):
             chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
-                     '0.10')
+                     '0.05')
     if chip.get('option', 'pdk') == 'ihp130':
         for task in ('macro_placement', 'global_placement', 'pin_placement'):
             chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
-                     '0.10')
+                     '0.05')
     if chip.get('option', 'pdk') == 'gf180':
         for task in ('macro_placement', 'global_placement', 'pin_placement'):
             chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
