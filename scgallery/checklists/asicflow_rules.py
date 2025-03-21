@@ -63,7 +63,7 @@ def setup(job=None, flow=None, mainlib=None, flow_nodes=None, rules_files=None, 
 
             for step in steps:
                 if node['index'] == '*':
-                    steps = [index for nstep, index in flow_nodes if step == nstep]
+                    indexes = [index for nstep, index in flow_nodes if step == nstep]
                 else:
                     indexes = [node['index']]
 
