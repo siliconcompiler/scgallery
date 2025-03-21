@@ -56,7 +56,7 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest $GITHUB_WORKSPACE -n auto -m "not eda"
+          pytest $GITHUB_WORKSPACE -n auto -m "not eda" --cov --cov-branch --cov-report=xml
  
       - name: Install Requirements (windows)
         if: runner.os == 'Windows'
@@ -75,7 +75,12 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest .. -n auto -m "not eda"
+          pytest .. -n auto -m "not eda" --cov --cov-branch --cov-report=xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   sc_version:
     name: Get SiliconCompiler version
@@ -135,7 +140,12 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest $GITHUB_WORKSPACE -m "eda"
+          pytest $GITHUB_WORKSPACE -m "eda" --cov --cov-branch --cov-report=xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   designs_workflow:
     name: Github Action Workflow Check

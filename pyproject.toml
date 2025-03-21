@@ -31,7 +31,9 @@ dynamic = ["version"]
 # Dev dependencies.
 dev = [
     "pytest==8.3.5",
-    "pytest-xdist==3.6.1"
+    "pytest-xdist==3.6.1",
+    "pytest-cov == 5.0.0; python_version <= '3.8'",
+    "pytest-cov == 6.0.0; python_version >= '3.9'"
 ]
 lint = [
     "flake8==7.1.2",
