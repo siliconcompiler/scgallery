@@ -37,7 +37,7 @@ dev = [
 ]
 lint = [
     "flake8==7.1.2",
-    "tclint==0.5.3",
+    "tclint==0.5.4",
     "codespell==2.4.1"
 ]
 docs = [
