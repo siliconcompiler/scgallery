@@ -278,7 +278,6 @@ jobs:
           path: /github/home/.sc/cache/
 
       - name: Run gallery
-        id: run
         timeout-minutes: ${{ inputs.timeout }}
         run: |
           REMOTE_ARGS=""
@@ -354,10 +353,6 @@ jobs:
           path: build/*/*/sc_issue*.tar.gz
           retention-days: 7
           if-no-files-found: ignore
-
-      - name: Check if failed
-        if: always() && !cancelled() && steps.run.outcome == 'failure'
-        run: exit 1
 
   merge_images:
     name: Merge image artifacts
