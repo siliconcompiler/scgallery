@@ -655,7 +655,7 @@ class Gallery:
         chip.unset('asic', 'macrolib')
 
         try:
-            chip.run()
+            chip.run(raise_exception=True)
         except Exception:
             return False
 
@@ -684,7 +684,7 @@ class Gallery:
         self.__setup_run_chip(chip, design["design"])
 
         try:
-            chip.run()
+            chip.run(raise_exception=True)
         except Exception:
             return chip, False
 
