@@ -202,8 +202,10 @@
         "target": "skywater130_sky130hd"
     },
     {
+        "cache": false,
         "design": "darkriscv",
         "remote": false,
+        "skip": "fails in global routing",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
@@ -709,8 +711,10 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
+        "skip": "detailed routing takes too long for github runners",
         "target": "skywater130_sky130hd"
     },
     {
