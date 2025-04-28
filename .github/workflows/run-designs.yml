@@ -155,21 +155,21 @@ jobs:
           fetch-depth: 0
 
       - name: Get gallery
-        uses: actions/download-artifact@v4.2.1
+        uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist-gallery
 
       - name: Get siliconcompiler
         if: inputs.sc-ref != ''
-        uses: actions/download-artifact@v4.2.1
+        uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.package_siliconcompiler.outputs.name }}
           path: dist-sc
 
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
-        uses: actions/download-artifact@v4.2.1
+        uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.package_lambdapdk.outputs.name }}
           path: dist-pdk
@@ -204,7 +204,7 @@ jobs:
       version: ${{ steps.sc_version.outputs.version }}
 
     steps:
-      - uses: actions/download-artifact@v4.2.1
+      - uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist
@@ -246,21 +246,21 @@ jobs:
     name: Run design
     steps:
       - name: Get gallery
-        uses: actions/download-artifact@v4.2.1
+        uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist-gallery
 
       - name: Get siliconcompiler
         if: inputs.sc-ref != ''
-        uses: actions/download-artifact@v4.2.1
+        uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.package_siliconcompiler.outputs.name }}
           path: dist-sc
 
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
-        uses: actions/download-artifact@v4.2.1
+        uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.package_lambdapdk.outputs.name }}
           path: dist-pdk
@@ -272,7 +272,7 @@ jobs:
           pip3 install $wheels
 
       - name: Restore cache
-        uses: actions/download-artifact@v4.2.1
+        uses: actions/download-artifact@v4.3.0
         with:
           name: gallery-cache
           path: /github/home/.sc/cache/
