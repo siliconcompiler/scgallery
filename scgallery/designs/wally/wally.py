@@ -16,7 +16,7 @@ def setup():
 
     chip.register_source('wally',
                          path='git+https://github.com/infinitymdm/cvw',
-                         ref='2444dfbd93e726851f998c8987065ce1d10ffbf9')
+                         ref='552a212c85aab41bafa7db929d1e40bfd1ee1608')
 
     chip.set('option', 'entrypoint', 'wallypipelinedcorewrapper')
 
