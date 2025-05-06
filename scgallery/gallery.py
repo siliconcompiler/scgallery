@@ -12,6 +12,7 @@ import fnmatch
 
 import siliconcompiler
 from siliconcompiler import Schema
+from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.tools._common import has_input_files
 from siliconcompiler.tools._common.asic import get_mainlib
@@ -1059,7 +1060,8 @@ Designs: {designs_help}
                                  'optionally provides path to remote credentials')
 
         parser.add_argument('-scheduler',
-                            choices=Schema().get('option', 'scheduler', 'name', field='enum'),
+                            choices=NodeType.parse(
+                                Schema().get('option', 'scheduler', 'name', field='type')).values,
                             help='Select the scheduler to use during exection')
 
         parser.add_argument('-clean',
