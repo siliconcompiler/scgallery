@@ -16,7 +16,7 @@ from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.tools._common import has_input_files
 from siliconcompiler.tools._common.asic import get_mainlib
-from siliconcompiler.flowgraph import nodes_to_execute
+from siliconcompiler.utils.flowgraph import nodes_to_execute
 
 from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
