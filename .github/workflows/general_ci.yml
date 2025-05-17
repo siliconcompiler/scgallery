@@ -4,6 +4,11 @@ on:
   pull_request:
   # Manual Dispatch
   workflow_dispatch:
+  # Runs on pushes to test/ branches and main
+  push:
+    branches:
+      - 'main'
+      - 'test/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -45,7 +50,7 @@ jobs:
           ${{ steps.python.outputs.python-path }} -m venv .venv
           . .venv/bin/activate
           python3 -m pip install --upgrade pip
-          python3 -m pip install .[dev]
+          python3 -m pip install -e .[dev]
 
       - name: Run tests (non-windows)
         if: runner.os != 'Windows'
@@ -56,7 +61,7 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest $GITHUB_WORKSPACE -n auto -m "not eda"
+          pytest $GITHUB_WORKSPACE -n auto -m "not eda" --cov --cov-branch --cov-report=xml
  
       - name: Install Requirements (windows)
         if: runner.os == 'Windows'
@@ -64,7 +69,7 @@ jobs:
           ${{ steps.python.outputs.python-path }} -m venv venv
           venv/Scripts/activate
           python3 -m pip install --upgrade pip
-          python3 -m pip install .[dev]
+          python3 -m pip install -e .[dev]
 
       - name: Run tests (windows)
         if: runner.os == 'Windows'
@@ -75,7 +80,12 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest .. -n auto -m "not eda"
+          pytest .. -n auto -m "not eda" --cov --cov-branch --cov-report=xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   sc_version:
     name: Get SiliconCompiler version
@@ -135,7 +145,12 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest $GITHUB_WORKSPACE -m "eda"
+          pytest $GITHUB_WORKSPACE -m "eda" --cov --cov-branch --cov-report=xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   designs_workflow:
     name: Github Action Workflow Check

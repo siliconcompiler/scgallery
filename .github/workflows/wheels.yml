@@ -26,13 +26,13 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
 
     steps:
-    - uses: actions/download-artifact@v4.1.8
+    - uses: actions/download-artifact@v4.3.0
       with:
         name: Packages
         path: dist
 
     - name: Publish
-      uses: pypa/gh-action-pypi-publish@v1.12.3
+      uses: pypa/gh-action-pypi-publish@v1.12.4
 
   save:
     needs: [publish]
@@ -42,7 +42,7 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/download-artifact@v4.1.8
+    - uses: actions/download-artifact@v4.3.0
       with:
         name: Packages
         path: dist

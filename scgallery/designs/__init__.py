@@ -3,8 +3,10 @@ from os import path
 from .aes import aes
 from .ariane import ariane
 from .black_parrot import black_parrot
+from .darkriscv import darkriscv
 from .dynamic_node import dynamic_node
 from .ethmac import ethmac
+from .fazyrv import fazyrv
 from .gcd import gcd
 from .heartbeat import heartbeat
 from .ibex import ibex
@@ -50,9 +52,11 @@ __designs = (
     aes,
     ariane,
     black_parrot,
+    darkriscv,
     datavault,
     dynamic_node,
     ethmac,
+    fazyrv,
     gcd,
     heartbeat,
     ibex,

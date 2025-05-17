@@ -9,4 +9,4 @@ This design has about 250 cells.
 
 # Source
 
-Re-used code derived from http://opencelerity.org/ project.
+Reused code derived from http://opencelerity.org/ project.

@@ -2,17 +2,7 @@
     {
         "design": "aes",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "aes",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "aes",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "aes",
@@ -44,21 +34,7 @@
         "design": "ariane",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "ariane",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "ariane",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -100,21 +76,7 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "black_parrot",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "black_parrot",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -152,21 +114,11 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "design": "caliptra-datavault",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
         "cache": true,
         "design": "caliptra-datavault",
         "remote": false,
         "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "caliptra-datavault",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "caliptra-datavault",
@@ -192,21 +144,7 @@
         "design": "caliptra-keyvault",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "cache": true,
@@ -232,17 +170,7 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "caliptra-sha512",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "caliptra-sha512",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "caliptra-sha512",
@@ -257,8 +185,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": true,
         "design": "caliptra-sha512",
         "remote": false,
+        "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -272,19 +202,51 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "design": "dynamic_node",
+        "cache": false,
+        "design": "darkriscv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6908",
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "cache": false,
+        "design": "darkriscv",
+        "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6908",
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "darkriscv",
+        "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6908",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "cache": false,
+        "design": "darkriscv",
+        "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6908",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "darkriscv",
+        "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6908",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": false,
+        "design": "darkriscv",
+        "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6908",
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "dynamic_node",
         "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "dynamic_node",
@@ -314,17 +276,7 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ethmac",
@@ -352,19 +304,39 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "design": "gcd",
+        "design": "fazyrv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "gcd",
         "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "gcd",
@@ -394,17 +366,7 @@
     {
         "design": "heartbeat",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "heartbeat",
@@ -434,17 +396,7 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "ibex",
@@ -476,17 +428,7 @@
     {
         "design": "jpeg",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "jpeg",
@@ -518,17 +460,7 @@
     {
         "design": "mock_alu",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "mock_alu",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "mock_alu",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "mock_alu",
@@ -556,75 +488,39 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "cache": false,
         "design": "openmsp430",
         "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": false,
-        "design": "openmsp430",
-        "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "cache": false,
         "design": "openmsp430",
         "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
-        "target": "asap7_asap7sc7p5t_slvt"
-    },
-    {
-        "cache": false,
-        "design": "openmsp430",
-        "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
         "target": "freepdk45_nangate45"
     },
     {
-        "cache": false,
         "design": "openmsp430",
         "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
         "design": "openmsp430",
         "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "cache": false,
         "design": "openmsp430",
         "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "cache": false,
         "design": "openmsp430",
         "remote": false,
-        "skip": "CTS fails to build: https://github.com/The-OpenROAD-Project/OpenROAD/issues/6352",
         "target": "skywater130_sky130hd"
     },
     {
         "design": "picorv32",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "picorv32",
@@ -654,17 +550,7 @@
     {
         "design": "riscv32i",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "riscv32i",
@@ -694,17 +580,7 @@
     {
         "design": "serv",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "serv",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "serv",
@@ -734,17 +610,7 @@
     {
         "design": "spi",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "spi",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "spi",
@@ -776,21 +642,7 @@
         "design": "swerv",
         "remote": false,
         "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "swerv",
@@ -828,17 +680,7 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "tiny_rocket",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "tiny_rocket",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "tiny_rocket",
@@ -863,24 +705,16 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
+        "skip": "detailed routing takes too long for github runners",
         "target": "skywater130_sky130hd"
     },
     {
         "design": "uart",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_lvt"
-    },
-    {
-        "design": "uart",
-        "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "uart",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_slvt"
     },
     {
         "design": "uart",

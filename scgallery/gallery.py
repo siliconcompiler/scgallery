@@ -12,18 +12,17 @@ import fnmatch
 
 import siliconcompiler
 from siliconcompiler import Schema
+from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.tools._common import has_input_files
 from siliconcompiler.tools._common.asic import get_mainlib
-from siliconcompiler.flowgraph import nodes_to_execute
+from siliconcompiler.utils.flowgraph import nodes_to_execute
 
 from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
 )
 from scgallery.targets.asap7 import (
-    asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt,
-    asap7sc7p5t_lvt as asap7_asap7sc7p5t_lvt,
-    asap7sc7p5t_slvt as asap7_asap7sc7p5t_slvt
+    asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt
 )
 from scgallery.targets.skywater130 import (
     sky130hd as sky130_sky130hd
@@ -57,8 +56,6 @@ class Gallery:
                 ("freepdk45_nangate45", freepdk45_nangate45),
                 ("skywater130_sky130hd", sky130_sky130hd),
                 ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
-                ("asap7_asap7sc7p5t_lvt", asap7_asap7sc7p5t_lvt),
-                ("asap7_asap7sc7p5t_slvt", asap7_asap7sc7p5t_slvt),
                 ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
                 ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
@@ -81,6 +78,7 @@ class Gallery:
         self.__jobname = None
         self.set_clean(False)
         self.set_remote(None)
+        self.set_scheduler(None)
         self.set_strict(True)
         self.set_rules_to_skip(None)
 
@@ -278,6 +276,36 @@ class Gallery:
         if self.__remote:
             return True
         return False
+
+    #######################################################
+    def set_scheduler(self, scheduler):
+        '''
+        Set the scheduler to use.
+
+        Parameters:
+            scheduler (str): scheduler name
+        '''
+        self.__scheduler = scheduler
+
+    @property
+    def has_scheduler(self):
+        '''
+        Determine if a scheduler is set
+
+        Returns:
+            boolean: True, is scheduler is set
+        '''
+        return self.__scheduler is not None
+
+    @property
+    def scheduler(self):
+        '''
+        Get the name of the scheduler
+
+        Returns:
+            str: name of scheduler
+        '''
+        return self.__scheduler
 
     #######################################################
     def set_clean(self, clean):
@@ -575,7 +603,9 @@ class Gallery:
 
         chip.set('option', 'clean', self.is_clean)
 
-        if self.is_remote:
+        if self.has_scheduler:
+            chip.set('option', 'scheduler', 'name', self.__scheduler)
+        elif self.is_remote:
             chip.set('option', 'credentials', self.__remote)
             chip.set('option', 'remote', True)
 
@@ -626,7 +656,7 @@ class Gallery:
         chip.unset('asic', 'macrolib')
 
         try:
-            chip.run()
+            chip.run(raise_exception=True)
         except Exception:
             return False
 
@@ -655,7 +685,7 @@ class Gallery:
         self.__setup_run_chip(chip, design["design"])
 
         try:
-            chip.run()
+            chip.run(raise_exception=True)
         except Exception:
             return chip, False
 
@@ -677,6 +707,7 @@ class Gallery:
 
         if succeeded:
             chip.summary()
+            chip.snapshot(display=False)
 
             rules_files = self.__designs[design]['rules']
 
@@ -1028,6 +1059,11 @@ Designs: {designs_help}
                             help='Perform a remote run, '
                                  'optionally provides path to remote credentials')
 
+        parser.add_argument('-scheduler',
+                            choices=NodeType.parse(
+                                Schema().get('option', 'scheduler', 'name', field='type')).values,
+                            help='Select the scheduler to use during exection')
+
         parser.add_argument('-clean',
                             action='store_true',
                             help='Use option,clean')
@@ -1061,6 +1097,9 @@ Designs: {designs_help}
         gallery.set_path(args.path)
         gallery.set_clean(args.clean)
         gallery.set_remote(args.remote)
+
+        if args.scheduler:
+            gallery.set_scheduler(args.scheduler)
 
         if args.target:
             gallery.set_run_targets(target_choices.get_items(args.target))
