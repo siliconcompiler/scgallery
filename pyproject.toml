@@ -21,7 +21,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
 dependencies = [
-    "siliconcompiler>=0.32.0",
+    "siliconcompiler>=0.33.0",
     "lambdapdk>=0.1.41",
     "lambdalib>=0.2.10"
 ]
