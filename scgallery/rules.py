@@ -9,7 +9,7 @@ from enum import Enum, auto
 from datetime import datetime
 from scgallery.checklists import asicflow_rules
 from siliconcompiler import utils
-from siliconcompiler.utils.flowgraph import nodes_to_execute
+from siliconcompiler.flowgraph import RuntimeFlowgraph
 
 
 class UpdateMethod(Enum):
@@ -242,13 +242,18 @@ if __name__ == "__main__":
             rules = json.load(f)
 
         if args.check:
+            runtime = RuntimeFlowgraph(
+                chip.schema.get("flowgraph", chip.get('option', 'flow'), field='schema'),
+                from_steps=chip.get('option', 'from'),
+                to_steps=chip.get('option', 'to'),
+                prune_nodes=chip.get('option', 'prune'))
             chip.summary(generate_image=False, generate_html=False)
             chip.use(
                 asicflow_rules,
                 job=chip.get('option', 'jobname'),
                 flow=chip.get('option', 'flow'),
                 mainlib=mainlib,
-                flow_nodes=nodes_to_execute(chip, flow=chip.get('option', 'flow')),
+                flow_nodes=runtime.get_nodes(),
                 rules_file=args.rules)
             if not chip.check_checklist('asicflow_rules', verbose=True, require_reports=False):
                 sys.exit(1)

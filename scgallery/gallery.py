@@ -16,7 +16,7 @@ from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.tools._common import has_input_files
 from siliconcompiler.tools._common.asic import get_mainlib
-from siliconcompiler.utils.flowgraph import nodes_to_execute
+from siliconcompiler.flowgraph import RuntimeFlowgraph
 
 from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
@@ -712,13 +712,19 @@ class Gallery:
             rules_files = self.__designs[design]['rules']
 
             if rules_files:
+                runtime = RuntimeFlowgraph(
+                    chip.schema.get("flowgraph", chip.get('option', 'flow'), field='schema'),
+                    from_steps=chip.get('option', 'from'),
+                    to_steps=chip.get('option', 'to'),
+                    prune_nodes=chip.get('option', 'prune'))
+
                 chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
                 chip.use(
                     asicflow_rules,
                     job=chip.get('option', 'jobname'),
                     flow=chip.get('option', 'flow'),
                     mainlib=mainlib,
-                    flow_nodes=nodes_to_execute(chip, flow=chip.get('option', 'flow')),
+                    flow_nodes=runtime.get_nodes(),
                     rules_files=rules_files,
                     skip_rules=self.__skip_rules)
                 error = not chip.check_checklist('asicflow_rules',
