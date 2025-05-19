@@ -9,6 +9,8 @@ from lambdalib import ramlib
 
 import glob
 from siliconcompiler.package import path as sc_path
+from siliconcompiler.tools import openroad
+from siliconcompiler.tools._common import get_tool_tasks
 
 
 def setup():
@@ -46,8 +48,15 @@ def setup():
 
 def setup_physical(chip):
     # Disable yosys flattening to avoid massive memory requirement
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'use_slang', True)
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', False)
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'auto_flatten', False)
+    # chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'auto_flatten', False)
+    chip.set('tool', 'openroad', 'task', 'init_floorplan', 'var', 'remove_dead_logic', False)
+
+    chip.set('tool', 'sv2v', 'task', 'convert', 'var', 'skip_convert', True)
+
+    for task in get_tool_tasks(chip, openroad):
+        chip.set('tool', 'openroad', 'task', task, 'var', 'sta_define_path_groups', False)
 
 
 if __name__ == '__main__':
