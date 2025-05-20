@@ -25,9 +25,7 @@ def setup():
     config = 'rv64gc'
 
     # Add source files
-    for src in ('src/cvw.sv',):
-        chip.input(src, package='wally')
-
+    chip.input('src/cvw.sv', package='wally')
     chip.input('wally/extra/wallypipelinedcorewrapper.sv', package='scgallery-designs')
 
     wally_path = sc_path(chip, 'wally')
@@ -35,13 +33,14 @@ def setup():
         chip.input(os.path.relpath(src, wally_path), package='wally')
 
     for src in glob.glob(f'{wally_path}/src/*/*/*.sv'):
-        chip.input(os.path.relpath(src, wally_path), package='wally')
+        if not ('ram' in src and 'wbe_' in src): # Exclude hardcoded SRAMs
+            chip.input(os.path.relpath(src, wally_path), package='wally')
 
     chip.add('option', 'idir', 'config/shared', package='wally')
     chip.add('option', 'idir', f'config/{config}', package='wally')
 
-    # chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
-    # chip.use(ramlib)
+    chip.input('wally/extra/lambda.v', package='scgallery-designs')
+    chip.use(ramlib)
 
     return chip
 
