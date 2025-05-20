@@ -18,11 +18,10 @@ def setup():
 
     chip.register_source('wally',
                          path='git+https://github.com/infinitymdm/cvw',
-                         ref='754c62824ecb1a3b31e860b81497c5c0fefb8ae4')
+                         ref='37171e9271bbf787189eb964fe377c6850f0c954')
 
     chip.set('option', 'entrypoint', 'wallypipelinedcorewrapper')
 
-    config = 'rv64gc'
 
     # Add source files
     chip.input('src/cvw.sv', package='wally')
@@ -37,7 +36,7 @@ def setup():
             chip.input(os.path.relpath(src, wally_path), package='wally')
 
     chip.add('option', 'idir', 'config/shared', package='wally')
-    chip.add('option', 'idir', f'config/{config}', package='wally')
+    chip.add('option', 'idir', f'wally/extra/config', package='scgallery-designs')
 
     chip.input('wally/extra/lambda.v', package='scgallery-designs')
     chip.use(ramlib)
