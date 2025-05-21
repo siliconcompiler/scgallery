@@ -21,7 +21,7 @@ def setup():
                          ref='37171e9271bbf787189eb964fe377c6850f0c954')
 
     chip.set('option', 'entrypoint', 'wallypipelinedcorewrapper')
-
+    chip.set('constraint', 'density', 30)
 
     # Add source files
     chip.input('src/cvw.sv', package='wally')
@@ -48,7 +48,7 @@ def setup_physical(chip):
     # Disable yosys flattening to avoid massive memory requirement
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'use_slang', True)
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', False)
-    # chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'auto_flatten', False)
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'auto_flatten', False)
     chip.set('tool', 'openroad', 'task', 'init_floorplan', 'var', 'remove_dead_logic', False)
 
     chip.set('tool', 'sv2v', 'task', 'convert', 'var', 'skip_convert', True)
