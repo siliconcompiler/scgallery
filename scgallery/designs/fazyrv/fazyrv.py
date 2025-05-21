@@ -63,7 +63,7 @@ def setup_physical(chip):
     if chip.get('option', 'pdk') == 'ihp130':
         chip.set('constraint', 'aspectratio', 0.25)
         chip.set('tool', 'openroad', 'task', 'macro_placement', 'var', 'macro_place_halo',
-                 [10, 40])
+                 [20, 40])
     if chip.get('option', 'pdk') == 'skywater130':
         chip.set('constraint', 'aspectratio', 0.80)
 
