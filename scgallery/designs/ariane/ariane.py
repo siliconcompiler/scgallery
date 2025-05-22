@@ -14,11 +14,12 @@ from scgallery import Gallery
 
 from lambdalib import ramlib
 
+from siliconcompiler.tools import openroad
+from siliconcompiler.tools._common import get_tool_tasks
+
 
 def setup():
     chip = Chip('cva6')
-
-    extra_root = os.path.join('ariane', 'extra')
 
     chip.register_source('cva6',
                          path='https://github.com/openhwgroup/cva6/archive/refs/tags/',
@@ -216,6 +217,9 @@ def setup_physical(chip):
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', False)
 
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
+
+    for task in get_tool_tasks(chip, openroad):
+        chip.set('tool', 'openroad', 'task', task, 'var', 'sta_define_path_groups', False)
 
     if chip.get('option', 'pdk') == 'asap7':
         for task in ('macro_placement', 'global_placement', 'pin_placement'):
