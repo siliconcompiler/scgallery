@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
 '''
-Ariane core
+The CORE-V CVA6 is an Application class 6-stage RISC-V CPU capable of booting Linux
 
-Source: https://github.com/pulp-platform/ariane
+Source: https://github.com/openhwgroup/cva6/
 '''
-
-import os
 
 from siliconcompiler import Chip
 from siliconcompiler.targets import freepdk45_demo

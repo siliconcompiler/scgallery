@@ -1,8 +1,8 @@
 from os import path
 
 from .aes import aes
-from .ariane import ariane
 from .black_parrot import black_parrot
+from .cva6 import cva6
 from .darkriscv import darkriscv
 from .dynamic_node import dynamic_node
 from .ethmac import ethmac
@@ -50,8 +50,8 @@ def __get_rules(design):
 
 __designs = (
     aes,
-    ariane,
     black_parrot,
+    cva6,
     darkriscv,
     datavault,
     dynamic_node,
