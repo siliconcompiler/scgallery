@@ -201,9 +201,9 @@ def setup():
     chip.set('option', 'define', 'HPDCACHE_ASSERT_OFF')
 
     chip.use(ramlib)
-    chip.input('ariane/extra/hpdcache_sram_1rw.sv', package='scgallery-designs')
-    chip.input('ariane/extra/hpdcache_sram_wbyteenable_1rw.sv', package='scgallery-designs')
-    chip.input('ariane/extra/sram_cache.sv', package='scgallery-designs')
+    chip.input('cva6/extra/hpdcache_sram_1rw.sv', package='scgallery-designs')
+    chip.input('cva6/extra/hpdcache_sram_wbyteenable_1rw.sv', package='scgallery-designs')
+    chip.input('cva6/extra/sram_cache.sv', package='scgallery-designs')
 
     return chip
 
