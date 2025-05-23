@@ -19,6 +19,7 @@ from .serv import serv
 from .spi import spi
 from .swerv import swerv
 from .tiny_rocket import tiny_rocket
+from .wally import wally
 from .uart import uart
 
 from .caliptra import datavault, keyvault, sha512
@@ -70,6 +71,7 @@ __designs = (
     spi,
     swerv,
     tiny_rocket,
+    wally,
     uart,
     sha512
 )

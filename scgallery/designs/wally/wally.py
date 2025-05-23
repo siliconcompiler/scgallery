@@ -18,16 +18,13 @@ def setup():
 
     chip.register_source('wally',
                          path='git+https://github.com/infinitymdm/cvw',
-                         ref='754c62824ecb1a3b31e860b81497c5c0fefb8ae4')
+                         ref='6fafa7f8ff970e13ac32bec6fcfba7c6ac287520')
 
     chip.set('option', 'entrypoint', 'wallypipelinedcorewrapper')
-
-    config = 'rv64gc'
+    chip.set('constraint', 'density', 30)
 
     # Add source files
-    for src in ('src/cvw.sv',):
-        chip.input(src, package='wally')
-
+    chip.input('src/cvw.sv', package='wally')
     chip.input('wally/extra/wallypipelinedcorewrapper.sv', package='scgallery-designs')
 
     wally_path = sc_path(chip, 'wally')
@@ -35,13 +32,14 @@ def setup():
         chip.input(os.path.relpath(src, wally_path), package='wally')
 
     for src in glob.glob(f'{wally_path}/src/*/*/*.sv'):
-        chip.input(os.path.relpath(src, wally_path), package='wally')
+        if not ('ram' in src and 'wbe_' in src): # Exclude hardcoded SRAMs
+            chip.input(os.path.relpath(src, wally_path), package='wally')
 
     chip.add('option', 'idir', 'config/shared', package='wally')
-    chip.add('option', 'idir', f'config/{config}', package='wally')
+    chip.add('option', 'idir', f'wally/extra/config', package='scgallery-designs')
 
-    # chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
-    # chip.use(ramlib)
+    chip.input('wally/extra/lambda.v', package='scgallery-designs')
+    chip.use(ramlib)
 
     return chip
 
@@ -50,7 +48,7 @@ def setup_physical(chip):
     # Disable yosys flattening to avoid massive memory requirement
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'use_slang', True)
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', False)
-    # chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'auto_flatten', False)
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'auto_flatten', False)
     chip.set('tool', 'openroad', 'task', 'init_floorplan', 'var', 'remove_dead_logic', False)
 
     chip.set('tool', 'sv2v', 'task', 'convert', 'var', 'skip_convert', True)
