@@ -21,7 +21,6 @@ def setup():
                          ref='6fafa7f8ff970e13ac32bec6fcfba7c6ac287520')
 
     chip.set('option', 'entrypoint', 'wallypipelinedcorewrapper')
-    chip.set('constraint', 'density', 30)
 
     # Add source files
     chip.input('src/cvw.sv', package='wally')
@@ -32,11 +31,11 @@ def setup():
         chip.input(os.path.relpath(src, wally_path), package='wally')
 
     for src in glob.glob(f'{wally_path}/src/*/*/*.sv'):
-        if not ('ram' in src and 'wbe_' in src): # Exclude hardcoded SRAMs
+        if not ('ram' in src and 'wbe_' in src):  # Exclude hardcoded SRAMs
             chip.input(os.path.relpath(src, wally_path), package='wally')
 
     chip.add('option', 'idir', 'config/shared', package='wally')
-    chip.add('option', 'idir', f'wally/extra/config', package='scgallery-designs')
+    chip.add('option', 'idir', 'wally/extra/config', package='scgallery-designs')
 
     chip.input('wally/extra/lambda.v', package='scgallery-designs')
     chip.use(ramlib)
@@ -55,6 +54,9 @@ def setup_physical(chip):
 
     for task in get_tool_tasks(chip, openroad):
         chip.set('tool', 'openroad', 'task', task, 'var', 'sta_define_path_groups', False)
+
+    if chip.get('option', 'pdk') == 'asap7':
+        chip.set('constraint', 'density', 30)
 
 
 if __name__ == '__main__':
