@@ -31,48 +31,6 @@
     },
     {
         "cache": true,
-        "design": "cva6",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "cva6",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "cva6",
-        "remote": false,
-        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": false,
-        "design": "cva6",
-        "remote": false,
-        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "cva6",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": true,
-        "design": "cva6",
-        "remote": false,
-        "skip": "Too much memory for github runner",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "cache": true,
         "design": "black_parrot",
         "remote": false,
         "skip": "Timeout on github runner",
@@ -111,6 +69,36 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "Too much memory for github runner",
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
         "target": "skywater130_sky130hd"
     },
     {
@@ -199,6 +187,48 @@
     {
         "design": "caliptra-sha512",
         "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "cache": true,
+        "design": "cva6",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "cache": true,
+        "design": "cva6",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": true,
+        "design": "cva6",
+        "remote": false,
+        "skip": "Too much memory for github runner",
         "target": "skywater130_sky130hd"
     },
     {

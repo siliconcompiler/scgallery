@@ -2,6 +2,7 @@ from os import path
 
 from .aes import aes
 from .black_parrot import black_parrot
+from .blinky import blinky
 from .cva6 import cva6
 from .darkriscv import darkriscv
 from .dynamic_node import dynamic_node
@@ -52,6 +53,7 @@ def __get_rules(design):
 __designs = (
     aes,
     black_parrot,
+    blinky,
     cva6,
     darkriscv,
     datavault,
