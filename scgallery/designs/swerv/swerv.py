@@ -69,6 +69,9 @@ def setup():
 
 
 def setup_physical(chip):
+    chip.set('tool', 'sv2v', 'task', 'convert', 'var', 'skip_convert', True)
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'use_slang', True)
+
     chip.add('option', 'define', 'PHYSICAL')
 
 

@@ -25,6 +25,9 @@ def setup():
 
 
 def setup_physical(chip):
+    chip.set('tool', 'sv2v', 'task', 'convert', 'var', 'skip_convert', True)
+    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'use_slang', True)
+
     chip.set('constraint', 'density', 30)
     for task in ('global_placement', 'pin_placement'):
         chip.set('tool', 'openroad', 'task', task, 'var', 'place_density', '0.40')
