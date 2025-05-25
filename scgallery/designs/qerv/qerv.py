@@ -4,7 +4,7 @@ from siliconcompiler import Chip
 from siliconcompiler.targets import skywater130_demo
 from scgallery import Gallery
 
-from scgallery.designs.serv.src import serv_reg_file
+from scgallery.designs.serv.src import serv as serv_lib
 
 
 def setup():
@@ -21,7 +21,7 @@ def setup():
                 'rtl/qerv_immdec.v'):
         chip.input(src, package='qerv')
 
-    chip.use(serv_reg_file)
+    chip.use(serv_lib)
 
     return chip
 
