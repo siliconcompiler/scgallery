@@ -16,6 +16,7 @@ from .mock_alu import mock_alu
 from .openmsp430 import openmsp430
 from .picorv32 import picorv32
 from .riscv32i import riscv32i
+from .qerv import qerv
 from .serv import serv
 from .spi import spi
 from .swerv import swerv
@@ -68,6 +69,7 @@ __designs = (
     mock_alu,
     openmsp430,
     picorv32,
+    qerv,
     riscv32i,
     serv,
     spi,

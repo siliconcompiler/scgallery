@@ -8,19 +8,22 @@ from scgallery.designs.serv.src import serv as serv_lib
 
 
 def setup():
-    chip = Chip('serv')
+    chip = Chip('qerv')
     chip.set('option', 'entrypoint', 'serv_synth_wrapper')
+
+    chip.register_source(
+        name='qerv',
+        path='git+https://github.com/olofk/qerv.git',
+        ref='aa129c1eebf1cf6966ee06d6e50353db7cd24623')
+
+    for src in ('rtl/serv_synth_wrapper.v',
+                'rtl/serv_top.v',
+                'rtl/qerv_immdec.v'):
+        chip.input(src, package='qerv')
 
     chip.use(serv_lib)
 
-    chip.input('rtl/serv_synth_wrapper.v', package='serv')
-
     return chip
-
-
-def setup_lint(chip):
-    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             'data/verilator_waiver.vlt', package='serv')
 
 
 if __name__ == '__main__':
