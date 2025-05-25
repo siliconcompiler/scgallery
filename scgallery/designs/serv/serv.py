@@ -13,6 +13,8 @@ def setup():
 
     chip.use(serv_lib)
 
+    chip.input('rtl/serv_synth_wrapper.v', package='serv')
+
     return chip
 
 

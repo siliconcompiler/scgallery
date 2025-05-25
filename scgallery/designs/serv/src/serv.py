@@ -21,7 +21,6 @@ def setup():
                 'serv_mem_if.v',
                 'serv_rf_if.v',
                 'serv_state.v',
-                'serv_synth_wrapper.v',
                 'serv_top.v'):
         lib.input(os.path.join('rtl', src), package='serv')
 
