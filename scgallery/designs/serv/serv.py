@@ -9,7 +9,7 @@ from scgallery.designs.serv.src import serv as serv_lib
 
 def setup():
     chip = Chip('serv')
-    chip.set('option', 'entrypoint', 'serv_top')
+    chip.set('option', 'entrypoint', 'serv_synth_wrapper')
 
     chip.use(serv_lib)
 
