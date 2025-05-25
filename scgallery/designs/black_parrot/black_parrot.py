@@ -11,6 +11,9 @@ from siliconcompiler.targets import freepdk45_demo
 from scgallery import Gallery
 from lambdalib import ramlib
 
+from siliconcompiler.tools import openroad
+from siliconcompiler.tools._common import get_tool_tasks
+
 
 def setup():
     chip = Chip('black_parrot')
@@ -34,6 +37,9 @@ def setup_physical(chip):
         pass
     else:
         chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'strategy', 'AREA3')
+
+    for task in get_tool_tasks(chip, openroad):
+        chip.set('tool', 'openroad', 'task', task, 'var', 'sta_define_path_groups', False)
 
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
     chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
