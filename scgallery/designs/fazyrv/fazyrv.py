@@ -14,7 +14,7 @@ def setup():
     chip = Chip('fazyrv')
 
     chip.register_source(name='fazyrv',
-                         path='git+https://github.com/meiniKi/FazyRV.git',
+                         path='https://github.com/meiniKi/FazyRV/archive/',
                          ref='f287cf56b06ed20ead2d1dd0aab0c64ee50c5133')
 
     chip.set('option', 'entrypoint', 'fsoc')
