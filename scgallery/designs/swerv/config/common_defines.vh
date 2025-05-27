@@ -19,7 +19,6 @@
 `define RV_NMI_VEC 'h11110000
 `define RV_LDERR_ROLLBACK 1
 `define RV_STERR_ROLLBACK 0
-`define ASSERT_ON 
 `define CLOCK_PERIOD 100
 `define RV_EXT_ADDRWIDTH 32
 `define TOP tb_top
