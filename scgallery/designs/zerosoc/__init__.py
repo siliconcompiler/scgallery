@@ -9,7 +9,7 @@ from siliconcompiler import package
 def register_zerosoc(chip):
     chip.register_source(name='zerosoc_data',
                          path='git+https://github.com/siliconcompiler/zerosoc',
-                         ref='a01f2527957427c5967e54ca965ba511d5143dc6')
+                         ref='eee0bada3304af12f14e3696ca76d8f7cfebbc31')
 
 
 def init_zerosoc():
