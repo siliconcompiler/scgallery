@@ -1,33 +1,19 @@
 #!/usr/bin/env python3
 
-import os
-
 from siliconcompiler import Chip
 from siliconcompiler.targets import skywater130_demo
 from scgallery import Gallery
 from siliconcompiler import package as sc_package
-from scgallery.designs import _common
-
-
-_top_module = 'soc'
-
-
-def register_microwatt(chip):
-    chip.register_package_source(
-        'microwatt',
-        'git+https://github.com/antonblanchard/microwatt',
-        'd7458d5bebe19d20a6231471b6e0a7823365c2a6')
 
 
 def setup(target=skywater130_demo):
     chip = Chip('microwatt')
-    chip.set('option', 'entrypoint', _top_module)
-    chip.set('option', 'frontend', 'vhdl')
+    chip.set('option', 'entrypoint', 'soc')
 
-    register_microwatt(chip)
-
-    sdc_root = os.path.join('microwatt', 'constraints')
-    extra_root = os.path.join('microwatt', 'extra')
+    chip.register_source(
+        'microwatt',
+        'git+https://github.com/antonblanchard/microwatt',
+        'd7458d5bebe19d20a6231471b6e0a7823365c2a6')
 
     for src in ('decode_types.vhdl',
                 'common.vhdl',
@@ -89,39 +75,31 @@ def setup(target=skywater130_demo):
                 'uart16550/uart_rfifo.v',
                 'uart16550/raminfr.v'):
         chip.input(src, package='microwatt')
-
-    if __name__ == '__main__':
-        Gallery.design_commandline(chip)
+    chip.set('option', 'entrypoint', 'uart_top', step='import.verilog')
 
     chip.add('option', 'define', 'LOG_LENGTH=0')
     chip.add('option', 'define', 'RAM_INIT_FILE=' + sc_package.path(chip, 'microwatt') + '/hello_world/hello_world.hex')
 
-    if not chip.get('option', 'target'):
-        chip.load_target(target)
+    # chip.set('constraint', 'density', 30)
 
-    _common.add_lambdalib_memory(chip)
-    mainlib = chip.get('asic', 'logiclib')[0]
-    chip.input(os.path.join(sdc_root, f'{mainlib}.sdc'), package='scgallery-designs')
+    # chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'autoname', 'false')
+    # chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
+    # chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
+    # chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
 
-    chip.set('constraint', 'density', 30)
-
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'autoname', 'false')
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', 'false')
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'abc_clock_derating', '0.95')
-    chip.set('tool', 'openroad', 'task', 'floorplan', 'var', 'rtlmp_enable', 'true')
-
-    pdk = chip.get('option', 'pdk')
-    if pdk == 'skywater130':
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'file', 'memory_libmap',
-                 os.path.join(extra_root, pdk, 'memory_map.txt'), package='scgallery-designs')
-        chip.set('tool', 'yosys', 'task', 'syn_asic', 'file', 'memory_techmap',
-                 os.path.join(extra_root, pdk, 'memory_techmap.v'), package='scgallery-designs')
+    # pdk = chip.get('option', 'pdk')
+    # if pdk == 'skywater130':
+    #     chip.set('tool', 'yosys', 'task', 'syn_asic', 'file', 'memory_libmap',
+    #              os.path.join(extra_root, pdk, 'memory_map.txt'), package='scgallery-designs')
+    #     chip.set('tool', 'yosys', 'task', 'syn_asic', 'file', 'memory_techmap',
+    #              os.path.join(extra_root, pdk, 'memory_techmap.v'), package='scgallery-designs')
 
     return chip
 
 
 if __name__ == '__main__':
     chip = setup()
+    Gallery.design_commandline(chip, target=skywater130_demo, module_path=__file__)
 
     chip.run()
     chip.summary()
