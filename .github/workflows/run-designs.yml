@@ -187,6 +187,23 @@ jobs:
           . venv/bin/activate
           python3 .github/workflows/bin/generate_cache.py
 
+      - name: Get lambdapdk path
+        if: inputs.lambdapdk-ref != ''
+        id: lambdapdk-path
+        run: |
+          lpath=$(find .sc/cache -name "lambdapdk-*" | grep -v ".lock")
+          echo "Lambdapdk location: $lpath"
+          echo path=${lpath} >> $GITHUB_OUTPUT # update GitHub vars
+          rm -rf $lpath
+
+      - name: Get lambdapdk
+        uses: actions/checkout@v4
+        if: inputs.lambdapdk-ref != ''
+        with:
+          path: ${{ steps.lambdapdk-path.outputs.path }}
+          ref: ${{ inputs.lambdapdk-ref }}
+          repository: siliconcompiler/lambdapdk
+
       - name: Upload
         uses: actions/upload-artifact@v4.3.3
         with:
@@ -280,15 +297,10 @@ jobs:
       - name: Run gallery
         timeout-minutes: ${{ inputs.timeout }}
         run: |
-          REMOTE_ARGS=""
-          if [[ "${{ matrix.remote }}" = "true" ]] ; then
-            yes | sc-remote -configure -server https://server.siliconcompiler.com -credentials credentials.json
-            REMOTE_ARGS="-remote credentials.json"
-          fi
           if [ -z "${{ matrix.target }}" ] ; then
-            sc-gallery -design ${{ matrix.design }} $REMOTE_ARGS
+            sc-gallery -design ${{ matrix.design }}
           else
-            sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }} $REMOTE_ARGS
+            sc-gallery -design ${{ matrix.design }} -target ${{ matrix.target }}
           fi
 
       - name: Generate artifact name
