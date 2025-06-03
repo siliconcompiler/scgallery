@@ -191,7 +191,7 @@ jobs:
         if: inputs.lambdapdk-ref != ''
         id: lambdapdk-path
         run: |
-          lpath=$(find ~/.sc/cache -name "lambdapdk-*" | grep -v ".lock")
+          lpath=$(find .sc/cache -name "lambdapdk-*" | grep -v ".lock")
           echo "Lambdapdk location: $lpath"
           echo path=${lpath} >> $GITHUB_OUTPUT # update GitHub vars
           rm -rf $lpath
