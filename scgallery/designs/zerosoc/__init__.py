@@ -16,7 +16,7 @@ def init_zerosoc():
     chip = Chip('zerosoc')
     register_zerosoc(chip)
     # Touch zerosoc to ensure download
-    zerosoc = package.path(chip, 'zerosoc_data')
+    zerosoc = str(package.path(chip, 'zerosoc_data'))
     sys_path = os.path.dirname(zerosoc)
     package_name = os.path.basename(zerosoc)
 
