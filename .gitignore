@@ -5,3 +5,4 @@ gallery/
 _version.py
 .venv/
 .vscode/
+sc_issue*
