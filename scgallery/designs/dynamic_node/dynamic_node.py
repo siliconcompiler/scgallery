@@ -22,7 +22,7 @@ def setup():
 def setup_physical(chip):
     if chip.get('option', 'pdk') == 'skywater130':
         chip.set("tool", "openroad", "task", "global_placement", "var",
-                 "gpl_enable_skip_initial_place", True)
+                 "gpl_timing_driven", False)
 
 
 if __name__ == '__main__':
