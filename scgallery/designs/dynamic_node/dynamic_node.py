@@ -19,12 +19,6 @@ def setup():
     return chip
 
 
-def setup_physical(chip):
-    if chip.get('option', 'pdk') == 'skywater130':
-        chip.set("tool", "openroad", "task", "global_placement", "var",
-                 "gpl_timing_driven", False)
-
-
 if __name__ == '__main__':
     chip = setup()
     Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
