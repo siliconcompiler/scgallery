@@ -26,11 +26,6 @@ def setup():
     return chip
 
 
-def setup_physical(chip):
-    chip.set('tool', 'sv2v', 'task', 'convert', 'var', 'skip_convert', True)
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'use_slang', True)
-
-
 if __name__ == '__main__':
     chip = setup()
     Gallery.design_commandline(chip, target=skywater130_demo, module_path=__file__)
