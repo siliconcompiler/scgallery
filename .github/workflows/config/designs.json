@@ -185,8 +185,10 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "caliptra-sha512",
         "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/7581",
         "target": "skywater130_sky130hd"
     },
     {
@@ -299,8 +301,10 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "dynamic_node",
         "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/7581",
         "target": "skywater130_sky130hd"
     },
     {
@@ -603,8 +607,10 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "qerv",
         "remote": false,
+        "skip": "fails in global routing: https://github.com/The-OpenROAD-Project/OpenROAD/issues/7581",
         "target": "skywater130_sky130hd"
     },
     {
