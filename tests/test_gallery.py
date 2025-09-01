@@ -190,65 +190,6 @@ def test_set_unset_clean():
     assert not gallery.is_clean
 
 
-def test_set_unset_strict():
-    gallery = Gallery()
-
-    assert gallery.is_strict
-    gallery.set_strict(False)
-    assert not gallery.is_strict
-    gallery.set_strict(True)
-    assert gallery.is_strict
-
-
-def test_add_design_rules():
-    gallery = Gallery()
-
-    with open('testing.json', 'w') as f:
-        f.write('testfile')
-
-    gallery.add_design_rule('aes', 'testing.json')
-    assert 'testing.json' in gallery.get_design_rules('aes')
-
-
-def test_add_design_rules_bad_path():
-    gallery = Gallery()
-
-    with pytest.raises(FileNotFoundError):
-        gallery.add_design_rule('aes', 'testing.json')
-
-
-def test_clear_design_rules():
-    gallery = Gallery()
-
-    with open('testrules.json', 'w') as f:
-        f.write('test')
-
-    gallery.add_design_rule('aes', 'testrules.json')
-    assert len(gallery.get_design_rules('aes')) != 0
-    gallery.clear_design_rules('aes')
-    assert len(gallery.get_design_rules('aes')) == 0
-
-
-@pytest.mark.parametrize("design_name", [*list(all_designs().keys())])
-def test_get_design_setup_design_none(design_name):
-    gallery = Gallery()
-
-    funcs = gallery.get_design_setup(design_name)
-
-    assert len([func for func in funcs if not func.__name__.startswith('setup_')]) == 0
-
-
-def test_add_design_setup():
-    gallery = Gallery()
-
-    def testing_setup(chip):
-        pass
-
-    gallery.add_design_setup('aes', testing_setup)
-    assert testing_setup in gallery.get_design_setup('aes')
-    assert testing_setup not in gallery.get_design_setup('jpeg')
-
-
 def test_set_jobname_suffix():
     gallery = Gallery()
     gallery.set_jobname_suffix('testing')

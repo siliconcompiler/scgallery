@@ -2,28 +2,25 @@ import os
 import sys
 from pathlib import Path
 
-from siliconcompiler import Chip
-from siliconcompiler.package import path as sc_path
-import lambdalib
-import lambdapdk
+from siliconcompiler import Project
+from lambdapdk.asap7 import ASAP7PDK
+from lambdapdk.freepdk45 import FreePDK45PDK
+from lambdapdk.gf180 import GF180_5LM_1TM_9K_9t
+from lambdapdk.ihp130 import IHP130PDK
+from lambdapdk.sky130 import Sky130PDK
 
 
 if __name__ == "__main__":
-    chip = Chip('cache')
+    proj = Project("cache")
 
-    chip.use(lambdalib)
-    chip.use(lambdapdk)
+    proj.set('option', 'cachedir', Path(os.getcwd()) / '.sc' / 'cache')
 
-    cwd = Path(os.getcwd())
-    chip.set('option', 'cachedir', cwd / '.sc' / 'cache')
+    proj.add_dep(ASAP7PDK())
+    proj.add_dep(FreePDK45PDK())
+    proj.add_dep(GF180_5LM_1TM_9K_9t())
+    proj.add_dep(IHP130PDK())
+    proj.add_dep(Sky130PDK())
 
-    for package in chip.getkeys('package', 'source'):
-        chip.logger.info(f"Fetching {package} data source")
-
-        try:
-            sc_path(chip, package)
-        except Exception as e:
-            chip.logger.info(f"Failed to generate cache for {package}: {e}")
-            sys.exit(1)
+    proj.check_filepaths([("option", "builddir")])
 
     sys.exit(0)

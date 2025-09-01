@@ -1,27 +1,49 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import Chip
+from siliconcompiler import DesignSchema, ASICProject
 from siliconcompiler.targets import asap7_demo
-from scgallery import Gallery
 
 
-def setup():
-    chip = Chip('blinky')
+class BlinkyDesign(DesignSchema):
+    def __init__(self):
+        super().__init__("blinky")
 
-    chip.register_source(name='blinky',
-                         path='git+https://github.com/fusesoc/blinky.git',
-                         ref='b88a2a644723fc0c44827750fd054f09ce316b0b')
+        self.set_dataroot("extra", __file__)
+        self.set_dataroot("blinky",
+                          'git+https://github.com/fusesoc/blinky.git',
+                          tag='b88a2a644723fc0c44827750fd054f09ce316b0b')
 
-    chip.input('blinky.v', package='blinky')
+        with self.active_dataroot("blinky"):
+            with self.active_fileset("rtl"):
+                self.set_topmodule("blinky")
+                self.add_file("blinky.v")
+                self.set_param("clk_freq_hz", "1000000")
 
-    chip.set('option', 'param', 'clk_freq_hz', '1000000')
+        with self.active_dataroot("extra"):
+            with self.active_fileset("sdc.asap7sc7p5t_rvt"):
+                self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
-    return chip
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
+
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
+
+            with self.active_fileset("sdc.nangate45"):
+                self.add_file("constraints/nangate45.sdc")
+
+            with self.active_fileset("sdc.sg13g2_stdcell_1p2"):
+                self.add_file("constraints/sg13g2_stdcell.sdc")
+
+            with self.active_fileset("sdc.sky130hd"):
+                self.add_file("constraints/sky130hd.sdc")
 
 
 if __name__ == '__main__':
-    chip = setup()
-    Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
+    project = ASICProject(BlinkyDesign())
+    project.add_fileset("rtl")
+    project.add_fileset("sdc.asap7sc7p5t_rvt")
+    project.load_target(asap7_demo.setup)
 
-    chip.run()
-    chip.summary()
+    project.run()
+    project.summary()

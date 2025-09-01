@@ -1,12 +1,10 @@
 ####################################################
 # Target Setup
 ####################################################
-def setup(chip):
+def setup(proj):
     '''
     Dummy target to use for linting
     '''
-
-    chip.set('asic', 'logiclib', 'lint_target')
 
 
 def register_lambdalib(gallery):

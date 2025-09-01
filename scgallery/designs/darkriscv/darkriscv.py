@@ -32,68 +32,92 @@ optional support for big-endian
 BSD license: can be used anywhere with no restrictions!
 """
 
-import os
-
-from siliconcompiler import Chip
+from scgallery import GalleryDesign
+from siliconcompiler import ASICProject
 from siliconcompiler.targets import asap7_demo
-from scgallery import Gallery
-from lambdalib import ramlib
+from siliconcompiler.tools.openroad._apr import OpenROADGPLParameter
+from lambdalib.ramlib import Spram
 
 
-def setup():
-    chip = Chip('darksocv')
+class DarkSOCVDesign(GalleryDesign):
+    def __init__(self):
+        super().__init__("darksocv")
 
-    extra_root = os.path.join('darkriscv', 'extra')
+        self.set_dataroot("extra", __file__)
+        self.set_dataroot("darkriscv",
+                          'git+https://github.com/darklife/darkriscv.git',
+                          tag='7c653744d29926499e1e562984b792099cdf25ad')
 
-    chip.register_source('darkriscv',
-                         path='git+https://github.com/darklife/darkriscv.git',
-                         ref='7c653744d29926499e1e562984b792099cdf25ad')
+        with self.active_dataroot("darkriscv"):
+            with self.active_fileset("rtl"):
+                self.set_topmodule("darksocv")
+                self.add_file([
+                    'rtl/darksocv.v',
+                    'rtl/darkriscv.v',
+                    'rtl/darkuart.v',
+                    'rtl/darkio.v',
+                    'rtl/darkbridge.v',
+                    'rtl/darkpll.v'])
+                self.add_idir("rtl")
+        with self.active_dataroot("extra"):
+            with self.active_fileset("rtl"):
+                self.add_file("extra/darkram.v")
+                self.add_depfileset(Spram(), "rtl")
 
-    for src in ('darksocv.v',
-                'darkriscv.v',
-                'darkuart.v',
-                'darkio.v',
-                'darkbridge.v',
-                'darkpll.v',):
-        chip.input(os.path.join('rtl', src), package='darkriscv')
+            with self.active_fileset("sdc.asap7sc7p5t_rvt"):
+                self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
-    chip.add('option', 'idir', 'rtl', package='darkriscv')
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
-    chip.use(ramlib)
-    chip.input(os.path.join(extra_root, "darkram.v"), package='scgallery-designs')
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
-    return chip
+            with self.active_fileset("sdc.nangate45"):
+                self.add_file("constraints/nangate45.sdc")
 
+            with self.active_fileset("sdc.sg13g2_stdcell_1p2"):
+                self.add_file("constraints/sg13g2_stdcell.sdc")
 
-def setup_physical(chip):
-    if chip.get('option', 'pdk') == 'freepdk45':
-        chip.set('constraint', 'density', 30)
-        for task in ('macro_placement', 'global_placement', 'pin_placement'):
-            chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
-                     '0.10')
-    if chip.get('option', 'pdk') == 'asap7':
-        chip.set('constraint', 'density', 25)
-        for task in ('macro_placement', 'global_placement', 'pin_placement'):
-            chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
-                     '0.05')
-    if chip.get('option', 'pdk') == 'ihp130':
-        for task in ('macro_placement', 'global_placement', 'pin_placement'):
-            chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
-                     '0.05')
-    if chip.get('option', 'pdk') == 'gf180':
-        for task in ('macro_placement', 'global_placement', 'pin_placement'):
-            chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
-                     '0.10')
-    if chip.get('option', 'pdk') == 'skywater130':
-        for task in ('macro_placement', 'global_placement', 'pin_placement'):
-            chip.set('tool', 'openroad', 'task', task, 'var', 'gpl_uniform_placement_adjustment',
-                     '0.10')
+            with self.active_fileset("sdc.sky130hd"):
+                self.add_file("constraints/sky130hd.sdc")
+
+        self.add_target_setup("freepdk45_nangate45", self.setup_freepdk45)
+        self.add_target_setup("asap7_asap7sc7p5t_rvt", self.setup_asap7)
+        self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
+
+    def setup_freepdk45(self, project: ASICProject):
+        project.get_areaconstraints().set_density(30)
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "gpl_uniform_placement_adjustment", 0.1)
+
+    def setup_asap7(self, project: ASICProject):
+        project.get_areaconstraints().set_density(25)
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "gpl_uniform_placement_adjustment", 0.05)
+
+    def setup_ihp130(self, project: ASICProject):
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "gpl_uniform_placement_adjustment", 0.05)
+
+    def setup_gf180(self, project: ASICProject):
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "gpl_uniform_placement_adjustment", 0.1)
+
+    def setup_skywater130(self, project: ASICProject):
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "gpl_uniform_placement_adjustment", 0.1)
 
 
 if __name__ == '__main__':
-    chip = setup()
-    Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
-    setup_physical(chip)
+    project = ASICProject(DarkSOCVDesign())
+    project.add_fileset("rtl")
+    project.add_fileset("sdc.asap7sc7p5t_rvt")
+    project.load_target(asap7_demo.setup)
+    project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
-    chip.run()
-    chip.summary()
+    project.run()
+    project.summary()

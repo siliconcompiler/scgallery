@@ -1,11 +1,11 @@
+from siliconcompiler import ASICProject
 from siliconcompiler.targets import gf180_demo
-from scgallery.targets.gf180 import _common
+from lambdapdk.gf180 import GF180_5LM_1TM_9K_7t
+from lambdapdk.gf180.libs.gf180mcu import GF180_MCU_7T_5LMLibrary
 
 
-def setup(chip):
-    chip.use(gf180_demo)
-    chip.set('asic', 'logiclib', 'gf180mcu_fd_sc_mcu7t5v0')
-
-
-def register_lambdalib(gallery):
-    _common.register_lambdalib(gallery)
+def setup(proj: ASICProject):
+    proj.load_target(gf180_demo.setup)
+    proj.unset("asic", "asiclib")
+    proj.set_pdk(GF180_5LM_1TM_9K_7t())
+    proj.set_mainlib(GF180_MCU_7T_5LMLibrary())

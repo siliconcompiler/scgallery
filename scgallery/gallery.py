@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 
 import argparse
-import inspect
 import json
 import os
 import shutil
 import sys
 import threading
-from collections.abc import Container
 import fnmatch
 
+import os.path
+
+from collections.abc import Container
+from typing import Callable, List, Tuple, Dict
+
 import siliconcompiler
-from siliconcompiler import Schema
+from siliconcompiler import DesignSchema, Project, ASICProject
 from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
-from siliconcompiler.tools._common import has_input_files
-from siliconcompiler.tools._common.asic import get_mainlib
-from siliconcompiler.flowgraph import RuntimeFlowgraph
 
 from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
@@ -35,37 +35,34 @@ from scgallery.targets.ihp130 import (
     sg13g2_stdcell as ihp130_sg13g2_stdcell
 )
 from scgallery.targets import linting as gallery_lint
-from siliconcompiler.flows import lintflow
+
+from siliconcompiler.flows.lintflow import LintFlow
 
 from scgallery import __version__
 
-from scgallery.checklists import asicflow_rules
+# from scgallery.checklists import asicflow_rules
 
 
 class Gallery:
-    SDC_KEY = ('option', 'dir', 'gallery_sdc_path')
-
     def __init__(self, name=None, path=None):
         self.__name = name
         self.set_path(path)
 
-        self.__lambdalib_techs = {}
-
         self.__targets = {}
         for name, target in (
-                ("freepdk45_nangate45", freepdk45_nangate45),
-                ("skywater130_sky130hd", sky130_sky130hd),
-                ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
-                ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
-                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
-                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
+                ("freepdk45_nangate45", freepdk45_nangate45.setup),
+                ("skywater130_sky130hd", sky130_sky130hd.setup),
+                ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt.setup),
+                ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0.setup),
+                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0.setup),
+                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell.setup),
                 ("None", None)):
             self.add_target(name, target)
 
         self.__designs = {}
         from scgallery.designs import all_designs as sc_all_designs
         for name, design in sc_all_designs().items():
-            self.add_design(name, design["module"], rules=design["rules"])
+            self.add_design(name, design)
 
         self.__run_config = {
             "targets": set(),
@@ -79,8 +76,6 @@ class Gallery:
         self.set_clean(False)
         self.set_remote(None)
         self.set_scheduler(None)
-        self.set_strict(True)
-        self.set_rules_to_skip(None)
 
     #######################################################
     @property
@@ -148,20 +143,17 @@ class Gallery:
         self.__path = os.path.abspath(path)
 
     #######################################################
-    def add_target(self, name, module):
+    def add_target(self, name: str, func: Callable):
         '''
         Add a target to the gallery.
 
         Parameters:
             name (str): name of the target
-            module (module): python module for the target
+            func (module): python module for the target
         '''
-        self.__targets[name] = module
+        self.__targets[name] = func
 
-        if module:
-            module.register_lambdalib(self)
-
-    def remove_target(self, name):
+    def remove_target(self, name: str):
         '''
         Removes a target from the gallery.
 
@@ -171,7 +163,7 @@ class Gallery:
         if name in self.__targets:
             del self.__targets[name]
 
-    def get_targets(self):
+    def get_targets(self) -> List[Callable]:
         '''
         Get a list of target names registered in the gallery.
 
@@ -181,7 +173,7 @@ class Gallery:
         return list(self.__targets.keys())
 
     #######################################################
-    def add_design(self, name, module, rules=None, setup=None):
+    def add_design(self, name, module):
         '''
         Add a design to the gallery.
 
@@ -192,32 +184,9 @@ class Gallery:
             setup (list [function]): list of functions to help configure the design in external
                 galleries
         '''
-        self.__designs[name] = {
-            "module": module,
-            "rules": [],
-            "setup": []
-        }
+        self.__designs[name] = module()
 
-        if not rules:
-            rules = []
-        if not isinstance(rules, (list, tuple)):
-            rules = [rules]
-        for rule in rules:
-            self.add_design_rule(name, rule)
-
-        if not setup:
-            setup = []
-        if not isinstance(setup, (list, tuple)):
-            setup = [setup]
-
-        for setup_name, builtin_setup in inspect.getmembers(module, inspect.isfunction):
-            if setup_name.startswith('setup_') and builtin_setup not in setup:
-                setup.append(builtin_setup)
-
-        for func in setup:
-            self.add_design_setup(name, func)
-
-    def remove_design(self, name):
+    def remove_design(self, name: str):
         '''
         Removes a design from the gallery.
 
@@ -227,28 +196,23 @@ class Gallery:
         if name in self.__designs:
             del self.__designs[name]
 
-    def get_design(self, design):
+    def get_design(self, design: str) -> DesignSchema:
         '''
         Gets the configuration for a design.
 
         Returns:
             dict: Configuration of a design
         '''
-        info = self.__designs[design].copy()
-        for key in info.keys():
-            if key == 'module':
-                continue
-            info[key] = info[key].copy()
-        return info
+        return self.__designs[design]
 
-    def get_designs(self):
+    def get_designs(self) -> List[str]:
         '''
         Get a list of design names registered in the gallery.
 
         Returns:
             list (str): List of design names
         '''
-        return list(self.__designs.keys())
+        return sorted(list(self.__designs.keys()))
 
     #######################################################
     def set_remote(self, remote):
@@ -332,116 +296,6 @@ class Gallery:
         return self.__clean
 
     #######################################################
-    def set_strict(self, strict):
-        '''
-        Set if the gallery should use strict mode when running siliconcompiler.
-
-        Parameters:
-            strict (boolean): Flag to indicate if strict should be used
-        '''
-        if strict:
-            strict = True
-        else:
-            strict = False
-        self.__strict = strict
-
-    @property
-    def is_strict(self):
-        '''
-        Determine if the gallery is set to strict mode
-
-        Returns:
-            boolean: True, if using strict, False if not
-        '''
-        return self.__strict
-
-    ###################################################
-    def set_rules_to_skip(self, rules):
-        '''
-        Set rules to skip during checks
-
-        Parameters:
-            rules (list): List of glob rules
-        '''
-        if not rules:
-            rules = []
-        elif isinstance(rules, str):
-            rules = [rules]
-        self.__skip_rules = rules
-
-    @property
-    def rules_to_skip(self):
-        '''
-        Set of rules to skip at the end of run checks.
-
-        Returns:
-            list: List of rules to skip during checks
-        '''
-        return self.__skip_rules
-
-    #######################################################
-    def add_design_rule(self, design, rule):
-        '''
-        Add a new rules file to a design.
-
-        Parameters:
-            design (str): name of the design
-            rule (path): path to the rules for this design
-        '''
-        if not rule:
-            return
-
-        if not os.path.isfile(rule):
-            raise FileNotFoundError(rule)
-
-        self.__designs[design]['rules'].append(rule)
-
-    def get_design_rules(self, design):
-        '''
-        Get a list of rules for the design.
-
-        Parameters:
-            design (str): name of the design
-
-        Returns:
-            list (path): list of paths to rules files
-        '''
-        return self.__designs[design]['rules'].copy()
-
-    def clear_design_rules(self, design):
-        '''
-        Removes all design rules from a design.
-
-        Parameters:
-            design (str): name of the design
-        '''
-        self.__designs[design]['rules'].clear()
-
-    #######################################################
-    def add_design_setup(self, design, func):
-        '''
-        Add a new setup function to a design.
-
-        Parameters:
-            name (str): name of the design
-            setup (function): functions to help configure the design in external
-                galleries
-        '''
-        self.__designs[design]['setup'].append(func)
-
-    def get_design_setup(self, design):
-        '''
-        Get a list of setup functions to a design.
-
-        Parameters:
-            name (str): name of the design
-
-        Returns:
-            list (function): list of functions to setup the design
-        '''
-        return self.__designs[design]['setup'].copy()
-
-    #######################################################
     def set_jobname_suffix(self, suffix):
         '''
         Sets a suffix to the default job names.
@@ -450,39 +304,6 @@ class Gallery:
             suffix (str): string to append to the job names during a gallery run.
         '''
         self.__jobname = suffix
-
-    #######################################################
-    def register_lambdalib(self, pdk, mainlib, library, swaps, add_macrolibs=False):
-        '''
-        Sets a suffix to the default job names.
-
-        Parameters:
-            pdk (str): pdk this library belongs to.
-            mainlib (str): main library to match this library to, can be a glob.
-            library (module): module to load.
-            swaps (list of (str, str)]): library pairs to swap to perform techmapping.
-            add_macrolibs (boolean): add additional macros libraries
-        '''
-        if pdk not in self.__lambdalib_techs:
-            self.__lambdalib_techs[pdk] = {}
-
-        if mainlib not in self.__lambdalib_techs[pdk]:
-            self.__lambdalib_techs[pdk][mainlib] = []
-
-        macrolibs = []
-        if add_macrolibs:
-            for lib in library.setup():
-                if lib.design.startswith('lambdalib_'):
-                    continue
-                macrolibs.append(lib.design)
-
-        self.__lambdalib_techs[pdk][mainlib].append(
-            {
-                "library": library,
-                "swap": swaps,
-                "macrolibs": macrolibs
-            }
-        )
 
     #######################################################
     def set_run_designs(self, designs):
@@ -507,299 +328,144 @@ class Gallery:
         self.__run_config['targets'].update(targets)
 
     #######################################################
-    @staticmethod
-    def _ensure_sdc(chip, setup_module_path):
-        has_sdc = Gallery.__design_has_sdc(chip)
-        has_clock = Gallery.__design_has_clock(chip)
+    def __setup_design(self, design, target) -> Tuple[Project, bool]:
+        from scgallery import GalleryDesign
 
-        # Attempt to find a constraints file
-        if not has_clock and not has_sdc:
-            if chip.valid(*Gallery.SDC_KEY):
-                sdc_path = chip.find_files(*Gallery.SDC_KEY)
-                if sdc_path:
-                    sdc_path = sdc_path[0]
-            else:
-                sdc_path = os.path.join(
-                    setup_module_path,
-                    'constraints')
-
-                if not os.path.exists(sdc_path):
-                    sdc_path = None
-            if sdc_path:
-                sdc_file = os.path.join(sdc_path, f'{get_mainlib(chip)}.sdc')
-                if os.path.exists(sdc_file):
-                    chip.input(sdc_file)
-
-    @staticmethod
-    def __design_has_clock(chip):
-        for pin in chip.getkeys('datasheet', 'pin'):
-            if chip.get('datasheet', 'pin', pin, 'type', 'global') == "clock":
-                return True
-
-        return False
-
-    @staticmethod
-    def __design_has_sdc(chip):
-        # Reject if no SDC is provided
-        if not chip.valid('input', 'constraint', 'sdc'):
-            return False
-
-        # Reject of SDC cannot be found
-        sdcs = [sdc for sdc in chip.find_files('input', 'constraint', 'sdc', missing_ok=True)
-                if sdc]
-        if not sdcs:
-            return False
-
-        return True
-
-    #######################################################
-    def __setup_design(self, design, target):
-        if target:
-            print(f'Setting up "{design}" with "{target}"')
-            if not self.__design_needs_target(self.__designs[design]):
-                chip = self.__designs[design]['module'].setup(
-                    target=self.__targets[target])
-            else:
-                chip = self.__designs[design]['module'].setup()
-                chip.use(self.__targets[target])
-        else:
-            print(f'Setting up "{design}"')
-            chip = self.__designs[design]['module'].setup()
-
-        self._register_design_sources(chip)
-
-        # Perform additional setup functions
-        if self.__designs[design]['setup']:
-            for setup_func in self.__designs[design]['setup']:
-                setup_func(chip)
-
-        Gallery._ensure_sdc(
-            chip,
-            os.path.dirname(self.__designs[design]['module'].__file__)
-        )
-
-        has_sdc = Gallery.__design_has_sdc(chip)
-        has_clock = Gallery.__design_has_clock(chip)
-
+        print(f'Setting up "{design}" with "{target}"')
+        design_obj = self.__designs[design]
         is_lint = target == "lint"
 
-        is_valid = has_sdc or has_clock or is_lint
+        if is_lint:
+            project = Project(design_obj)
+        else:
+            project = ASICProject(design_obj)
+        project.add_fileset("rtl")
 
-        return chip, is_valid
+        project.load_target(self.__targets[target])
 
-    def __setup_run_chip(self, chip, name, jobsuffix=None):
-        pdk = chip.get('option', 'pdk')
-        mainlib = get_mainlib(chip)
-        jobname = f"{pdk}_{mainlib}"
+        if isinstance(design_obj, GalleryDesign):
+            design_obj.process_setups(target)
+
+        has_sdc = False
+        if not is_lint:
+            mainlib = project.get("asic", "mainlib")
+            has_sdc = design_obj.has_fileset(f"sdc.{mainlib}")
+
+        is_valid = has_sdc or is_lint
+
+        return project, is_valid
+
+    def __setup_run_chip(self, project: Project, name: str, jobsuffix: str = None):
+        if isinstance(project, ASICProject):
+            pdk = project.get('asic', 'pdk')
+            mainlib = project.get('asic', 'mainlib')
+            project.add_fileset(f"sdc.{mainlib}")
+            jobname = f"{pdk}_{mainlib}"
+        else:
+            jobname = "lint"
+
         if self.__jobname:
             jobname += f"_{self.__jobname}"
         if jobsuffix:
             jobname += jobsuffix
-        chip.set('option', 'jobname', f"{chip.get('option', 'jobname')}_{jobname}")
 
-        chip.set('option', 'nodisplay', True)
-        chip.set('option', 'quiet', True)
-        chip.set('option', 'strict', self.is_strict)
+        project.set('option', 'jobname', jobname)
 
-        chip.set('option', 'clean', self.is_clean)
+        project.set('option', 'nodisplay', True)
+        project.set('option', 'nodashboard', True)
+        project.set('option', 'quiet', True)
+        project.set('option', 'clean', self.is_clean)
 
         if self.has_scheduler:
-            chip.set('option', 'scheduler', 'name', self.__scheduler)
+            project.set('option', 'scheduler', 'name', self.__scheduler)
         elif self.is_remote:
-            chip.set('option', 'credentials', self.__remote)
-            chip.set('option', 'remote', True)
-
-        if not chip.get('option', 'entrypoint', step=Schema.GLOBAL_KEY, index=Schema.GLOBAL_KEY):
-            chip.set('option', 'entrypoint', chip.design)
-        chip.set('design', name)
-
-        # Perform lambdalib swaps
-        if pdk in self.__lambdalib_techs:
-            swaps = set()
-            for tech, libraries in self.__lambdalib_techs[pdk].items():
-                if fnmatch.fnmatch(mainlib, tech):
-                    for library in libraries:
-                        chip.use(library['library'])
-                        swaps.update(library['swap'])
-
-                        chip.add('asic', 'macrolib', library['macrolibs'])
-
-            for src_lib, dst_lib in swaps:
-                chip.swap_library(src_lib, dst_lib)
+            project.set('option', 'credentials', self.__remote)
+            project.set('option', 'remote', True)
 
     def __lint(self, design, tool):
-        chip = design['chip']
+        project = design['project']
 
-        if not chip:
+        if not project:
             # custom flow, so accept
             return None
 
-        if 'lintflow' in chip.getkeys('flowgraph'):
-            chip.schema.remove('flowgraph', 'lintflow')
-        chip.use(lintflow, tool=tool)
+        project.set_flow(LintFlow("scgallery-lint", tool=tool))
 
-        self.__setup_run_chip(chip, design["design"], jobsuffix="_lint")
-
-        chip.set('option', 'flow', 'lintflow')
-
-        chip.set('arg', 'step', Schema.GLOBAL_KEY)
-        chip.set('arg', 'index', Schema.GLOBAL_KEY)
-        if not has_input_files(chip, 'input', 'rtl', 'verilog') and \
-                not has_input_files(chip, 'input', 'rtl', 'systemverilog'):
-            # Right now there are no linting for non-verilog
-            return None
-        chip.set('arg', 'step', None)
-        chip.set('arg', 'index', None)
-
-        # Make sure there are not set
-        chip.unset('asic', 'logiclib')
-        chip.unset('asic', 'macrolib')
+        self.__setup_run_chip(project, design["design"], jobsuffix="_lint")
 
         try:
-            chip.run(raise_exception=True)
+            project.run(raise_exception=True)
         except Exception:
             return False
 
-        if chip.get('metric', 'errors', step='lint', index='0') == 0:
+        if project.history(project.get("option", "jobname")).get('metric', 'errors',
+                                                                 step='lint', index='0') == 0:
             return True
         return False
 
-    def __run_design(self, design):
-        chip = design['chip']
+    def __run_design(self, design: Dict) -> Tuple[ASICProject, bool]:
+        project = design['project']
 
-        runtime_setup = design['runtime_setup']
-        if runtime_setup:
-            print(f'Executing runtime setup for: {design["design"]}')
-            try:
-                if self.__design_has_target_option(design, setup_func=runtime_setup):
-                    chip = runtime_setup(self, target=design['target'])
-                else:
-                    chip = runtime_setup(self)
-
-                if self.__design_needs_target(self.__designs[design['design']]) and \
-                        design['target']:
-                    chip.use(design['target'])
-            except Exception:
-                return chip, False
-
-        self.__setup_run_chip(chip, design["design"])
+        self.__setup_run_chip(project, design["design"])
 
         try:
-            chip.run(raise_exception=True)
+            project.run(raise_exception=True)
         except Exception:
-            return chip, False
+            return project, False
 
-        return chip, True
+        return project, True
 
-    def __finalize(self, design, chip, succeeded):
+    def __finalize(self, design: str, project: ASICProject, succeeded: bool):
         report_data = {
-            "chip": chip,
-            "platform": chip.get('option', 'pdk'),
-            "rules": []
+            "project": project,
+            "platform": project.get('asic', 'pdk')
         }
         self.__report_chips.setdefault(design, []).append(report_data)
 
-        chip.set('arg', 'step', Schema.GLOBAL_KEY)
-        chip.set('arg', 'index', Schema.GLOBAL_KEY)
-        mainlib = get_mainlib(chip)
-        chip.unset('arg', 'step')
-        chip.unset('arg', 'index')
-
         if succeeded:
-            chip.summary()
-            chip.snapshot(display=False)
-
-            rules_files = self.__designs[design]['rules']
-
-            if rules_files:
-                runtime = RuntimeFlowgraph(
-                    chip.schema.get("flowgraph", chip.get('option', 'flow'), field='schema'),
-                    from_steps=chip.get('option', 'from'),
-                    to_steps=chip.get('option', 'to'),
-                    prune_nodes=chip.get('option', 'prune'))
-
-                chip.logger.info(f"Checking rules in: {', '.join(rules_files)}")
-                chip.use(
-                    asicflow_rules,
-                    job=chip.get('option', 'jobname'),
-                    flow=chip.get('option', 'flow'),
-                    mainlib=mainlib,
-                    flow_nodes=runtime.get_nodes(),
-                    rules_files=rules_files,
-                    skip_rules=self.__skip_rules)
-                error = not chip.check_checklist('asicflow_rules',
-                                                 verbose=True,
-                                                 require_reports=False)
-            else:
-                error = None
+            project.summary()
+            project.snapshot(display=False)
+            error = None
         else:
             error = True
 
         self.__status.append({
             "design": design,
-            "pdk": chip.get('option', 'pdk'),
-            "mainlib": mainlib,
+            "pdk": project.get('asic', 'pdk'),
+            "mainlib": project.get('asic', 'mainlib'),
             "error": error,
-            "chip": chip
+            "project": project
         })
         if not succeeded:
-            chip.logger.error("Run failed")
+            project.logger.error("Run failed")
         elif error:
-            chip.logger.error("Rules mismatch")
-        elif rules_files:
-            chip.logger.info("Rules match")
+            project.logger.error("Rules mismatch")
+        else:
+            project.logger.info("Rules match")
 
-        self.__copy_chip_data(chip, report_data)
+        self.__copy_project_data(project, report_data)
 
-    def __copy_chip_data(self, chip, report_data):
-        jobname = chip.get('option', 'jobname')
-        png = os.path.join(chip.getworkdir(), f'{chip.design}.png')
+    def __copy_project_data(self, project: ASICProject, report_data: Dict):
+        jobname = project.get('option', 'jobname')
+        png = os.path.join(project.getworkdir(), f'{project.name}.png')
 
-        file_root = f'{chip.design}_{jobname}'
+        file_root = f'{project.name}_{jobname}'
 
         if os.path.isfile(png):
             img_path = os.path.join(self.path, f'{file_root}.png')
             shutil.copy(png, img_path)
             report_data["path"] = img_path
 
-        chip.archive(include=['reports', '*.log'],
-                     archive_name=os.path.join(self.path, f'{file_root}.tgz'))
-
-    def __design_has_target_option(self, design, setup_func=None):
-        '''
-        Checks if a design as a setup function with a target argument.
-        If false, this design cannot be matrixed with targets
-        '''
-        if not setup_func:
-            setup_func = getattr(self.__designs[design]['module'], 'setup', None)
-
-        if not setup_func:
-            return False
-
-        return 'target' in inspect.getfullargspec(setup_func).args
-
-    def __design_needs_target(self, design):
-        '''
-        Checks if the design has 'gallery_needs_target' set and returns the value.
-        This will default to true.
-        '''
-        return getattr(design['module'], 'gallery_needs_target', True)
-
-    def __design_runtime_setup(self, design):
-        return getattr(self.__designs[design]['module'], 'runtime_setup', None)
+        # chip.archive(include=['reports', '*.log'],
+        #              archive_name=os.path.join(self.path, f'{file_root}.tgz'))
 
     def __get_runnable_jobs(self):
         regular_jobs = []
 
         def _run_setup(design, target):
-            runtime_setup = self.__design_runtime_setup(design)
-
-            if not runtime_setup:
-                chip, valid = self.__setup_design(design, target)
-                if not valid:
-                    return
-            else:
-                chip = None
+            project, valid = self.__setup_design(design, target)
+            if not valid:
+                return
 
             print_text = f'Running "{design}"'
             if target:
@@ -808,8 +474,7 @@ class Gallery:
             regular_jobs.append({
                 "print": print_text,
                 "design": design,
-                "runtime_setup": runtime_setup,
-                "chip": chip,
+                "project": project,
                 "target": target})
 
         config_jobs = []
@@ -819,14 +484,7 @@ class Gallery:
                 continue
 
             targets = self.__run_config['targets']
-
-            if not self.__design_needs_target(self.__designs[design]):
-                if "None" in targets:
-                    targets = [None]
-                else:
-                    continue
-            else:
-                targets = [target for target in targets if target != "None"]
+            targets = [target for target in targets if target != "None"]
 
             for target in targets:
                 config_jobs.append(threading.Thread(
@@ -917,12 +575,12 @@ class Gallery:
                 job.join()
         else:
             for job in regular_jobs:
-                chip = job['chip']
+                project = job['project']
                 design = job['design']
 
                 print(job['print'])
-                chip, succeeded = self.__run_design(job)
-                self.__finalize(design, chip, succeeded)
+                project, succeeded = self.__run_design(job)
+                self.__finalize(design, project, succeeded)
 
         self.summary()
 
@@ -936,7 +594,7 @@ class Gallery:
         print("Run summary:")
         failed = False
         for status in self.__status:
-            print(f" Design: {status['chip'].design} on {status['pdk']} pdk "
+            print(f" Design: {status['project'].name} on {status['pdk']} pdk "
                   f"with mainlib {status['mainlib']}")
             error = status['error']
             if error:
@@ -949,20 +607,6 @@ class Gallery:
                 print("  Rules check passed")
         if not failed:
             print('Run passed')
-
-    @staticmethod
-    def _register_design_sources(chip):
-        chip.register_source(name='scgallery-designs',
-                             path='python://scgallery.designs')
-
-    @staticmethod
-    def design_commandline(chip, target=None, module_path=None):
-        Gallery._register_design_sources(chip)
-        args = chip.create_cmdline(chip.design)
-        if target and ("target" not in args or not args["target"]):
-            chip.use(target)
-        if module_path:
-            Gallery._ensure_sdc(chip, os.path.dirname(module_path))
 
     @classmethod
     def main(cls):
@@ -1067,7 +711,7 @@ Designs: {designs_help}
 
         parser.add_argument('-scheduler',
                             choices=NodeType.parse(
-                                Schema().get('option', 'scheduler', 'name', field='type')).values,
+                                ASICProject().get('option', 'scheduler', 'name', field='type')).values,
                             help='Select the scheduler to use during exection')
 
         parser.add_argument('-clean',
@@ -1152,7 +796,7 @@ Designs: {designs_help}
             return 0
 
         if args.lint:
-            gallery.add_target("lint", gallery_lint)
+            gallery.add_target("lint", gallery_lint.setup)
             gallery.set_run_targets(["lint"])
 
             if gallery.lint(args.lint_tool):
@@ -1160,7 +804,6 @@ Designs: {designs_help}
 
             return 1
 
-        gallery.set_rules_to_skip(args.skip_rules)
         if not gallery.run():
             return 1
         return 0

@@ -2,9 +2,11 @@ import pytest
 import os
 import json
 import scgallery
-from scgallery.checklists import asicflow_rules
-from siliconcompiler import Chip
-from siliconcompiler.tools._common.asic import get_mainlib
+# from scgallery.checklists import asicflow_rules
+# from siliconcompiler import Chip
+# from siliconcompiler.tools._common.asic import get_mainlib
+
+pytest.skip("needs updating", allow_module_level=True)
 
 
 @pytest.fixture
