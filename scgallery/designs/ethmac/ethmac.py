@@ -5,6 +5,7 @@ from siliconcompiler import ASICProject
 from siliconcompiler.targets import asap7_demo
 from lambdalib.ramlib import Spram
 from siliconcompiler.tools.slang.lint import Lint
+from siliconcompiler.tools.openroad.macro_placement import MacroPlacementTask
 
 
 class EthmacDesign(GalleryDesign):
@@ -67,6 +68,11 @@ class EthmacDesign(GalleryDesign):
                 self.add_file("constraints/sky130hd.sdc")
 
         self.add_target_setup("lint", self.setup_lint)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
+
+    def setup_gf180(self, project: ASICProject):
+        project.get_task(filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 10])
 
     def setup_lint(self, project: ASICProject):
         lint_task: Lint = project.get_task(filter=Lint)
