@@ -5,7 +5,13 @@ from .blinky.blinky import BlinkyDesign
 from .darkriscv.darkriscv import DarkSOCVDesign
 from .dynamic_node.dynamic_node import DynamicNodeDesign
 from .ethmac.ethmac import EthmacDesign
+from .fazyrv.fazyrv import FazyRVDesign
+from .gcd.gcd import GCDDesign
 from .heartbeat.heartbeat import HeartbeatDesign
+from .ibex.ibex import IBEXDesign
+from .jpeg.jpeg import JPEGDesign
+from .openmsp430.openmsp430 import OpenMSP430Design
+from .picorv32.picorv32 import PicoRV32Design
 
 __designs = (
     AESDesign,
@@ -13,7 +19,13 @@ __designs = (
     DarkSOCVDesign,
     DynamicNodeDesign,
     EthmacDesign,
+    FazyRVDesign,
+    GCDDesign,
     HeartbeatDesign,
+    IBEXDesign,
+    JPEGDesign,
+    OpenMSP430Design,
+    PicoRV32Design
 )
 
 

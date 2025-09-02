@@ -45,6 +45,7 @@ class EthmacDesign(GalleryDesign):
                 self.add_define("ETH_VIRTUAL_SILICON_RAM")
                 self.add_file("extra/lambda.v")
                 self.add_depfileset(Spram(), "rtl")
+                self.add_idir("src")
 
         with self.active_dataroot("ethmac"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):

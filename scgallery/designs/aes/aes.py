@@ -22,13 +22,13 @@ class AESDesign(GalleryDesign):
             with self.active_fileset("rtl"):
                 self.set_topmodule("aes_cipher_top")
                 self.add_file([
-                    'rtl/aes_cipher_top.v',
-                    'rtl/aes_inv_cipher_top.v',
-                    'rtl/aes_inv_sbox.v',
-                    'rtl/aes_key_expand_128.v',
-                    'rtl/aes_rcon.v',
-                    'rtl/aes_sbox.v'])
-                self.add_idir("rtl")
+                    'src/aes_cipher_top.v',
+                    'src/aes_inv_cipher_top.v',
+                    'src/aes_inv_sbox.v',
+                    'src/aes_key_expand_128.v',
+                    'src/aes_rcon.v',
+                    'src/aes_sbox.v'])
+                self.add_idir("src")
 
         with self.active_dataroot("aes"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
