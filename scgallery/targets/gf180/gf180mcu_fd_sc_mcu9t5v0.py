@@ -2,6 +2,7 @@ from siliconcompiler import ASICProject
 from siliconcompiler.targets import gf180_demo
 from lambdapdk.gf180 import GF180_5LM_1TM_9K_9t
 from lambdapdk.gf180.libs.gf180mcu import GF180_MCU_9T_5LMLibrary
+from lambdapdk.gf180.libs.gf180sram import GF180Lambdalib_SinglePort
 
 
 def setup(proj: ASICProject):
@@ -9,3 +10,6 @@ def setup(proj: ASICProject):
     proj.unset("asic", "asiclib")
     proj.set_pdk(GF180_5LM_1TM_9K_9t())
     proj.set_mainlib(GF180_MCU_9T_5LMLibrary())
+
+    # 5. Assign Lambdalib aliases
+    GF180Lambdalib_SinglePort.alias(proj)
