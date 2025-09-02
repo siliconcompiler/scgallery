@@ -1,40 +1,52 @@
 #!/usr/bin/env python3
 
-import os
-
-from siliconcompiler import Chip
-from siliconcompiler.targets import freepdk45_demo
-from scgallery import Gallery
-from lambdalib import ramlib
+from siliconcompiler import ASICProject, DesignSchema
+from siliconcompiler.targets import asap7_demo
+from lambdalib.ramlib import Spram
 
 
-def setup():
-    chip = Chip('tiny_rocket')
-    chip.set('option', 'entrypoint', 'RocketTile')
+class TinyRocketDesign(DesignSchema):
+    def __init__(self):
+        super().__init__("tiny_rocket")
+        self.set_dataroot("tiny_rocket", __file__)
 
-    src_root = os.path.join('tiny_rocket', 'src')
-    extra_root = os.path.join('tiny_rocket', 'extra')
+        with self.active_dataroot("tiny_rocket"):
+            with self.active_fileset("rtl"):
+                self.set_topmodule("RocketTile")
+                self.add_file([
+                    'src/freechips.rocketchip.system.TinyConfig.v',
+                    'src/AsyncResetReg.v',
+                    'src/ClockDivider2.v',
+                    'src/plusarg_reader.v'])
+                self.add_file("extra/lambda.v")
+                self.add_depfileset(Spram(), "rtl")
+                self.add_define("SYNTHESIS")
 
-    for src in ('freechips.rocketchip.system.TinyConfig.v',
-                'AsyncResetReg.v',
-                'ClockDivider2.v',
-                'plusarg_reader.v'):
-        chip.input(os.path.join(src_root, src), package='scgallery-designs')
+        with self.active_dataroot("tiny_rocket"):
+            with self.active_fileset("sdc.asap7sc7p5t_rvt"):
+                self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
-    chip.input(os.path.join(extra_root, 'lambda.v'), package='scgallery-designs')
-    chip.use(ramlib)
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
-    return chip
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
+            with self.active_fileset("sdc.nangate45"):
+                self.add_file("constraints/nangate45.sdc")
 
-def setup_physical(chip):
-    chip.set('option', 'define', 'SYNTHESIS')
+            with self.active_fileset("sdc.sg13g2_stdcell_1p2"):
+                self.add_file("constraints/sg13g2_stdcell.sdc")
+
+            with self.active_fileset("sdc.sky130hd"):
+                self.add_file("constraints/sky130hd.sdc")
 
 
 if __name__ == '__main__':
-    chip = setup()
-    Gallery.design_commandline(chip, target=freepdk45_demo, module_path=__file__)
-    setup_physical(chip)
+    project = ASICProject(TinyRocketDesign())
+    project.add_fileset("rtl")
+    project.add_fileset("sdc.asap7sc7p5t_rvt")
+    project.load_target(asap7_demo.setup)
 
-    chip.run()
-    chip.summary()
+    project.run()
+    project.summary()
