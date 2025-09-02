@@ -6,48 +6,85 @@ Advanced Encryption Standard
 Source: http://www.opencores.org/cores/aes_core/
 '''
 
-import os
-
-from siliconcompiler import Chip
+from scgallery import GalleryDesign
+from siliconcompiler import ASICProject
 from siliconcompiler.targets import asap7_demo
-from scgallery import Gallery
+from siliconcompiler.tools.openroad._apr import OpenROADGPLParameter
 
 
-def setup():
-    chip = Chip('aes')
-    chip.set('option', 'entrypoint', 'aes_cipher_top')
+class AESDesign(GalleryDesign):
+    def __init__(self):
+        super().__init__("aes")
 
-    src_root = os.path.join('aes', 'src')
+        self.set_dataroot("aes", __file__)
 
-    for src in ('aes_cipher_top.v',
-                'aes_inv_cipher_top.v',
-                'aes_inv_sbox.v',
-                'aes_key_expand_128.v',
-                'aes_rcon.v',
-                'aes_sbox.v'):
-        chip.input(os.path.join(src_root, src), package='scgallery-designs')
+        with self.active_dataroot("aes"):
+            with self.active_fileset("rtl"):
+                self.set_topmodule("aes_cipher_top")
+                self.add_file([
+                    'rtl/aes_cipher_top.v',
+                    'rtl/aes_inv_cipher_top.v',
+                    'rtl/aes_inv_sbox.v',
+                    'rtl/aes_key_expand_128.v',
+                    'rtl/aes_rcon.v',
+                    'rtl/aes_sbox.v'])
+                self.add_idir("rtl")
 
-    chip.add('option', 'idir', src_root, package='scgallery-designs')
+        with self.active_dataroot("aes"):
+            with self.active_fileset("sdc.asap7sc7p5t_rvt"):
+                self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
-    return chip
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
-def setup_physical(chip):
-    for task in ('global_placement', 'pin_placement'):
-        chip.set('tool', 'openroad', 'task', task, 'var', 'place_density', '0.65')
+            with self.active_fileset("sdc.nangate45"):
+                self.add_file("constraints/nangate45.sdc")
 
-    if chip.get('option', 'pdk') == 'skywater130':
-        # Decrease density due to high routing runtime
-        chip.set('constraint', 'density', 30)
+            with self.active_fileset("sdc.sg13g2_stdcell_1p2"):
+                self.add_file("constraints/sg13g2_stdcell.sdc")
 
-        for task in ('global_placement', 'pin_placement'):
-            chip.set('tool', 'openroad', 'task', task, 'var', 'place_density', '0.50')
+            with self.active_fileset("sdc.sky130hd"):
+                self.add_file("constraints/sky130hd.sdc")
+
+        self.add_target_setup("freepdk45_nangate45", self.setup_freepdk45)
+        self.add_target_setup("asap7_asap7sc7p5t_rvt", self.setup_asap7)
+        self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
+
+    def setup_freepdk45(self, project: ASICProject):
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "place_density", 0.65)
+
+    def setup_asap7(self, project: ASICProject):
+        project.get_areaconstraints().set_density(25)
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "place_density", 0.65)
+
+    def setup_ihp130(self, project: ASICProject):
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "place_density", 0.65)
+
+    def setup_gf180(self, project: ASICProject):
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "place_density", 0.65)
+
+    def setup_skywater130(self, project: ASICProject):
+        project.get_areaconstraints().set_density(30)
+        for task in project.get_task(filter=OpenROADGPLParameter):
+            task.set("var", "place_density", 0.50)
 
 
 if __name__ == '__main__':
-    chip = setup()
-    Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
-    setup_physical(chip)
+    project = ASICProject(AESDesign())
+    project.add_fileset("rtl")
+    project.add_fileset("sdc.asap7sc7p5t_rvt")
+    project.load_target(asap7_demo.setup)
+    project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
-    chip.run()
-    chip.summary()
+    project.run()
+    project.summary()

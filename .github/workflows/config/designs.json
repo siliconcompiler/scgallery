@@ -1,5 +1,95 @@
 [
     {
+        "design": "aes",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "aes",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "aes",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "aes",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "aes",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "aes",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
         "design": "heartbeat",
         "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"

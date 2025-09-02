@@ -344,7 +344,7 @@ class Gallery:
         project.load_target(self.__targets[target])
 
         if isinstance(design_obj, GalleryDesign):
-            design_obj.process_setups(target)
+            design_obj.process_setups(target, project)
 
         has_sdc = False
         if not is_lint:
