@@ -3,12 +3,16 @@ from os import path
 from .aes.aes import AESDesign
 from .blinky.blinky import BlinkyDesign
 from .darkriscv.darkriscv import DarkSOCVDesign
+from .dynamic_node.dynamic_node import DynamicNodeDesign
+from .ethmac.ethmac import EthmacDesign
 from .heartbeat.heartbeat import HeartbeatDesign
 
 __designs = (
     AESDesign,
     BlinkyDesign,
     DarkSOCVDesign,
+    DynamicNodeDesign,
+    EthmacDesign,
     HeartbeatDesign,
 )
 

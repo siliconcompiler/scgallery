@@ -90,6 +90,66 @@
         "target": "skywater130_sky130hd"
     },
     {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
         "design": "heartbeat",
         "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"

@@ -1,62 +1,83 @@
 #!/usr/bin/env python3
 
-import os
-
-from siliconcompiler import Chip
+from scgallery import GalleryDesign
+from siliconcompiler import ASICProject
 from siliconcompiler.targets import asap7_demo
-from scgallery import Gallery
-from lambdalib import ramlib
+from lambdalib.ramlib import Spram
+from siliconcompiler.tools.slang.lint import Lint
 
 
-def setup():
-    chip = Chip('ethmac')
+class EthmacDesign(GalleryDesign):
+    def __init__(self):
+        super().__init__("ethmac")
+        self.set_dataroot("ethmac", __file__)
 
-    src_root = os.path.join('ethmac', 'src')
+        with self.active_dataroot("ethmac"):
+            with self.active_fileset("rtl"):
+                self.set_topmodule("ethmac")
+                self.add_file([
+                    'src/ethmac.v',
+                    'src/ethmac_defines.v',
+                    'src/eth_clockgen.v',
+                    'src/eth_cop.v',
+                    'src/eth_crc.v',
+                    'src/eth_fifo.v',
+                    'src/eth_maccontrol.v',
+                    'src/eth_macstatus.v',
+                    'src/eth_miim.v',
+                    'src/eth_outputcontrol.v',
+                    'src/eth_random.v',
+                    'src/eth_receivecontrol.v',
+                    'src/eth_register.v',
+                    'src/eth_registers.v',
+                    'src/eth_rxaddrcheck.v',
+                    'src/eth_rxcounters.v',
+                    'src/eth_rxethmac.v',
+                    'src/eth_rxstatem.v',
+                    'src/eth_shiftreg.v',
+                    'src/eth_spram_256x32.v',
+                    'src/eth_top.v',
+                    'src/eth_transmitcontrol.v',
+                    'src/eth_txcounters.v',
+                    'src/eth_txethmac.v',
+                    'src/eth_txstatem.v',
+                    'src/eth_wishbone.v'])
+                self.add_define("ETH_VIRTUAL_SILICON_RAM")
+                self.add_file("extra/lambda.v")
+                self.add_depfileset(Spram(), "rtl")
 
-    for src in ('ethmac.v',
-                'ethmac_defines.v',
-                'eth_clockgen.v',
-                'eth_cop.v',
-                'eth_crc.v',
-                'eth_fifo.v',
-                'eth_maccontrol.v',
-                'eth_macstatus.v',
-                'eth_miim.v',
-                'eth_outputcontrol.v',
-                'eth_random.v',
-                'eth_receivecontrol.v',
-                'eth_register.v',
-                'eth_registers.v',
-                'eth_rxaddrcheck.v',
-                'eth_rxcounters.v',
-                'eth_rxethmac.v',
-                'eth_rxstatem.v',
-                'eth_shiftreg.v',
-                'eth_spram_256x32.v',
-                'eth_top.v',
-                'eth_transmitcontrol.v',
-                'eth_txcounters.v',
-                'eth_txethmac.v',
-                'eth_txstatem.v',
-                'eth_wishbone.v'):
-        chip.input(os.path.join(src_root, src), package='scgallery-designs')
+        with self.active_dataroot("ethmac"):
+            with self.active_fileset("sdc.asap7sc7p5t_rvt"):
+                self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
-    chip.add('option', 'idir', src_root, package='scgallery-designs')
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
-    chip.add('option', 'define', 'ETH_VIRTUAL_SILICON_RAM')
-    chip.input(os.path.join('ethmac', 'extra', 'lambda.v'), package='scgallery-designs')
-    chip.use(ramlib)
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
-    return chip
+            with self.active_fileset("sdc.nangate45"):
+                self.add_file("constraints/nangate45.sdc")
 
+            with self.active_fileset("sdc.sg13g2_stdcell_1p2"):
+                self.add_file("constraints/sg13g2_stdcell.sdc")
 
-def setup_lint(chip):
-    chip.set('tool', 'slang', 'task', 'lint', 'option', '--timescale 1ns/1ns')
+            with self.active_fileset("sdc.sky130hd"):
+                self.add_file("constraints/sky130hd.sdc")
+
+        self.add_target_setup("lint", self.setup_lint)
+
+    def setup_lint(self, project: ASICProject):
+        lint_task: Lint = project.get_task(filter=Lint)
+        if lint_task:
+            lint_task.add_commandline_option(['--timescale', '1ns/1ns'])
 
 
 if __name__ == '__main__':
-    chip = setup()
-    Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
+    project = ASICProject(EthmacDesign())
+    project.add_fileset("rtl")
+    project.add_fileset("sdc.asap7sc7p5t_rvt")
+    project.load_target(asap7_demo.setup)
 
-    chip.run()
-    chip.summary()
+    project.run()
+    project.summary()
