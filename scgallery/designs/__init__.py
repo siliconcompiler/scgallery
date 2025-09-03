@@ -15,6 +15,7 @@ from .gcd.gcd import GCDDesign
 from .heartbeat.heartbeat import HeartbeatDesign
 from .ibex.ibex import IBEXDesign
 from .jpeg.jpeg import JPEGDesign
+from .mock_alu.mock_alu import MockALUDesign
 from .openmsp430.openmsp430 import OpenMSP430Design
 from .picorv32.picorv32 import PicoRV32Design
 from .qerv.qerv import QERVDesign
@@ -41,6 +42,7 @@ __designs = (
     HeartbeatDesign,
     IBEXDesign,
     JPEGDesign,
+    MockALUDesign,
     OpenMSP430Design,
     PicoRV32Design,
     QERVDesign,
