@@ -25,6 +25,7 @@ from .spi.spi import SPIDesign
 from .swerv.swerv import SwervDesign
 from .tiny_rocket.tiny_rocket import TinyRocketDesign
 from .uart.uart import UARTDesign
+from .wally.wally import WallyDesign
 
 __designs = (
     AESDesign,
@@ -51,7 +52,8 @@ __designs = (
     SPIDesign,
     SwervDesign,
     TinyRocketDesign,
-    UARTDesign
+    UARTDesign,
+    WallyDesign
 )
 
 

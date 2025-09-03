@@ -1,68 +1,105 @@
 #!/usr/bin/env python3
 
-import os
-
-from siliconcompiler import Chip
-from siliconcompiler.targets import asap7_demo
-from scgallery import Gallery
-from lambdalib import ramlib
-
 import glob
-from siliconcompiler.package import path as sc_path
-from siliconcompiler.tools import openroad
-from siliconcompiler.tools._common import get_tool_tasks
+
+import os.path
+
+from scgallery import GalleryDesign
+from siliconcompiler import ASICProject
+from siliconcompiler.targets import asap7_demo
+from lambdalib.ramlib import Spram
+from siliconcompiler.tools.yosys.syn_asic import ASICSynthesis
 
 
-def setup():
-    chip = Chip('wally')
+class WallyDesign(GalleryDesign):
+    def __init__(self):
+        super().__init__("wally")
+        self.set_dataroot("extra", __file__)
+        self.set_dataroot("wally",
+                          "git+https://github.com/openhwgroup/cvw",
+                          tag="e0af0e68a32edd8eb98abc31c8b2b7b04fbd29b9")
 
-    chip.register_source('wally',
-                         path='git+https://github.com/openhwgroup/cvw',
-                         ref='e0af0e68a32edd8eb98abc31c8b2b7b04fbd29b9')
+        with self.active_fileset("rtl"):
+            with self.active_dataroot("wally"):
+                self.add_file("src/cvw.sv")
+            with self.active_dataroot("extra"):
+                self.set_topmodule("wallypipelinedcorewrapper")
+                self.add_file("extra/wallypipelinedcorewrapper.sv")
+            with self.active_dataroot("wally"):
+                wally_path = self.get_dataroot("wally")
 
-    chip.set('option', 'entrypoint', 'wallypipelinedcorewrapper')
+                for src in glob.glob(f'{wally_path}/src/*/*.sv'):
+                    self.add_file(os.path.relpath(src, wally_path))
 
-    # Add source files
-    chip.input('src/cvw.sv', package='wally')
-    chip.input('wally/extra/wallypipelinedcorewrapper.sv', package='scgallery-designs')
+                for src in glob.glob(f'{wally_path}/src/*/*/*.sv'):
+                    if not ('ram' in src and 'wbe_' in src):  # Exclude hardcoded SRAMs
+                        self.add_file(os.path.relpath(src, wally_path))
 
-    wally_path = sc_path(chip, 'wally')
-    for src in glob.glob(f'{wally_path}/src/*/*.sv'):
-        chip.input(os.path.relpath(src, wally_path), package='wally')
+                self.add_idir("config/shared")
+            with self.active_dataroot("extra"):
+                self.add_idir("extra/config")
+                self.add_file("extra/lambda.v")
+                self.add_depfileset(Spram(), "rtl")
 
-    for src in glob.glob(f'{wally_path}/src/*/*/*.sv'):
-        if not ('ram' in src and 'wbe_' in src):  # Exclude hardcoded SRAMs
-            chip.input(os.path.relpath(src, wally_path), package='wally')
+        with self.active_dataroot("extra"):
+            with self.active_fileset("sdc.asap7sc7p5t_rvt"):
+                self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
-    chip.add('option', 'idir', 'config/shared', package='wally')
-    chip.add('option', 'idir', 'wally/extra/config', package='scgallery-designs')
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
-    chip.input('wally/extra/lambda.v', package='scgallery-designs')
-    chip.use(ramlib)
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
-    return chip
+            with self.active_fileset("sdc.nangate45"):
+                self.add_file("constraints/nangate45.sdc")
 
+            with self.active_fileset("sdc.sg13g2_stdcell_1p2"):
+                self.add_file("constraints/sg13g2_stdcell.sdc")
 
-def setup_physical(chip):
-    # Disable yosys flattening to avoid massive memory requirement
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'use_slang', True)
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'flatten', False)
-    chip.set('tool', 'yosys', 'task', 'syn_asic', 'var', 'auto_flatten', False)
-    chip.set('tool', 'openroad', 'task', 'init_floorplan', 'var', 'remove_dead_logic', False)
+            with self.active_fileset("sdc.sky130hd"):
+                self.add_file("constraints/sky130hd.sdc")
 
-    chip.set('tool', 'sv2v', 'task', 'convert', 'var', 'skip_convert', True)
+        self.add_target_setup("freepdk45_nangate45", self.setup_freepdk45)
+        self.add_target_setup("asap7_asap7sc7p5t_rvt", self.setup_asap7)
+        self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
-    for task in get_tool_tasks(chip, openroad):
-        chip.set('tool', 'openroad', 'task', task, 'var', 'sta_define_path_groups', False)
+    def setup_freepdk45(self, project: ASICProject):
+        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        project.get_task(filter=ASICSynthesis).set("var", "flatten", False)
+        project.get_task(filter=ASICSynthesis).set("var", "auto_flatten", False)
 
-    if chip.get('option', 'pdk') == 'asap7':
-        chip.set('constraint', 'density', 30)
+    def setup_asap7(self, project: ASICProject):
+        project.get_areaconstraints().set_density(30)
+        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        project.get_task(filter=ASICSynthesis).set("var", "flatten", False)
+        project.get_task(filter=ASICSynthesis).set("var", "auto_flatten", False)
+
+    def setup_ihp130(self, project: ASICProject):
+        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        project.get_task(filter=ASICSynthesis).set("var", "flatten", False)
+        project.get_task(filter=ASICSynthesis).set("var", "auto_flatten", False)
+
+    def setup_gf180(self, project: ASICProject):
+        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        project.get_task(filter=ASICSynthesis).set("var", "flatten", False)
+        project.get_task(filter=ASICSynthesis).set("var", "auto_flatten", False)
+
+    def setup_skywater130(self, project: ASICProject):
+        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        project.get_task(filter=ASICSynthesis).set("var", "flatten", False)
+        project.get_task(filter=ASICSynthesis).set("var", "auto_flatten", False)
 
 
 if __name__ == '__main__':
-    chip = setup()
-    Gallery.design_commandline(chip, target=asap7_demo, module_path=__file__)
-    setup_physical(chip)
+    project = ASICProject(WallyDesign())
+    project.add_fileset("rtl")
+    project.add_fileset("sdc.asap7sc7p5t_rvt")
+    project.load_target(asap7_demo.setup)
+    project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
-    chip.run()
-    chip.summary()
+    project.run()
+    project.summary()
