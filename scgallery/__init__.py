@@ -5,7 +5,9 @@ except ImportError:
     __version__ = None
 
 from .gallery import Gallery
+from .design import GalleryDesign
 
 __all__ = [
     "Gallery",
+    "GalleryDesign"
 ]

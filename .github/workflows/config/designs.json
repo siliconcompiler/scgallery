@@ -47,28 +47,28 @@
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Failed on cluster (multi_top/rof1_0__core/fe/icache_1)_glue_logic",
+        "skip": "[ERROR MPL-0040] Failed on cluster (multi_top/rof1_0__core/be/be_mmu/dcache)_glue_logic_1",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR MPL-0010] Macro placement failed for macro cluster:",
+        "skip": "[ERROR MPL-0040] Failed on cluster (multi_top/rof1_0__core/be/be_mmu/dcache)_glue_logic_0",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "black_parrot",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "ihp130_sg13g2_stdcell"
     },
     {
         "cache": true,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Too much memory for github runner",
+        "skip": "Timeout on github runner",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": true,
+        "design": "black_parrot",
+        "remote": false,
+        "skip": "Memory limit on github runner",
         "target": "skywater130_sky130hd"
     },
     {
@@ -102,90 +102,108 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "cache": true,
-        "design": "caliptra-datavault",
-        "remote": false,
-        "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "caliptra-datavault",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "caliptra-datavault",
-        "remote": false,
-        "skip": "Fails with antenna repair",
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-datavault",
-        "remote": false,
-        "skip": "OpenROAD regression in placement density and routing time. https://github.com/The-OpenROAD-Project/OpenROAD/issues/5305 and https://github.com/The-OpenROAD-Project/OpenROAD/issues/5291",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": true,
-        "design": "caliptra-keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "caliptra-sha512",
+        "design": "caliptra_datavault",
         "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "design": "caliptra-sha512",
+        "design": "caliptra_datavault",
         "remote": false,
         "target": "freepdk45_nangate45"
     },
     {
         "cache": true,
-        "design": "caliptra-sha512",
+        "design": "caliptra_datavault",
         "remote": false,
         "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": true,
-        "design": "caliptra-sha512",
+        "design": "caliptra_datavault",
         "remote": false,
         "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "design": "caliptra-sha512",
+        "design": "caliptra_datavault",
         "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "design": "caliptra-sha512",
+        "design": "caliptra_datavault",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "cache": true,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "cache": true,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": true,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "cache": true,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": true,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": true,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timeout on github runner",
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "caliptra_sha512",
         "remote": false,
         "target": "skywater130_sky130hd"
     },
@@ -193,71 +211,69 @@
         "cache": true,
         "design": "cva6",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "Memory limit on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "cache": true,
         "design": "cva6",
         "remote": false,
-        "skip": "Timeout on github runner",
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "cva6",
         "remote": false,
-        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
+        "skip": "[ERROR PSM-0069] Check connectivity failed on VDD.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
+        "cache": true,
         "design": "cva6",
         "remote": false,
-        "skip": "[ERROR PDN-0179] Unable to repair all channels.",
+        "skip": "Timeout on github runner",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
         "design": "cva6",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
         "cache": true,
         "design": "cva6",
         "remote": false,
-        "skip": "Too much memory for github runner",
+        "skip": "Memory limit on github runner",
         "target": "skywater130_sky130hd"
     },
     {
-        "design": "darkriscv",
+        "design": "darksocv",
         "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "design": "darkriscv",
+        "design": "darksocv",
         "remote": false,
         "target": "freepdk45_nangate45"
     },
     {
-        "design": "darkriscv",
+        "design": "darksocv",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "design": "darkriscv",
+        "design": "darksocv",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "design": "darkriscv",
+        "design": "darksocv",
         "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "design": "darkriscv",
+        "design": "darksocv",
         "remote": false,
         "target": "skywater130_sky130hd"
     },
@@ -342,8 +358,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
         "design": "fazyrv",
         "remote": false,
+        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -437,10 +455,8 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "cache": false,
         "design": "ibex",
         "remote": false,
-        "skip": "timing out on github runners",
         "target": "skywater130_sky130hd"
     },
     {
@@ -454,10 +470,8 @@
         "target": "freepdk45_nangate45"
     },
     {
-        "cache": false,
         "design": "jpeg",
         "remote": false,
-        "skip": "Macro placement generates poor routing solution.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -596,8 +610,10 @@
         "target": "skywater130_sky130hd"
     },
     {
+        "cache": false,
         "design": "riscv32i",
         "remote": false,
+        "skip": "ABC: Scl_LibertyReadGeERROR: ABC: execution of command /sc_tools/bin/yosys-abc -s -f",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
@@ -712,17 +728,17 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "cache": false,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
         "cache": true,
         "design": "swerv",
         "remote": false,
         "skip": "Timeout on github runner",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "skywater130_sky130hd"
     },
     {
@@ -746,17 +762,13 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "Macro placement generates poor routing solution.",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "detailed routing takes too long for github runners",
         "target": "skywater130_sky130hd"
     },
     {
@@ -830,15 +842,5 @@
         "remote": false,
         "skip": "pending resource and timing verication",
         "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "zerosoc_flat",
-        "remote": false,
-        "target": null
-    },
-    {
-        "design": "zerosoc_hierarchy",
-        "remote": false,
-        "target": null
     }
 ]

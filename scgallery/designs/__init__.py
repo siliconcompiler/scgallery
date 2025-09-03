@@ -1,96 +1,63 @@
 from os import path
 
-from .aes import aes
-from .black_parrot import black_parrot
-from .blinky import blinky
-from .cva6 import cva6
-from .darkriscv import darkriscv
-from .dynamic_node import dynamic_node
-from .ethmac import ethmac
-from .fazyrv import fazyrv
-from .gcd import gcd
-from .heartbeat import heartbeat
-from .ibex import ibex
-from .jpeg import jpeg
-from .mock_alu import mock_alu
-from .openmsp430 import openmsp430
-from .picorv32 import picorv32
-from .riscv32i import riscv32i
-from .qerv import qerv
-from .serv import serv
-from .spi import spi
-from .swerv import swerv
-from .tiny_rocket import tiny_rocket
-from .wally import wally
-from .uart import uart
-
-from .caliptra import datavault, keyvault, sha512
-
-try:
-    from .zerosoc import run_flat as zerosoc_flat
-    from .zerosoc import run_hierarchy as zerosoc_hierarchy
-except (ImportError, ModuleNotFoundError):
-    zerosoc_flat = None
-    zerosoc_hierarchy = None
-
-
-def __get_rules(design):
-    if not design:
-        return []
-    rules = path.join(path.dirname(design.__file__), "rules.json")
-
-    if path.exists(rules):
-        return [rules]
-
-    modname = design.__name__.split('.')[-1]
-    rules = path.join(path.dirname(design.__file__), f"rules-{modname}.json")
-
-    if path.exists(rules):
-        return [rules]
-
-    return []
-
+from .aes.aes import AESDesign
+from .black_parrot.black_parrot import BlackParrotDesign
+from .blinky.blinky import BlinkyDesign
+from .caliptra.datavault import DataVault
+from .caliptra.keyvault import KeyVault
+from .caliptra.sha512 import SHA512
+from .cva6.cva6 import CVA6Design
+from .darkriscv.darkriscv import DarkSOCVDesign
+from .dynamic_node.dynamic_node import DynamicNodeDesign
+from .ethmac.ethmac import EthmacDesign
+from .fazyrv.fazyrv import FazyRVDesign
+from .gcd.gcd import GCDDesign
+from .heartbeat.heartbeat import HeartbeatDesign
+from .ibex.ibex import IBEXDesign
+from .jpeg.jpeg import JPEGDesign
+from .mock_alu.mock_alu import MockALUDesign
+from .openmsp430.openmsp430 import OpenMSP430Design
+from .picorv32.picorv32 import PicoRV32Design
+from .qerv.qerv import QERVDesign
+from .riscv32i.riscv32i import Riscv32iDesign
+from .serv.serv import SERVDesign
+from .spi.spi import SPIDesign
+from .swerv.swerv import SwervDesign
+from .tiny_rocket.tiny_rocket import TinyRocketDesign
+from .uart.uart import UARTDesign
+from .wally.wally import WallyDesign
 
 __designs = (
-    aes,
-    black_parrot,
-    blinky,
-    cva6,
-    darkriscv,
-    datavault,
-    dynamic_node,
-    ethmac,
-    fazyrv,
-    gcd,
-    heartbeat,
-    ibex,
-    jpeg,
-    keyvault,
-    mock_alu,
-    openmsp430,
-    picorv32,
-    qerv,
-    riscv32i,
-    serv,
-    spi,
-    swerv,
-    tiny_rocket,
-    wally,
-    uart,
-    sha512
+    AESDesign,
+    BlackParrotDesign,
+    BlinkyDesign,
+    DataVault,
+    KeyVault,
+    SHA512,
+    CVA6Design,
+    DarkSOCVDesign,
+    DynamicNodeDesign,
+    EthmacDesign,
+    FazyRVDesign,
+    GCDDesign,
+    HeartbeatDesign,
+    IBEXDesign,
+    JPEGDesign,
+    MockALUDesign,
+    OpenMSP430Design,
+    PicoRV32Design,
+    QERVDesign,
+    Riscv32iDesign,
+    SERVDesign,
+    SPIDesign,
+    SwervDesign,
+    TinyRocketDesign,
+    UARTDesign,
+    WallyDesign
 )
 
 
-__name_map = {
-    datavault: "caliptra-datavault",
-    keyvault: "caliptra-keyvault",
-    sha512: "caliptra-sha512"
-}
-
-
 __designs_nonstandard = {
-    "zerosoc_flat": zerosoc_flat,
-    "zerosoc_hierarchy": zerosoc_hierarchy
 }
 
 
@@ -99,26 +66,15 @@ def all_designs():
     for design in __designs:
         if not design:
             continue
-        if design in __name_map:
-            name = __name_map[design]
-        else:
-            name = design.__name__.split('.')[-1]
-        rules = __get_rules(design)
+        name = design().name
 
-        designs[name] = {
-            "module": design,
-            "rules": rules
-        }
+        designs[name] = design
 
     for name, design in __designs_nonstandard.items():
         if not design:
             continue
 
-        rules = __get_rules(design)
-        designs[name] = {
-            "module": design,
-            "rules": rules
-        }
+        designs[name] = design
 
     return designs
 

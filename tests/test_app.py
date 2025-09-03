@@ -59,25 +59,6 @@ def test_glob_args_multi_designs(monkeypatch):
     assert all([c['design'] in ('serv', 'swerv', 'spi', 'aes', 'ariane') for c in config])
 
 
-def test_glob_args_designs_no_target(monkeypatch):
-    '''
-    Check for details in help output
-    '''
-    monkeypatch.setattr('sys.argv', [
-        'sc-gallery',
-        '-json', 'test.json',
-        '-design', 'zerosoc*'])
-
-    assert sc_gallery.main() == 0
-
-    assert os.path.exists('test.json')
-
-    with open('test.json') as f:
-        config = json.load(f)
-
-    assert len(config) == 2
-
-
 def test_glob_args_targets(monkeypatch):
     '''
     Check for details in help output

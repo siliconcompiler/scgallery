@@ -1,55 +1,68 @@
 #!/usr/bin/env python3
 
-import os
-
-from siliconcompiler import Chip
-from siliconcompiler.targets import skywater130_demo
-from scgallery import Gallery
+from siliconcompiler import ASICProject, DesignSchema
+from siliconcompiler.targets import asap7_demo
 
 
-def setup():
-    chip = Chip('riscv32i')
-    chip.set('option', 'entrypoint', 'riscv')
+class Riscv32iDesign(DesignSchema):
+    def __init__(self):
+        super().__init__("riscv32i")
+        self.set_dataroot("riscv32i", __file__)
 
-    src_root = os.path.join('riscv32i', 'src')
+        with self.active_dataroot("riscv32i"):
+            with self.active_fileset("rtl"):
+                self.set_topmodule("riscv")
+                self.add_file([
+                    'src/adder.v',
+                    'src/alu.v',
+                    'src/aludec.v',
+                    'src/controller.v',
+                    'src/datapath.v',
+                    'src/dmem.v',
+                    'src/flopenr.v',
+                    'src/flopens.v',
+                    'src/flopr.v',
+                    'src/magcompare2b.v',
+                    'src/magcompare2c.v',
+                    'src/magcompare32.v',
+                    'src/maindec.v',
+                    'src/mux2.v',
+                    'src/mux3.v',
+                    'src/mux4.v',
+                    'src/mux5.v',
+                    'src/mux8.v',
+                    'src/regfile.v',
+                    'src/riscv.v',
+                    'src/rom.v',
+                    'src/shifter.v',
+                    'src/signext.v',
+                    'src/top.v'])
 
-    for src in ('adder.v',
-                'alu.v',
-                'aludec.v',
-                'controller.v',
-                'datapath.v',
-                'dmem.v',
-                'flopenr.v',
-                'flopens.v',
-                'flopr.v',
-                'magcompare2b.v',
-                'magcompare2c.v',
-                'magcompare32.v',
-                'maindec.v',
-                'mux2.v',
-                'mux3.v',
-                'mux4.v',
-                'mux5.v',
-                'mux8.v',
-                'regfile.v',
-                'riscv.v',
-                'rom.v',
-                'shifter.v',
-                'signext.v',
-                'top.v'):
-        chip.input(os.path.join(src_root, src), package='scgallery-designs')
+        with self.active_dataroot("riscv32i"):
+            with self.active_fileset("sdc.asap7sc7p5t_rvt"):
+                self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
-    return chip
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
+            with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
+                self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
-def setup_lint(chip):
-    chip.set('tool', 'verilator', 'task', 'lint', 'file', 'config',
-             'riscv32i/lint/verilator', package='scgallery-designs')
+            with self.active_fileset("sdc.nangate45"):
+                self.add_file("constraints/nangate45.sdc")
+
+            with self.active_fileset("sdc.sg13g2_stdcell_1p2"):
+                self.add_file("constraints/sg13g2_stdcell.sdc")
+
+            with self.active_fileset("sdc.sky130hd"):
+                self.add_file("constraints/sky130hd.sdc")
 
 
 if __name__ == '__main__':
-    chip = setup()
-    Gallery.design_commandline(chip, target=skywater130_demo, module_path=__file__)
+    project = ASICProject(Riscv32iDesign())
+    project.add_fileset("rtl")
+    project.add_fileset("sdc.asap7sc7p5t_rvt")
+    project.load_target(asap7_demo.setup)
 
-    chip.run()
-    chip.summary()
+    project.run()
+    project.summary()
