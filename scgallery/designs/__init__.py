@@ -2,6 +2,7 @@ from os import path
 
 from .aes.aes import AESDesign
 from .blinky.blinky import BlinkyDesign
+from .cva6.cva6 import CVA6Design
 from .darkriscv.darkriscv import DarkSOCVDesign
 from .dynamic_node.dynamic_node import DynamicNodeDesign
 from .ethmac.ethmac import EthmacDesign
@@ -23,6 +24,7 @@ from .uart.uart import UARTDesign
 __designs = (
     AESDesign,
     BlinkyDesign,
+    CVA6Design,
     DarkSOCVDesign,
     DynamicNodeDesign,
     EthmacDesign,
