@@ -184,6 +184,8 @@ class Gallery:
             setup (list [function]): list of functions to help configure the design in external
                 galleries
         '''
+        if not module:
+            return
         self.__designs[name] = module()
 
     def remove_design(self, name: str):

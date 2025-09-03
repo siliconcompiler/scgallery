@@ -123,14 +123,12 @@ def test_remove_design():
     assert "aes" not in gallery.get_designs()
 
 
-@pytest.mark.parametrize("design_name,design_data",
+@pytest.mark.parametrize("design_name,design_cls",
                          [(name, data) for name, data in all_designs().items()])
-def test_get_design(design_name, design_data):
+def test_get_design(design_name, design_cls):
     gallery = Gallery()
 
-    info = gallery.get_design(design_name)
-    assert info['module'] is design_data["module"]
-    assert info['rules'] == design_data["rules"]
+    assert isinstance(gallery.get_design(design_name), design_cls)
 
 
 def test_get_designs():
