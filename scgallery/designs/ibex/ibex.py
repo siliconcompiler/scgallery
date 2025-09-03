@@ -39,8 +39,7 @@ class IBEXDesign(GalleryDesign):
                     'rtl/ibex_register_file_ff.sv',
                     'rtl/ibex_core.sv',
                     'rtl/ibex_csr.sv',
-                    'rtl/ibex_wb_stage.sv',
-                    'vendor/lowrisc_ip/ip/prim/rtl/prim_cipher_pkg.sv'])
+                    'rtl/ibex_wb_stage.sv'])
                 self.add_define("SYNTHESIS")
                 self.add_idir("rtl")
 
