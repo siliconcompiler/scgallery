@@ -610,10 +610,8 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "cache": false,
         "design": "riscv32i",
         "remote": false,
-        "skip": "ABC: Scl_LibertyReadGeERROR: ABC: execution of command /sc_tools/bin/yosys-abc -s -f",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
