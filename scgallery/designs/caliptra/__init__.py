@@ -1,4 +1,4 @@
-from siliconcompiler import DesignSchema
+from siliconcompiler import Design
 from scgallery import GalleryDesign
 from siliconcompiler import ASICProject
 from siliconcompiler.tools.openroad._apr import OpenROADGPLParameter
@@ -12,7 +12,7 @@ class SV2VFlow(ASICFlow):
         self.insert_node("convert", convert.ConvertTask(), before_step="elaborate")
 
 
-class _Base(DesignSchema):
+class _Base(Design):
     def __init__(self, name: str = None):
         super().__init__(name)
         self.set_dataroot("caliptra",

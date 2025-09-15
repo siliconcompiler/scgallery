@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASICProject, DesignSchema
+from siliconcompiler import ASICProject, Design
 from siliconcompiler.targets import asap7_demo
 
 
-class PicoRV32Design(DesignSchema):
+class PicoRV32Design(Design):
     def __init__(self):
         super().__init__("picorv32")
         self.set_dataroot("extra", __file__)

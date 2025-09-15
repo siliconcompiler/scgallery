@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import DesignSchema, ASICProject
+from siliconcompiler import Design, ASICProject
 from siliconcompiler.targets import asap7_demo
 
 
-class HeartbeatDesign(DesignSchema):
+class HeartbeatDesign(Design):
     def __init__(self):
         super().__init__("heartbeat")
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASICProject, DesignSchema
+from siliconcompiler import ASICProject, Design
 from siliconcompiler.targets import asap7_demo
 
 
-class JPEGDesign(DesignSchema):
+class JPEGDesign(Design):
     def __init__(self):
         super().__init__("jpeg")
         self.set_dataroot("jpeg", __file__)

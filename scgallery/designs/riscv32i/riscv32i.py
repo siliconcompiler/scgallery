@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASICProject, DesignSchema
+from siliconcompiler import ASICProject, Design
 from siliconcompiler.targets import asap7_demo
 
 
-class Riscv32iDesign(DesignSchema):
+class Riscv32iDesign(Design):
     def __init__(self):
         super().__init__("riscv32i")
         self.set_dataroot("riscv32i", __file__)
