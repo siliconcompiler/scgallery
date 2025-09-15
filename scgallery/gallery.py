@@ -14,7 +14,7 @@ from collections.abc import Container
 from typing import Callable, List, Tuple, Dict
 
 import siliconcompiler
-from siliconcompiler import DesignSchema, Project, ASICProject
+from siliconcompiler import Design, Project, ASICProject
 from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 
@@ -198,7 +198,7 @@ class Gallery:
         if name in self.__designs:
             del self.__designs[name]
 
-    def get_design(self, design: str) -> DesignSchema:
+    def get_design(self, design: str) -> Design:
         '''
         Gets the configuration for a design.
 

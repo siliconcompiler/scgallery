@@ -1,9 +1,9 @@
 from typing import Callable
 
-from siliconcompiler import DesignSchema, Project
+from siliconcompiler import Design, Project
 
 
-class GalleryDesign(DesignSchema):
+class GalleryDesign(Design):
     def __init__(self, name: str = None):
         super().__init__(name)
         self.__setup = {}

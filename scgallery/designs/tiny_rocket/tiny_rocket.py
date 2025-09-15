@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASICProject, DesignSchema
+from siliconcompiler import ASICProject, Design
 from siliconcompiler.targets import asap7_demo
 from lambdalib.ramlib import Spram
 
 
-class TinyRocketDesign(DesignSchema):
+class TinyRocketDesign(Design):
     def __init__(self):
         super().__init__("tiny_rocket")
         self.set_dataroot("tiny_rocket", __file__)

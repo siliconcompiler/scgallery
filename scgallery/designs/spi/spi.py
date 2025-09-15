@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASICProject, DesignSchema
+from siliconcompiler import ASICProject, Design
 from siliconcompiler.targets import asap7_demo
 
 
-class SPIDesign(DesignSchema):
+class SPIDesign(Design):
     def __init__(self):
         super().__init__("spi")
         self.set_dataroot("spi", __file__)
