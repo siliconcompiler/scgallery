@@ -709,8 +709,10 @@
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
+        "cache": false,
         "design": "swerv",
         "remote": false,
+        "skip": "99# rsz::Rebuffer::fullyRebuffer(sta::Pin*) in /sc_tools/bin/openroad",
         "target": "freepdk45_nangate45"
     },
     {
