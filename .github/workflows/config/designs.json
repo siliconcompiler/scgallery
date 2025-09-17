@@ -217,8 +217,10 @@
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
+        "cache": true,
         "design": "cva6",
         "remote": false,
+        "skip": "Timeout on github runner",
         "target": "freepdk45_nangate45"
     },
     {
