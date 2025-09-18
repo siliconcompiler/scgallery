@@ -180,8 +180,10 @@
         "target": "skywater130_sky130hd"
     },
     {
+        "cache": true,
         "design": "caliptra_sha512",
         "remote": false,
+        "skip": "Timeout on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
