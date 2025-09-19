@@ -411,7 +411,7 @@ class Gallery:
         self.__setup_run_chip(project, design["design"])
 
         try:
-            project.run(raise_exception=True)
+            project.run()
         except Exception:
             return project, False
 
