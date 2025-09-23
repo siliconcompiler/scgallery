@@ -14,7 +14,7 @@ from collections.abc import Container
 from typing import Callable, List, Tuple, Dict
 
 import siliconcompiler
-from siliconcompiler import Design, Project, ASICProject
+from siliconcompiler import Design, Project, LintProject, ASICProject
 from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.utils import paths, curation
@@ -174,7 +174,7 @@ class Gallery:
         return list(self.__targets.keys())
 
     #######################################################
-    def add_design(self, name, module):
+    def add_design(self, name: str, design: Design):
         '''
         Add a design to the gallery.
 
@@ -185,9 +185,7 @@ class Gallery:
             setup (list [function]): list of functions to help configure the design in external
                 galleries
         '''
-        if not module:
-            return
-        self.__designs[name] = module()
+        self.__designs[name] = design
 
     def remove_design(self, name: str):
         '''
@@ -339,7 +337,7 @@ class Gallery:
         is_lint = target == "lint"
 
         if is_lint:
-            project = Project(design_obj)
+            project = LintProject(design_obj)
         else:
             project = ASICProject(design_obj)
         project.add_fileset("rtl")
