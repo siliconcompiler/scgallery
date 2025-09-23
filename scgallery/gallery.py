@@ -343,7 +343,7 @@ class Gallery:
             project = ASICProject(design_obj)
         project.add_fileset("rtl")
 
-        project.load_target(self.__targets[target])
+        self.__targets[target](project)
 
         if isinstance(design_obj, GalleryDesign):
             design_obj.process_setups(target, project)
@@ -713,7 +713,8 @@ Designs: {designs_help}
 
         parser.add_argument('-scheduler',
                             choices=NodeType.parse(
-                                ASICProject().get('option', 'scheduler', 'name', field='type')).values,
+                                ASICProject().get('option', 'scheduler', 'name',
+                                                  field='type')).values,
                             help='Select the scheduler to use during exection')
 
         parser.add_argument('-clean',

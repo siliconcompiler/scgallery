@@ -37,6 +37,7 @@ from siliconcompiler import ASICProject
 from siliconcompiler.targets import asap7_demo
 from siliconcompiler.tools.openroad._apr import OpenROADGPLParameter
 from lambdalib.ramlib import Spram
+from siliconcompiler.tools import get_task
 
 
 class DarkSOCVDesign(GalleryDesign):
@@ -91,24 +92,24 @@ class DarkSOCVDesign(GalleryDesign):
 
     def setup_freepdk45(self, project: ASICProject):
         project.get_areaconstraints().set_density(30)
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "gpl_uniform_placement_adjustment", 0.1)
 
     def setup_asap7(self, project: ASICProject):
         project.get_areaconstraints().set_density(25)
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "gpl_uniform_placement_adjustment", 0.05)
 
     def setup_ihp130(self, project: ASICProject):
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "gpl_uniform_placement_adjustment", 0.05)
 
     def setup_gf180(self, project: ASICProject):
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "gpl_uniform_placement_adjustment", 0.1)
 
     def setup_skywater130(self, project: ASICProject):
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "gpl_uniform_placement_adjustment", 0.1)
 
 
@@ -116,7 +117,7 @@ if __name__ == '__main__':
     project = ASICProject(DarkSOCVDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
     project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
     project.run()

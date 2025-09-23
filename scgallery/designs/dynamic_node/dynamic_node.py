@@ -16,7 +16,8 @@ class DynamicNodeDesign(Design):
         with self.active_dataroot("OPDB"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("dynamic_node_top_wrap")
-                self.add_file("modules/dynamic_node_2dmesh/NETWORK_2dmesh/dynamic_node_2dmesh.pickle.v")
+                self.add_file(
+                    "modules/dynamic_node_2dmesh/NETWORK_2dmesh/dynamic_node_2dmesh.pickle.v")
 
         with self.active_dataroot("extra"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
@@ -42,7 +43,7 @@ if __name__ == '__main__':
     project = ASICProject(DynamicNodeDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
 
     project.run()
     project.summary()

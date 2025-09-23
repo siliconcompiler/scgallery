@@ -3,4 +3,4 @@ from siliconcompiler.targets import ihp130_demo
 
 
 def setup(proj: ASICProject):
-    proj.load_target(ihp130_demo.setup)
+    ihp130_demo.setup(proj)

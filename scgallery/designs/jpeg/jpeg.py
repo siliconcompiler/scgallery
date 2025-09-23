@@ -52,7 +52,7 @@ if __name__ == '__main__':
     project = ASICProject(JPEGDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
 
     project.run()
     project.summary()

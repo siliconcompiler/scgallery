@@ -15,7 +15,7 @@ if __name__ == '__main__':
     project = ASICProject(SHA512())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
     project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
     project.run()
