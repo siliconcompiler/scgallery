@@ -14,9 +14,10 @@ from collections.abc import Container
 from typing import Callable, List, Tuple, Dict
 
 import siliconcompiler
-from siliconcompiler import Design, Project, ASICProject
+from siliconcompiler import Design, Project, LintProject, ASICProject
 from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
+from siliconcompiler.utils import paths, curation
 
 from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
@@ -62,7 +63,7 @@ class Gallery:
         self.__designs = {}
         from scgallery.designs import all_designs as sc_all_designs
         for name, design in sc_all_designs().items():
-            self.add_design(name, design)
+            self.add_design(name, design())
 
         self.__run_config = {
             "targets": set(),
@@ -173,7 +174,7 @@ class Gallery:
         return list(self.__targets.keys())
 
     #######################################################
-    def add_design(self, name, module):
+    def add_design(self, name: str, design: Design):
         '''
         Add a design to the gallery.
 
@@ -184,9 +185,7 @@ class Gallery:
             setup (list [function]): list of functions to help configure the design in external
                 galleries
         '''
-        if not module:
-            return
-        self.__designs[name] = module()
+        self.__designs[name] = design
 
     def remove_design(self, name: str):
         '''
@@ -338,7 +337,7 @@ class Gallery:
         is_lint = target == "lint"
 
         if is_lint:
-            project = Project(design_obj)
+            project = LintProject(design_obj)
         else:
             project = ASICProject(design_obj)
         project.add_fileset("rtl")
@@ -449,7 +448,7 @@ class Gallery:
 
     def __copy_project_data(self, project: ASICProject, report_data: Dict):
         jobname = project.get('option', 'jobname')
-        png = os.path.join(project.getworkdir(), f'{project.name}.png')
+        png = os.path.join(paths.jobdir(project), f'{project.name}.png')
 
         file_root = f'{project.name}_{jobname}'
 
@@ -458,8 +457,9 @@ class Gallery:
             shutil.copy(png, img_path)
             report_data["path"] = img_path
 
-        # chip.archive(include=['reports', '*.log'],
-        #              archive_name=os.path.join(self.path, f'{file_root}.tgz'))
+        curation.archive(project,
+                         include=['reports', '*.log'],
+                         archive_name=os.path.join(self.path, f'{file_root}.tgz'))
 
     def __get_runnable_jobs(self):
         regular_jobs = []

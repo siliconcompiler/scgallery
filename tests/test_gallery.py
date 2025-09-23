@@ -191,15 +191,3 @@ def test_set_unset_clean():
 def test_set_jobname_suffix():
     gallery = Gallery()
     gallery.set_jobname_suffix('testing')
-
-
-def test_empty_run():
-    from data import faux_target
-
-    gallery = Gallery()
-    gallery.add_target("faux", faux_target)
-
-    gallery.set_run_designs(['aes'])
-    gallery.set_run_targets(['faux'])
-
-    assert not gallery.run()

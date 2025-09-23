@@ -50,6 +50,10 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install -e .[dev]
 
+          # Temporary
+          python3 -m pip uninstall -y siliconcompiler
+          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
+
       - name: Run tests (non-windows)
         if: runner.os != 'Windows'
         run: |
@@ -59,7 +63,7 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest $GITHUB_WORKSPACE -n auto -m "not eda" --cov --cov-branch --cov-report=xml
+          pytest $GITHUB_WORKSPACE -n logical -m "not eda" --cov --cov-branch --cov-report=xml
  
       - name: Install Requirements (windows)
         if: runner.os == 'Windows'
@@ -68,6 +72,10 @@ jobs:
           venv/Scripts/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install -e .[dev]
+
+          # Temporary
+          python3 -m pip uninstall -y siliconcompiler
+          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
 
       - name: Run tests (windows)
         if: runner.os == 'Windows'
@@ -78,7 +86,7 @@ jobs:
           mkdir testrun
           cd testrun
 
-          pytest .. -n auto -m "not eda" --cov --cov-branch --cov-report=xml
+          pytest .. -n logical -m "not eda" --cov --cov-branch --cov-report=xml
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
@@ -135,6 +143,10 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install -e .[dev]
 
+          # Temporary
+          python3 -m pip uninstall -y siliconcompiler
+          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
+
       - name: Run tests
         run: |
           . .venv/bin/activate
@@ -155,6 +167,7 @@ jobs:
     uses: ./.github/workflows/run-designs.yml
     with:
       scgallery-ref: ${{ github.ref }}
+      sc-ref: main
       fail-fast: false
       run: 'tiny'
     secrets: inherit
@@ -173,6 +186,10 @@ jobs:
           . .venv/bin/activate
 
           pip3 install .
+
+          # Temporary
+          python3 -m pip uninstall -y siliconcompiler
+          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
 
       - name: Get design matrix
         id: designs
