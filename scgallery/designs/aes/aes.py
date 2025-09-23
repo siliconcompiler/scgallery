@@ -10,6 +10,7 @@ from scgallery import GalleryDesign
 from siliconcompiler import ASICProject
 from siliconcompiler.targets import asap7_demo
 from siliconcompiler.tools.openroad._apr import OpenROADGPLParameter
+from siliconcompiler.tools import get_task
 
 
 class AESDesign(GalleryDesign):
@@ -57,25 +58,25 @@ class AESDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASICProject):
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "place_density", 0.65)
 
     def setup_asap7(self, project: ASICProject):
         project.get_areaconstraints().set_density(25)
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "place_density", 0.65)
 
     def setup_ihp130(self, project: ASICProject):
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "place_density", 0.65)
 
     def setup_gf180(self, project: ASICProject):
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "place_density", 0.65)
 
     def setup_skywater130(self, project: ASICProject):
         project.get_areaconstraints().set_density(30)
-        for task in project.get_task(filter=OpenROADGPLParameter):
+        for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "place_density", 0.50)
 
 
@@ -83,7 +84,7 @@ if __name__ == '__main__':
     project = ASICProject(AESDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
     project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
     project.run()

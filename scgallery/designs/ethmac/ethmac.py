@@ -6,6 +6,7 @@ from siliconcompiler.targets import asap7_demo
 from lambdalib.ramlib import Spram
 from siliconcompiler.tools.slang.lint import Lint
 from siliconcompiler.tools.openroad.macro_placement import MacroPlacementTask
+from siliconcompiler.tools import get_task
 
 
 class EthmacDesign(GalleryDesign):
@@ -72,10 +73,10 @@ class EthmacDesign(GalleryDesign):
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
 
     def setup_gf180(self, project: ASICProject):
-        project.get_task(filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 10])
+        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 10])
 
     def setup_lint(self, project: ASICProject):
-        lint_task: Lint = project.get_task(filter=Lint)
+        lint_task: Lint = get_task(project, filter=Lint)
         if lint_task:
             lint_task.add_commandline_option(['--timescale', '1ns/1ns'])
 
@@ -84,7 +85,7 @@ if __name__ == '__main__':
     project = ASICProject(EthmacDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
 
     project.run()
     project.summary()

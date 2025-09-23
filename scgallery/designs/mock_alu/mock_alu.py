@@ -6,6 +6,7 @@ from siliconcompiler.targets import asap7_demo
 
 from siliconcompiler.flows.asicflow import ASICFlow
 from siliconcompiler.tools.chisel import convert
+from siliconcompiler.tools import get_task
 
 
 class ChiselFlow(ASICFlow):
@@ -53,7 +54,7 @@ class MockALUDesign(GalleryDesign):
 
     def setup_chisel(self, project: ASICProject):
         project.set_flow(ChiselFlow())
-        task = project.get_task(filter=convert.ConvertTask)
+        task = get_task(project, filter=convert.ConvertTask)
         task.set("var", "application", "GenerateMockAlu")
 
         task.add("var", "argument", ["--width", "64"])
@@ -81,7 +82,7 @@ if __name__ == '__main__':
     project = ASICProject(MockALUDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
     project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
     project.run()

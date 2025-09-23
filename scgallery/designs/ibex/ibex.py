@@ -4,6 +4,7 @@ from scgallery import GalleryDesign
 from siliconcompiler import ASICProject
 from siliconcompiler.targets import asap7_demo
 from siliconcompiler.tools.yosys.syn_asic import ASICSynthesis
+from siliconcompiler.tools import get_task
 
 
 class IBEXDesign(GalleryDesign):
@@ -75,21 +76,21 @@ class IBEXDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASICProject):
-        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
 
     def setup_asap7(self, project: ASICProject):
-        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
 
     def setup_ihp130(self, project: ASICProject):
-        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
         project.get_areaconstraints().set_aspectratio(0.25)
 
     def setup_gf180(self, project: ASICProject):
-        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
+        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
 
     def setup_skywater130(self, project: ASICProject):
-        project.get_task(filter=ASICSynthesis).set("var", "use_slang", True)
-        project.get_task(filter=ASICSynthesis).set("var", "map_adders", False)
+        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        get_task(project, filter=ASICSynthesis).set("var", "map_adders", False)
         project.get_areaconstraints().set_aspectratio(0.80)
 
 
@@ -97,7 +98,7 @@ if __name__ == '__main__':
     project = ASICProject(IBEXDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    project.load_target(asap7_demo.setup)
+    asap7_demo.setup(project)
     project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
     project.run()

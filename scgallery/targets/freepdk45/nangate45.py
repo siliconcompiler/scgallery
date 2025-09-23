@@ -3,4 +3,4 @@ from siliconcompiler.targets import freepdk45_demo
 
 
 def setup(proj: ASICProject):
-    proj.load_target(freepdk45_demo.setup)
+    freepdk45_demo.setup(proj)
