@@ -63,7 +63,7 @@ class Gallery:
         self.__designs = {}
         from scgallery.designs import all_designs as sc_all_designs
         for name, design in sc_all_designs().items():
-            self.add_design(name, design)
+            self.add_design(name, design())
 
         self.__run_config = {
             "targets": set(),
