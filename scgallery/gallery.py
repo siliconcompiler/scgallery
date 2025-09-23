@@ -17,6 +17,7 @@ import siliconcompiler
 from siliconcompiler import Design, Project, ASICProject
 from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
+from siliconcompiler.utils import paths, curation
 
 from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
@@ -449,7 +450,7 @@ class Gallery:
 
     def __copy_project_data(self, project: ASICProject, report_data: Dict):
         jobname = project.get('option', 'jobname')
-        png = os.path.join(project.getworkdir(), f'{project.name}.png')
+        png = os.path.join(paths.jobdir(project), f'{project.name}.png')
 
         file_root = f'{project.name}_{jobname}'
 
@@ -458,8 +459,9 @@ class Gallery:
             shutil.copy(png, img_path)
             report_data["path"] = img_path
 
-        # chip.archive(include=['reports', '*.log'],
-        #              archive_name=os.path.join(self.path, f'{file_root}.tgz'))
+        curation.archive(project,
+                         include=['reports', '*.log'],
+                         archive_name=os.path.join(self.path, f'{file_root}.tgz'))
 
     def __get_runnable_jobs(self):
         regular_jobs = []
