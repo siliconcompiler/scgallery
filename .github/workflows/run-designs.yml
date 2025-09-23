@@ -64,6 +64,11 @@ jobs:
           . .venv/bin/activate
 
           pip3 install .
+
+          # Temporary
+          pip3 uninstall -y siliconcompiler
+          pip3 install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
+
           # Remove current design matrix
           rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
           if ${{ inputs.run == 'all' }}; then
