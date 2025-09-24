@@ -68,6 +68,9 @@ jobs:
       - name: Install Requirements (windows)
         if: runner.os == 'Windows'
         run: |
+          New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
+          git config --system core.longpaths true
+
           ${{ steps.python.outputs.python-path }} -m venv venv
           venv/Scripts/activate
           python3 -m pip install --upgrade pip
