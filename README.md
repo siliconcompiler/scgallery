@@ -1,5 +1,6 @@
 [![General CI](https://github.com/siliconcompiler/scgallery/actions/workflows/general_ci.yml/badge.svg)](https://github.com/siliconcompiler/scgallery/actions/workflows/general_ci.yml)
 [![Lint](https://github.com/siliconcompiler/scgallery/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/siliconcompiler/scgallery/actions/workflows/lint.yml)
+[![codecov](https://codecov.io/github/siliconcompiler/scgallery/graph/badge.svg?token=8U7RP0A3K2)](https://codecov.io/github/siliconcompiler/scgallery)
 
 # SiliconCompiler Design Gallery
 Design gallery for [SiliconCompiler](https://github.com/silicompiler/siliconcompiler).
