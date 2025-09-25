@@ -62,7 +62,7 @@ if __name__ == '__main__':
     project = ASICProject(Riscv32iDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    asap7_demo.setup(project)
+    asap7_demo(project)
 
     project.run()
     project.summary()

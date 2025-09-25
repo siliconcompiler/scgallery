@@ -1,7 +1,7 @@
 ####################################################
 # Target Setup
 ####################################################
-def setup(proj):
+def lint(proj):
     '''
     Dummy target to use for linting
     '''

@@ -2,5 +2,5 @@ from siliconcompiler import ASICProject
 from siliconcompiler.targets import ihp130_demo
 
 
-def setup(proj: ASICProject):
-    ihp130_demo.setup(proj)
+def sg13g2_stdcell(proj: ASICProject):
+    ihp130_demo(proj)

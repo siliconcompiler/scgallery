@@ -82,7 +82,7 @@ if __name__ == '__main__':
     project = ASICProject(MockALUDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
-    asap7_demo.setup(project)
+    asap7_demo(project)
     project.design.process_setups("asap7_asap7sc7p5t_rvt", project)
 
     project.run()

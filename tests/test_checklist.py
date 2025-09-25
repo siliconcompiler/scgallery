@@ -54,7 +54,7 @@ pytest.skip("needs updating", allow_module_level=True)
 #     with open('testrules.json', 'w') as f:
 #         json.dump(rules_file, f)
 
-#     checklist = asicflow_rules.setup(
+#     checklist = asicflow_rules(
 #         job=check_chip.get('option', 'jobname'),
 #         flow=check_chip.get('option', 'flow'),
 #         mainlib=get_mainlib(check_chip),
@@ -68,7 +68,7 @@ pytest.skip("needs updating", allow_module_level=True)
 #     with open('testrules.json', 'w') as f:
 #         json.dump(rules_file, f)
 
-#     checklist = asicflow_rules.setup(
+#     checklist = asicflow_rules(
 #         job=check_chip.get('option', 'jobname'),
 #         flow=check_chip.get('option', 'flow'),
 #         mainlib=get_mainlib(check_chip),
@@ -83,7 +83,7 @@ pytest.skip("needs updating", allow_module_level=True)
 #     with open('testrules.json', 'w') as f:
 #         json.dump(rules_file, f)
 
-#     checklist = asicflow_rules.setup(
+#     checklist = asicflow_rules(
 #         job=check_chip.get('option', 'jobname'),
 #         flow=check_chip.get('option', 'flow'),
 #         mainlib=get_mainlib(check_chip),
