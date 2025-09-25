@@ -22,20 +22,20 @@ from siliconcompiler.utils import paths, curation
 from scgallery.targets.freepdk45 import (
     nangate45 as freepdk45_nangate45
 )
+from scgallery.targets.gf180 import (
+    gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0,
+    gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0
+)
 from scgallery.targets.asap7 import (
     asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt
 )
 from scgallery.targets.skywater130 import (
     sky130hd as sky130_sky130hd
 )
-from scgallery.targets.gf180 import (
-    gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0,
-    gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0
-)
 from scgallery.targets.ihp130 import (
     sg13g2_stdcell as ihp130_sg13g2_stdcell
 )
-from scgallery.targets import linting as gallery_lint
+from scgallery.targets.linting import lint as gallery_lint
 
 from siliconcompiler.flows.lintflow import LintFlow
 
@@ -51,12 +51,12 @@ class Gallery:
 
         self.__targets = {}
         for name, target in (
-                ("freepdk45_nangate45", freepdk45_nangate45.setup),
-                ("skywater130_sky130hd", sky130_sky130hd.setup),
-                ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt.setup),
-                ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0.setup),
-                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0.setup),
-                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell.setup),
+                ("freepdk45_nangate45", freepdk45_nangate45),
+                ("skywater130_sky130hd", sky130_sky130hd),
+                ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
+                ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
+                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
+                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
                 ("None", None)):
             self.add_target(name, target)
 
