@@ -91,14 +91,14 @@ class FazyRVDesign(GalleryDesign):
     def setup_ihp130(self, project: ASICProject):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
         get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 35])
-        project.get_areaconstraints().set_aspectratio(0.25)
+        project.constraint.area.set_aspectratio(0.25)
 
     def setup_gf180(self, project: ASICProject):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
 
     def setup_skywater130(self, project: ASICProject):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
-        project.get_areaconstraints().set_aspectratio(0.80)
+        project.constraint.area.set_aspectratio(0.80)
 
 
 if __name__ == '__main__':

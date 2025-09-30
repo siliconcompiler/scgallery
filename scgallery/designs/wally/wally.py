@@ -280,7 +280,7 @@ class WallyDesign(GalleryDesign):
         get_task(project, filter=ASICSynthesis).set("var", "auto_flatten", False)
 
     def setup_asap7(self, project: ASICProject):
-        project.get_areaconstraints().set_density(30)
+        project.constraint.area.set_density(30)
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
         get_task(project, filter=ASICSynthesis).set("var", "flatten", False)
         get_task(project, filter=ASICSynthesis).set("var", "auto_flatten", False)
