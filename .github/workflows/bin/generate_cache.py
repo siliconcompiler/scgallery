@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 
-from siliconcompiler.project import Project
+from siliconcompiler import ASIC
 from lambdapdk.asap7 import ASAP7PDK
 from lambdapdk.freepdk45 import FreePDK45PDK
 from lambdapdk.gf180 import GF180_5LM_1TM_9K_9t
@@ -11,7 +11,7 @@ from lambdapdk.sky130 import Sky130PDK
 
 
 if __name__ == "__main__":
-    proj = Project("cache")
+    proj = ASIC("cache")
 
     proj.set('option', 'cachedir', Path(os.getcwd()) / '.sc' / 'cache')
 

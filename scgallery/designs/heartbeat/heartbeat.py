@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import Design, ASICProject
+from siliconcompiler import Design, ASIC
 from siliconcompiler.targets import asap7_demo
 
 
@@ -35,7 +35,7 @@ class HeartbeatDesign(Design):
 
 
 if __name__ == '__main__':
-    project = ASICProject(HeartbeatDesign())
+    project = ASIC(HeartbeatDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
     asap7_demo(project)

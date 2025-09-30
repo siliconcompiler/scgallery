@@ -11,11 +11,10 @@ import fnmatch
 import os.path
 
 from collections.abc import Container
-from typing import Callable, List, Tuple, Dict
+from typing import Callable, List, Tuple, Dict, Union
 
 import siliconcompiler
-from siliconcompiler.project import Project
-from siliconcompiler import Design, LintProject, ASICProject
+from siliconcompiler import Design, Lint, ASIC
 from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.utils import paths, curation
@@ -330,7 +329,7 @@ class Gallery:
         self.__run_config['targets'].update(targets)
 
     #######################################################
-    def __setup_design(self, design, target) -> Tuple[Project, bool]:
+    def __setup_design(self, design, target) -> Tuple[Union[Lint, ASIC], bool]:
         from scgallery import GalleryDesign
 
         print(f'Setting up "{design}" with "{target}"')
@@ -338,9 +337,9 @@ class Gallery:
         is_lint = target == "lint"
 
         if is_lint:
-            project = LintProject(design_obj)
+            project = Lint(design_obj)
         else:
-            project = ASICProject(design_obj)
+            project = ASIC(design_obj)
         project.add_fileset("rtl")
 
         self.__targets[target](project)
@@ -357,8 +356,11 @@ class Gallery:
 
         return project, is_valid
 
-    def __setup_run_chip(self, project: Project, name: str, jobsuffix: str = None):
-        if isinstance(project, ASICProject):
+    def __setup_run_chip(self,
+                         project: Union[ASIC, Lint],
+                         name: str,
+                         jobsuffix: str = None):
+        if isinstance(project, ASIC):
             pdk = project.get('asic', 'pdk')
             mainlib = project.get('asic', 'mainlib')
             project.add_fileset(f"sdc.{mainlib}")
@@ -405,7 +407,7 @@ class Gallery:
             return True
         return False
 
-    def __run_design(self, design: Dict) -> Tuple[ASICProject, bool]:
+    def __run_design(self, design: Dict) -> Tuple[ASIC, bool]:
         project = design['project']
 
         self.__setup_run_chip(project, design["design"])
@@ -417,7 +419,7 @@ class Gallery:
 
         return project, True
 
-    def __finalize(self, design: str, project: ASICProject, succeeded: bool):
+    def __finalize(self, design: str, project: ASIC, succeeded: bool):
         report_data = {
             "project": project,
             "platform": project.get('asic', 'pdk')
@@ -447,7 +449,7 @@ class Gallery:
 
         self.__copy_project_data(project, report_data)
 
-    def __copy_project_data(self, project: ASICProject, report_data: Dict):
+    def __copy_project_data(self, project: ASIC, report_data: Dict):
         jobname = project.get('option', 'jobname')
         png = os.path.join(paths.jobdir(project), f'{project.name}.png')
 
@@ -714,8 +716,8 @@ Designs: {designs_help}
 
         parser.add_argument('-scheduler',
                             choices=NodeType.parse(
-                                ASICProject().get('option', 'scheduler', 'name',
-                                                  field='type')).values,
+                                ASIC().get('option', 'scheduler', 'name',
+                                           field='type')).values,
                             help='Select the scheduler to use during exection')
 
         parser.add_argument('-clean',
