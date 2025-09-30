@@ -91,12 +91,12 @@ class DarkSOCVDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASICProject):
-        project.get_areaconstraints().set_density(30)
+        project.constraint.area.set_density(30)
         for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "gpl_uniform_placement_adjustment", 0.1)
 
     def setup_asap7(self, project: ASICProject):
-        project.get_areaconstraints().set_density(25)
+        project.constraint.area.set_density(25)
         for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "gpl_uniform_placement_adjustment", 0.05)
 

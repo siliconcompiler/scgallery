@@ -62,7 +62,7 @@ class AESDesign(GalleryDesign):
             task.set("var", "place_density", 0.65)
 
     def setup_asap7(self, project: ASICProject):
-        project.get_areaconstraints().set_density(25)
+        project.constraint.area.set_density(25)
         for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "place_density", 0.65)
 
@@ -75,7 +75,7 @@ class AESDesign(GalleryDesign):
             task.set("var", "place_density", 0.65)
 
     def setup_skywater130(self, project: ASICProject):
-        project.get_areaconstraints().set_density(30)
+        project.constraint.area.set_density(30)
         for task in get_task(project, filter=OpenROADGPLParameter):
             task.set("var", "place_density", 0.50)
 
