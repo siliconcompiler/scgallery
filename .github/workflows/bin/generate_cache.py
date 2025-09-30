@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 
-from siliconcompiler import Project
+from siliconcompiler.project import Project
 from lambdapdk.asap7 import ASAP7PDK
 from lambdapdk.freepdk45 import FreePDK45PDK
 from lambdapdk.gf180 import GF180_5LM_1TM_9K_9t

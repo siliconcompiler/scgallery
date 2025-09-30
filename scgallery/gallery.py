@@ -14,7 +14,8 @@ from collections.abc import Container
 from typing import Callable, List, Tuple, Dict
 
 import siliconcompiler
-from siliconcompiler import Design, Project, LintProject, ASICProject
+from siliconcompiler.project import Project
+from siliconcompiler import Design, LintProject, ASICProject
 from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file
 from siliconcompiler.utils import paths, curation

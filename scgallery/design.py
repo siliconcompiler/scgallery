@@ -1,6 +1,7 @@
 from typing import Callable
 
-from siliconcompiler import Design, Project
+from siliconcompiler.project import Project
+from siliconcompiler import Design
 
 
 class GalleryDesign(Design):
