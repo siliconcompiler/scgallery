@@ -717,7 +717,7 @@ Designs: {designs_help}
         parser.add_argument('-scheduler',
                             choices=NodeType.parse(
                                 ASIC().get('option', 'scheduler', 'name',
-                                                  field='type')).values,
+                                           field='type')).values,
                             help='Select the scheduler to use during exection')
 
         parser.add_argument('-clean',
