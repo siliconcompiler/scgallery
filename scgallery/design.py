@@ -1,6 +1,6 @@
-from typing import Callable
+from typing import Callable, Union
 
-from siliconcompiler.project import Project
+from siliconcompiler import Lint, ASIC
 from siliconcompiler import Design
 
 
@@ -9,9 +9,10 @@ class GalleryDesign(Design):
         super().__init__(name)
         self.__setup = {}
 
-    def add_target_setup(self, target: str, func: Callable[[Project], None]) -> None:
+    def add_target_setup(self, target: str,
+                         func: Callable[[Union[ASIC, Lint]], None]) -> None:
         self.__setup.setdefault(target, set()).add(func)
 
-    def process_setups(self, target: str, project: Project) -> None:
+    def process_setups(self, target: str, project: Union[ASIC, Lint]) -> None:
         for func in self.__setup.get(target, set()):
             func(project)

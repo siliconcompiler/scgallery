@@ -5,7 +5,7 @@ A minimal-area RISC-V core with a scalable data path to 1, 2, 4, or 8 bits and m
 '''
 
 from scgallery import GalleryDesign
-from siliconcompiler import ASICProject
+from siliconcompiler import ASIC
 from siliconcompiler.targets import asap7_demo
 from lambdalib.ramlib import Spram
 from siliconcompiler.tools.openroad.macro_placement import MacroPlacementTask
@@ -80,29 +80,29 @@ class FazyRVDesign(GalleryDesign):
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
-    def setup_freepdk45(self, project: ASICProject):
+    def setup_freepdk45(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
         get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [10, 10])
 
-    def setup_asap7(self, project: ASICProject):
+    def setup_asap7(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
         get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [5, 1])
 
-    def setup_ihp130(self, project: ASICProject):
+    def setup_ihp130(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
         get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 35])
         project.constraint.area.set_aspectratio(0.25)
 
-    def setup_gf180(self, project: ASICProject):
+    def setup_gf180(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
 
-    def setup_skywater130(self, project: ASICProject):
+    def setup_skywater130(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
         project.constraint.area.set_aspectratio(0.80)
 
 
 if __name__ == '__main__':
-    project = ASICProject(FazyRVDesign())
+    project = ASIC(FazyRVDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
     asap7_demo(project)

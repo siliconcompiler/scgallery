@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASICProject, Design
+from siliconcompiler import ASIC, Design
 from siliconcompiler.targets import asap7_demo
 
 
@@ -49,7 +49,7 @@ class JPEGDesign(Design):
 
 
 if __name__ == '__main__':
-    project = ASICProject(JPEGDesign())
+    project = ASIC(JPEGDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
     asap7_demo(project)

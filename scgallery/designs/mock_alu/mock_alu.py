@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from scgallery import GalleryDesign
-from siliconcompiler import ASICProject
+from siliconcompiler import ASIC
 from siliconcompiler.targets import asap7_demo
 
 from siliconcompiler.flows.asicflow import ASICFlow
@@ -52,7 +52,7 @@ class MockALUDesign(GalleryDesign):
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_chisel)
         self.add_target_setup("skywater130_sky130hd", self.setup_chisel)
 
-    def setup_chisel(self, project: ASICProject):
+    def setup_chisel(self, project: ASIC):
         project.set_flow(ChiselFlow())
         task = get_task(project, filter=convert.ConvertTask)
         task.set("var", "application", "GenerateMockAlu")
@@ -79,7 +79,7 @@ class MockALUDesign(GalleryDesign):
 
 
 if __name__ == '__main__':
-    project = ASICProject(MockALUDesign())
+    project = ASIC(MockALUDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
     asap7_demo(project)
