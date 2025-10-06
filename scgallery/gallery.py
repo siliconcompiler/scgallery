@@ -377,6 +377,7 @@ class Gallery:
 
         project.set('option', 'nodisplay', True)
         project.set('option', 'nodashboard', True)
+        project.option.set_autoissue(True)
         project.set('option', 'quiet', True)
         project.set('option', 'clean', self.is_clean)
 
