@@ -118,7 +118,7 @@ jobs:
         id: sc_version
         run: |
           . .venv/bin/activate
-          echo "version=v$(python3 -c \"import siliconcompiler;print(siliconcompiler.__version__)\")" >> $GITHUB_OUTPUT
+          echo "version=v$(python3 -c "import siliconcompiler;print(siliconcompiler.__version__)")" >> $GITHUB_OUTPUT
 
   docker_image:
     needs: sc_version
