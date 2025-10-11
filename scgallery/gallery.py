@@ -373,19 +373,19 @@ class Gallery:
         if jobsuffix:
             jobname += jobsuffix
 
-        project.set('option', 'jobname', jobname)
+        project.option.set_jobname(jobname)
 
-        project.set('option', 'nodisplay', True)
-        project.set('option', 'nodashboard', True)
+        project.option.set_nodisplay(True)
+        project.option.set_nodashboard(True)
         project.option.set_autoissue(True)
-        project.set('option', 'quiet', True)
-        project.set('option', 'clean', self.is_clean)
+        project.option.set_quiet(True)
+        project.option.set_clean(self.is_clean)
 
         if self.has_scheduler:
-            project.set('option', 'scheduler', 'name', self.__scheduler)
+            project.option.scheduler.set_name(self.__scheduler)
         elif self.is_remote:
-            project.set('option', 'credentials', self.__remote)
-            project.set('option', 'remote', True)
+            project.option.set_credentials(self.__remote)
+            project.option.set_remote(True)
 
     def __lint(self, design, tool):
         project = design['project']
@@ -403,8 +403,8 @@ class Gallery:
         except Exception:
             return False
 
-        if project.history(project.get("option", "jobname")).get('metric', 'errors',
-                                                                 step='lint', index='0') == 0:
+        if project.history(project.option.get_jobname()).get('metric', 'errors',
+                                                             step='lint', index='0') == 0:
             return True
         return False
 
@@ -451,7 +451,7 @@ class Gallery:
         self.__copy_project_data(project, report_data)
 
     def __copy_project_data(self, project: ASIC, report_data: Dict):
-        jobname = project.get('option', 'jobname')
+        jobname = project.option.get_jobname()
         png = os.path.join(paths.jobdir(project), f'{project.name}.png')
 
         file_root = f'{project.name}_{jobname}'
