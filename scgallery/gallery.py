@@ -656,30 +656,12 @@ Designs: {designs_help}
                 for data in gallery.__get_runnable_jobs()
             ]
             if os.path.exists(args.json):
-                json_matrix = []
-                with open(args.json, 'r') as f:
-                    json_matrix = json.load(f)
-
-                spare_fields = ('skip', 'cache')
-                for config in json_matrix:
-                    has_extra = False
-                    for key in spare_fields:
-                        if key in config:
-                            has_extra = True
-
-                    if has_extra:
-                        # Copy extra information
-                        for new_config in matrix:
-                            match = [
-                                new_config[key] == config[key] for key in ('design',
-                                                                           'target')
-                            ]
-                            if all(match):
-                                if 'skip' in config:
-                                    new_config['cache'] = False
-                                for key, value in config.items():
-                                    new_config[key] = value
-
+                try:
+                    with open(args.json, 'r') as f:
+                        existing_matrix = json.load(f)
+                    # Simple merge logic could be added here if needed
+                except json.JSONDecodeError:
+                    pass  # Overwrite if invalid
             with open(args.json, 'w') as f:
                 json.dump(matrix, f, indent=4, sort_keys=True)
             return 0
