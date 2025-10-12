@@ -84,6 +84,9 @@ def update_rule_value(project: ASIC, metric: str,
     jobproject = project.history(job)
     value: Union[float, int] = jobproject.get('metric', metric, step=step, index=index)
 
+    if value is None:
+        return None
+
     is_passing = utils.safecompare(value, operator, check_value)
     if method == UpdateMethod.OnlyFailing and is_passing:
         # already passing
@@ -158,8 +161,6 @@ def create_rules(project: ASIC) -> Dict:
 
 
 def update_rules(project: ASIC, method: UpdateMethod, rules: Dict):
-    rules["date"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
     mainlib = project.get("asic", "mainlib")
 
     if mainlib not in rules:
@@ -170,6 +171,9 @@ def update_rules(project: ASIC, method: UpdateMethod, rules: Dict):
     flow = project.option.get_flow()
     if flow not in rules[mainlib]:
         raise ValueError(f'{flow} is missing from rules for {mainlib}')
+
+    # Stamp date within the selected mainlib/flow section
+    rules[mainlib][flow]["date"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
     for rule, info in rules[mainlib][flow]['rules'].items():
         nodes = set([(node['step'], node['index']) for node in info['nodes']])
@@ -199,7 +203,7 @@ def update_rules(project: ASIC, method: UpdateMethod, rules: Dict):
                 if criteria['value'] != value:
                     criteria_prefix = f"{criteria['metric']}{criteria['operator']}"
                     project.logger.info(
-                        f"Updating {rule} for {job}/{step}{index} from "
+                        f"Updating {rule} for {job}/{step}/{index} from "
                         f"{criteria_prefix}{criteria['value']} to {criteria_prefix}{value}")
                     criteria['value'] = value
 
