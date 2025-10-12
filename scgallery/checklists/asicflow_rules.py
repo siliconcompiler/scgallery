@@ -1,7 +1,7 @@
 import json
 import fnmatch
 
-from typing import Optional, List, Tuple, Union
+from typing import Optional, List, Tuple, Union, Container
 
 from siliconcompiler import Checklist
 
@@ -11,7 +11,7 @@ class ASICChecklist(Checklist):
                  job: str,
                  flow: str,
                  mainlib: str,
-                 flow_nodes: List[Tuple[str, str]],
+                 flow_nodes: Container[Tuple[str, str]],
                  rules_files: Union[str, List[str], Tuple[str, ...]],
                  skip_rules: Optional[List[str]] = None):
         super().__init__()
