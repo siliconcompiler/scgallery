@@ -44,6 +44,7 @@ def check_project(mainlib_name, flow_name, job_name):
     proj.option.set_flow(flow_name)
     proj.option.set_jobname(job_name)
     proj.set("asic", "asiclib", mainlib_name)
+    proj.set("asic", "mainlib", mainlib_name)
 
     return proj
 
