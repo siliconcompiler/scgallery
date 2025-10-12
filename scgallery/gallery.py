@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Main module for SiliconCompiler Gallery execution.
+
+This script provides the main class and command-line interface for running
+the SiliconCompiler Gallery, which automates the process of building a
+collection of designs across various targets (PDKs and standard cell libraries).
+"""
 
 import argparse
 import json
@@ -7,45 +13,44 @@ import shutil
 import sys
 import threading
 import fnmatch
-
 import os.path
-
 from collections.abc import Container
 from typing import Callable, List, Tuple, Dict, Union
 
 import siliconcompiler
 from siliconcompiler import Design, Lint, ASIC
 from siliconcompiler.schema.parametertype import NodeType
-from siliconcompiler.utils import default_credentials_file
-from siliconcompiler.utils import paths, curation
+from siliconcompiler.utils import default_credentials_file, paths, curation
 
-from scgallery.targets.freepdk45 import (
-    nangate45 as freepdk45_nangate45
-)
+from scgallery.targets.freepdk45 import nangate45 as freepdk45_nangate45
 from scgallery.targets.gf180 import (
     gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0,
-    gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0
+    gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0,
 )
-from scgallery.targets.asap7 import (
-    asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt
-)
-from scgallery.targets.skywater130 import (
-    sky130hd as sky130_sky130hd
-)
-from scgallery.targets.ihp130 import (
-    sg13g2_stdcell as ihp130_sg13g2_stdcell
-)
+from scgallery.targets.asap7 import asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt
+from scgallery.targets.skywater130 import sky130hd as sky130_sky130hd
+from scgallery.targets.ihp130 import sg13g2_stdcell as ihp130_sg13g2_stdcell
 from scgallery.targets.linting import lint as gallery_lint
-
 from siliconcompiler.flows.lintflow import LintFlow
-
 from scgallery import __version__
-
-# from scgallery.checklists import asicflow_rules
 
 
 class Gallery:
-    def __init__(self, name=None, path=None):
+    """A class for managing and running a gallery of hardware designs.
+
+    The Gallery class is the main driver for running a set of designs against
+    a set of targets. It handles configuration, setup, execution (local or
+    remote), and result summarization.
+
+    Args:
+        name (str, optional): An optional name for the gallery instance.
+            Defaults to None.
+        path (str, optional): The root directory for gallery outputs.
+            Defaults to './gallery-<name>/<sc-version>/'.
+    """
+
+    def __init__(self, name: str = None, path: str = None):
+        """Initializes a new Gallery instance."""
         self.__name = name
         self.set_path(path)
 
@@ -78,62 +83,39 @@ class Gallery:
         self.set_remote(None)
         self.set_scheduler(None)
 
-    #######################################################
     @property
-    def name(self):
-        '''
-        Name of the gallery
-
-        Returns:
-            str/None: Name of gallery
-        '''
+    def name(self) -> Union[str, None]:
+        """Name of the gallery."""
         return self.__name
 
     @property
-    def has_name(self):
-        '''
-        Determine if the gallery has a name
-
-        Returns:
-            boolean: True, if a name is present, False if not
-        '''
-        if self.name:
-            return True
-        return False
+    def has_name(self) -> bool:
+        """Determines if the gallery has a name."""
+        return self.name is not None
 
     @property
-    def title(self):
-        '''
-        Title string for the gallery
-
-        Returns:
-            str: Title for the gallery
-        '''
+    def title(self) -> str:
+        """Title string for the gallery."""
         name = "Gallery"
         if self.has_name:
             name = f"{self.name} gallery"
         return f"{name} generator for SiliconCompiler {siliconcompiler.__version__}"
 
-    #######################################################
     @property
-    def path(self):
-        '''
-        Path to the gallery
-
-        Returns:
-            str: Absolute path to the gallery
-        '''
+    def path(self) -> str:
+        """Absolute path to the gallery's output directory."""
         return self.__path
 
-    def set_path(self, path):
-        '''
-        Set the path to the gallery.
+    def set_path(self, path: str) -> None:
+        """Sets the path for the gallery output.
 
-        The path will be converted to an absolute path
+        The path will be converted to an absolute path. If no path is provided,
+        a default is generated based on the current working directory, gallery
+        name, and SiliconCompiler version.
 
-        Parameters:
-            path (str): path to the gallery output
-        '''
+        Args:
+            path (str): Path to the gallery output directory.
+        """
         if not path:
             default_path = 'gallery'
             if self.has_name:
@@ -143,203 +125,165 @@ class Gallery:
                                 siliconcompiler.__version__)
         self.__path = os.path.abspath(path)
 
-    #######################################################
-    def add_target(self, name: str, func: Callable):
-        '''
-        Add a target to the gallery.
+    def add_target(self, name: str, func: Callable) -> None:
+        """Adds a target setup module to the gallery.
 
-        Parameters:
-            name (str): name of the target
-            func (module): python module for the target
-        '''
+        Args:
+            name (str): The name of the target.
+            func (Callable): The setup function for the target.
+        """
         self.__targets[name] = func
 
-    def remove_target(self, name: str):
-        '''
-        Removes a target from the gallery.
+    def remove_target(self, name: str) -> None:
+        """Removes a target from the gallery.
 
-        Parameters:
-            name (str): name of the target to remove
-        '''
+        Args:
+            name (str): The name of the target to remove.
+        """
         if name in self.__targets:
             del self.__targets[name]
 
-    def get_targets(self) -> List[Callable]:
-        '''
-        Get a list of target names registered in the gallery.
+    def get_targets(self) -> List[str]:
+        """Gets a list of target names registered in the gallery.
 
         Returns:
-            list (str): List of target names
-        '''
+            List[str]: A list of target names.
+        """
         return list(self.__targets.keys())
 
-    #######################################################
-    def add_design(self, name: str, design: Design):
-        '''
-        Add a design to the gallery.
+    def add_design(self, name: str, design: Design) -> None:
+        """Adds a design to the gallery.
 
-        Parameters:
-            name (str): name of the design
-            module (module): python module for the design
-            rules (list [path]): list of paths to the rules for this design
-            setup (list [function]): list of functions to help configure the design in external
-                galleries
-        '''
+        Args:
+            name (str): The name of the design.
+            design (Design): The design object.
+        """
         self.__designs[name] = design
 
-    def remove_design(self, name: str):
-        '''
-        Removes a design from the gallery.
+    def remove_design(self, name: str) -> None:
+        """Removes a design from the gallery.
 
-        Parameters:
-            name (str): name of the design to remove
-        '''
+        Args:
+            name (str): The name of the design to remove.
+        """
         if name in self.__designs:
             del self.__designs[name]
 
     def get_design(self, design: str) -> Design:
-        '''
-        Gets the configuration for a design.
+        """Gets the configuration for a specific design.
+
+        Args:
+            design (str): The name of the design.
 
         Returns:
-            dict: Configuration of a design
-        '''
+            Design: The design object.
+        """
         return self.__designs[design]
 
     def get_designs(self) -> List[str]:
-        '''
-        Get a list of design names registered in the gallery.
+        """Gets a sorted list of design names registered in the gallery.
 
         Returns:
-            list (str): List of design names
-        '''
+            List[str]: A sorted list of design names.
+        """
         return sorted(list(self.__designs.keys()))
 
-    #######################################################
-    def set_remote(self, remote):
-        '''
-        Set the path to the remote credentials file.
+    def set_remote(self, remote: str) -> None:
+        """Sets the path to the remote credentials file.
 
-        Parameters:
-            remote (str): path to the credentials
-        '''
+        Args:
+            remote (str): Path to the credentials file.
+
+        Raises:
+            FileNotFoundError: If the specified file does not exist.
+        """
         if remote:
             remote = os.path.abspath(remote)
             if not os.path.isfile(remote):
-                raise FileNotFoundError(f'{remote} does not exists or is not a regular file')
-
+                raise FileNotFoundError(f'{remote} does not exist or is not a regular file')
         self.__remote = remote
 
     @property
-    def is_remote(self):
-        '''
-        Determine if the gallery is set to run remotely
+    def is_remote(self) -> bool:
+        """Determines if the gallery is set to run remotely."""
+        return self.__remote is not None
 
-        Returns:
-            boolean: True, if running remotely, False if not
-        '''
-        if self.__remote:
-            return True
-        return False
+    def set_scheduler(self, scheduler: str) -> None:
+        """Sets the scheduler to use for job execution.
 
-    #######################################################
-    def set_scheduler(self, scheduler):
-        '''
-        Set the scheduler to use.
-
-        Parameters:
-            scheduler (str): scheduler name
-        '''
+        Args:
+            scheduler (str): The name of the scheduler (e.g., 'slurm').
+        """
         self.__scheduler = scheduler
 
     @property
-    def has_scheduler(self):
-        '''
-        Determine if a scheduler is set
-
-        Returns:
-            boolean: True, is scheduler is set
-        '''
+    def has_scheduler(self) -> bool:
+        """Determines if a scheduler is set."""
         return self.__scheduler is not None
 
     @property
-    def scheduler(self):
-        '''
-        Get the name of the scheduler
-
-        Returns:
-            str: name of scheduler
-        '''
+    def scheduler(self) -> Union[str, None]:
+        """Gets the name of the scheduler."""
         return self.__scheduler
 
-    #######################################################
-    def set_clean(self, clean):
-        '''
-        Set if the gallery should clean a previous run.
+    def set_clean(self, clean: bool) -> None:
+        """Sets whether the gallery should clean previous run directories.
 
-        Parameters:
-            clean (boolean): Flag to indicate if clean should be used
-        '''
-        if clean:
-            clean = True
-        else:
-            clean = False
-        self.__clean = clean
+        Args:
+            clean (bool): If True, enables cleaning.
+        """
+        self.__clean = bool(clean)
 
     @property
-    def is_clean(self):
-        '''
-        Determine if the gallery is set to clean a previous run
-
-        Returns:
-            boolean: True, if resuming, False if not
-        '''
+    def is_clean(self) -> bool:
+        """Determines if the gallery is set to clean previous run directories."""
         return self.__clean
 
-    #######################################################
-    def set_jobname_suffix(self, suffix):
-        '''
-        Sets a suffix to the default job names.
+    def set_jobname_suffix(self, suffix: str) -> None:
+        """Sets a suffix to append to default job names.
 
-        Parameters:
-            suffix (str): string to append to the job names during a gallery run.
-        '''
+        Args:
+            suffix (str): The string to append to job names.
+        """
         self.__jobname = suffix
 
-    #######################################################
-    def set_run_designs(self, designs):
-        '''
-        Sets the designs to execute during a run.
+    def set_run_designs(self, designs: List[str]) -> None:
+        """Sets the designs to execute during a run.
 
-        Parameters:
-            designs (list [str]): list of design names
-        '''
+        Args:
+            designs (List[str]): A list of design names.
+        """
         self.__run_config['designs'].clear()
         self.__run_config['designs'].update(designs)
 
-    #######################################################
-    def set_run_targets(self, targets):
-        '''
-        Sets the targets to use during a run.
+    def set_run_targets(self, targets: List[str]) -> None:
+        """Sets the targets to use during a run.
 
-        Parameters:
-            targets (list [str]): list of target names
-        '''
+        Args:
+            targets (List[str]): A list of target names.
+        """
         self.__run_config['targets'].clear()
         self.__run_config['targets'].update(targets)
 
-    #######################################################
-    def __setup_design(self, design, target) -> Tuple[Union[Lint, ASIC], bool]:
+    def __setup_design(self, design: str, target: str) -> Tuple[Union[Lint, ASIC], bool]:
+        """Prepares a project object for a given design and target.
+
+        Args:
+            design (str): The name of the design.
+            target (str): The name of the target.
+
+        Returns:
+            Tuple[Union[Lint, ASIC], bool]: A tuple containing the configured
+            project object and a boolean indicating if the setup is valid
+            for a run (e.g., has SDC files).
+        """
         from scgallery import GalleryDesign
 
         print(f'Setting up "{design}" with "{target}"')
         design_obj = self.__designs[design]
         is_lint = target == "lint"
 
-        if is_lint:
-            project = Lint(design_obj)
-        else:
-            project = ASIC(design_obj)
+        project = Lint(design_obj) if is_lint else ASIC(design_obj)
         project.add_fileset("rtl")
 
         self.__targets[target](project)
@@ -358,8 +302,13 @@ class Gallery:
 
     def __setup_run_chip(self,
                          project: Union[ASIC, Lint],
-                         name: str,
-                         jobsuffix: str = None):
+                         jobsuffix: str = None) -> None:
+        """Configures common run options for a project.
+
+        Args:
+            project (Union[ASIC, Lint]): The project object to configure.
+            jobsuffix (str, optional): An optional suffix for the job name.
+        """
         if isinstance(project, ASIC):
             pdk = project.get('asic', 'pdk')
             mainlib = project.get('asic', 'mainlib')
@@ -382,45 +331,66 @@ class Gallery:
         project.option.set_clean(self.is_clean)
 
         if self.has_scheduler:
-            project.option.scheduler.set_name(self.__scheduler)
+            project.option.scheduler.set_name(self.scheduler)
         elif self.is_remote:
             project.option.set_credentials(self.__remote)
             project.option.set_remote(True)
 
-    def __lint(self, design, tool):
+    def __lint(self, design: Dict, tool: str) -> Union[bool, None]:
+        """Runs the linting flow for a given design.
+
+        Args:
+            design (Dict): A dictionary containing project information.
+            tool (str): The linting tool to use ('verilator' or 'slang').
+
+        Returns:
+            Union[bool, None]: True if linting passes with zero errors,
+            False otherwise. None if no project is configured.
+        """
         project = design['project']
 
         if not project:
-            # custom flow, so accept
             return None
 
         project.set_flow(LintFlow("scgallery-lint", tool=tool))
-
-        self.__setup_run_chip(project, design["design"], jobsuffix="_lint")
+        self.__setup_run_chip(project, jobsuffix="_lint")
 
         try:
             project.run(raise_exception=True)
         except Exception:
             return False
 
-        if project.history(project.option.get_jobname()).get('metric', 'errors',
-                                                             step='lint', index='0') == 0:
-            return True
-        return False
+        errors = project.history(project.option.get_jobname()).get('metric', 'errors',
+                                                                   step='lint', index='0')
+        return errors == 0
 
-    def __run_design(self, design: Dict) -> Tuple[ASIC, bool]:
+    def __run_design(self, design: Dict) -> Tuple[Union[ASIC, Lint], bool]:
+        """Executes the main flow for a design.
+
+        Args:
+            design (Dict): A dictionary containing project information.
+
+        Returns:
+            Tuple[Union[ASIC, Lint], bool]: The project object and a boolean
+            indicating if the run succeeded.
+        """
         project = design['project']
-
-        self.__setup_run_chip(project, design["design"])
+        self.__setup_run_chip(project)
 
         try:
             project.run()
+            return project, True
         except Exception:
             return project, False
 
-        return project, True
+    def __finalize(self, design: str, project: ASIC, succeeded: bool) -> None:
+        """Finalizes a run, processing results and updating status.
 
-    def __finalize(self, design: str, project: ASIC, succeeded: bool):
+        Args:
+            design (str): The name of the design.
+            project (ASIC): The project object from the run.
+            succeeded (bool): Whether the run completed without exceptions.
+        """
         report_data = {
             "project": project,
             "platform": project.get('asic', 'pdk')
@@ -430,42 +400,48 @@ class Gallery:
         if succeeded:
             project.summary()
             project.snapshot(display=False)
-            error = None
-        else:
-            error = True
 
         self.__status.append({
             "design": design,
             "pdk": project.get('asic', 'pdk'),
             "mainlib": project.get('asic', 'mainlib'),
-            "error": error,
+            "error": not succeeded,
             "project": project
         })
+
         if not succeeded:
             project.logger.error("Run failed")
-        elif error:
-            project.logger.error("Rules mismatch")
         else:
-            project.logger.info("Rules match")
+            project.logger.info("Run succeeded")
 
         self.__copy_project_data(project, report_data)
 
-    def __copy_project_data(self, project: ASIC, report_data: Dict):
-        jobname = project.option.get_jobname()
-        png = os.path.join(paths.jobdir(project), f'{project.name}.png')
+    def __copy_project_data(self, project: ASIC, report_data: Dict) -> None:
+        """Copies key artifacts from a run to the gallery directory.
 
+        Args:
+            project (ASIC): The project object.
+            report_data (Dict): A dictionary to store report metadata.
+        """
+        jobname = project.option.get_jobname()
+        png_source = os.path.join(paths.jobdir(project), f'{project.name}.png')
         file_root = f'{project.name}_{jobname}'
 
-        if os.path.isfile(png):
-            img_path = os.path.join(self.path, f'{file_root}.png')
-            shutil.copy(png, img_path)
-            report_data["path"] = img_path
+        if os.path.isfile(png_source):
+            img_dest = os.path.join(self.path, f'{file_root}.png')
+            shutil.copy(png_source, img_dest)
+            report_data["path"] = img_dest
 
         curation.archive(project,
                          include=['reports', '*.log'],
                          archive_name=os.path.join(self.path, f'{file_root}.tgz'))
 
-    def __get_runnable_jobs(self):
+    def __get_runnable_jobs(self) -> List[Dict]:
+        """Generates a sorted list of jobs to be executed.
+
+        Returns:
+            List[Dict]: A list of job dictionaries, each ready for execution.
+        """
         regular_jobs = []
 
         def _run_setup(design, target):
@@ -473,158 +449,122 @@ class Gallery:
             if not valid:
                 return
 
-            print_text = f'Running "{design}"'
-            if target:
-                print_text += f' with "{target}"'
-
+            print_text = f'Running "{design}" with "{target}"'
             regular_jobs.append({
                 "print": print_text,
                 "design": design,
                 "project": project,
-                "target": target})
+                "target": target
+            })
 
-        config_jobs = []
-        for design in self.__run_config['designs']:
-            if design not in self.__designs:
-                print(f'  Error: design "{design}" is not available in gallery')
-                continue
+        config_threads = [
+            threading.Thread(target=_run_setup, args=(design, target))
+            for design in self.__run_config['designs']
+            if design in self.__designs
+            for target in self.__run_config['targets']
+            if target != "None"
+        ]
 
-            targets = self.__run_config['targets']
-            targets = [target for target in targets if target != "None"]
-
-            for target in targets:
-                config_jobs.append(threading.Thread(
-                    target=_run_setup,
-                    args=(design, target)))
-
-        # Start jobs in parallel
-        for job in config_jobs:
-            job.start()
-
-        # Wait
-        for job in config_jobs:
-            if job.is_alive():
-                job.join()
+        for thread in config_threads:
+            thread.start()
+        for thread in config_threads:
+            thread.join()
 
         return sorted(regular_jobs, key=lambda x: x["print"])
 
-    def get_run_report(self):
+    def get_run_report(self) -> Dict:
+        """Returns a report of the completed runs.
+
+        Returns:
+            Dict: A dictionary containing run data.
+        """
         return self.__report_chips.copy()
 
-    def lint(self, tool):
-        '''
-        Run lint on the enabled designs.
-        '''
+    def lint(self, tool: str) -> bool:
+        """Runs lint on all enabled designs.
 
+        Args:
+            tool (str): The linting tool to use.
+
+        Returns:
+            bool: True if all designs pass linting, False otherwise.
+        """
         status = {}
-
-        error = False
+        has_error = False
         for job in self.__get_runnable_jobs():
             print(job['print'])
             lint_status = self.__lint(job, tool)
             if lint_status is not None:
-                error |= not lint_status
-
+                has_error |= not lint_status
                 status[job['design'], job['target']] = lint_status
 
-        for job, result in status.items():
-            design, target = job
+        for (design, target), result in status.items():
+            title = f"Lint on \"{design}\" with \"{target}\""
+            print(f"{title}: {'Passed' if result else 'Failed'}")
 
-            title = f"Lint on \"{design}\""
-            if target:
-                title += f" with \"{target}\""
+        return not has_error
 
-            print(title)
-            if result:
-                print("  Passed")
-            else:
-                print("  Failed")
+    def run(self) -> bool:
+        """Executes the main gallery run.
 
-        return not error
-
-    def run(self):
-        '''
-        Main run function which will iterate over the design gallery and generate images and
-        summaries for the listed designs and targets.
+        Iterates over the configured designs and targets, runs the SiliconCompiler
+        flow, and generates summaries.
 
         Returns:
-            boolean: True, if all designs succeeded and no rules were violated, False otherwise.
-        '''
+            bool: True if all runs succeed, False otherwise.
+        """
         os.makedirs(self.path, exist_ok=True)
-
         self.__status.clear()
         self.__report_chips.clear()
 
-        regular_jobs = self.__get_runnable_jobs()
-
-        if not regular_jobs:
+        jobs_to_run = self.__get_runnable_jobs()
+        if not jobs_to_run:
+            print("No valid jobs to run.")
             return False
 
         if self.is_remote:
-            def _run_remote(chip, design, job):
-                if not chip:
-                    return
-                chip, succeeded = self.__run_design(job)
-                self.__finalize(design, chip, succeeded)
+            def _run_remote(job):
+                project, succeeded = self.__run_design(job)
+                self.__finalize(job['design'], project, succeeded)
 
-            jobs = [threading.Thread(
-                target=_run_remote,
-                args=(job['chip'], job['design'], job))
-                for job in regular_jobs]
-
-            # Submit jobs in parallel
-            for job in jobs:
-                job.start()
-
-            # Wait
-            for job in jobs:
-                job.join()
+            threads = [threading.Thread(target=_run_remote, args=(job,)) for job in jobs_to_run]
+            for t in threads:
+                t.start()
+            for t in threads:
+                t.join()
         else:
-            for job in regular_jobs:
-                project = job['project']
-                design = job['design']
-
+            for job in jobs_to_run:
                 print(job['print'])
                 project, succeeded = self.__run_design(job)
-                self.__finalize(design, project, succeeded)
+                self.__finalize(job['design'], project, succeeded)
 
         self.summary()
+        return not any(data["error"] for data in self.__status)
 
-        failed = any([data["error"] for data in self.__status])
-        return not failed
-
-    def summary(self):
-        '''
-        Print a summary of the previous run.
-        '''
+    def summary(self) -> None:
+        """Prints a summary of the previous run."""
         print("Run summary:")
-        failed = False
+        overall_passed = True
         for status in self.__status:
-            print(f" Design: {status['project'].name} on {status['pdk']} pdk "
+            print(f"  Design: {status['project'].name} on {status['pdk']} "
                   f"with mainlib {status['mainlib']}")
-            error = status['error']
-            if error:
-                failed = True
-                print("  Rules check failed")
-            elif error is None:
-                # Mark as failed since rules are missing
-                failed = True
+            if status['error']:
+                overall_passed = False
+                print("    Status: Failed")
             else:
-                print("  Rules check passed")
-        if not failed:
-            print('Run passed')
+                print("    Status: Passed")
+        print(f"Overall result: {'Passed' if overall_passed else 'Failed'}")
 
     @classmethod
-    def main(cls):
-        '''
-        Main method to initiate the gallery from the commandline.
-        '''
+    def main(cls) -> int:
+        """Main method for command-line invocation."""
         gallery = cls()
 
         class ArgChoiceGlob(Container):
+            """Helper class to support glob matching in argparse choices."""
+
             def __init__(self, choices):
                 super().__init__()
-
                 self.__choices = set(choices)
 
             def __contains__(self, item):
@@ -646,6 +586,7 @@ class Gallery:
                 return sorted(list(items))
 
         def format_list(items, prefix_len, max_len=80):
+            """Formats a list into wrapped lines for help text."""
             lines = []
             line = None
             while len(items) > 0:
