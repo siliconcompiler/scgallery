@@ -1,14 +1,16 @@
 import argparse
-from siliconcompiler import Chip, SiliconCompilerError
-from siliconcompiler.tools._common.asic import get_mainlib
-import os
 import sys
 import json
 import math
+
+import os.path
+
+from typing import Union, Dict, Optional
+
 from enum import Enum, auto
 from datetime import datetime
 from scgallery.checklists import asicflow_rules
-from siliconcompiler import utils
+from siliconcompiler import utils, ASIC
 from siliconcompiler.flowgraph import RuntimeFlowgraph
 
 
@@ -18,8 +20,15 @@ class UpdateMethod(Enum):
     TightenPassing = auto()
 
 
-def new_value(chip, metric, job, step, index, operator, padding, margin, bounds):
-    value = chip.get('metric', metric, job=job, step=step, index=index)
+def new_value(project: ASIC,
+              metric: str, job: str,
+              step: str, index: str,
+              operator: str,
+              padding: Optional[float],
+              margin: Optional[Union[float, int]],
+              bounds: Optional[Dict[str, Union[float, int]]]) -> Optional[Union[int, float]]:
+    jobproject = project.history(job)
+    value: Union[None, float, int] = jobproject.get('metric', metric, step=step, index=index)
 
     if value is None:
         return None
@@ -27,7 +36,7 @@ def new_value(chip, metric, job, step, index, operator, padding, margin, bounds)
     if operator == '==':
         return value
 
-    sc_type = chip.get('metric', metric, field='type', job=job)
+    sc_type: str = jobproject.get('metric', metric, field='type')
 
     newvalue = value
     if padding:
@@ -63,37 +72,54 @@ def new_value(chip, metric, job, step, index, operator, padding, margin, bounds)
     return newvalue
 
 
-def update_rule_value(chip, metric,
-                      job, step, index,
-                      operator, check_value,
-                      padding, margin, bounds,
-                      method):
-    value = chip.get('metric', metric, job=job, step=step, index=index)
+def update_rule_value(project: ASIC, metric: str,
+                      job: str,
+                      step: str, index: str,
+                      operator: str,
+                      check_value: Union[float, int],
+                      padding: Optional[float],
+                      margin: Optional[Union[float, int]],
+                      bounds: Optional[Dict[str, Union[float, int]]],
+                      method: UpdateMethod) -> Optional[Union[float, int]]:
+    jobproject = project.history(job)
+    value: Union[float, int] = jobproject.get('metric', metric, step=step, index=index)
 
-    is_passing = utils.safecompare(chip, value, operator, check_value)
+    if value is None:
+        return None
+
+    is_passing = utils.safecompare(value, operator, check_value)
     if method == UpdateMethod.OnlyFailing and is_passing:
         # already passing
         return check_value
 
-    new_check_value = new_value(chip, metric, job, step, index, operator, padding, margin, bounds)
+    new_check_value = new_value(project,
+                                metric,
+                                job, step, index,
+                                operator,
+                                padding,
+                                margin,
+                                bounds)
+
+    if new_check_value is None:
+        return None
 
     if new_check_value == check_value:
         # nothing to change
         return check_value
 
     if method == UpdateMethod.TightenPassing and \
-       not utils.safecompare(chip, new_check_value, operator, check_value):
+       not utils.safecompare(new_check_value, operator, check_value):
         return check_value
 
     return new_check_value
 
 
-def create_rules(chip):
+def create_rules(project: ASIC) -> Dict:
     template = os.path.join(os.path.dirname(__file__), 'checklists', 'asicflow_template.json')
     with open(template) as f:
-        new_rules = json.load(f)
+        new_rules: Dict = json.load(f)
 
-    job = chip.get('option', 'jobname')
+    job = project.option.get_jobname()
 
     # create initial check values
     for info in new_rules.values():
@@ -112,14 +138,14 @@ def create_rules(chip):
 
                 try:
                     value = new_value(
-                        chip,
+                        project,
                         criteria['metric'],
                         job, step, index,
                         criteria['operator'],
                         criteria['update']['padding'],
                         criteria['update']['margin'],
                         criteria['update']['bounds'])
-                except SiliconCompilerError:
+                except ValueError:
                     continue
 
                 criteria['value'] = value
@@ -134,19 +160,20 @@ def create_rules(chip):
     return new_rules
 
 
-def update_rules(chip, method, rules):
-    rules["date"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-
-    mainlib = get_mainlib(chip)
+def update_rules(project: ASIC, method: UpdateMethod, rules: Dict):
+    mainlib = project.get("asic", "mainlib")
 
     if mainlib not in rules:
         raise ValueError(f'{mainlib} is missing from rules')
 
-    job = chip.get('option', 'jobname')
+    job = project.option.get_jobname()
 
-    flow = chip.get('option', 'flow')
+    flow = project.option.get_flow()
     if flow not in rules[mainlib]:
-        raise ValueError(f'{flow} is missing from rules')
+        raise ValueError(f'{flow} is missing from rules for {mainlib}')
+
+    # Stamp date within the selected mainlib/flow section
+    rules[mainlib][flow]["date"] = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
 
     for rule, info in rules[mainlib][flow]['rules'].items():
         nodes = set([(node['step'], node['index']) for node in info['nodes']])
@@ -161,7 +188,7 @@ def update_rules(chip, method, rules):
 
                 try:
                     value = update_rule_value(
-                        chip,
+                        project,
                         criteria['metric'],
                         job, step, index,
                         criteria['operator'],
@@ -170,13 +197,13 @@ def update_rules(chip, method, rules):
                         criteria['update']['margin'],
                         criteria['update']['bounds'],
                         method)
-                except SiliconCompilerError:
+                except ValueError:
                     continue
 
                 if criteria['value'] != value:
                     criteria_prefix = f"{criteria['metric']}{criteria['operator']}"
-                    chip.logger.info(
-                        f"Updating {rule} for {job}/{step}{index} from "
+                    project.logger.info(
+                        f"Updating {rule} for {job}/{step}/{index} from "
                         f"{criteria_prefix}{criteria['value']} to {criteria_prefix}{value}")
                     criteria['value'] = value
 
@@ -209,10 +236,9 @@ if __name__ == "__main__":
     if not os.path.exists(args.cfg):
         raise FileNotFoundError(args.cfg)
 
-    chip = Chip('check')
-    chip.read_manifest(args.cfg)
+    project: ASIC = ASIC.from_manifest(args.cfg)
 
-    mainlib = chip.get('asic', 'logiclib', step='global', index='global')[0]
+    mainlib: str = project.get('asic', 'mainlib')
 
     if args.create:
         # create initial set of rules
@@ -226,9 +252,9 @@ if __name__ == "__main__":
             raise ValueError(mainlib)
 
         rules[mainlib] = {
-            chip.get('option', 'flow'): {
+            project.option.get_flow(): {
                 "date": datetime.now().strftime("%Y/%m/%d %H:%M:%S"),
-                "rules": create_rules(chip)
+                "rules": create_rules(project)
             }
         }
     else:
@@ -243,29 +269,29 @@ if __name__ == "__main__":
 
         if args.check:
             runtime = RuntimeFlowgraph(
-                chip.schema.get("flowgraph", chip.get('option', 'flow'), field='schema'),
-                from_steps=chip.get('option', 'from'),
-                to_steps=chip.get('option', 'to'),
-                prune_nodes=chip.get('option', 'prune'))
-            chip.summary(generate_image=False, generate_html=False)
-            chip.use(
-                asicflow_rules,
-                job=chip.get('option', 'jobname'),
-                flow=chip.get('option', 'flow'),
+                project.get("flowgraph", project.option.get_flow(), field='schema'),
+                from_steps=project.option.get_from(),
+                to_steps=project.option.get_to(),
+                prune_nodes=project.option.get_prune())
+            project.summary()
+            checklist = asicflow_rules.ASICChecklist(
+                job=project.option.get_jobname(),
+                flow=project.option.get_flow(),
                 mainlib=mainlib,
                 flow_nodes=runtime.get_nodes(),
-                rules_file=args.rules)
-            if not chip.check_checklist('asicflow_rules', verbose=True, require_reports=False):
+                rules_files=args.rules)
+            project.add_dep(checklist)
+            if not checklist.check(require_reports=False):
                 sys.exit(1)
             else:
                 sys.exit(0)
 
         if args.update_all:
-            update_rules(chip, UpdateMethod.All, rules)
+            update_rules(project, UpdateMethod.All, rules)
         elif args.tighten_passing:
-            update_rules(chip, UpdateMethod.TightenPassing, rules)
+            update_rules(project, UpdateMethod.TightenPassing, rules)
         elif args.update_failing:
-            update_rules(chip, UpdateMethod.OnlyFailing, rules)
+            update_rules(project, UpdateMethod.OnlyFailing, rules)
 
     with open(args.rules, 'w') as f:
         json.dump(rules, f, indent=4, sort_keys=True)

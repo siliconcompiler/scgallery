@@ -1,7 +1,7 @@
 import json
 import fnmatch
 
-from typing import Optional, List, Tuple, Union
+from typing import Optional, List, Tuple, Union, Iterable
 
 from siliconcompiler import Checklist
 
@@ -11,7 +11,7 @@ class ASICChecklist(Checklist):
                  job: str,
                  flow: str,
                  mainlib: str,
-                 flow_nodes: List[Tuple[str, str]],
+                 flow_nodes: Iterable[Tuple[str, str]],
                  rules_files: Union[str, List[str], Tuple[str, ...]],
                  skip_rules: Optional[List[str]] = None):
         super().__init__()
@@ -36,6 +36,9 @@ class ASICChecklist(Checklist):
             raise ValueError(f'{flow} is missing from rules')
 
         rules = rules[mainlib][flow]["rules"]
+
+        # Ensure we can iterate multiple times
+        flow_nodes = tuple(flow_nodes)
 
         for name, info in rules.items():
             criteria = set()
