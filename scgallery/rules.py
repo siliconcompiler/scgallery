@@ -297,7 +297,8 @@ if __name__ == "__main__":
                              help='Update all rule values based on the run.')
     mode_parser.add_argument('-tighten_passing',
                              action='store_true',
-                             help='Update rule values only if they are passing and become stricter.')
+                             help='Update rule values only if they are passing and '
+                                  'become stricter.')
     mode_parser.add_argument('-update_failing',
                              action='store_true',
                              help='Update rule values only for failing checks.')

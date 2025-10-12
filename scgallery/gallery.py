@@ -568,10 +568,16 @@ class Gallery:
                 self.__choices = set(choices)
 
             def __contains__(self, item):
-                return item in self.__choices or bool(fnmatch.filter(self.__choices, item))
+                if item in self.__choices:
+                    return True
+
+                if fnmatch.filter(self.__choices, item):
+                    return True
+
+                return False
 
             def __iter__(self):
-                return iter(self.__choices)
+                return self.__choices.__iter__()
 
             def get_items(self, choices):
                 items = set()
@@ -582,21 +588,28 @@ class Gallery:
         def format_list(items, prefix_len, max_len=80):
             """Formats a list into wrapped lines for help text."""
             lines = []
-            line = ""
-            while items:
-                item = items.pop(0)
+            line = None
+            while len(items) > 0:
+                item = items[0]
+                del items[0]
                 if not line:
-                    line = item
-                elif len(line) + len(item) + 2 > max_len:
-                    lines.append(line)
                     line = item
                 else:
                     line += f", {item}"
+
+                if len(line) > max_len:
+                    lines.append(line)
+                    line = None
             if line:
                 lines.append(line)
 
-            line_prefix = " " * prefix_len
-            return f"\n{line_prefix}".join(lines)
+            line_prefix = "".join(prefix_len * [" "])
+            format_lines = []
+            for n, line in enumerate(lines):
+                if n > 0:
+                    line = f"{line_prefix}{line}"
+                format_lines.append(line)
+            return "\n".join(format_lines)
 
         targets_help = format_list(gallery.get_targets(), 9)
         designs_help = format_list(gallery.get_designs(), 9)
@@ -608,8 +621,8 @@ Targets: {targets_help}
 Designs: {designs_help}
 '''
 
-        design_choices = ArgChoiceGlob(gallery.get_designs())
-        target_choices = ArgChoiceGlob(gallery.get_targets())
+        design_choices = ArgChoiceGlob(gallery.__designs.keys())
+        target_choices = ArgChoiceGlob(gallery.__targets.keys())
 
         parser = argparse.ArgumentParser(
             prog='sc-gallery',
@@ -617,26 +630,64 @@ Designs: {designs_help}
             formatter_class=argparse.RawDescriptionHelpFormatter
         )
 
-        parser.add_argument('-design', action='append', choices=design_choices,
-                            metavar='<design>', help='Name of design to run (supports glob).')
-        parser.add_argument('-target', action='append', choices=target_choices,
-                            metavar='<target>', help='Name of target to run (supports glob).')
-        parser.add_argument('-path', metavar='<path>', default=gallery.path,
-                            help='Path to the gallery output directory.')
-        parser.add_argument('-remote', metavar='<path>', nargs='?',
-                            action='store', const=default_credentials_file(),
-                            help='Perform a remote run. Optionally provide path to credentials.')
+        parser.add_argument('-design',
+                            action='append',
+                            choices=design_choices,
+                            metavar='<design>',
+                            help='Name of design to run')
+
+        parser.add_argument('-target',
+                            action='append',
+                            choices=target_choices,
+                            metavar='<target>',
+                            help='Name of target to run')
+
+        parser.add_argument('-path',
+                            metavar='<path>',
+                            help='Path to the gallery',
+                            default=gallery.path)
+
+        parser.add_argument('-remote',
+                            metavar='<path>',
+                            nargs='?',
+                            action='store',
+                            const=default_credentials_file(),
+                            default=None,
+                            help='Perform a remote run, '
+                                 'optionally provides path to remote credentials')
+
         parser.add_argument('-scheduler',
-                            choices=NodeType.parse(ASIC().get('option', 'scheduler', 'name',
-                                                              field='type')).values,
-                            help='Select the scheduler to use.')
-        parser.add_argument('-clean', action='store_true',
-                            help='Clean build directories before running.')
-        parser.add_argument('-json', metavar='<path>',
-                            help='Generate a JSON matrix of designs and targets.')
-        parser.add_argument('-lint', action='store_true', help='Run lint only.')
-        parser.add_argument('-lint_tool', choices=['verilator', 'slang'], default='verilator',
-                            help='Tool to use for linting.')
+                            choices=NodeType.parse(
+                                ASIC().get('option', 'scheduler', 'name',
+                                           field='type')).values,
+                            help='Select the scheduler to use during exection')
+
+        parser.add_argument('-clean',
+                            action='store_true',
+                            help='Use option,clean')
+
+        parser.add_argument('-gallery',
+                            metavar='<module>',
+                            help='Python module for custom galleries')
+
+        parser.add_argument('-skip_rules',
+                            metavar='<rule>',
+                            nargs='+',
+                            help='List of regex names for rules to skip in checks')
+
+        parser.add_argument('-json',
+                            metavar='<path>',
+                            help='Generate json matrix of designs and targets')
+
+        parser.add_argument('-lint',
+                            action='store_true',
+                            help='Run lint only')
+
+        parser.add_argument('-lint_tool',
+                            choices=['verilator', 'slang'],
+                            default='verilator',
+                            help='Tool to use for linting')
+
         parser.add_argument('-version', action='version', version=__version__)
 
         args = parser.parse_args()
@@ -644,24 +695,50 @@ Designs: {designs_help}
         gallery.set_path(args.path)
         gallery.set_clean(args.clean)
         gallery.set_remote(args.remote)
+
         if args.scheduler:
             gallery.set_scheduler(args.scheduler)
 
-        gallery.set_run_targets(target_choices.get_items(args.target or gallery.get_targets()))
-        gallery.set_run_designs(design_choices.get_items(args.design or gallery.get_designs()))
+        if args.target:
+            gallery.set_run_targets(target_choices.get_items(args.target))
+        else:
+            gallery.set_run_targets(gallery.__targets.keys())
+
+        if args.design:
+            gallery.set_run_designs(design_choices.get_items(args.design))
+        else:
+            gallery.set_run_designs(gallery.__designs.keys())
 
         if args.json:
-            matrix = [
-                {"design": data["design"], "target": data["target"], "remote": False}
-                for data in gallery.__get_runnable_jobs()
-            ]
+            matrix = []
+            for data in gallery.__get_runnable_jobs():
+                matrix.append({"design": data["design"], "target": data["target"], "remote": False})
+
             if os.path.exists(args.json):
-                try:
-                    with open(args.json, 'r') as f:
-                        existing_matrix = json.load(f)
-                    # Simple merge logic could be added here if needed
-                except json.JSONDecodeError:
-                    pass  # Overwrite if invalid
+                json_matrix = []
+                with open(args.json, 'r') as f:
+                    json_matrix = json.load(f)
+
+                spare_fields = ('skip', 'cache')
+                for config in json_matrix:
+                    has_extra = False
+                    for key in spare_fields:
+                        if key in config:
+                            has_extra = True
+
+                    if has_extra:
+                        # Copy extra information
+                        for new_config in matrix:
+                            match = [
+                                new_config[key] == config[key] for key in ('design',
+                                                                           'target')
+                            ]
+                            if all(match):
+                                if 'skip' in config:
+                                    new_config['cache'] = False
+                                for key, value in config.items():
+                                    new_config[key] = value
+
             with open(args.json, 'w') as f:
                 json.dump(matrix, f, indent=4, sort_keys=True)
             return 0
@@ -669,9 +746,15 @@ Designs: {designs_help}
         if args.lint:
             gallery.add_target("lint", gallery_lint.setup)
             gallery.set_run_targets(["lint"])
-            return 0 if gallery.lint(args.lint_tool) else 1
 
-        return 0 if gallery.run() else 1
+            if gallery.lint(args.lint_tool):
+                return 0
+
+            return 1
+
+        if not gallery.run():
+            return 1
+        return 0
 
 
 if __name__ == "__main__":
