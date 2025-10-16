@@ -54,15 +54,14 @@ class Gallery:
         self.__name = name
         self.set_path(path)
 
-        self.__targets: Dict[str, Optional[Callable[[ASIC], None]]] = {}
+        self.__targets: Dict[str, Callable[[Union[ASIC, Lint]], None]] = {}
         for name, target in (
                 ("freepdk45_nangate45", freepdk45_nangate45),
                 ("skywater130_sky130hd", sky130_sky130hd),
                 ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
                 ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
-                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
-                ("None", None)):
+                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell)):
             self.add_target(name, target)
 
         self.__designs: Dict[str, Design] = {}
@@ -125,7 +124,7 @@ class Gallery:
                                 siliconcompiler.__version__)
         self.__path = os.path.abspath(path)
 
-    def add_target(self, name: str, func: Optional[Callable[[ASIC], None]]) -> None:
+    def add_target(self, name: str, func: Callable[[Union[ASIC, Lint]], None]) -> None:
         """Adds a target setup module to the gallery.
 
         Args:
@@ -461,7 +460,6 @@ class Gallery:
             for design in self.__run_config['designs']
             if design in self.__designs
             for target in self.__run_config['targets']
-            if target != "None"
         ]
 
         for thread in config_threads:
@@ -743,7 +741,7 @@ Designs: {designs_help}
             return 0
 
         if args.lint:
-            gallery.add_target("lint", gallery_lint.setup)
+            gallery.add_target("lint", gallery_lint)
             gallery.set_run_targets(["lint"])
 
             if gallery.lint(args.lint_tool):

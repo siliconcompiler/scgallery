@@ -1,6 +1,6 @@
 """Module for managing gallery designs with target-specific setups."""
 
-from typing import Callable, Union
+from typing import Callable, Union, Optional, Dict, Set
 
 from siliconcompiler import Lint, ASIC
 from siliconcompiler import Design
@@ -15,14 +15,14 @@ class GalleryDesign(Design):
     for that particular target.
     """
 
-    def __init__(self, name: str = None):
+    def __init__(self, name: Optional[str] = None):
         """Initializes a new GalleryDesign instance.
 
         Args:
             name (str, optional): The name of the design. Defaults to None.
         """
         super().__init__(name)
-        self.__setup = {}
+        self.__setup: Dict[str, Set[Callable[[Union[ASIC, Lint]], None]]] = {}
 
     def add_target_setup(self, target: str,
                          func: Callable[[Union[ASIC, Lint]], None]) -> None:
