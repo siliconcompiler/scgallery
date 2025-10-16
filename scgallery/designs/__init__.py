@@ -1,6 +1,4 @@
-from typing import List, Type
-
-from siliconcompiler import Design
+from typing import List
 
 from .aes.aes import AESDesign
 from .black_parrot.black_parrot import BlackParrotDesign
