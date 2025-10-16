@@ -13,7 +13,7 @@ from lambdapdk.sky130 import Sky130PDK
 if __name__ == "__main__":
     proj = ASIC("cache")
 
-    proj.set('option', 'cachedir', Path(os.getcwd()) / '.sc' / 'cache')
+    proj.option.set_cachedir(Path(os.getcwd()) / '.sc' / 'cache')
 
     proj.add_dep(ASAP7PDK())
     proj.add_dep(FreePDK45PDK())
