@@ -379,6 +379,7 @@ class Gallery:
             project.run()
             return project, True
         except Exception:
+            project.logger.exception("Run failed with exception")
             return project, False
 
     def __finalize(self, design: str, project: ASIC, succeeded: bool) -> None:
