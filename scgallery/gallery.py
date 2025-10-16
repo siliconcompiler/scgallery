@@ -15,7 +15,7 @@ import threading
 import fnmatch
 import os.path
 from collections.abc import Container
-from typing import Callable, List, Tuple, Dict, Union
+from typing import Callable, List, Tuple, Dict, Union, Optional, Iterable
 
 import siliconcompiler
 from siliconcompiler import Design, Lint, ASIC
@@ -49,26 +49,25 @@ class Gallery:
             Defaults to './gallery-<name>/<sc-version>/'.
     """
 
-    def __init__(self, name: str = None, path: str = None):
+    def __init__(self, name: Optional[str] = None, path: Optional[str] = None):
         """Initializes a new Gallery instance."""
         self.__name = name
         self.set_path(path)
 
-        self.__targets = {}
+        self.__targets: Dict[str, Callable[[Union[ASIC, Lint]], None]] = {}
         for name, target in (
                 ("freepdk45_nangate45", freepdk45_nangate45),
                 ("skywater130_sky130hd", sky130_sky130hd),
                 ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
                 ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
-                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
-                ("None", None)):
+                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell)):
             self.add_target(name, target)
 
-        self.__designs = {}
-        from scgallery.designs import all_designs as sc_all_designs
-        for name, design in sc_all_designs().items():
-            self.add_design(name, design())
+        self.__designs: Dict[str, Design] = {}
+        from scgallery import designs
+        for design in designs.all_designs():
+            self.add_design(getattr(designs, design)())
 
         self.__run_config = {
             "targets": set(),
@@ -78,7 +77,7 @@ class Gallery:
         self.__status = []
         self.__report_chips = {}
 
-        self.__jobname = None
+        self.set_jobname_suffix(None)
         self.set_clean(False)
         self.set_remote(None)
         self.set_scheduler(None)
@@ -106,7 +105,7 @@ class Gallery:
         """Absolute path to the gallery's output directory."""
         return self.__path
 
-    def set_path(self, path: str) -> None:
+    def set_path(self, path: Optional[str]) -> None:
         """Sets the path for the gallery output.
 
         The path will be converted to an absolute path. If no path is provided,
@@ -125,7 +124,7 @@ class Gallery:
                                 siliconcompiler.__version__)
         self.__path = os.path.abspath(path)
 
-    def add_target(self, name: str, func: Callable) -> None:
+    def add_target(self, name: str, func: Callable[[Union[ASIC, Lint]], None]) -> None:
         """Adds a target setup module to the gallery.
 
         Args:
@@ -151,14 +150,13 @@ class Gallery:
         """
         return list(self.__targets.keys())
 
-    def add_design(self, name: str, design: Design) -> None:
+    def add_design(self, design: Design) -> None:
         """Adds a design to the gallery.
 
         Args:
-            name (str): The name of the design.
             design (Design): The design object.
         """
-        self.__designs[name] = design
+        self.__designs[design.name] = design
 
     def remove_design(self, name: str) -> None:
         """Removes a design from the gallery.
@@ -188,7 +186,7 @@ class Gallery:
         """
         return sorted(list(self.__designs.keys()))
 
-    def set_remote(self, remote: str) -> None:
+    def set_remote(self, remote: Optional[str]) -> None:
         """Sets the path to the remote credentials file.
 
         Args:
@@ -208,7 +206,7 @@ class Gallery:
         """Determines if the gallery is set to run remotely."""
         return self.__remote is not None
 
-    def set_scheduler(self, scheduler: str) -> None:
+    def set_scheduler(self, scheduler: Optional[str]) -> None:
         """Sets the scheduler to use for job execution.
 
         Args:
@@ -232,14 +230,14 @@ class Gallery:
         Args:
             clean (bool): If True, enables cleaning.
         """
-        self.__clean = bool(clean)
+        self.__clean = clean
 
     @property
     def is_clean(self) -> bool:
         """Determines if the gallery is set to clean previous run directories."""
         return self.__clean
 
-    def set_jobname_suffix(self, suffix: str) -> None:
+    def set_jobname_suffix(self, suffix: Optional[str]) -> None:
         """Sets a suffix to append to default job names.
 
         Args:
@@ -247,7 +245,7 @@ class Gallery:
         """
         self.__jobname = suffix
 
-    def set_run_designs(self, designs: List[str]) -> None:
+    def set_run_designs(self, designs: Iterable[str]) -> None:
         """Sets the designs to execute during a run.
 
         Args:
@@ -256,7 +254,7 @@ class Gallery:
         self.__run_config['designs'].clear()
         self.__run_config['designs'].update(designs)
 
-    def set_run_targets(self, targets: List[str]) -> None:
+    def set_run_targets(self, targets: Iterable[str]) -> None:
         """Sets the targets to use during a run.
 
         Args:
@@ -302,7 +300,7 @@ class Gallery:
 
     def __setup_run_chip(self,
                          project: Union[ASIC, Lint],
-                         jobsuffix: str = None) -> None:
+                         jobsuffix: Optional[str] = None) -> None:
         """Configures common run options for a project.
 
         Args:
@@ -374,7 +372,7 @@ class Gallery:
             Tuple[Union[ASIC, Lint], bool]: The project object and a boolean
             indicating if the run succeeded.
         """
-        project = design['project']
+        project: Union[Lint, ASIC] = design['project']
         self.__setup_run_chip(project)
 
         try:
@@ -462,7 +460,6 @@ class Gallery:
             for design in self.__run_config['designs']
             if design in self.__designs
             for target in self.__run_config['targets']
-            if target != "None"
         ]
 
         for thread in config_threads:
@@ -744,7 +741,7 @@ Designs: {designs_help}
             return 0
 
         if args.lint:
-            gallery.add_target("lint", gallery_lint.setup)
+            gallery.add_target("lint", gallery_lint)
             gallery.set_run_targets(["lint"])
 
             if gallery.lint(args.lint_tool):
