@@ -1,4 +1,6 @@
-from os import path
+from typing import List, Type
+
+from siliconcompiler import Design
 
 from .aes.aes import AESDesign
 from .black_parrot.black_parrot import BlackParrotDesign
@@ -27,62 +29,35 @@ from .tiny_rocket.tiny_rocket import TinyRocketDesign
 from .uart.uart import UARTDesign
 from .wally.wally import WallyDesign
 
-__designs = (
-    AESDesign,
-    BlackParrotDesign,
-    BlinkyDesign,
-    DataVault,
-    KeyVault,
-    SHA512,
-    CVA6Design,
-    DarkSOCVDesign,
-    DynamicNodeDesign,
-    EthmacDesign,
-    FazyRVDesign,
-    GCDDesign,
-    HeartbeatDesign,
-    IBEXDesign,
-    JPEGDesign,
-    MockALUDesign,
-    OpenMSP430Design,
-    PicoRV32Design,
-    QERVDesign,
-    Riscv32iDesign,
-    SERVDesign,
-    SPIDesign,
-    SwervDesign,
-    TinyRocketDesign,
-    UARTDesign,
-    WallyDesign
-)
-
-
-__designs_nonstandard = {
-}
-
-
-def all_designs():
-    designs = {}
-    for design in __designs:
-        if not design:
-            continue
-        name = design().name
-
-        designs[name] = design
-
-    for name, design in __designs_nonstandard.items():
-        if not design:
-            continue
-
-        designs[name] = design
-
-    return designs
-
-
 __all__ = [
-    *all_designs().keys()
+    "AESDesign",
+    "BlackParrotDesign",
+    "BlinkyDesign",
+    "DataVault",
+    "KeyVault",
+    "SHA512",
+    "CVA6Design",
+    "DarkSOCVDesign",
+    "DynamicNodeDesign",
+    "EthmacDesign",
+    "FazyRVDesign",
+    "GCDDesign",
+    "HeartbeatDesign",
+    "IBEXDesign",
+    "JPEGDesign",
+    "MockALUDesign",
+    "OpenMSP430Design",
+    "PicoRV32Design",
+    "QERVDesign",
+    "Riscv32iDesign",
+    "SERVDesign",
+    "SPIDesign",
+    "SwervDesign",
+    "TinyRocketDesign",
+    "UARTDesign",
+    "WallyDesign"
 ]
 
 
-def root():
-    return path.dirname(path.abspath(__file__))
+def all_designs() -> List[str]:
+    return __all__
