@@ -3,8 +3,10 @@ import pytest
 
 import siliconcompiler
 
+from siliconcompiler import Design
+
 from scgallery import Gallery
-from scgallery.designs import all_designs
+from scgallery import designs
 
 
 def test_has_name():
@@ -95,15 +97,14 @@ def test_default_targets():
                                      "asap7_asap7sc7p5t_rvt",
                                      "gf180_gf180mcu_fd_sc_mcu9t5v0",
                                      "gf180_gf180mcu_fd_sc_mcu7t5v0",
-                                     "ihp130_sg13g2_stdcell",
-                                     "None"]
+                                     "ihp130_sg13g2_stdcell"]
 
 
 def test_add_design():
     gallery = Gallery()
 
     assert "testing" not in gallery.get_designs()
-    gallery.add_design("testing", None)
+    gallery.add_design(Design("testing"))
     assert "testing" in gallery.get_designs()
 
 
@@ -123,18 +124,21 @@ def test_remove_design():
     assert "aes" not in gallery.get_designs()
 
 
-@pytest.mark.parametrize("design_name,design_cls",
-                         [(name, data) for name, data in all_designs().items()])
-def test_get_design(design_name, design_cls):
+@pytest.mark.parametrize("design_cls",
+                         [getattr(designs, design) for design in designs.all_designs()])
+def test_get_design(design_cls):
     gallery = Gallery()
 
-    assert isinstance(gallery.get_design(design_name), design_cls)
+    design = design_cls()
+
+    assert isinstance(gallery.get_design(design.name), design_cls)
 
 
 def test_get_designs():
     gallery = Gallery()
 
-    assert gallery.get_designs() == list(all_designs().keys())
+    assert gallery.get_designs() == [
+        getattr(designs, design)().name for design in designs.all_designs()]
 
 
 def test_set_remote():

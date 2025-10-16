@@ -1,10 +1,10 @@
 import pytest
 
-from scgallery.designs import all_designs
+from scgallery import designs
 
 
 @pytest.mark.parametrize("design_cls",
-                         [data for _, data in all_designs().items()])
+                         [getattr(designs, design) for design in designs.all_designs()])
 def test_check_filepaths(design_cls):
     design = design_cls()
     assert design.check_filepaths()
