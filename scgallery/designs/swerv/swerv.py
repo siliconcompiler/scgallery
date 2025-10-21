@@ -4,7 +4,6 @@ from scgallery import GalleryDesign
 from siliconcompiler import ASIC
 from siliconcompiler.targets import asap7_demo
 from siliconcompiler.tools.yosys.syn_asic import ASICSynthesis
-from siliconcompiler.tools import get_task
 
 
 class SwervDesign(GalleryDesign):
@@ -99,19 +98,19 @@ class SwervDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
 
     def setup_asap7(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
 
     def setup_ihp130(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
 
     def setup_gf180(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
 
     def setup_skywater130(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
 
 
 if __name__ == '__main__':
