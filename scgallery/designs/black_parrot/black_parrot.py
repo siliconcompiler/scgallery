@@ -9,7 +9,6 @@ from siliconcompiler import ASIC
 from siliconcompiler.targets import asap7_demo
 from siliconcompiler.tools.yosys.syn_asic import ASICSynthesis
 from lambdalib.ramlib import Spram
-from siliconcompiler.tools import get_task
 
 
 class BlackParrotDesign(GalleryDesign):
@@ -53,28 +52,28 @@ class BlackParrotDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", 'strategy', 'AREA3')
-        get_task(project, filter=ASICSynthesis).set("var", "flatten", False)
-        get_task(project, filter=ASICSynthesis).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
+        ASICSynthesis.find_task(project).set("var", "flatten", False)
+        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
 
     def setup_asap7(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", 'strategy', 'AREA3')
-        get_task(project, filter=ASICSynthesis).set("var", "flatten", False)
-        get_task(project, filter=ASICSynthesis).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
+        ASICSynthesis.find_task(project).set("var", "flatten", False)
+        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
 
     def setup_ihp130(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", 'strategy', 'AREA3')
-        get_task(project, filter=ASICSynthesis).set("var", "flatten", False)
-        get_task(project, filter=ASICSynthesis).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
+        ASICSynthesis.find_task(project).set("var", "flatten", False)
+        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
 
     def setup_gf180(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", 'strategy', 'AREA3')
-        get_task(project, filter=ASICSynthesis).set("var", "flatten", False)
-        get_task(project, filter=ASICSynthesis).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
+        ASICSynthesis.find_task(project).set("var", "flatten", False)
+        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
 
     def setup_skywater130(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "flatten", False)
-        get_task(project, filter=ASICSynthesis).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set("var", "flatten", False)
+        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
 
 
 if __name__ == '__main__':

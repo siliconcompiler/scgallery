@@ -10,7 +10,6 @@ from scgallery import GalleryDesign
 from siliconcompiler import ASIC
 from siliconcompiler.targets import asap7_demo
 from siliconcompiler.tools.openroad._apr import OpenROADGPLParameter
-from siliconcompiler.tools import get_task
 
 
 class AESDesign(GalleryDesign):
@@ -58,25 +57,25 @@ class AESDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
-        for task in get_task(project, filter=OpenROADGPLParameter):
+        for task in OpenROADGPLParameter.find_task(project):
             task.set("var", "place_density", 0.65)
 
     def setup_asap7(self, project: ASIC):
         project.constraint.area.set_density(25)
-        for task in get_task(project, filter=OpenROADGPLParameter):
+        for task in OpenROADGPLParameter.find_task(project):
             task.set("var", "place_density", 0.65)
 
     def setup_ihp130(self, project: ASIC):
-        for task in get_task(project, filter=OpenROADGPLParameter):
+        for task in OpenROADGPLParameter.find_task(project):
             task.set("var", "place_density", 0.65)
 
     def setup_gf180(self, project: ASIC):
-        for task in get_task(project, filter=OpenROADGPLParameter):
+        for task in OpenROADGPLParameter.find_task(project):
             task.set("var", "place_density", 0.65)
 
     def setup_skywater130(self, project: ASIC):
         project.constraint.area.set_density(30)
-        for task in get_task(project, filter=OpenROADGPLParameter):
+        for task in OpenROADGPLParameter.find_task(project):
             task.set("var", "place_density", 0.50)
 
 
