@@ -10,7 +10,6 @@ from siliconcompiler.targets import asap7_demo
 from lambdalib.ramlib import Spram
 from siliconcompiler.tools.openroad.macro_placement import MacroPlacementTask
 from siliconcompiler.tools.yosys.syn_asic import ASICSynthesis
-from siliconcompiler.tools import get_task
 
 
 class FazyRVDesign(GalleryDesign):
@@ -81,23 +80,23 @@ class FazyRVDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
-        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [10, 10])
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
+        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [10, 10])
 
     def setup_asap7(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
-        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [5, 1])
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
+        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [5, 1])
 
     def setup_ihp130(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
-        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 35])
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
+        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [20, 35])
         project.constraint.area.set_aspectratio(0.25)
 
     def setup_gf180(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
 
     def setup_skywater130(self, project: ASIC):
-        get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set("var", "use_slang", True)
         project.constraint.area.set_aspectratio(0.80)
 
 
