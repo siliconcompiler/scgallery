@@ -82,6 +82,8 @@ class Gallery:
         self.set_remote(None)
         self.set_scheduler(None)
 
+        self.set_sdcfileset_group("sdc")
+
     @property
     def name(self) -> Union[str, None]:
         """Name of the gallery."""
@@ -245,6 +247,14 @@ class Gallery:
         """
         self.__jobname = suffix
 
+    def set_sdcfileset_group(self, group: Optional[str]) -> None:
+        """Sets a sdc fileset group to use.
+
+        Args:
+            group (str): The group name.
+        """
+        self.__sdc_group = group
+
     def set_run_designs(self, designs: Iterable[str]) -> None:
         """Sets the designs to execute during a run.
 
@@ -292,7 +302,7 @@ class Gallery:
         has_sdc = False
         if not is_lint:
             mainlib = project.get("asic", "mainlib")
-            has_sdc = design_obj.has_fileset(f"sdc.{mainlib}")
+            has_sdc = design_obj.has_fileset(f"{self.__sdc_group}.{mainlib}")
 
         is_valid = has_sdc or is_lint
 
@@ -310,7 +320,7 @@ class Gallery:
         if isinstance(project, ASIC):
             pdk = project.get('asic', 'pdk')
             mainlib = project.get('asic', 'mainlib')
-            project.add_fileset(f"sdc.{mainlib}")
+            project.add_fileset(f"{self.__sdc_group}.{mainlib}")
             jobname = f"{pdk}_{mainlib}"
         else:
             jobname = "lint"
@@ -640,6 +650,12 @@ Designs: {designs_help}
                             metavar='<target>',
                             help='Name of target to run')
 
+        parser.add_argument('-sdc_group',
+                            type=str,
+                            metavar='<group>',
+                            help='Name of the sdc group to use',
+                            default="sdc")
+
         parser.add_argument('-path',
                             metavar='<path>',
                             help='Path to the gallery',
@@ -693,6 +709,7 @@ Designs: {designs_help}
         gallery.set_path(args.path)
         gallery.set_clean(args.clean)
         gallery.set_remote(args.remote)
+        gallery.set_sdcfileset_group(args.sdc_group)
 
         if args.scheduler:
             gallery.set_scheduler(args.scheduler)
