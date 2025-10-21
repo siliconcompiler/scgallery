@@ -354,8 +354,9 @@ class Gallery:
         self.__setup_run_chip(project, jobsuffix="_lint")
 
         try:
-            project.run(raise_exception=True)
+            project.run()
         except Exception:
+            project.logger.exception("Lint failed with exception")
             return False
 
         errors = project.history(project.option.get_jobname()).get('metric', 'errors',
