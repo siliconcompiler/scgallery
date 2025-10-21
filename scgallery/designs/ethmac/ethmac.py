@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 from scgallery import GalleryDesign
-from siliconcompiler import ASIC
+from siliconcompiler import ASIC, Lint
 from siliconcompiler.targets import asap7_demo
 from lambdalib.ramlib import Spram
-from siliconcompiler.tools.slang.lint import Lint
+from siliconcompiler.tools.slang.lint import Lint as SlangLint
 from siliconcompiler.tools.openroad.macro_placement import MacroPlacementTask
 
 
@@ -74,10 +74,12 @@ class EthmacDesign(GalleryDesign):
     def setup_gf180(self, project: ASIC):
         MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [20, 10])
 
-    def setup_lint(self, project: ASIC):
-        lint_task: Lint = Lint.find_task(project)
-        if lint_task:
+    def setup_lint(self, project: Lint):
+        try:
+            lint_task: SlangLint = SlangLint.find_task(project)
             lint_task.add_commandline_option(['--timescale', '1ns/1ns'])
+        except:  # noqa E722
+            pass
 
 
 if __name__ == '__main__':
