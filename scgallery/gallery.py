@@ -247,8 +247,8 @@ class Gallery:
         """
         self.__jobname = suffix
 
-    def set_sdcfileset_group(self, group: Optional[str]) -> None:
-        """Sets a sdc fileset group to use.
+    def set_sdcfileset_group(self, group: str) -> None:
+        """Sets an SDC fileset group to use.
 
         Args:
             group (str): The group name.
@@ -653,7 +653,7 @@ Designs: {designs_help}
         parser.add_argument('-sdc_group',
                             type=str,
                             metavar='<group>',
-                            help='Name of the sdc group to use',
+                            help='Name of the SDC group to use',
                             default="sdc")
 
         parser.add_argument('-path',
