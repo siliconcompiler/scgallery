@@ -45,20 +45,25 @@ class DarkSOCVDesign(GalleryDesign):
         super().__init__("darksocv")
 
         self.set_dataroot("extra", __file__)
-        self.set_dataroot("darkriscv",
-                          'git+https://github.com/darklife/darkriscv.git',
-                          tag='7c653744d29926499e1e562984b792099cdf25ad')
+        self.set_dataroot(
+            "darkriscv",
+            "git+https://github.com/darklife/darkriscv.git",
+            tag="7c653744d29926499e1e562984b792099cdf25ad",
+        )
 
         with self.active_dataroot("darkriscv"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("darksocv")
-                self.add_file([
-                    'rtl/darksocv.v',
-                    'rtl/darkriscv.v',
-                    'rtl/darkuart.v',
-                    'rtl/darkio.v',
-                    'rtl/darkbridge.v',
-                    'rtl/darkpll.v'])
+                self.add_file(
+                    [
+                        "rtl/darksocv.v",
+                        "rtl/darkriscv.v",
+                        "rtl/darkuart.v",
+                        "rtl/darkio.v",
+                        "rtl/darkbridge.v",
+                        "rtl/darkpll.v",
+                    ]
+                )
                 self.add_idir("rtl")
         with self.active_dataroot("extra"):
             with self.active_fileset("rtl"):
@@ -113,7 +118,7 @@ class DarkSOCVDesign(GalleryDesign):
             task.set("var", "gpl_uniform_placement_adjustment", 0.1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(DarkSOCVDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

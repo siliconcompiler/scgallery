@@ -4,8 +4,8 @@ import os
 
 @pytest.fixture(autouse=True)
 def test_tmp_directory(tmp_path):
-    '''Fixture that automatically runs each test in a test-specific temporary
-    directory to avoid clutter.'''
+    """Fixture that automatically runs each test in a test-specific temporary
+    directory to avoid clutter."""
     topdir = os.getcwd()
     os.chdir(tmp_path)
 

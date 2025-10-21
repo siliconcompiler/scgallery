@@ -12,20 +12,23 @@ class JPEGDesign(Design):
         with self.active_dataroot("jpeg"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("jpeg_encoder")
-                self.add_file([
-                    'src/jpeg_encoder.v',
-                    'src/jpeg_qnr.v',
-                    'src/jpeg_rle.v',
-                    'src/jpeg_rle1.v',
-                    'src/jpeg_rzs.v',
-                    'src/dct.v',
-                    'src/dct_mac.v',
-                    'src/dctu.v',
-                    'src/dctub.v',
-                    'src/div_su.v',
-                    'src/div_uu.v',
-                    'src/fdct.v',
-                    'src/zigzag.v'])
+                self.add_file(
+                    [
+                        "src/jpeg_encoder.v",
+                        "src/jpeg_qnr.v",
+                        "src/jpeg_rle.v",
+                        "src/jpeg_rle1.v",
+                        "src/jpeg_rzs.v",
+                        "src/dct.v",
+                        "src/dct_mac.v",
+                        "src/dctu.v",
+                        "src/dctub.v",
+                        "src/div_su.v",
+                        "src/div_uu.v",
+                        "src/fdct.v",
+                        "src/zigzag.v",
+                    ]
+                )
                 self.add_idir("src/include")
 
         with self.active_dataroot("jpeg"):
@@ -48,7 +51,7 @@ class JPEGDesign(Design):
                 self.add_file("constraints/sky130hd.sdc")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(JPEGDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

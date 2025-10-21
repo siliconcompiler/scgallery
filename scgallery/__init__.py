@@ -7,7 +7,4 @@ except ImportError:
 from .gallery import Gallery
 from .design import GalleryDesign
 
-__all__ = [
-    "Gallery",
-    "GalleryDesign"
-]
+__all__ = ["Gallery", "GalleryDesign"]

@@ -16,16 +16,18 @@ class SV2VFlow(ASICFlow):
 class _Base(Design):
     def __init__(self, name: str = None):
         super().__init__(name)
-        self.set_dataroot("caliptra",
-                          'git+https://github.com/chipsalliance/caliptra-rtl.git',
-                          tag="v1.0")
+        self.set_dataroot(
+            "caliptra",
+            "git+https://github.com/chipsalliance/caliptra-rtl.git",
+            tag="v1.0",
+        )
 
 
 class CaliptraTop(_Base):
     def __init__(self):
         super().__init__("caliptra_top_defines")
         with self.active_dataroot("caliptra"), self.active_fileset("rtl"):
-            self.add_idir('src/integration/rtl')
+            self.add_idir("src/integration/rtl")
 
 
 class CaliptraLibs(_Base):

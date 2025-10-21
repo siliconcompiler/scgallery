@@ -5,6 +5,7 @@ JSON-based rule files and construct a SiliconCompiler Checklist object. This
 checklist can then be used to validate metrics from a completed ASIC flow run
 against predefined criteria.
 """
+
 import json
 import fnmatch
 from typing import Optional, List, Tuple, Union, Iterable
@@ -15,20 +16,22 @@ from siliconcompiler import Checklist
 class ASICChecklist(Checklist):
     """A Checklist for validating ASIC flow results against a set of rules.
 
-    This class dynamically builds a checklist by loading rules from specified
-    JSON files. It filters the rules based on the target standard cell library
-    and flow, expands any wildcard definitions for flow steps or indices, and
-    constructs the criteria and tasks needed for verification by the
--   SiliconCompiler framework.
+        This class dynamically builds a checklist by loading rules from specified
+        JSON files. It filters the rules based on the target standard cell library
+        and flow, expands any wildcard definitions for flow steps or indices, and
+        constructs the criteria and tasks needed for verification by the
+    -   SiliconCompiler framework.
     """
 
-    def __init__(self,
-                 job: str,
-                 flow: str,
-                 mainlib: str,
-                 flow_nodes: Iterable[Tuple[str, str]],
-                 rules_files: Union[str, List[str], Tuple[str, ...]],
-                 skip_rules: Optional[List[str]] = None):
+    def __init__(
+        self,
+        job: str,
+        flow: str,
+        mainlib: str,
+        flow_nodes: Iterable[Tuple[str, str]],
+        rules_files: Union[str, List[str], Tuple[str, ...]],
+        skip_rules: Optional[List[str]] = None,
+    ):
         """Initializes and configures the ASIC flow checklist.
 
         Args:
@@ -53,7 +56,7 @@ class ASICChecklist(Checklist):
         self.set_name("asicflow_rules")
 
         if not rules_files:
-            raise ValueError('no rules file provided')
+            raise ValueError("no rules file provided")
 
         if not isinstance(rules_files, (list, tuple)):
             rules_files = [rules_files]
@@ -61,13 +64,13 @@ class ASICChecklist(Checklist):
         # Read in and merge all specified rule files
         rules = {}
         for rules_file in rules_files:
-            with open(rules_file, 'r') as f:
+            with open(rules_file, "r") as f:
                 rules.update(json.load(f))
 
         if mainlib not in rules:
-            raise ValueError(f'{mainlib} is missing from rules')
+            raise ValueError(f"{mainlib} is missing from rules")
         if flow not in rules[mainlib]:
-            raise ValueError(f'{flow} is missing from rules')
+            raise ValueError(f"{flow} is missing from rules")
 
         rules = rules[mainlib][flow]["rules"]
 
@@ -88,31 +91,33 @@ class ASICChecklist(Checklist):
 
             # Expand wildcard nodes based on the actual flow graph
             nodes = set()
-            for node in info['nodes']:
-                if node['step'] == '*':
+            for node in info["nodes"]:
+                if node["step"] == "*":
                     steps = [step for step, _ in flow_nodes]
                 else:
-                    steps = [node['step']]
+                    steps = [node["step"]]
 
                 for step in steps:
-                    if node['index'] == '*':
-                        indexes = [index for nstep, index in flow_nodes if step == nstep]
+                    if node["index"] == "*":
+                        indexes = [
+                            index for nstep, index in flow_nodes if step == nstep
+                        ]
                     else:
-                        indexes = [node['index']]
+                        indexes = [node["index"]]
 
                     for index in indexes:
                         nodes.add((job, step, index))
 
             # Construct criteria strings
             criteria = set()
-            for rule in info['criteria']:
-                if rule['value'] is None:
+            for rule in info["criteria"]:
+                if rule["value"] is None:
                     continue
 
                 criteria.add(f"{rule['metric']}{rule['operator']}{rule['value']}")
 
-            self.set(name, 'criteria', criteria)
-            self.set(name, 'task', nodes)
+            self.set(name, "criteria", criteria)
+            self.set(name, "task", nodes)
 
 
 if __name__ == "__main__":
@@ -120,10 +125,10 @@ if __name__ == "__main__":
     # The following code is for development purposes, primarily to reformat
     # the JSON template for better readability.
     try:
-        with open('asicflow_template.json', 'r') as f:
+        with open("asicflow_template.json", "r") as f:
             rules = json.load(f)
 
-        with open('asicflow_template.json', 'w') as f:
+        with open("asicflow_template.json", "w") as f:
             json.dump(rules, f, indent=4, sort_keys=True)
     except FileNotFoundError:
         print("asicflow_template.json not found. Skipping reformat.")

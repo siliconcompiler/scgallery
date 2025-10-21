@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-'''
+"""
 FazyRV -- A Scalable RISC-V Core
 A minimal-area RISC-V core with a scalable data path to 1, 2, 4, or 8 bits and manifold variants.
-'''
+"""
 
 from scgallery import GalleryDesign
 from siliconcompiler import ASIC
@@ -17,35 +17,40 @@ class FazyRVDesign(GalleryDesign):
     def __init__(self):
         super().__init__("fazyrv")
         self.set_dataroot("extra", __file__)
-        self.set_dataroot("fazyrv",
-                          'https://github.com/meiniKi/FazyRV/archive/',
-                          tag='f287cf56b06ed20ead2d1dd0aab0c64ee50c5133')
+        self.set_dataroot(
+            "fazyrv",
+            "https://github.com/meiniKi/FazyRV/archive/",
+            tag="f287cf56b06ed20ead2d1dd0aab0c64ee50c5133",
+        )
 
         with self.active_dataroot("fazyrv"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("fsoc")
-                self.add_file([
-                    'rtl/fazyrv_hadd.v',
-                    'rtl/fazyrv_fadd.v',
-                    'rtl/fazyrv_cmp.v',
-                    'rtl/fazyrv_alu.sv',
-                    'rtl/fazyrv_decode.sv',
-                    'rtl/fazyrv_decode_mem1.sv',
-                    'rtl/fazyrv_shftreg.sv',
-                    'rtl/fazyrv_csr.sv',
-                    'rtl/fazyrv_rf_lut.sv',
-                    'rtl/fazyrv_rf.sv',
-                    'rtl/fazyrv_pc.sv',
-                    'rtl/fazyrv_cntrl.sv',
-                    'rtl/fazyrv_spm_a.sv',
-                    'rtl/fazyrv_spm_d.sv',
-                    'rtl/fazyrv_core.sv',
-                    'rtl/fazyrv_top.sv',
-                    'soc/rtl/gpio.sv',
-                    'soc/rtl/fsoc.sv'])
+                self.add_file(
+                    [
+                        "rtl/fazyrv_hadd.v",
+                        "rtl/fazyrv_fadd.v",
+                        "rtl/fazyrv_cmp.v",
+                        "rtl/fazyrv_alu.sv",
+                        "rtl/fazyrv_decode.sv",
+                        "rtl/fazyrv_decode_mem1.sv",
+                        "rtl/fazyrv_shftreg.sv",
+                        "rtl/fazyrv_csr.sv",
+                        "rtl/fazyrv_rf_lut.sv",
+                        "rtl/fazyrv_rf.sv",
+                        "rtl/fazyrv_pc.sv",
+                        "rtl/fazyrv_cntrl.sv",
+                        "rtl/fazyrv_spm_a.sv",
+                        "rtl/fazyrv_spm_d.sv",
+                        "rtl/fazyrv_core.sv",
+                        "rtl/fazyrv_top.sv",
+                        "soc/rtl/gpio.sv",
+                        "soc/rtl/fsoc.sv",
+                    ]
+                )
                 self.set_param("RFTYPE", '"BRAM"')
                 self.set_param("CONF", '"MIN"')
-                self.set_param("CHUNKSIZE", '8')
+                self.set_param("CHUNKSIZE", "8")
                 self.add_define("SYNTHESIS")
 
         with self.active_dataroot("extra"):
@@ -82,15 +87,21 @@ class FazyRVDesign(GalleryDesign):
 
     def setup_freepdk45(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
-        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [10, 10])
+        get_task(project, filter=MacroPlacementTask).set(
+            "var", "macro_place_halo", [10, 10]
+        )
 
     def setup_asap7(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
-        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [5, 1])
+        get_task(project, filter=MacroPlacementTask).set(
+            "var", "macro_place_halo", [5, 1]
+        )
 
     def setup_ihp130(self, project: ASIC):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
-        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 35])
+        get_task(project, filter=MacroPlacementTask).set(
+            "var", "macro_place_halo", [20, 35]
+        )
         project.constraint.area.set_aspectratio(0.25)
 
     def setup_gf180(self, project: ASIC):
@@ -101,7 +112,7 @@ class FazyRVDesign(GalleryDesign):
         project.constraint.area.set_aspectratio(0.80)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(FazyRVDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

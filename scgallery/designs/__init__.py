@@ -53,7 +53,7 @@ __all__ = [
     "SwervDesign",
     "TinyRocketDesign",
     "UARTDesign",
-    "WallyDesign"
+    "WallyDesign",
 ]
 
 

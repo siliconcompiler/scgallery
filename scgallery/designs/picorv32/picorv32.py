@@ -8,9 +8,11 @@ class PicoRV32Design(Design):
     def __init__(self):
         super().__init__("picorv32")
         self.set_dataroot("extra", __file__)
-        self.set_dataroot("picorv32",
-                          'git+https://github.com/YosysHQ/picorv32.git',
-                          tag='c0acaebf0d50afc6e4d15ea9973b60f5f4d03c42')
+        self.set_dataroot(
+            "picorv32",
+            "git+https://github.com/YosysHQ/picorv32.git",
+            tag="c0acaebf0d50afc6e4d15ea9973b60f5f4d03c42",
+        )
 
         with self.active_dataroot("picorv32"):
             with self.active_fileset("rtl"):
@@ -37,7 +39,7 @@ class PicoRV32Design(Design):
                 self.add_file("constraints/sky130hd.sdc")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(PicoRV32Design())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

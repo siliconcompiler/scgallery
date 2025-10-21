@@ -9,9 +9,11 @@ class BlinkyDesign(Design):
         super().__init__("blinky")
 
         self.set_dataroot("extra", __file__)
-        self.set_dataroot("blinky",
-                          'git+https://github.com/fusesoc/blinky.git',
-                          tag='b88a2a644723fc0c44827750fd054f09ce316b0b')
+        self.set_dataroot(
+            "blinky",
+            "git+https://github.com/fusesoc/blinky.git",
+            tag="b88a2a644723fc0c44827750fd054f09ce316b0b",
+        )
 
         with self.active_dataroot("blinky"):
             with self.active_fileset("rtl"):
@@ -39,7 +41,7 @@ class BlinkyDesign(Design):
                 self.add_file("constraints/sky130hd.sdc")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(BlinkyDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

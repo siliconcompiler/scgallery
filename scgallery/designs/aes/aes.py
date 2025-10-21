@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-'''
+"""
 Advanced Encryption Standard
 
 Source: http://www.opencores.org/cores/aes_core/
-'''
+"""
 
 from scgallery import GalleryDesign
 from siliconcompiler import ASIC
@@ -22,13 +22,16 @@ class AESDesign(GalleryDesign):
         with self.active_dataroot("aes"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("aes_cipher_top")
-                self.add_file([
-                    'src/aes_cipher_top.v',
-                    'src/aes_inv_cipher_top.v',
-                    'src/aes_inv_sbox.v',
-                    'src/aes_key_expand_128.v',
-                    'src/aes_rcon.v',
-                    'src/aes_sbox.v'])
+                self.add_file(
+                    [
+                        "src/aes_cipher_top.v",
+                        "src/aes_inv_cipher_top.v",
+                        "src/aes_inv_sbox.v",
+                        "src/aes_key_expand_128.v",
+                        "src/aes_rcon.v",
+                        "src/aes_sbox.v",
+                    ]
+                )
                 self.add_idir("src")
 
         with self.active_dataroot("aes"):
@@ -80,7 +83,7 @@ class AESDesign(GalleryDesign):
             task.set("var", "place_density", 0.50)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(AESDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

@@ -21,7 +21,7 @@ def __process_cli_class(name):
 def main():
     cli_class = None
     if "-gallery" in sys.argv:
-        idx = sys.argv.index('-gallery')
+        idx = sys.argv.index("-gallery")
         if len(sys.argv) > idx + 1:
             cli_class = __process_cli_class(sys.argv[idx + 1])
 

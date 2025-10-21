@@ -12,10 +12,7 @@ class UARTDesign(Design):
         with self.active_dataroot("uart"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("uart")
-                self.add_file([
-                    'src/uart.v',
-                    'src/uart_tx.v',
-                    'src/uart_rx.v'])
+                self.add_file(["src/uart.v", "src/uart_tx.v", "src/uart_rx.v"])
 
         with self.active_dataroot("uart"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
@@ -37,7 +34,7 @@ class UARTDesign(Design):
                 self.add_file("constraints/sky130hd.sdc")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(UARTDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

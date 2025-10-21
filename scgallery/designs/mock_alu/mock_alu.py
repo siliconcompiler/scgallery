@@ -59,26 +59,27 @@ class MockALUDesign(GalleryDesign):
 
         task.add("var", "argument", ["--width", "64"])
         operations = [
-            'ADD',
-            'SUB',
-            'AND',
-            'OR',
-            'XOR',
-            'SHL',
-            'SHR',
-            'SRA',
-            'SETCC_EQ',
-            'SETCC_NE',
-            'SETCC_LT',
-            'SETCC_ULT',
-            'SETCC_LE',
-            'SETCC_ULE',
-            'MULT']
+            "ADD",
+            "SUB",
+            "AND",
+            "OR",
+            "XOR",
+            "SHL",
+            "SHR",
+            "SRA",
+            "SETCC_EQ",
+            "SETCC_NE",
+            "SETCC_LT",
+            "SETCC_ULT",
+            "SETCC_LE",
+            "SETCC_ULE",
+            "MULT",
+        ]
         task.add("var", "argument", ["--operations", ",".join(operations)])
         task.add("var", "argument", ["--tech", "none"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(MockALUDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

@@ -24,8 +24,9 @@ class GalleryDesign(Design):
         super().__init__(name)
         self.__setup: Dict[str, Set[Callable[[Union[ASIC, Lint]], None]]] = {}
 
-    def add_target_setup(self, target: str,
-                         func: Callable[[Union[ASIC, Lint]], None]) -> None:
+    def add_target_setup(
+        self, target: str, func: Callable[[Union[ASIC, Lint]], None]
+    ) -> None:
         """Adds a setup function for a specific target.
 
         This method registers a function that will be called to configure a

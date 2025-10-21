@@ -32,9 +32,9 @@ def test_no_name():
 def test_path_default():
     gallery = Gallery()
 
-    default_path = os.path.abspath(os.path.join(os.getcwd(),
-                                                'gallery',
-                                                siliconcompiler.__version__))
+    default_path = os.path.abspath(
+        os.path.join(os.getcwd(), "gallery", siliconcompiler.__version__)
+    )
 
     assert gallery.path == default_path
 
@@ -42,22 +42,22 @@ def test_path_default():
 def test_path_default_with_name():
     gallery = Gallery(name="testing")
 
-    default_path = os.path.abspath(os.path.join(os.getcwd(),
-                                                'gallery-testing',
-                                                siliconcompiler.__version__))
+    default_path = os.path.abspath(
+        os.path.join(os.getcwd(), "gallery-testing", siliconcompiler.__version__)
+    )
 
     assert gallery.path == default_path
 
 
 def test_path_default_with_path():
-    path = os.path.abspath('testing')
+    path = os.path.abspath("testing")
     gallery = Gallery(path=path)
 
     assert gallery.path == path
 
 
 def test_set_path():
-    path = os.path.abspath('testing')
+    path = os.path.abspath("testing")
     gallery = Gallery()
     gallery.set_path(path)
 
@@ -92,12 +92,14 @@ def test_remove_target_not_found():
 def test_default_targets():
     gallery = Gallery()
 
-    assert gallery.get_targets() == ["freepdk45_nangate45",
-                                     "skywater130_sky130hd",
-                                     "asap7_asap7sc7p5t_rvt",
-                                     "gf180_gf180mcu_fd_sc_mcu9t5v0",
-                                     "gf180_gf180mcu_fd_sc_mcu7t5v0",
-                                     "ihp130_sg13g2_stdcell"]
+    assert gallery.get_targets() == [
+        "freepdk45_nangate45",
+        "skywater130_sky130hd",
+        "asap7_asap7sc7p5t_rvt",
+        "gf180_gf180mcu_fd_sc_mcu9t5v0",
+        "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "ihp130_sg13g2_stdcell",
+    ]
 
 
 def test_add_design():
@@ -124,8 +126,9 @@ def test_remove_design():
     assert "aes" not in gallery.get_designs()
 
 
-@pytest.mark.parametrize("design_cls",
-                         [getattr(designs, design) for design in designs.all_designs()])
+@pytest.mark.parametrize(
+    "design_cls", [getattr(designs, design) for design in designs.all_designs()]
+)
 def test_get_design(design_cls):
     gallery = Gallery()
 
@@ -138,16 +141,17 @@ def test_get_designs():
     gallery = Gallery()
 
     assert gallery.get_designs() == [
-        getattr(designs, design)().name for design in designs.all_designs()]
+        getattr(designs, design)().name for design in designs.all_designs()
+    ]
 
 
 def test_set_remote():
     gallery = Gallery()
 
-    with open('testing.json', 'w') as f:
-        f.write('testfile')
+    with open("testing.json", "w") as f:
+        f.write("testfile")
 
-    gallery.set_remote('testing.json')
+    gallery.set_remote("testing.json")
 
     assert gallery.is_remote
 
@@ -155,10 +159,10 @@ def test_set_remote():
 def test_unset_remote():
     gallery = Gallery()
 
-    with open('testing.json', 'w') as f:
-        f.write('testfile')
+    with open("testing.json", "w") as f:
+        f.write("testfile")
 
-    gallery.set_remote('testing.json')
+    gallery.set_remote("testing.json")
     assert gallery.is_remote
     gallery.set_remote(None)
     assert not gallery.is_remote
@@ -194,4 +198,4 @@ def test_set_unset_clean():
 
 def test_set_jobname_suffix():
     gallery = Gallery()
-    gallery.set_jobname_suffix('testing')
+    gallery.set_jobname_suffix("testing")

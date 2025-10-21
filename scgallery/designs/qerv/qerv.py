@@ -12,17 +12,18 @@ class QERVDesign(GalleryDesign):
     def __init__(self):
         super().__init__("qerv")
         self.set_dataroot("extra", __file__)
-        self.set_dataroot("qerv",
-                          'git+https://github.com/olofk/qerv.git',
-                          tag='aa129c1eebf1cf6966ee06d6e50353db7cd24623')
+        self.set_dataroot(
+            "qerv",
+            "git+https://github.com/olofk/qerv.git",
+            tag="aa129c1eebf1cf6966ee06d6e50353db7cd24623",
+        )
 
         with self.active_dataroot("qerv"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("serv_synth_wrapper")
-                self.add_file([
-                    'rtl/serv_synth_wrapper.v',
-                    'rtl/serv_top.v',
-                    'rtl/qerv_immdec.v'])
+                self.add_file(
+                    ["rtl/serv_synth_wrapper.v", "rtl/serv_top.v", "rtl/qerv_immdec.v"]
+                )
                 self.add_depfileset(SERVDesign(), "rtl.serv_core")
 
         with self.active_dataroot("extra"):
@@ -67,7 +68,7 @@ class QERVDesign(GalleryDesign):
         get_task(project, filter=ASICSynthesis).set("var", "use_slang", True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(QERVDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

@@ -12,31 +12,34 @@ class Riscv32iDesign(Design):
         with self.active_dataroot("riscv32i"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("riscv")
-                self.add_file([
-                    'src/adder.v',
-                    'src/alu.v',
-                    'src/aludec.v',
-                    'src/controller.v',
-                    'src/datapath.v',
-                    'src/dmem.v',
-                    'src/flopenr.v',
-                    'src/flopens.v',
-                    'src/flopr.v',
-                    'src/magcompare2b.v',
-                    'src/magcompare2c.v',
-                    'src/magcompare32.v',
-                    'src/maindec.v',
-                    'src/mux2.v',
-                    'src/mux3.v',
-                    'src/mux4.v',
-                    'src/mux5.v',
-                    'src/mux8.v',
-                    'src/regfile.v',
-                    'src/riscv.v',
-                    'src/rom.v',
-                    'src/shifter.v',
-                    'src/signext.v',
-                    'src/top.v'])
+                self.add_file(
+                    [
+                        "src/adder.v",
+                        "src/alu.v",
+                        "src/aludec.v",
+                        "src/controller.v",
+                        "src/datapath.v",
+                        "src/dmem.v",
+                        "src/flopenr.v",
+                        "src/flopens.v",
+                        "src/flopr.v",
+                        "src/magcompare2b.v",
+                        "src/magcompare2c.v",
+                        "src/magcompare32.v",
+                        "src/maindec.v",
+                        "src/mux2.v",
+                        "src/mux3.v",
+                        "src/mux4.v",
+                        "src/mux5.v",
+                        "src/mux8.v",
+                        "src/regfile.v",
+                        "src/riscv.v",
+                        "src/rom.v",
+                        "src/shifter.v",
+                        "src/signext.v",
+                        "src/top.v",
+                    ]
+                )
 
         with self.active_dataroot("riscv32i"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
@@ -58,7 +61,7 @@ class Riscv32iDesign(Design):
                 self.add_file("constraints/sky130hd.sdc")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(Riscv32iDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

@@ -9,15 +9,18 @@ class DynamicNodeDesign(Design):
         super().__init__("dynamic_node")
 
         self.set_dataroot("extra", __file__)
-        self.set_dataroot("OPDB",
-                          'git+https://github.com/PrincetonUniversity/OPDB.git',
-                          tag='a80e536ba29779faed68e32d4a202f6b7a93bc9b')
+        self.set_dataroot(
+            "OPDB",
+            "git+https://github.com/PrincetonUniversity/OPDB.git",
+            tag="a80e536ba29779faed68e32d4a202f6b7a93bc9b",
+        )
 
         with self.active_dataroot("OPDB"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("dynamic_node_top_wrap")
                 self.add_file(
-                    "modules/dynamic_node_2dmesh/NETWORK_2dmesh/dynamic_node_2dmesh.pickle.v")
+                    "modules/dynamic_node_2dmesh/NETWORK_2dmesh/dynamic_node_2dmesh.pickle.v"
+                )
 
         with self.active_dataroot("extra"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
@@ -39,7 +42,7 @@ class DynamicNodeDesign(Design):
                 self.add_file("constraints/sky130hd.sdc")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(DynamicNodeDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

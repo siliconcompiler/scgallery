@@ -17,33 +17,36 @@ class EthmacDesign(GalleryDesign):
         with self.active_dataroot("ethmac"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("ethmac")
-                self.add_file([
-                    'src/ethmac.v',
-                    'src/ethmac_defines.v',
-                    'src/eth_clockgen.v',
-                    'src/eth_cop.v',
-                    'src/eth_crc.v',
-                    'src/eth_fifo.v',
-                    'src/eth_maccontrol.v',
-                    'src/eth_macstatus.v',
-                    'src/eth_miim.v',
-                    'src/eth_outputcontrol.v',
-                    'src/eth_random.v',
-                    'src/eth_receivecontrol.v',
-                    'src/eth_register.v',
-                    'src/eth_registers.v',
-                    'src/eth_rxaddrcheck.v',
-                    'src/eth_rxcounters.v',
-                    'src/eth_rxethmac.v',
-                    'src/eth_rxstatem.v',
-                    'src/eth_shiftreg.v',
-                    'src/eth_spram_256x32.v',
-                    'src/eth_top.v',
-                    'src/eth_transmitcontrol.v',
-                    'src/eth_txcounters.v',
-                    'src/eth_txethmac.v',
-                    'src/eth_txstatem.v',
-                    'src/eth_wishbone.v'])
+                self.add_file(
+                    [
+                        "src/ethmac.v",
+                        "src/ethmac_defines.v",
+                        "src/eth_clockgen.v",
+                        "src/eth_cop.v",
+                        "src/eth_crc.v",
+                        "src/eth_fifo.v",
+                        "src/eth_maccontrol.v",
+                        "src/eth_macstatus.v",
+                        "src/eth_miim.v",
+                        "src/eth_outputcontrol.v",
+                        "src/eth_random.v",
+                        "src/eth_receivecontrol.v",
+                        "src/eth_register.v",
+                        "src/eth_registers.v",
+                        "src/eth_rxaddrcheck.v",
+                        "src/eth_rxcounters.v",
+                        "src/eth_rxethmac.v",
+                        "src/eth_rxstatem.v",
+                        "src/eth_shiftreg.v",
+                        "src/eth_spram_256x32.v",
+                        "src/eth_top.v",
+                        "src/eth_transmitcontrol.v",
+                        "src/eth_txcounters.v",
+                        "src/eth_txethmac.v",
+                        "src/eth_txstatem.v",
+                        "src/eth_wishbone.v",
+                    ]
+                )
                 self.add_define("ETH_VIRTUAL_SILICON_RAM")
                 self.add_file("extra/lambda.v")
                 self.add_depfileset(Spram(), "rtl")
@@ -73,15 +76,17 @@ class EthmacDesign(GalleryDesign):
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
 
     def setup_gf180(self, project: ASIC):
-        get_task(project, filter=MacroPlacementTask).set("var", "macro_place_halo", [20, 10])
+        get_task(project, filter=MacroPlacementTask).set(
+            "var", "macro_place_halo", [20, 10]
+        )
 
     def setup_lint(self, project: ASIC):
         lint_task: Lint = get_task(project, filter=Lint)
         if lint_task:
-            lint_task.add_commandline_option(['--timescale', '1ns/1ns'])
+            lint_task.add_commandline_option(["--timescale", "1ns/1ns"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(EthmacDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")

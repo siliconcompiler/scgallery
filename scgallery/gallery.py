@@ -56,23 +56,22 @@ class Gallery:
 
         self.__targets: Dict[str, Callable[[Union[ASIC, Lint]], None]] = {}
         for name, target in (
-                ("freepdk45_nangate45", freepdk45_nangate45),
-                ("skywater130_sky130hd", sky130_sky130hd),
-                ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
-                ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
-                ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
-                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell)):
+            ("freepdk45_nangate45", freepdk45_nangate45),
+            ("skywater130_sky130hd", sky130_sky130hd),
+            ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
+            ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
+            ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
+            ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
+        ):
             self.add_target(name, target)
 
         self.__designs: Dict[str, Design] = {}
         from scgallery import designs
+
         for design in designs.all_designs():
             self.add_design(getattr(designs, design)())
 
-        self.__run_config = {
-            "targets": set(),
-            "designs": set()
-        }
+        self.__run_config = {"targets": set(), "designs": set()}
 
         self.__status = []
         self.__report_chips = {}
@@ -116,12 +115,10 @@ class Gallery:
             path (str): Path to the gallery output directory.
         """
         if not path:
-            default_path = 'gallery'
+            default_path = "gallery"
             if self.has_name:
-                default_path = f'{default_path}-{self.name}'
-            path = os.path.join(os.getcwd(),
-                                default_path,
-                                siliconcompiler.__version__)
+                default_path = f"{default_path}-{self.name}"
+            path = os.path.join(os.getcwd(), default_path, siliconcompiler.__version__)
         self.__path = os.path.abspath(path)
 
     def add_target(self, name: str, func: Callable[[Union[ASIC, Lint]], None]) -> None:
@@ -198,7 +195,9 @@ class Gallery:
         if remote:
             remote = os.path.abspath(remote)
             if not os.path.isfile(remote):
-                raise FileNotFoundError(f'{remote} does not exist or is not a regular file')
+                raise FileNotFoundError(
+                    f"{remote} does not exist or is not a regular file"
+                )
         self.__remote = remote
 
     @property
@@ -251,8 +250,8 @@ class Gallery:
         Args:
             designs (List[str]): A list of design names.
         """
-        self.__run_config['designs'].clear()
-        self.__run_config['designs'].update(designs)
+        self.__run_config["designs"].clear()
+        self.__run_config["designs"].update(designs)
 
     def set_run_targets(self, targets: Iterable[str]) -> None:
         """Sets the targets to use during a run.
@@ -260,10 +259,12 @@ class Gallery:
         Args:
             targets (List[str]): A list of target names.
         """
-        self.__run_config['targets'].clear()
-        self.__run_config['targets'].update(targets)
+        self.__run_config["targets"].clear()
+        self.__run_config["targets"].update(targets)
 
-    def __setup_design(self, design: str, target: str) -> Tuple[Union[Lint, ASIC], bool]:
+    def __setup_design(
+        self, design: str, target: str
+    ) -> Tuple[Union[Lint, ASIC], bool]:
         """Prepares a project object for a given design and target.
 
         Args:
@@ -298,9 +299,9 @@ class Gallery:
 
         return project, is_valid
 
-    def __setup_run_chip(self,
-                         project: Union[ASIC, Lint],
-                         jobsuffix: Optional[str] = None) -> None:
+    def __setup_run_chip(
+        self, project: Union[ASIC, Lint], jobsuffix: Optional[str] = None
+    ) -> None:
         """Configures common run options for a project.
 
         Args:
@@ -308,8 +309,8 @@ class Gallery:
             jobsuffix (str, optional): An optional suffix for the job name.
         """
         if isinstance(project, ASIC):
-            pdk = project.get('asic', 'pdk')
-            mainlib = project.get('asic', 'mainlib')
+            pdk = project.get("asic", "pdk")
+            mainlib = project.get("asic", "mainlib")
             project.add_fileset(f"sdc.{mainlib}")
             jobname = f"{pdk}_{mainlib}"
         else:
@@ -345,7 +346,7 @@ class Gallery:
             Union[bool, None]: True if linting passes with zero errors,
             False otherwise. None if no project is configured.
         """
-        project = design['project']
+        project = design["project"]
 
         if not project:
             return None
@@ -358,8 +359,9 @@ class Gallery:
         except Exception:
             return False
 
-        errors = project.history(project.option.get_jobname()).get('metric', 'errors',
-                                                                   step='lint', index='0')
+        errors = project.history(project.option.get_jobname()).get(
+            "metric", "errors", step="lint", index="0"
+        )
         return errors == 0
 
     def __run_design(self, design: Dict) -> Tuple[Union[ASIC, Lint], bool]:
@@ -372,7 +374,7 @@ class Gallery:
             Tuple[Union[ASIC, Lint], bool]: The project object and a boolean
             indicating if the run succeeded.
         """
-        project: Union[Lint, ASIC] = design['project']
+        project: Union[Lint, ASIC] = design["project"]
         self.__setup_run_chip(project)
 
         try:
@@ -389,23 +391,22 @@ class Gallery:
             project (ASIC): The project object from the run.
             succeeded (bool): Whether the run completed without exceptions.
         """
-        report_data = {
-            "project": project,
-            "platform": project.get('asic', 'pdk')
-        }
+        report_data = {"project": project, "platform": project.get("asic", "pdk")}
         self.__report_chips.setdefault(design, []).append(report_data)
 
         if succeeded:
             project.summary()
             project.snapshot(display=False)
 
-        self.__status.append({
-            "design": design,
-            "pdk": project.get('asic', 'pdk'),
-            "mainlib": project.get('asic', 'mainlib'),
-            "error": not succeeded,
-            "project": project
-        })
+        self.__status.append(
+            {
+                "design": design,
+                "pdk": project.get("asic", "pdk"),
+                "mainlib": project.get("asic", "mainlib"),
+                "error": not succeeded,
+                "project": project,
+            }
+        )
 
         if not succeeded:
             project.logger.error("Run failed")
@@ -422,17 +423,19 @@ class Gallery:
             report_data (Dict): A dictionary to store report metadata.
         """
         jobname = project.option.get_jobname()
-        png_source = os.path.join(paths.jobdir(project), f'{project.name}.png')
-        file_root = f'{project.name}_{jobname}'
+        png_source = os.path.join(paths.jobdir(project), f"{project.name}.png")
+        file_root = f"{project.name}_{jobname}"
 
         if os.path.isfile(png_source):
-            img_dest = os.path.join(self.path, f'{file_root}.png')
+            img_dest = os.path.join(self.path, f"{file_root}.png")
             shutil.copy(png_source, img_dest)
             report_data["path"] = img_dest
 
-        curation.archive(project,
-                         include=['reports', '*.log'],
-                         archive_name=os.path.join(self.path, f'{file_root}.tgz'))
+        curation.archive(
+            project,
+            include=["reports", "*.log"],
+            archive_name=os.path.join(self.path, f"{file_root}.tgz"),
+        )
 
     def __get_runnable_jobs(self) -> List[Dict]:
         """Generates a sorted list of jobs to be executed.
@@ -448,18 +451,20 @@ class Gallery:
                 return
 
             print_text = f'Running "{design}" with "{target}"'
-            regular_jobs.append({
-                "print": print_text,
-                "design": design,
-                "project": project,
-                "target": target
-            })
+            regular_jobs.append(
+                {
+                    "print": print_text,
+                    "design": design,
+                    "project": project,
+                    "target": target,
+                }
+            )
 
         config_threads = [
             threading.Thread(target=_run_setup, args=(design, target))
-            for design in self.__run_config['designs']
+            for design in self.__run_config["designs"]
             if design in self.__designs
-            for target in self.__run_config['targets']
+            for target in self.__run_config["targets"]
         ]
 
         for thread in config_threads:
@@ -489,14 +494,14 @@ class Gallery:
         status = {}
         has_error = False
         for job in self.__get_runnable_jobs():
-            print(job['print'])
+            print(job["print"])
             lint_status = self.__lint(job, tool)
             if lint_status is not None:
                 has_error |= not lint_status
-                status[job['design'], job['target']] = lint_status
+                status[job["design"], job["target"]] = lint_status
 
         for (design, target), result in status.items():
-            title = f"Lint on \"{design}\" with \"{target}\""
+            title = f'Lint on "{design}" with "{target}"'
             print(f"{title}: {'Passed' if result else 'Failed'}")
 
         return not has_error
@@ -520,20 +525,23 @@ class Gallery:
             return False
 
         if self.is_remote:
+
             def _run_remote(job):
                 project, succeeded = self.__run_design(job)
-                self.__finalize(job['design'], project, succeeded)
+                self.__finalize(job["design"], project, succeeded)
 
-            threads = [threading.Thread(target=_run_remote, args=(job,)) for job in jobs_to_run]
+            threads = [
+                threading.Thread(target=_run_remote, args=(job,)) for job in jobs_to_run
+            ]
             for t in threads:
                 t.start()
             for t in threads:
                 t.join()
         else:
             for job in jobs_to_run:
-                print(job['print'])
+                print(job["print"])
                 project, succeeded = self.__run_design(job)
-                self.__finalize(job['design'], project, succeeded)
+                self.__finalize(job["design"], project, succeeded)
 
         self.summary()
         return not any(data["error"] for data in self.__status)
@@ -543,9 +551,11 @@ class Gallery:
         print("Run summary:")
         overall_passed = True
         for status in self.__status:
-            print(f"  Design: {status['project'].name} on {status['pdk']} "
-                  f"with mainlib {status['mainlib']}")
-            if status['error']:
+            print(
+                f"  Design: {status['project'].name} on {status['pdk']} "
+                f"with mainlib {status['mainlib']}"
+            )
+            if status["error"]:
                 overall_passed = False
                 print("    Status: Failed")
             else:
@@ -611,81 +621,89 @@ class Gallery:
         targets_help = format_list(gallery.get_targets(), 9)
         designs_help = format_list(gallery.get_designs(), 9)
 
-        description = f'''
+        description = f"""
 {gallery.title}
 
 Targets: {targets_help}
 Designs: {designs_help}
-'''
+"""
 
         design_choices = ArgChoiceGlob(gallery.__designs.keys())
         target_choices = ArgChoiceGlob(gallery.__targets.keys())
 
         parser = argparse.ArgumentParser(
-            prog='sc-gallery',
+            prog="sc-gallery",
             description=description,
-            formatter_class=argparse.RawDescriptionHelpFormatter
+            formatter_class=argparse.RawDescriptionHelpFormatter,
         )
 
-        parser.add_argument('-design',
-                            action='append',
-                            choices=design_choices,
-                            metavar='<design>',
-                            help='Name of design to run')
+        parser.add_argument(
+            "-design",
+            action="append",
+            choices=design_choices,
+            metavar="<design>",
+            help="Name of design to run",
+        )
 
-        parser.add_argument('-target',
-                            action='append',
-                            choices=target_choices,
-                            metavar='<target>',
-                            help='Name of target to run')
+        parser.add_argument(
+            "-target",
+            action="append",
+            choices=target_choices,
+            metavar="<target>",
+            help="Name of target to run",
+        )
 
-        parser.add_argument('-path',
-                            metavar='<path>',
-                            help='Path to the gallery',
-                            default=gallery.path)
+        parser.add_argument(
+            "-path", metavar="<path>", help="Path to the gallery", default=gallery.path
+        )
 
-        parser.add_argument('-remote',
-                            metavar='<path>',
-                            nargs='?',
-                            action='store',
-                            const=default_credentials_file(),
-                            default=None,
-                            help='Perform a remote run, '
-                                 'optionally provides path to remote credentials')
+        parser.add_argument(
+            "-remote",
+            metavar="<path>",
+            nargs="?",
+            action="store",
+            const=default_credentials_file(),
+            default=None,
+            help="Perform a remote run, optionally provides path to remote credentials",
+        )
 
-        parser.add_argument('-scheduler',
-                            choices=NodeType.parse(
-                                ASIC().get('option', 'scheduler', 'name',
-                                           field='type')).values,
-                            help='Select the scheduler to use during exection')
+        parser.add_argument(
+            "-scheduler",
+            choices=NodeType.parse(
+                ASIC().get("option", "scheduler", "name", field="type")
+            ).values,
+            help="Select the scheduler to use during exection",
+        )
 
-        parser.add_argument('-clean',
-                            action='store_true',
-                            help='Use option,clean')
+        parser.add_argument("-clean", action="store_true", help="Use option,clean")
 
-        parser.add_argument('-gallery',
-                            metavar='<module>',
-                            help='Python module for custom galleries')
+        parser.add_argument(
+            "-gallery", metavar="<module>", help="Python module for custom galleries"
+        )
 
-        parser.add_argument('-skip_rules',
-                            metavar='<rule>',
-                            nargs='+',
-                            help='List of regex names for rules to skip in checks')
+        parser.add_argument(
+            "-skip_rules",
+            metavar="<rule>",
+            nargs="+",
+            help="List of regex names for rules to skip in checks",
+        )
 
-        parser.add_argument('-json',
-                            metavar='<path>',
-                            help='Generate json matrix of designs and targets')
+        parser.add_argument(
+            "-json",
+            metavar="<path>",
+            help="Generate json matrix of designs and targets",
+        )
 
-        parser.add_argument('-lint',
-                            action='store_true',
-                            help='Run lint only')
+        parser.add_argument("-lint", action="store_true", help="Run lint only")
 
-        parser.add_argument('-lint_tool',
-                            choices=['verilator', 'slang'],
-                            default='verilator',
-                            help='Tool to use for linting')
+        parser.add_argument(
+            "-lint_tool",
+            choices=["verilator", "slang"],
+            default="verilator",
+            help="Tool to use for linting",
+        )
 
-        parser.add_argument('-version', action='version', version=__version__)
+        parser.add_argument("-version", action="version", version=__version__)
 
         args = parser.parse_args()
 
@@ -709,14 +727,20 @@ Designs: {designs_help}
         if args.json:
             matrix = []
             for data in gallery.__get_runnable_jobs():
-                matrix.append({"design": data["design"], "target": data["target"], "remote": False})
+                matrix.append(
+                    {
+                        "design": data["design"],
+                        "target": data["target"],
+                        "remote": False,
+                    }
+                )
 
             if os.path.exists(args.json):
                 json_matrix = []
-                with open(args.json, 'r') as f:
+                with open(args.json, "r") as f:
                     json_matrix = json.load(f)
 
-                spare_fields = ('skip', 'cache')
+                spare_fields = ("skip", "cache")
                 for config in json_matrix:
                     has_extra = False
                     for key in spare_fields:
@@ -727,16 +751,16 @@ Designs: {designs_help}
                         # Copy extra information
                         for new_config in matrix:
                             match = [
-                                new_config[key] == config[key] for key in ('design',
-                                                                           'target')
+                                new_config[key] == config[key]
+                                for key in ("design", "target")
                             ]
                             if all(match):
-                                if 'skip' in config:
-                                    new_config['cache'] = False
+                                if "skip" in config:
+                                    new_config["cache"] = False
                                 for key, value in config.items():
                                     new_config[key] = value
 
-            with open(args.json, 'w') as f:
+            with open(args.json, "w") as f:
                 json.dump(matrix, f, indent=4, sort_keys=True)
             return 0
 

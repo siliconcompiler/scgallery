@@ -13,11 +13,14 @@ class TinyRocketDesign(Design):
         with self.active_dataroot("tiny_rocket"):
             with self.active_fileset("rtl"):
                 self.set_topmodule("RocketTile")
-                self.add_file([
-                    'src/freechips.rocketchip.system.TinyConfig.v',
-                    'src/AsyncResetReg.v',
-                    'src/ClockDivider2.v',
-                    'src/plusarg_reader.v'])
+                self.add_file(
+                    [
+                        "src/freechips.rocketchip.system.TinyConfig.v",
+                        "src/AsyncResetReg.v",
+                        "src/ClockDivider2.v",
+                        "src/plusarg_reader.v",
+                    ]
+                )
                 self.add_file("extra/lambda.v")
                 self.add_depfileset(Spram(), "rtl")
                 self.add_define("SYNTHESIS")
@@ -42,7 +45,7 @@ class TinyRocketDesign(Design):
                 self.add_file("constraints/sky130hd.sdc")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     project = ASIC(TinyRocketDesign())
     project.add_fileset("rtl")
     project.add_fileset("sdc.asap7sc7p5t_rvt")
