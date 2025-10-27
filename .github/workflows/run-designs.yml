@@ -160,21 +160,21 @@ jobs:
           fetch-depth: 0
 
       - name: Get gallery
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist-gallery
 
       - name: Get siliconcompiler
         if: inputs.sc-ref != ''
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: ${{ needs.package_siliconcompiler.outputs.name }}
           path: dist-sc
 
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: ${{ needs.package_lambdapdk.outputs.name }}
           path: dist-pdk
@@ -210,7 +210,7 @@ jobs:
           repository: siliconcompiler/lambdapdk
 
       - name: Upload
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v5
         with:
           name: gallery-cache
           path: .sc/cache
@@ -226,7 +226,7 @@ jobs:
       version: ${{ steps.sc_version.outputs.version }}
 
     steps:
-      - uses: actions/download-artifact@v5.0.0
+      - uses: actions/download-artifact@v6.0.0
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist
@@ -268,21 +268,21 @@ jobs:
     name: Run design
     steps:
       - name: Get gallery
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: ${{ needs.wheel.outputs.name }}
           path: dist-gallery
 
       - name: Get siliconcompiler
         if: inputs.sc-ref != ''
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: ${{ needs.package_siliconcompiler.outputs.name }}
           path: dist-sc
 
       - name: Get lambdapdk
         if: inputs.lambdapdk-ref != ''
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: ${{ needs.package_lambdapdk.outputs.name }}
           path: dist-pdk
@@ -294,7 +294,7 @@ jobs:
           pip3 install $wheels
 
       - name: Restore cache
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v6.0.0
         with:
           name: gallery-cache
           path: /github/home/.sc/cache/
@@ -323,7 +323,7 @@ jobs:
       - name: Upload gallery image
         if: always() && !cancelled()
         continue-on-error: true
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.artifact_name.outputs.name }}-image
           path: gallery/*/*.png
@@ -333,7 +333,7 @@ jobs:
       - name: Upload run manifest
         if: always() && !cancelled()
         continue-on-error: true
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.artifact_name.outputs.name }}-manifest
           path: build/*/*/*.pkg.json
@@ -344,7 +344,7 @@ jobs:
         id: upload_run
         if: always() && !cancelled()
         continue-on-error: true
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.artifact_name.outputs.name }}-build
           path: gallery/*/*.tgz
@@ -354,7 +354,7 @@ jobs:
       - name: Upload build directory
         if: always() && !cancelled() && steps.upload_run.outputs.artifact-id == ''
         continue-on-error: true
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.artifact_name.outputs.name }}-builddir
           path: build/
@@ -364,7 +364,7 @@ jobs:
       - name: Upload issue artifacts
         if: always() && !cancelled()
         continue-on-error: true
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.artifact_name.outputs.name }}-issue
           path: build/*/*/sc_issue*.tar.gz
@@ -379,7 +379,7 @@ jobs:
 
     steps:
       - name: Merge images
-        uses: actions/upload-artifact/merge@v4
+        uses: actions/upload-artifact/merge@v5
         with:
           name: images
           pattern: '*-image'
@@ -394,7 +394,7 @@ jobs:
 
     steps:
       - name: Merge manifests
-        uses: actions/upload-artifact/merge@v4
+        uses: actions/upload-artifact/merge@v5
         with:
           name: manifests
           pattern: '*-manifest'
