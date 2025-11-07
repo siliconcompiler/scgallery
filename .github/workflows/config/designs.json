@@ -27,7 +27,9 @@
     {
         "design": "aes",
         "remote": false,
-        "target": "skywater130_sky130hd"
+        "target": "skywater130_sky130hd",
+        "cache": false,
+        "skip": "[ERROR DRT-0255] Maze Route cannot https://github.com/The-OpenROAD-Project/OpenROAD/issues/8806"
     },
     {
         "cache": true,
