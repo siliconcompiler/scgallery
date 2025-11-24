@@ -51,7 +51,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: siliconcompiler/scgallery
           ref: ${{ inputs.scgallery-ref }}
@@ -94,7 +94,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: siliconcompiler/scgallery
           ref: ${{ inputs.scgallery-ref }}
@@ -115,7 +115,7 @@ jobs:
 
     steps:
       - name: Get lambdapdk
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.lambdapdk-ref }}
           repository: siliconcompiler/lambdapdk
@@ -135,7 +135,7 @@ jobs:
 
     steps:
       - name: Get siliconcompiler
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.sc-ref }}
           repository: siliconcompiler/siliconcompiler
@@ -153,7 +153,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: siliconcompiler/scgallery
           ref: ${{ inputs.scgallery-ref }}
@@ -202,7 +202,7 @@ jobs:
           rm -rf $lpath
 
       - name: Get lambdapdk
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         if: inputs.lambdapdk-ref != ''
         with:
           path: ${{ steps.lambdapdk-path.outputs.path }}
