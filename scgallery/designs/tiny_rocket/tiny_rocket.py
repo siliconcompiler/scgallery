@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASIC, Design
+from siliconcompiler import ASIC
+from scgallery import GalleryDesign
 from siliconcompiler.targets import asap7_demo
 from lambdalib.ramlib import Spram
+from siliconcompiler.tools.openroad.macro_placement import MacroPlacementTask
 
 
-class TinyRocketDesign(Design):
+class TinyRocketDesign(GalleryDesign):
     def __init__(self):
         super().__init__("tiny_rocket")
         self.set_dataroot("tiny_rocket", __file__)
@@ -40,6 +42,11 @@ class TinyRocketDesign(Design):
 
             with self.active_fileset("sdc.sky130hd"):
                 self.add_file("constraints/sky130hd.sdc")
+
+        self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
+
+    def setup_ihp130(self, project: ASIC):
+        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", (40, 60))
 
 
 if __name__ == '__main__':
