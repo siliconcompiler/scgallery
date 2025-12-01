@@ -463,9 +463,7 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "skywater130_sky130hd",
-        "cache": false,
-        "skip": "[ERROR DRT-0255] Maze Route cannot find path of net _05196_ in worker of routeBox: https://github.com/The-OpenROAD-Project/OpenROAD/issues/8755"
+        "target": "skywater130_sky130hd"
     },
     {
         "design": "jpeg",
