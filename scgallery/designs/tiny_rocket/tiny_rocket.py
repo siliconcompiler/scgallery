@@ -53,6 +53,7 @@ class TinyRocketDesign(GalleryDesign):
     def setup_gf180(self, project: ASIC):
         MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [20, 10])
 
+
 if __name__ == '__main__':
     project = ASIC(TinyRocketDesign())
     project.add_fileset("rtl")
