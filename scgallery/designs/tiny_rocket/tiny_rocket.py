@@ -44,10 +44,14 @@ class TinyRocketDesign(GalleryDesign):
                 self.add_file("constraints/sky130hd.sdc")
 
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
+        self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
 
     def setup_ihp130(self, project: ASIC):
         MacroPlacementTask.find_task(project).set("var", "macro_place_halo", (40, 60))
 
+    def setup_gf180(self, project: ASIC):
+        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [20, 10])
 
 if __name__ == '__main__':
     project = ASIC(TinyRocketDesign())
