@@ -463,7 +463,9 @@
     {
         "design": "ibex",
         "remote": false,
-        "target": "skywater130_sky130hd"
+        "target": "skywater130_sky130hd",
+        "cache": false,
+        "skip": "Fails in global route: https://github.com/The-OpenROAD-Project/OpenROAD/issues/8975"
     },
     {
         "design": "jpeg",
