@@ -752,7 +752,9 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
+        "target": "asap7_asap7sc7p5t_rvt",
+        "cache": false,
+        "skip": "Fails in detailed route: Related https://github.com/The-OpenROAD-Project/OpenROAD/issues/8975"
     },
     {
         "design": "tiny_rocket",
