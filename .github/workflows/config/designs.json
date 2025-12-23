@@ -276,7 +276,9 @@
     {
         "design": "darksocv",
         "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
+        "target": "ihp130_sg13g2_stdcell",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/pull/9071 and https://github.com/IHP-GmbH/IHP-Open-PDK/issues/767",
+        "cache": false
     },
     {
         "design": "darksocv",
@@ -336,7 +338,9 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
+        "target": "ihp130_sg13g2_stdcell",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/pull/9071 and https://github.com/IHP-GmbH/IHP-Open-PDK/issues/767",
+        "cache": false
     },
     {
         "design": "ethmac",
@@ -776,7 +780,9 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
+        "target": "ihp130_sg13g2_stdcell",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/pull/9071 and https://github.com/IHP-GmbH/IHP-Open-PDK/issues/767",
+        "cache": false
     },
     {
         "cache": false,
