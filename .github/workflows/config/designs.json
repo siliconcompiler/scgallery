@@ -266,12 +266,16 @@
     {
         "design": "darksocv",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/issues/9251",
+        "cache": false
     },
     {
         "design": "darksocv",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/issues/9251",
+        "cache": false
     },
     {
         "design": "darksocv",
@@ -326,12 +330,16 @@
     {
         "design": "ethmac",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/issues/9251",
+        "cache": false
     },
     {
         "design": "ethmac",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/issues/9251",
+        "cache": false
     },
     {
         "design": "ethmac",
@@ -764,7 +772,9 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0",
+        "skip": "Broken due to https://github.com/The-OpenROAD-Project/OpenROAD/issues/9251",
+        "cache": false
     },
     {
         "design": "tiny_rocket",
