@@ -54,10 +54,10 @@ module dmem (clk, r_w, mem_addr, mem_data, mem_out);
 
    always @* begin
       case (sel_mem)
-        2'b00: mem_out = inter_dmem3;
-        2'b01: mem_out = inter_dmem2;
-        2'b10: mem_out = inter_dmem1;
-        2'b11: mem_out = inter_dmem0;
+        2'b00: mem_out = inter_dmem0;
+        2'b01: mem_out = inter_dmem1;
+        2'b10: mem_out = inter_dmem2;
+        2'b11: mem_out = inter_dmem3;
       endcase // case (sel_mem)
    end
 
