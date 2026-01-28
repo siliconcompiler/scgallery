@@ -2,6 +2,7 @@
 
 from siliconcompiler import ASIC, Design
 from siliconcompiler.targets import asap7_demo
+from lambdalib.ramlib import Spram
 
 
 class Riscv32iDesign(Design):
@@ -10,7 +11,7 @@ class Riscv32iDesign(Design):
         self.set_dataroot("riscv32i", __file__)
 
         with self.active_dataroot("riscv32i"):
-            with self.active_fileset("rtl"):
+            with self.active_fileset("rtl.riscv"):
                 self.set_topmodule("riscv")
                 self.add_file([
                     'src/adder.v',
@@ -18,7 +19,6 @@ class Riscv32iDesign(Design):
                     'src/aludec.v',
                     'src/controller.v',
                     'src/datapath.v',
-                    'src/dmem.v',
                     'src/flopenr.v',
                     'src/flopens.v',
                     'src/flopr.v',
@@ -33,10 +33,16 @@ class Riscv32iDesign(Design):
                     'src/mux8.v',
                     'src/regfile.v',
                     'src/riscv.v',
-                    'src/rom.v',
                     'src/shifter.v',
-                    'src/signext.v',
-                    'src/top.v'])
+                    'src/signext.v'])
+            with self.active_fileset("rtl"):
+                self.set_topmodule("riscv_top")
+                self.add_file([
+                    'src/top.v',
+                    'src/rom.v'])
+                self.add_depfileset(self, "rtl.riscv")
+                self.add_depfileset(Spram(), "rtl")
+                self.add_file("extra/dmem.v")
 
         with self.active_dataroot("riscv32i"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
