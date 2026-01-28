@@ -6,9 +6,6 @@ module riscv_top
   input  wire [31:0] instr,
   input  wire        valid,
   input  wire        valid_reg,
-  output wire [31:0] writedata,
-  output wire [31:0] dataadr,
-  output wire        memwrite,
   output wire        suspend,
   output wire        ready,
   output wire [31:0] pc
@@ -18,6 +15,9 @@ module riscv_top
   wire [31:0] instr_out;
   wire        memread;
   wire        ready_intm;
+  wire [31:0] writedata;
+  wire [31:0] dataadr;
+  wire        memwrite;
 
   assign ready_intm = (reset) ? 1'b0 : ( (valid & ~valid_reg) ? 1'b1 : 1'b0 );
   assign ready = valid;
@@ -40,5 +40,5 @@ module riscv_top
              .mem_addr(dataadr),
              .mem_data(writedata),
              .mem_out(readdata));
-endmodule
 
+endmodule
