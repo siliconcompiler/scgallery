@@ -266,11 +266,15 @@
     {
         "design": "darksocv",
         "remote": false,
+        "cache": false,
+        "skip": "[ERROR PSM-0069] Check connectivity failed on VDD.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "design": "darksocv",
         "remote": false,
+        "cache": false,
+        "skip": "[ERROR PSM-0069] Check connectivity failed on VDD.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
