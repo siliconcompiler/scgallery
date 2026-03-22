@@ -12,7 +12,7 @@ class WallyDesign(GalleryDesign):
         super().__init__("wally")
         self.set_dataroot("extra", __file__)
         self.set_dataroot("wally",
-                          "git+https://github.com/openhwgroup/cvw",
+                          "git+https://github.com/openhwgroup/cvw.git?submodules=False",
                           tag="e0af0e68a32edd8eb98abc31c8b2b7b04fbd29b9")
 
         with self.active_fileset("rtl"):
