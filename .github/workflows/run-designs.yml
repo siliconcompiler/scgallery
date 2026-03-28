@@ -119,6 +119,7 @@ jobs:
         with:
           ref: ${{ inputs.lambdapdk-ref }}
           repository: siliconcompiler/lambdapdk
+          fetch-depth: 0
 
       - uses: hynek/build-and-inspect-python-package@v2.15.0
         id: wheel
@@ -139,6 +140,7 @@ jobs:
         with:
           ref: ${{ inputs.sc-ref }}
           repository: siliconcompiler/siliconcompiler
+          fetch-depth: 0
 
       - uses: hynek/build-and-inspect-python-package@v2.15.0
         id: wheel
