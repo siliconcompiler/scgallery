@@ -18,7 +18,8 @@ module hard_mem_1rw_d512_w64_wrapper(clk_i, v_i, reset_i, data_i,
     .din(data_i),
     .dout(data_o),
     .selctrl(1'b0),
-    .ctrl('b0)
+    .ctrl('b0),
+    .status()
   );
 
 endmodule
