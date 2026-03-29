@@ -24,11 +24,9 @@ module vs_hdsp_256x32_bw(
             {8{WEN[0]}}}),
     .addr(ADR),
     .din(DI),
-    .ctrl(),
-    .test(),
-    .vdd(),
-    .vss(),
-    .vddio()
+    .selctrl(1'b0),
+    .ctrl('b0),
+    .status()
   );
 
 endmodule
