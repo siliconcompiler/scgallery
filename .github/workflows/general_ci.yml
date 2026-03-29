@@ -48,10 +48,6 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install -e .[dev]
 
-          # Temporary
-          python3 -m pip uninstall -y siliconcompiler
-          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
-
       - name: Run tests (non-windows)
         if: runner.os != 'Windows'
         run: |
@@ -73,10 +69,6 @@ jobs:
           venv/Scripts/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install -e .[dev]
-
-          # Temporary
-          python3 -m pip uninstall -y siliconcompiler
-          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
 
       - name: Run tests (windows)
         if: runner.os == 'Windows'
@@ -139,14 +131,12 @@ jobs:
 
       - name: Install Requirements
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
           python3 -m venv .venv
           . .venv/bin/activate
           python3 -m pip install --upgrade pip
           python3 -m pip install -e .[dev]
-
-          # Temporary
-          python3 -m pip uninstall -y siliconcompiler
-          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
 
       - name: Run tests
         run: |
@@ -187,10 +177,6 @@ jobs:
           . .venv/bin/activate
 
           pip3 install .
-
-          # Temporary
-          python3 -m pip uninstall -y siliconcompiler
-          python3 -m pip install siliconcompiler@git+https://github.com/siliconcompiler/siliconcompiler@main
 
       - name: Get design matrix
         id: designs
