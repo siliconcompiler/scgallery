@@ -23,6 +23,7 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v6
+
       - name: Install Requirements
         run: |
           python3 -m venv .venv
@@ -42,6 +43,7 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v6
+
       - name: Install Requirements
         run: |
           python3 -m venv .venv
@@ -121,6 +123,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Install gallery
         run: |

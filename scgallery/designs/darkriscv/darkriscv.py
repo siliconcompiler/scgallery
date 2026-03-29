@@ -92,24 +92,24 @@ class DarkSOCVDesign(GalleryDesign):
     def setup_freepdk45(self, project: ASIC):
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "gpl_uniform_placement_adjustment", 0.1)
+            task.set_openroad_gpluniformplacementadjustment(0.1)
 
     def setup_asap7(self, project: ASIC):
         project.constraint.area.set_density(25)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "gpl_uniform_placement_adjustment", 0.05)
+            task.set_openroad_gpluniformplacementadjustment(0.05)
 
     def setup_ihp130(self, project: ASIC):
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "gpl_uniform_placement_adjustment", 0.05)
+            task.set_openroad_gpluniformplacementadjustment(0.05)
 
     def setup_gf180(self, project: ASIC):
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "gpl_uniform_placement_adjustment", 0.1)
+            task.set_openroad_gpluniformplacementadjustment(0.1)
 
     def setup_skywater130(self, project: ASIC):
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "gpl_uniform_placement_adjustment", 0.1)
+            task.set_openroad_gpluniformplacementadjustment(0.1)
 
 
 if __name__ == '__main__':

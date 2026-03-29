@@ -80,23 +80,23 @@ class FazyRVDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [10, 10])
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        MacroPlacementTask.find_task(project).set_openroad_macroplacehalo(10, 10)
 
     def setup_asap7(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [5, 1])
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        MacroPlacementTask.find_task(project).set_openroad_macroplacehalo(5, 1)
 
     def setup_ihp130(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [20, 35])
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        MacroPlacementTask.find_task(project).set_openroad_macroplacehalo(20, 35)
         project.constraint.area.set_aspectratio(0.25)
 
     def setup_gf180(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
 
     def setup_skywater130(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
         project.constraint.area.set_aspectratio(0.80)
 
 

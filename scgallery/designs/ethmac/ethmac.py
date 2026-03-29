@@ -72,7 +72,7 @@ class EthmacDesign(GalleryDesign):
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
 
     def setup_gf180(self, project: ASIC):
-        MacroPlacementTask.find_task(project).set("var", "macro_place_halo", [20, 10])
+        MacroPlacementTask.find_task(project).set_openroad_macroplacehalo(20, 10)
 
     def setup_lint(self, project: Lint):
         try:

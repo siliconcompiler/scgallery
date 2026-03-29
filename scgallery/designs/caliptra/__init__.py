@@ -93,31 +93,31 @@ class DataVault(GalleryDesign, _Base):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.40)
+            task.set_openroad_placedensity(0.40)
 
     def setup_asap7(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.40)
+            task.set_openroad_placedensity(0.40)
 
     def setup_ihp130(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.40)
+            task.set_openroad_placedensity(0.40)
 
     def setup_gf180(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.40)
+            task.set_openroad_placedensity(0.40)
 
     def setup_skywater130(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.40)
+            task.set_openroad_placedensity(0.40)
 
 
 class KeyVault(GalleryDesign, _Base):
@@ -168,31 +168,31 @@ class KeyVault(GalleryDesign, _Base):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(20)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.25)
+            task.set_openroad_placedensity(0.25)
 
     def setup_asap7(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(20)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.25)
+            task.set_openroad_placedensity(0.25)
 
     def setup_ihp130(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(20)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.25)
+            task.set_openroad_placedensity(0.25)
 
     def setup_gf180(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(20)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.25)
+            task.set_openroad_placedensity(0.25)
 
     def setup_skywater130(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(20)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.25)
+            task.set_openroad_placedensity(0.25)
 
 
 class PCRVault(_Base):
@@ -263,28 +263,28 @@ class SHA512(GalleryDesign, _Base):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.4)
+            task.set_openroad_placedensity(0.4)
 
     def setup_asap7(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.4)
+            task.set_openroad_placedensity(0.4)
 
     def setup_ihp130(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.4)
+            task.set_openroad_placedensity(0.4)
 
     def setup_gf180(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.4)
+            task.set_openroad_placedensity(0.4)
 
     def setup_skywater130(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "place_density", 0.4)
+            task.set_openroad_placedensity(0.4)

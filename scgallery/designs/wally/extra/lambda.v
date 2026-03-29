@@ -15,11 +15,9 @@ module ram1p1rwbe_64x128 (
         .addr(A),
         .din(D),
         .dout(Q),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule
 
@@ -40,11 +38,9 @@ module ram1p1rwbe_64x22 (
         .addr(A),
         .din(D),
         .dout(Q),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule
 
@@ -65,11 +61,9 @@ module ram1p1rwbe_64x44 (
         .addr(A),
         .din(D),
         .dout(Q),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule
 
@@ -98,11 +92,9 @@ module ram2p1r1wbe_1024x36 (
         .addr(AA),
         .din(DA),
         .dout(QA),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
     la_spram #(.DW(36), .AW(10)) memB (
         .clk(CLKB),
@@ -112,11 +104,9 @@ module ram2p1r1wbe_1024x36 (
         .addr(AB),
         .din(DB),
         .dout(QB),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule
 
@@ -144,11 +134,9 @@ module ram2p1r1wbe_1024x68 (
         .addr(AA),
         .din(DA),
         .dout(QA),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
     la_spram #(.DW(68), .AW(10)) memB (
         .clk(CLKB),
@@ -158,11 +146,9 @@ module ram2p1r1wbe_1024x68 (
         .addr(AB),
         .din(DB),
         .dout(QB),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule
 
@@ -190,11 +176,9 @@ module ram2p1r1wbe_128x64 (
         .addr(AA),
         .din(DA),
         .dout(QA),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
     la_spram #(.DW(64), .AW(7)) memB (
         .clk(CLKB),
@@ -204,11 +188,9 @@ module ram2p1r1wbe_128x64 (
         .addr(AB),
         .din(DB),
         .dout(QB),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule
 
@@ -236,11 +218,9 @@ module ram2p1r1wbe_2048x64 (
         .addr(AA),
         .din(DA),
         .dout(QA),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
     la_spram #(.DW(64), .AW(9)) memB (
         .clk(CLKB),
@@ -250,11 +230,9 @@ module ram2p1r1wbe_2048x64 (
         .addr(AB),
         .din(DB),
         .dout(QB),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule
 
@@ -282,11 +260,9 @@ module ram2p1r1wbe_64x32 (
         .addr(AA),
         .din(DA),
         .dout(QA),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
     la_spram #(.DW(32), .AW(6)) memB (
         .clk(CLKB),
@@ -296,10 +272,8 @@ module ram2p1r1wbe_64x32 (
         .addr(AB),
         .din(DB),
         .dout(QB),
-        .ctrl(),
-        .test(),
-        .vdd(),
-        .vss(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 endmodule

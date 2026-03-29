@@ -20,11 +20,9 @@ module data_arrays_0_ext(
       ),
     .addr  (RW0_addr  ),
     .din    (RW0_wdata  ),
-    .test(),
-    .ctrl(),
-    .vdd(),
-    .vss(),
-    .vddio()
+    .selctrl(1'b0),
+    .ctrl('b0),
+    .status()
   );
 
 endmodule
@@ -107,11 +105,9 @@ module data_arrays_0_0_ext(
       ),
     .addr  (RW0_addr  ),
     .din    (RW0_wdata  ),
-    .test(),
-    .ctrl(),
-    .vdd(),
-    .vss(),
-    .vddio()
+    .selctrl(1'b0),
+    .ctrl('b0),
+    .status()
   );
 
 endmodule
@@ -150,11 +146,9 @@ module mem_ext(
       ),
     .addr  (addr_int  ),
     .din    (W0_data  ),
-    .test(),
-    .ctrl(),
-    .vdd(),
-    .vss(),
-    .vddio()
+    .selctrl(1'b0),
+    .ctrl('b0),
+    .status()
   );
 
 

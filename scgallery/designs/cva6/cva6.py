@@ -256,32 +256,32 @@ class CVA6Design(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
     def setup_asap7(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
         for task in OpenROADGPLParameter.find_task(project):
-            task.set("var", "gpl_uniform_placement_adjustment", "0.05")
+            task.set_openroad_gpluniformplacementadjustment(0.05)
 
     def setup_ihp130(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
     def setup_gf180(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
     def setup_skywater130(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "use_slang", True)
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
 
 if __name__ == '__main__':

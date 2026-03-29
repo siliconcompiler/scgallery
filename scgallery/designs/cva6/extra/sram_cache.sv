@@ -72,11 +72,9 @@ module sram_cache #(
     .addr(addr_i),
     .din(wdata_user),
     .dout(rdata_user),
-    .ctrl(),
-    .test(),
-    .vss(),
-    .vdd(),
-    .vddio()
+    .selctrl(1'b0),
+    .ctrl('b0),
+    .status()
   );
 
 endmodule : sram_cache

@@ -34,11 +34,9 @@ module hpdcache_sram_wbyteenable_1rw
         .addr(addr),
         .din(wdata),
         .dout(rdata),
-        .ctrl(),
-        .test(),
-        .vss(),
-        .vdd(),
-        .vddio()
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 
 endmodule : hpdcache_sram_wbyteenable_1rw
