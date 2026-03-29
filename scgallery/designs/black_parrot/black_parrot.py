@@ -52,28 +52,28 @@ class BlackParrotDesign(GalleryDesign):
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_strategy('AREA3')
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
     def setup_asap7(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_strategy('AREA3')
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
     def setup_ihp130(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_strategy('AREA3')
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
     def setup_gf180(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", 'strategy', 'AREA3')
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_strategy('AREA3')
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
     def setup_skywater130(self, project: ASIC):
-        ASICSynthesis.find_task(project).set("var", "flatten", False)
-        ASICSynthesis.find_task(project).set("var", "abc_clock_derating", 0.95)
+        ASICSynthesis.find_task(project).set_yosys_flatten(False)
+        ASICSynthesis.find_task(project).set_yosys_abcclockderating(0.95)
 
 
 if __name__ == '__main__':

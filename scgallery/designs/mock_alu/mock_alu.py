@@ -6,7 +6,6 @@ from siliconcompiler.targets import asap7_demo
 
 from siliconcompiler.flows.asicflow import ASICFlow
 from siliconcompiler.tools.chisel import convert
-from siliconcompiler.tools import get_task
 
 
 class ChiselFlow(ASICFlow):
@@ -54,10 +53,10 @@ class MockALUDesign(GalleryDesign):
 
     def setup_chisel(self, project: ASIC):
         project.set_flow(ChiselFlow())
-        task = get_task(project, filter=convert.ConvertTask)
-        task.set("var", "application", "GenerateMockAlu")
+        task = convert.ConvertTask.find_task(project)
+        task.set_chisel_application("GenerateMockAlu")
 
-        task.add("var", "argument", ["--width", "64"])
+        task.add_chisel_argument(["--width", "64"])
         operations = [
             'ADD',
             'SUB',
@@ -74,8 +73,8 @@ class MockALUDesign(GalleryDesign):
             'SETCC_LE',
             'SETCC_ULE',
             'MULT']
-        task.add("var", "argument", ["--operations", ",".join(operations)])
-        task.add("var", "argument", ["--tech", "none"])
+        task.add_chisel_argument(["--operations", ",".join(operations)])
+        task.add_chisel_argument(["--tech", "none"])
 
 
 if __name__ == '__main__':
