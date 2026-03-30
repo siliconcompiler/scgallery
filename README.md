@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/github/siliconcompiler/scgallery/graph/badge.svg?token=8U7RP0A3K2)](https://codecov.io/github/siliconcompiler/scgallery)
 
 # SiliconCompiler Design Gallery
-Design gallery for [SiliconCompiler](https://github.com/silicompiler/siliconcompiler).
+Design gallery for [SiliconCompiler](https://github.com/siliconcompiler/siliconcompiler).
 This library uses the rtl2gds flow in SiliconCompiler to compile the designs from RTL to a GDS file.
 
 ![Gallery](images/montage.jpg)
