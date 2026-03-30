@@ -1,17 +1,20 @@
 #!/usr/bin/env python3
 
-from siliconcompiler import ASIC, Design
+from scgallery import GalleryDesign
+from siliconcompiler import ASIC
 from siliconcompiler.targets import asap7_demo
+from lambdalib.ramlib import Spram
+from siliconcompiler.tools.openroad.macro_placement import MacroPlacementTask
 
 
-class Riscv32iDesign(Design):
+class Riscv32iDesign(GalleryDesign):
     def __init__(self):
         super().__init__("riscv32i")
         self.set_dataroot("riscv32i", __file__)
 
         with self.active_dataroot("riscv32i"):
             with self.active_fileset("rtl"):
-                self.set_topmodule("riscv")
+                self.set_topmodule("riscv_top")
                 self.add_file([
                     'src/adder.v',
                     'src/alu.v',
@@ -37,6 +40,7 @@ class Riscv32iDesign(Design):
                     'src/shifter.v',
                     'src/signext.v',
                     'src/top.v'])
+                self.add_depfileset(Spram(), "rtl")
 
         with self.active_dataroot("riscv32i"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
@@ -56,6 +60,11 @@ class Riscv32iDesign(Design):
 
             with self.active_fileset("sdc.sky130hd"):
                 self.add_file("constraints/sky130hd.sdc")
+
+        self.add_target_setup("freepdk45_nangate45", self.setup_freepdk45)
+
+    def setup_freepdk45(self, project: ASIC):
+        MacroPlacementTask.find_task(project).set_openroad_macroplacehalo(10, 10)
 
 
 if __name__ == '__main__':
