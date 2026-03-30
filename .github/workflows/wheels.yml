@@ -16,7 +16,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - uses: hynek/build-and-inspect-python-package@v2.15.0
+    - uses: hynek/build-and-inspect-python-package@v2.17.0
 
   publish:
     needs: [build_wheels]
