@@ -53,6 +53,7 @@ class CVA6Design(GalleryDesign):
 
             with self.active_dataroot("cvfpu"):
                 self.add_file([
+                    'src/fpnew_pkg.sv',
                     'src/fpnew_cast_multi.sv',
                     'src/fpnew_classifier.sv',
                     'src/fpnew_divsqrt_multi.sv',
