@@ -97,7 +97,6 @@ class CVA6Design(GalleryDesign):
                     'vendor/pulp-platform/common_cells/src/exp_backoff.sv',
                     'vendor/pulp-platform/common_cells/src/counter.sv',
                     'vendor/pulp-platform/common_cells/src/delta_counter.sv',
-                    'vendor/pulp-platform/common_cells/src/unread.sv',
                     'core/cva6_rvfi_probes.sv',
                     'core/alu.sv',
                     'core/fpu_wrap.sv',
