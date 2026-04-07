@@ -6,6 +6,8 @@ from siliconcompiler import ASIC
 from siliconcompiler.tools.openroad._apr import OpenROADGPLParameter
 from siliconcompiler.flows.asicflow import ASICFlow
 from siliconcompiler.tools.sv2v import convert
+from lambdalib.ramlib import Spram
+from lambdalib.auxlib import Clkicgand, Drsync
 
 
 class SV2VFlow(ASICFlow):
@@ -32,20 +34,27 @@ class CaliptraTop(_Base):
 class CaliptraLibs(_Base):
     def __init__(self):
         super().__init__("caliptra_libs")
+        self.set_dataroot("design", __file__)
+
         with self.active_dataroot("caliptra"), self.active_fileset("rtl"):
-            self.add_file("src/libs/rtl/caliptra_sram.sv")
             self.add_file("src/libs/rtl/ahb_defines_pkg.sv")
             self.add_file("src/libs/rtl/caliptra_ahb_srom.sv")
             self.add_file("src/libs/rtl/apb_slv_sif.sv")
             self.add_file("src/libs/rtl/ahb_slv_sif.sv")
-            self.add_file("src/libs/rtl/caliptra_icg.sv")
             self.add_file("src/libs/rtl/clk_gate.sv")
-            self.add_file("src/libs/rtl/caliptra_2ff_sync.sv")
             self.add_file("src/libs/rtl/ahb_to_reg_adapter.sv")
 
             self.add_idir("src/libs/rtl")
 
             self.add_depfileset(CaliptraTop(), "rtl")
+
+        with self.active_dataroot("design"), self.active_fileset("rtl"):
+            self.add_file("extra/caliptra_sram.sv")
+            self.add_depfileset(Spram(), "rtl")
+            self.add_file("extra/caliptra_icg.sv")
+            self.add_depfileset(Clkicgand(), "rtl")
+            self.add_file("extra/caliptra_2ff_sync.sv")
+            self.add_depfileset(Drsync(), "rtl")
 
 
 class DataVault(GalleryDesign, _Base):
