@@ -32,7 +32,7 @@ la_spram #(
         .AW(ADRW)
     ) ram (
         .clk(clk_i),
-        .ce('b1),
+        .ce(1'b1),
         .we(we_i),
         .wmask({REGW{1'b1}}),
         .addr(we_i ? waddr_i : raddr_i),
