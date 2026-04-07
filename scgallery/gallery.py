@@ -333,7 +333,6 @@ class Gallery:
         project.option.set_jobname(jobname)
 
         project.option.set_nodisplay(True)
-        project.option.set_nodashboard(True)
         project.option.set_autoissue(True)
         project.option.set_quiet(True)
         project.option.set_clean(self.is_clean)
