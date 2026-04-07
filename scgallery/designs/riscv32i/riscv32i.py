@@ -2,6 +2,7 @@
 
 from siliconcompiler import ASIC, Design
 from siliconcompiler.targets import asap7_demo
+from lambdalib.ramlib import Spram
 
 
 class Riscv32iDesign(Design):
@@ -11,7 +12,7 @@ class Riscv32iDesign(Design):
 
         with self.active_dataroot("riscv32i"):
             with self.active_fileset("rtl"):
-                self.set_topmodule("riscv")
+                self.set_topmodule("riscv_top")
                 self.add_file([
                     'src/adder.v',
                     'src/alu.v',
@@ -37,6 +38,7 @@ class Riscv32iDesign(Design):
                     'src/shifter.v',
                     'src/signext.v',
                     'src/top.v'])
+                self.add_depfileset(Spram(), "rtl")
 
         with self.active_dataroot("riscv32i"):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
