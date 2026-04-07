@@ -37,7 +37,10 @@ la_spram #(
         .wmask({REGW{1'b1}}),
         .addr(we_i ? waddr_i : raddr_i),
         .din(wdata_i),
-        .dout(rdata_o)
+        .dout(rdata_o),
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 
 endmodule

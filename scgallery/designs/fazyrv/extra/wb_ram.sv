@@ -43,7 +43,10 @@ la_spram #(
     .wmask(mask),
     .addr(adr_i),
     .din(dat_i),
-    .dout(dat_o)
+    .dout(dat_o),
+    .selctrl(1'b0),
+    .ctrl('b0),
+    .status()
 );
 
 endmodule

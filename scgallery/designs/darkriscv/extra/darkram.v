@@ -2145,7 +2145,10 @@ module darkram
         .wmask({{8{XBE[3]}}, {8{XBE[2]}}, {8{XBE[1]}}, {8{XBE[0]}}}),
         .addr(XADDR[`MLEN-1:2]),
         .din(XATAI),
-        .dout(XATAO)
+        .dout(XATAO),
+        .selctrl(1'b0),
+        .ctrl('b0),
+        .status()
     );
 
 `ifdef __RMW_CYCLE__    
