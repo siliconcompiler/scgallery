@@ -780,7 +780,9 @@
     {
         "design": "tiny_rocket",
         "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
+        "target": "ihp130_sg13g2_stdcell",
+        "skip": "Fails in antenna repair: https://github.com/The-OpenROAD-Project/OpenROAD/issues/10273",
+        "cache": false
     },
     {
         "cache": false,
