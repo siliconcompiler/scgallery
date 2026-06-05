@@ -13,7 +13,7 @@ fail in CI.
 Requires the `gh` CLI to be installed and authenticated.
 
 Examples:
-    python3 scripts/triage_failures.py https://github.com/siliconcompiler/scgallery/actions/runs/27013015588
+    python3 scripts/triage_failures.py github.com/siliconcompiler/scgallery/actions/runs/2701301558
     python3 scripts/triage_failures.py 27013015588
     python3 scripts/triage_failures.py 27013015588 --dry-run
 """
@@ -263,8 +263,8 @@ def main():
     passed_but_skipped = sorted(
         (entry["design"], entry["target"])
         for entry in config
-        if entry.get("skip")
-        and results.get((entry.get("design"), entry.get("target"))) == "success"
+        if entry.get("skip") and results.get(
+            (entry.get("design"), entry.get("target"))) == "success"
     )
 
     # Indices queued to have their skip cleared.
