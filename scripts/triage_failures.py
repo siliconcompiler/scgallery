@@ -141,11 +141,18 @@ def parse_selection(text, count):
     return out
 
 
-def render(failures, status):
+def render(failures, status, notes):
     width = len(str(len(failures)))
     design_w = max((len(d) for d, _ in failures), default=6)
+    target_w = max((len(t) for _, t in failures), default=6)
     for i, (design, target) in enumerate(failures, start=1):
-        print(f"  [{i:>{width}}] {status[i - 1]} {design:<{design_w}}  {target}")
+        line = f"  [{i:>{width}}] {status[i - 1]} {design:<{design_w}}  "
+        note = notes[i - 1]
+        if note:
+            line += f"{target:<{target_w}}   (skip: {note})"
+        else:
+            line += target
+        print(line)
 
 
 def handle_passed_but_skipped(config, candidates):
@@ -279,17 +286,21 @@ def main():
     #   "S"  -> already skipped in config (with the existing reason)
     #   "?"  -> not found in config (cannot be skipped automatically)
     status = []
+    notes = []
     for design, target in failures:
         entry = find_entry(config, design, target)
         if entry is None:
             status.append("?")
+            notes.append(None)
         elif entry.get("skip"):
             status.append("S")
+            notes.append(entry["skip"])
         else:
             status.append("!")
+            notes.append(None)
 
     print(f"\nFound {len(failures)} failing design/target job(s):\n")
-    render(failures, status)
+    render(failures, status, notes)
     print("\nLegend: ! = failing (no skip yet)   S = already skipped   "
           "? = not in config")
     print("Anything you do not select is left unchanged and will keep failing.\n")
