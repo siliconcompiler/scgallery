@@ -67,6 +67,9 @@ class DataVault(GalleryDesign, _Base):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
                 self.add_file("constraints/datavault/asap7sc7p5t_rvt.sdc")
 
+            with self.active_fileset("sdc.gt2n_stdcells_w31_svt"):
+                self.add_file("constraints/datavault/gt2n_stdcells_w31_svt.sdc")
+
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
                 self.add_file("constraints/datavault/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
@@ -83,6 +86,7 @@ class DataVault(GalleryDesign, _Base):
                 self.add_file("constraints/datavault/sky130hd.sdc")
 
         self.add_target_setup("freepdk45_nangate45", self.setup_freepdk45)
+        self.add_target_setup("gt2n_6t_w31", self.setup_gt2n)
         self.add_target_setup("asap7_asap7sc7p5t_rvt", self.setup_asap7)
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
@@ -114,6 +118,12 @@ class DataVault(GalleryDesign, _Base):
             task.set_openroad_placedensity(0.40)
 
     def setup_skywater130(self, project: ASIC):
+        project.set_flow(SV2VFlow())
+        project.constraint.area.set_density(30)
+        for task in OpenROADGPLParameter.find_task(project):
+            task.set_openroad_placedensity(0.40)
+
+    def setup_gt2n(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
@@ -142,6 +152,9 @@ class KeyVault(GalleryDesign, _Base):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
                 self.add_file("constraints/keyvault/asap7sc7p5t_rvt.sdc")
 
+            with self.active_fileset("sdc.gt2n_stdcells_w31_svt"):
+                self.add_file("constraints/keyvault/gt2n_stdcells_w31_svt.sdc")
+
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
                 self.add_file("constraints/keyvault/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
@@ -158,6 +171,7 @@ class KeyVault(GalleryDesign, _Base):
                 self.add_file("constraints/keyvault/sky130hd.sdc")
 
         self.add_target_setup("freepdk45_nangate45", self.setup_freepdk45)
+        self.add_target_setup("gt2n_6t_w31", self.setup_gt2n)
         self.add_target_setup("asap7_asap7sc7p5t_rvt", self.setup_asap7)
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
@@ -189,6 +203,12 @@ class KeyVault(GalleryDesign, _Base):
             task.set_openroad_placedensity(0.25)
 
     def setup_skywater130(self, project: ASIC):
+        project.set_flow(SV2VFlow())
+        project.constraint.area.set_density(20)
+        for task in OpenROADGPLParameter.find_task(project):
+            task.set_openroad_placedensity(0.25)
+
+    def setup_gt2n(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(20)
         for task in OpenROADGPLParameter.find_task(project):
@@ -237,6 +257,9 @@ class SHA512(GalleryDesign, _Base):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
                 self.add_file("constraints/sha512/asap7sc7p5t_rvt.sdc")
 
+            with self.active_fileset("sdc.gt2n_stdcells_w31_svt"):
+                self.add_file("constraints/sha512/gt2n_stdcells_w31_svt.sdc")
+
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
                 self.add_file("constraints/sha512/gf180mcu_fd_sc_mcu7t5v0.sdc")
 
@@ -253,6 +276,7 @@ class SHA512(GalleryDesign, _Base):
                 self.add_file("constraints/sha512/sky130hd.sdc")
 
         self.add_target_setup("freepdk45_nangate45", self.setup_freepdk45)
+        self.add_target_setup("gt2n_6t_w31", self.setup_gt2n)
         self.add_target_setup("asap7_asap7sc7p5t_rvt", self.setup_asap7)
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
@@ -288,3 +312,9 @@ class SHA512(GalleryDesign, _Base):
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
             task.set_openroad_placedensity(0.4)
+
+    def setup_gt2n(self, project: ASIC):
+        project.set_flow(SV2VFlow())
+        project.constraint.area.set_density(30)
+        for task in OpenROADGPLParameter.find_task(project):
+            task.set_openroad_placedensity(0.40)

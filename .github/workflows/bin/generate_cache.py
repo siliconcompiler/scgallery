@@ -8,6 +8,7 @@ from lambdapdk.freepdk45 import FreePDK45PDK
 from lambdapdk.gf180 import GF180_5LM_1TM_9K_9t
 from lambdapdk.ihp130 import IHP130PDK
 from lambdapdk.sky130 import Sky130PDK
+from lambdapdk.gt2n import GT2NPDK
 
 
 if __name__ == "__main__":
@@ -20,6 +21,7 @@ if __name__ == "__main__":
     proj.add_dep(GF180_5LM_1TM_9K_9t())
     proj.add_dep(IHP130PDK())
     proj.add_dep(Sky130PDK())
+    proj.add_dep(GT2NPDK())
 
     proj.check_filepaths([("option", "builddir")])
 
