@@ -114,9 +114,9 @@ def fetch_job_results(run_id, repo):
         }
         # Let a failing result win over a non-failing (or still-running) one.
         existing = results.get(key)
-        if (existing is not None
-                and existing["conclusion"] in FAILING_CONCLUSIONS
-                and conclusion not in FAILING_CONCLUSIONS):
+        if existing is not None and \
+           existing["conclusion"] in FAILING_CONCLUSIONS and \
+           conclusion not in FAILING_CONCLUSIONS:
             continue
         results[key] = record
 
@@ -295,8 +295,8 @@ def suggest_reason(records):
 def reason_for_record(repo, record, use_logs, log_cache):
     """Best skip reason for a single failing job: scraped error line if we can
     read the log, otherwise the step/conclusion-based fallback."""
-    if (use_logs and record["conclusion"] in FAILING_CONCLUSIONS
-            and record.get("job_id") is not None):
+    if use_logs and record["conclusion"] in FAILING_CONCLUSIONS \
+            and record.get("job_id") is not None:
         error = extract_error(fetch_failed_log(repo, record["job_id"],
                                                log_cache))
         if error:
