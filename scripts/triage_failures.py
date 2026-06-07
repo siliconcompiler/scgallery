@@ -25,6 +25,12 @@ import re
 import subprocess
 import sys
 
+try:
+    import readline  # noqa: F401  (enables prefillable input on most platforms)
+    _HAVE_READLINE = True
+except ImportError:  # pragma: no cover - Windows without pyreadline, etc.
+    _HAVE_READLINE = False
+
 DEFAULT_REPO = "siliconcompiler/scgallery"
 DEFAULT_CONFIG = os.path.join(
     os.path.dirname(__file__),
@@ -53,11 +59,27 @@ def parse_run_id(value):
     sys.exit(f"error: could not parse a run id from {value!r}")
 
 
+def find_failed_step(job):
+    """Return the name of the earliest failing step of a job, or None."""
+    failing = [s for s in job.get("steps", [])
+               if s.get("conclusion") in FAILING_CONCLUSIONS]
+    if not failing:
+        return None
+    failing.sort(key=lambda s: s.get("number", 0))
+    return failing[0].get("name")
+
+
 def fetch_job_results(run_id, repo):
-    """Return a dict mapping (design, target) -> conclusion for design jobs.
+    """Return a dict mapping (design, target) -> result record for design jobs.
+
+    Each record is a dict with:
+        conclusion  -- the job conclusion ("failure", "success", ...) or None
+                       if the job has not finished yet
+        status      -- the job status ("completed", "in_progress", "queued", ...)
+        failed_step -- name of the earliest failing step (for failures), or None
 
     If the same design/target appears more than once, a failing conclusion
-    takes precedence over a passing one.
+    takes precedence over a non-failing one.
     """
     try:
         result = subprocess.run(
@@ -79,17 +101,24 @@ def fetch_job_results(run_id, repo):
 
     results = {}
     for job in jobs:
-        conclusion = job.get("conclusion")
-        if not conclusion:
-            continue
         match = JOB_RE.search(job.get("name", ""))
         if not match:
             continue
         key = (match.group(1).strip(), match.group(2).strip())
-        # Let a failing result win over a passing one for the same job.
-        if results.get(key) in FAILING_CONCLUSIONS:
+        conclusion = job.get("conclusion") or None
+        record = {
+            "conclusion": conclusion,
+            "status": job.get("status"),
+            "failed_step": find_failed_step(job),
+            "job_id": job.get("databaseId"),
+        }
+        # Let a failing result win over a non-failing (or still-running) one.
+        existing = results.get(key)
+        if (existing is not None
+                and existing["conclusion"] in FAILING_CONCLUSIONS
+                and conclusion not in FAILING_CONCLUSIONS):
             continue
-        results[key] = conclusion
+        results[key] = record
 
     return results
 
@@ -112,14 +141,22 @@ def find_entry(config, design, target):
     return None
 
 
-def parse_selection(text, count):
-    """Parse selections like '1-3,5 8' into a sorted list of 0-based indices."""
+def parse_selection(text, count, groups=None):
+    """Parse selections into a sorted list of 0-based indices.
+
+    Accepts numbers and ranges ('1-3,5 8'), the word 'all', and — when
+    `groups` is given (a dict of LETTER -> list of 1-based indices) — group
+    letters like 'A' or 'B,C'.
+    """
     if text.strip().lower() == "all":
         return list(range(count))
 
     indices = set()
     for token in re.split(r"[,\s]+", text.strip()):
         if not token:
+            continue
+        if groups and token.upper() in groups:
+            indices.update(groups[token.upper()])
             continue
         range_match = re.fullmatch(r"(\d+)-(\d+)", token)
         if range_match:
@@ -141,18 +178,206 @@ def parse_selection(text, count):
     return out
 
 
-def render(failures, status, notes):
+# A tool error code, e.g. "[ERROR GRT-0232] Routing congestion too high.".
+# These OpenROAD/Yosys/etc. lines name the actual root cause.
+TOOL_ERROR_RE = re.compile(r"\[ERROR\s+[A-Z][A-Z0-9]*-\d+\]")
+# Generic error-ish lines, used only as a last-resort fallback.
+ERROR_LINE_RE = re.compile(
+    r"\b(error|fatal|exception|traceback|assert\w*|"
+    r"failed|no such|not found|cannot|unable to)\b",
+    re.IGNORECASE,
+)
+# A raised Python exception, e.g. "RuntimeError: Run failed: ...".
+EXCEPTION_RE = re.compile(r"^\w*(?:Error|Exception):\s*\S")
+EXCEPTION_PREFIX_RE = re.compile(r"^\w*(?:Error|Exception):\s*")
+# SiliconCompiler's end-of-run summary line.
+RUN_FAILED_RE = re.compile(r"\bRun failed\b", re.IGNORECASE)
+# SiliconCompiler log lines: "LEVEL | design | step | index | message".
+SC_LINE_RE = re.compile(r"^\|\s*\w+\s*\|")
+# Leading ISO timestamp the GitHub logs API prepends to each line.
+LOG_PREFIX_RE = re.compile(r"^\d{4}-\d\d-\d\dT[\d:.]+Z\s*")
+# GitHub Actions annotation markers, e.g. "##[error]" / "##[warning]".
+LOG_ANNOTATION_RE = re.compile(r"^##\[\w+\]")
+# Runner-generated lines that carry no useful cause (post-failure noise).
+LOG_NOISE_RE = re.compile(
+    r"process completed with exit code"
+    r"|no files were found"
+    r"|if-no-files-found"
+    r"|artifacts will be uploaded",
+    re.IGNORECASE,
+)
+
+
+def fetch_failed_log(repo, job_id, cache):
+    """Return a job's full log text (cached, best-effort).
+
+    Uses the per-job logs API endpoint, which works for a completed job even
+    while the overall run is still in progress (unlike `gh run view --log`).
+    """
+    if job_id in cache:
+        return cache[job_id]
+    text = ""
+    if job_id is not None:
+        try:
+            result = subprocess.run(
+                ["gh", "api", f"repos/{repo}/actions/jobs/{job_id}/logs"],
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
+            if result.returncode == 0:
+                text = result.stdout
+        except (subprocess.SubprocessError, OSError):
+            text = ""
+    cache[job_id] = text
+    return text
+
+
+def _truncate(text, limit=120):
+    return text if len(text) <= limit else text[:limit - 3] + "..."
+
+
+def _strip_sc_prefix(line):
+    """Reduce a 'LEVEL | design | step | index | message' line to its message."""
+    if SC_LINE_RE.match(line):
+        return line.rsplit("|", 1)[-1].strip()
+    return line
+
+
+def extract_error(log_text):
+    """Pull the most likely root-cause line out of a job log."""
+    messages = []
+    for raw in log_text.splitlines():
+        line = raw.split("\t")[-1].strip()
+        line = LOG_PREFIX_RE.sub("", line).strip()
+        line = LOG_ANNOTATION_RE.sub("", line).strip()
+        if not line or LOG_NOISE_RE.search(line):
+            continue
+        # Reduce "LEVEL | design | step | index | message" to just the message.
+        messages.append(_strip_sc_prefix(line))
+
+    # 1. A tool error code (e.g. "[ERROR GRT-0232] ...") names the real cause;
+    #    the first one is the originating failure.
+    for msg in messages:
+        if TOOL_ERROR_RE.search(msg):
+            return _truncate(msg)
+
+    # 2. A raised Python exception.
+    for msg in reversed(messages):
+        if EXCEPTION_RE.match(msg):
+            return _truncate(EXCEPTION_PREFIX_RE.sub("", msg))
+
+    # 3. A SiliconCompiler "Run failed" summary.
+    for msg in reversed(messages):
+        if RUN_FAILED_RE.search(msg):
+            return _truncate(msg)
+
+    # 4. Any other error-ish line (root cause tends to come first).
+    for msg in messages:
+        if ERROR_LINE_RE.search(msg):
+            return _truncate(msg)
+    return None
+
+
+def suggest_reason(records):
+    """Suggest a skip reason from the selected jobs' failure details."""
+    conclusions = {r["conclusion"] for r in records}
+    steps = {r["failed_step"] for r in records if r["failed_step"]}
+    if conclusions == {"timed_out"}:
+        return "times out in CI"
+    if len(steps) == 1:
+        return f"fails during '{next(iter(steps))}'"
+    if conclusions == {"cancelled"}:
+        return "job cancelled"
+    return ""
+
+
+def reason_for_record(repo, record, use_logs, log_cache):
+    """Best skip reason for a single failing job: scraped error line if we can
+    read the log, otherwise the step/conclusion-based fallback."""
+    if (use_logs and record["conclusion"] in FAILING_CONCLUSIONS
+            and record.get("job_id") is not None):
+        error = extract_error(fetch_failed_log(repo, record["job_id"],
+                                               log_cache))
+        if error:
+            return error
+    return suggest_reason([record]) or None
+
+
+def group_failures(reasons):
+    """Group failure indices by shared reason.
+
+    Returns an ordered list of (reason, [original indices]), largest group
+    first and ties broken by first appearance.
+    """
+    members = {}
+    first_seen = {}
+    for i, reason in enumerate(reasons):
+        key = reason or "(cause not detected)"
+        if key not in members:
+            members[key] = []
+            first_seen[key] = i
+        members[key].append(i)
+    keys = sorted(members, key=lambda k: (-len(members[k]), first_seen[k]))
+    return [(k, members[k]) for k in keys]
+
+
+def suggestion_for(selected_reasons):
+    """Pick a skip reason for a selection; warn if it spans several causes."""
+    found = [r for r in selected_reasons if r]
+    if not found:
+        return ""
+    counts = {}
+    order = []
+    for reason in found:
+        if reason not in counts:
+            counts[reason] = 0
+            order.append(reason)
+        counts[reason] += 1
+    ranked = sorted(order, key=lambda r: (-counts[r], order.index(r)))
+    if len(ranked) > 1:
+        print(f"  ! selected jobs span {len(ranked)} different causes:")
+        for reason in ranked:
+            print(f"      ({counts[reason]}x) {reason}")
+        print("  Tip: pick one group letter at a time for an accurate note.")
+    return ranked[0]
+
+
+def prompt_reason(suggestion):
+    """Ask for a skip reason, prefilling/suggesting `suggestion` if available."""
+    label = "  Skip reason / note for this group"
+    if suggestion and _HAVE_READLINE:
+        def _hook():
+            readline.insert_text(suggestion)
+            readline.redisplay()
+        readline.set_pre_input_hook(_hook)
+        try:
+            return input(f"{label} (edit suggestion or clear): ").strip()
+        finally:
+            readline.set_pre_input_hook()
+    if suggestion:
+        # No readline: offer the suggestion as a default on an empty reply.
+        reply = input(f"{label} [{suggestion}]: ").strip()
+        return reply or suggestion
+    return input(f"{label}: ").strip()
+
+
+def render_groups(failures, status, notes, group_view):
+    """Print failures clustered by cause; each group gets a letter label and
+    every failure keeps its own number."""
     width = len(str(len(failures)))
     design_w = max((len(d) for d, _ in failures), default=6)
     target_w = max((len(t) for _, t in failures), default=6)
-    for i, (design, target) in enumerate(failures, start=1):
-        line = f"  [{i:>{width}}] {status[i - 1]} {design:<{design_w}}  "
-        note = notes[i - 1]
-        if note:
-            line += f"{target:<{target_w}}   (skip: {note})"
-        else:
-            line += target
-        print(line)
+    for label, reason, start, end in group_view:
+        print(f"\n  ({label}) {reason}   [{end - start} job(s)]")
+        for i in range(start, end):
+            design, target = failures[i]
+            line = (f"      [{i + 1:>{width}}] {status[i]} "
+                    f"{design:<{design_w}}  {target:<{target_w}}")
+            note = notes[i]
+            if note:
+                line += f"   (skip: {note})"
+            print(line.rstrip())
 
 
 def handle_passed_but_skipped(config, candidates):
@@ -244,6 +469,8 @@ def main():
                         help="path to designs.json")
     parser.add_argument("--include-cancelled", action="store_true",
                         help="also treat cancelled jobs as failures")
+    parser.add_argument("--no-log-hints", action="store_true",
+                        help="don't read job logs to suggest skip reasons")
     parser.add_argument("--dry-run", action="store_true",
                         help="show what would change without writing the config")
     args = parser.parse_args()
@@ -261,17 +488,32 @@ def main():
         print("No design jobs found in this run. Nothing to do.")
         return 0
 
-    failures = sorted(k for k, c in results.items() if c in conclusions)
+    failures = sorted(k for k, r in results.items()
+                      if r["conclusion"] in conclusions)
+    running = sorted(k for k, r in results.items()
+                     if r["conclusion"] is None)
+
+    if running:
+        print(f"\nNote: {len(running)} design job(s) are still running and "
+              "are not counted as failures:")
+        for design, target in running:
+            print(f"  ~ {design}/{target}")
+        print("Re-run this script once the workflow finishes for complete "
+              "results.")
 
     config = load_config(config_path)
 
     # Designs currently marked skip in the config that nonetheless ran and
     # passed in this run (e.g. a full/'all' run ignores existing skips).
+    def _passed(design, target):
+        record = results.get((design, target))
+        return record is not None and record["conclusion"] == "success"
+
     passed_but_skipped = sorted(
         (entry["design"], entry["target"])
         for entry in config
-        if entry.get("skip") and results.get(
-            (entry.get("design"), entry.get("target"))) == "success"
+        if entry.get("skip") and _passed(entry.get("design"),
+                                         entry.get("target"))
     )
 
     # Indices queued to have their skip cleared.
@@ -299,10 +541,41 @@ def main():
             status.append("!")
             notes.append(None)
 
-    print(f"\nFound {len(failures)} failing design/target job(s):\n")
-    render(failures, status, notes)
+    # Determine each failure's likely cause so we can group by it.
+    log_cache = {}
+    use_logs = not args.no_log_hints
+    if use_logs:
+        print(f"\nReading {len(failures)} failure log(s) to group by cause...",
+              flush=True)
+    reasons = [reason_for_record(args.repo, results[(design, target)],
+                                 use_logs, log_cache)
+               for design, target in failures]
+
+    # Cluster failures sharing a cause, then reorder the parallel lists so each
+    # group is contiguous and gets a single letter label (A, B, C, ...).
+    grouped = group_failures(reasons)
+    ordered = [i for _, idxs in grouped for i in idxs]
+    failures = [failures[i] for i in ordered]
+    status = [status[i] for i in ordered]
+    notes = [notes[i] for i in ordered]
+    reasons = [reasons[i] for i in ordered]
+
+    group_view = []        # (label, reason, start, end) over the reordered list
+    group_sel = {}         # LETTER -> [1-based indices]
+    pos = 0
+    for n, (reason, idxs) in enumerate(grouped):
+        label = chr(ord("A") + n) if n < 26 else f"G{n + 1}"
+        start, end = pos, pos + len(idxs)
+        group_view.append((label, reason, start, end))
+        group_sel[label] = list(range(start + 1, end + 1))
+        pos = end
+
+    print(f"\nFound {len(failures)} failing design/target job(s) "
+          f"in {len(group_view)} cause group(s):")
+    render_groups(failures, status, notes, group_view)
     print("\nLegend: ! = failing (no skip yet)   S = already skipped   "
           "? = not in config")
+    print("Select by number ('1-3,5'), by group letter ('A'), or 'all'.")
     print("Anything you do not select is left unchanged and will keep failing.\n")
 
     # (design, target, reason) batches to apply.
@@ -310,7 +583,7 @@ def main():
     applied = set()
 
     while True:
-        prompt = ("Select failures to skip (e.g. '1-3,5', 'all'), "
+        prompt = ("Select failures to skip (e.g. '1-3,5', group 'A', 'all'), "
                   "or 'w' to write, 'q' to quit: ")
         try:
             choice = input(prompt).strip()
@@ -328,7 +601,7 @@ def main():
             continue
 
         try:
-            picks = parse_selection(choice, len(failures))
+            picks = parse_selection(choice, len(failures), group_sel)
         except ValueError as exc:
             print(f"  {exc}")
             continue
@@ -354,7 +627,8 @@ def main():
             design, target = failures[idx]
             print(f"    {design}/{target}")
 
-        reason = input("  Skip reason / note for this group: ").strip()
+        suggestion = suggestion_for([reasons[idx] for idx in usable])
+        reason = prompt_reason(suggestion)
         if not reason:
             print("  Empty reason; selection not queued.")
             continue
