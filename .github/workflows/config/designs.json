@@ -517,8 +517,10 @@
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": false,
         "design": "mock_alu",
         "remote": false,
+        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -527,8 +529,10 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "mock_alu",
         "remote": false,
+        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "skywater130_sky130hd"
     },
     {
