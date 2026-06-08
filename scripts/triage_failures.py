@@ -203,6 +203,8 @@ RESOURCE_REASONS = {MEMORY_REASON, TIMEOUT_REASON}
 
 def is_resource_reason(reason):
     return reason in RESOURCE_REASONS
+
+
 # A tool error code, e.g. "[ERROR GRT-0232] Routing congestion too high.".
 # These OpenROAD/Yosys/etc. lines name the actual root cause.
 TOOL_ERROR_RE = re.compile(r"\[ERROR\s+[A-Z][A-Z0-9]*-\d+\]")
