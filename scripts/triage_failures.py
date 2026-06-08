@@ -195,6 +195,14 @@ MEMORY_REASON = "Task ran out of memory"
 # A step/job that hit its time limit; normalized like the memory case.
 TIMEOUT_RE = re.compile(r"\btimed out after\b|has timed out", re.IGNORECASE)
 TIMEOUT_REASON = "Timed out on CI runner"
+# Skip reasons that indicate an environmental/resource limit rather than a real
+# flow failure. These are tagged with skip_class="resource" so they can be
+# retried on a larger runner (see generate_image_cache.py --github_large).
+RESOURCE_REASONS = {MEMORY_REASON, TIMEOUT_REASON}
+
+
+def is_resource_reason(reason):
+    return reason in RESOURCE_REASONS
 # A tool error code, e.g. "[ERROR GRT-0232] Routing congestion too high.".
 # These OpenROAD/Yosys/etc. lines name the actual root cause.
 TOOL_ERROR_RE = re.compile(r"\[ERROR\s+[A-Z][A-Z0-9]*-\d+\]")
@@ -474,7 +482,14 @@ def write_changes(config, config_path, pending, unskip, dry_run):
             # A skipped design is removed from the run matrix, so it is never
             # cached; mirror the behavior of `sc-gallery -json`.
             entry["cache"] = False
-            print(f"  + {design}/{target}: {reason}")
+            # Tag environmental/resource failures so the large-runner workflow
+            # can retry them; clear the tag if the cause is now a real failure.
+            if is_resource_reason(reason):
+                entry["skip_class"] = "resource"
+                print(f"  + {design}/{target}: {reason}  (resource)")
+            else:
+                entry.pop("skip_class", None)
+                print(f"  + {design}/{target}: {reason}")
 
     if unskip:
         print(f"\n{verb} {len(unskip)} un-skip(s):")
@@ -482,6 +497,7 @@ def write_changes(config, config_path, pending, unskip, dry_run):
             entry = find_entry(config, design, target)
             entry.pop("skip", None)
             entry.pop("cache", None)
+            entry.pop("skip_class", None)
             print(f"  - {design}/{target}")
 
     if dry_run:

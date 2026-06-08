@@ -34,6 +34,16 @@ on:
         type: number
         default: 120
         description: timeout for design matrix in minutes
+      runner:
+        required: false
+        type: string
+        default: ubuntu-latest
+        description: runner label(s) for the design jobs
+      matrix-flag:
+        required: false
+        type: string
+        default: '--github'
+        description: generate_image_cache.py flag selecting which jobs to run
 
 name: 'All Gallery Designs Workflow'
 
@@ -78,7 +88,7 @@ jobs:
       - name: Get design matrix
         id: designs
         run: |
-          echo "designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py --github)" >> $GITHUB_OUTPUT
+          echo "designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py ${{ inputs.matrix-flag }})" >> $GITHUB_OUTPUT
           echo "$(python3 $GITHUB_WORKSPACE/scripts/report_configs.py --markdown)" >> $GITHUB_STEP_SUMMARY
 
   wheel:
@@ -253,7 +263,7 @@ jobs:
   designs_test:
     needs: [wheel, docker_image, designs, package_lambdapdk, package_siliconcompiler, cache]
     if: always() && !cancelled()
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
 
