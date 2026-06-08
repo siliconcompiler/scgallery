@@ -13,7 +13,7 @@
         "cache": false,
         "design": "aes",
         "remote": false,
-        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -34,45 +34,49 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Failed on cluster (multi_top/rof1_0__core/be/be_mmu/dcache)_glue_logic_1",
+        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Failed on cluster (multi_top/rof1_0__core/be/be_mmu/dcache)_glue_logic_0",
+        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Timeout on github runner",
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "cache": true,
+        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Memory limit on github runner",
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
     {
@@ -106,664 +110,662 @@
         "target": "skywater130_sky130hd"
     },
     {
-        "cache": true,
         "design": "caliptra_datavault",
         "remote": false,
-        "skip": "Memory limit on github runner",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "design": "caliptra_datavault",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_datavault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_datavault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "caliptra_datavault",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": false,
-        "design": "caliptra_datavault",
-        "remote": false,
-        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": true,
-        "design": "caliptra_keyvault",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "caliptra_sha512",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "caliptra_sha512",
         "remote": false,
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
-        "design": "caliptra_sha512",
+        "design": "caliptra_datavault",
         "remote": false,
         "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
-        "design": "caliptra_sha512",
-        "remote": false,
-        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "caliptra_sha512",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "caliptra_sha512",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "cache": true,
-        "design": "cva6",
-        "remote": false,
-        "skip": "Memory limit on github runner",
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "cva6",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "cva6",
-        "remote": false,
-        "skip": "[ERROR PSM-0069] Check connectivity failed on VDD.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": true,
-        "design": "cva6",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": false,
-        "design": "cva6",
-        "remote": false,
-        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": true,
-        "design": "cva6",
-        "remote": false,
-        "skip": "Memory limit on github runner",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "darksocv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "darksocv",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "darksocv",
-        "remote": false,
-        "skip": "[ERROR PSM-0069] Check connectivity failed on VDD.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": false,
-        "design": "darksocv",
-        "remote": false,
-        "skip": "[ERROR PSM-0069] Check connectivity failed on VDD.",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "darksocv",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "darksocv",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "dynamic_node",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "fazyrv",
-        "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": false,
-        "design": "jpeg",
+        "design": "caliptra_datavault",
         "remote": false,
         "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "design": "jpeg",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "mock_alu",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "mock_alu",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "mock_alu",
-        "remote": false,
-        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": false,
-        "design": "mock_alu",
-        "remote": false,
-        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "mock_alu",
+        "design": "caliptra_datavault",
         "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
         "cache": false,
-        "design": "mock_alu",
-        "remote": false,
-        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "openmsp430",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "openmsp430",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "openmsp430",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "openmsp430",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "openmsp430",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "openmsp430",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "picorv32",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "qerv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "qerv",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "qerv",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "qerv",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "qerv",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "qerv",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "riscv32i",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "serv",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "spi",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "swerv",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "cache": true,
-        "design": "swerv",
-        "remote": false,
-        "skip": "Timeout on github runner",
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": false,
-        "design": "swerv",
+        "design": "caliptra_datavault",
         "remote": false,
         "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "skywater130_sky130hd"
     },
     {
+        "cache": false,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_sha512",
+        "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "caliptra_sha512",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "cva6",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": false,
+        "design": "cva6",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "darksocv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "fazyrv",
+        "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "cache": false,
+        "design": "jpeg",
+        "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "qerv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "qerv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "qerv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "qerv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "qerv",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "qerv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "serv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "swerv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
+        "target": "skywater130_sky130hd"
+    },
+    {
         "design": "tiny_rocket",
         "remote": false,
         "target": "asap7_asap7sc7p5t_rvt"
@@ -777,14 +779,14 @@
         "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "[GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "[ERROR PSM-0069] Check connectivity failed on VDD.",
+        "skip": "[ERROR DPL-0036] Detailed placement failed inside DPL.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -831,42 +833,45 @@
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "pending resource and timing verication",
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "pending resource and timing verication",
+        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "pending resource and timing verication",
+        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "pending resource and timing verication",
+        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "pending resource and timing verication",
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "pending resource and timing verication",
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
         "target": "skywater130_sky130hd"
     }
 ]

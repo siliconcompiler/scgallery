@@ -32,6 +32,21 @@ def print_github(print_size):
         print(f"Total jobs on github: {len(github_jobs)}")
 
 
+def print_github_large(print_size):
+    # Designs skipped on the default runner due to environmental limits
+    # (timeouts / out-of-memory) that should be retried on a larger runner.
+    github_jobs = []
+    preserve_fields = ('design', 'target', 'remote')
+    for job in all_jobs:
+        if job.get("skip_class") != "resource":
+            continue
+        github_jobs.append({key: job[key] for key in preserve_fields})
+
+    print(json.dumps(github_jobs))
+    if print_size:
+        print(f"Total large-runner jobs on github: {len(github_jobs)}")
+
+
 def run_cache(clean, dry_run):
     from scgallery import Gallery
 
@@ -60,6 +75,10 @@ if __name__ == "__main__":
     parser.add_argument('--github',
                         action="store_true",
                         help="Get json matrix of github jobs")
+    parser.add_argument('--github_large',
+                        action="store_true",
+                        help="Get json matrix of jobs skipped on CI due to resource limits "
+                             "(timeouts / out-of-memory) to retry on a larger runner")
     parser.add_argument('--github_job_count',
                         action="store_true",
                         help="Prints the size of the github jobs")
@@ -75,12 +94,16 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if not args.github and not args.generate_cache:
+    if not args.github and not args.github_large and not args.generate_cache:
         parser.print_usage()
         sys.exit(1)
 
     if args.github:
         print_github(args.github_job_count)
+        sys.exit(0)
+
+    if args.github_large:
+        print_github_large(args.github_job_count)
         sys.exit(0)
 
     if args.generate_cache:

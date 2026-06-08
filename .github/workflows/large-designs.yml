@@ -1,0 +1,55 @@
+on:
+  workflow_dispatch:
+    inputs:
+      sc-ref:
+        required: false
+        type: string
+        description: which siliconcompiler ref to use
+      lambdapdk-ref:
+        required: false
+        type: string
+        description: which lambdapdk ref to use
+      concurrency:
+        required: false
+        type: number
+        default: 4
+        description: how many concurrent runners to use
+      timeout:
+        required: false
+        type: number
+        default: 360
+        description: timeout for design matrix in minutes
+      runner:
+        required: false
+        type: string
+        # TODO: point this at the self-hosted runner label once it is set up.
+        # Left as ubuntu-latest for now so the workflow is dispatchable; these
+        # designs are expected to time out / OOM there until the larger runner
+        # exists.
+        default: ubuntu-latest
+        description: runner label(s) for the design jobs
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.sc-ref }}-${{ inputs.lambdapdk-ref }}
+  cancel-in-progress: true
+
+name: 'Run Large Gallery Designs'
+
+# Runs only the designs that are skipped on the default CI runner due to
+# environmental/resource limits (timeouts / out-of-memory), tagged with
+# "skip_class": "resource" in config/designs.json. Intended for a larger,
+# self-hosted runner with more memory and a longer timeout.
+jobs:
+  designs:
+    uses: ./.github/workflows/run-designs.yml
+    with:
+      sc-ref: ${{ inputs.sc-ref }}
+      lambdapdk-ref: ${{ inputs.lambdapdk-ref }}
+      concurrency: ${{ fromJson(inputs.concurrency) }}
+      scgallery-ref: ${{ github.ref }}
+      fail-fast: false
+      run: default
+      timeout: ${{ fromJson(inputs.timeout) }}
+      runner: ${{ inputs.runner }}
+      matrix-flag: '--github_large'
+    secrets: inherit

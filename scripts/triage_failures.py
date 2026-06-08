@@ -178,6 +178,33 @@ def parse_selection(text, count, groups=None):
     return out
 
 
+# Out-of-memory failures. The exact figures vary per job (e.g. "...with 98.4%
+# system memory usage (255.3 MB available)"), so these are normalized to a
+# single canonical reason below so every OOM failure groups together.
+MEMORY_RE = re.compile(
+    r"ran out of memory"
+    r"|out of memory"
+    r"|TaskOutOfMemoryError"
+    r"|cannot allocate memory"
+    r"|std::bad_alloc"
+    r"|memory exhausted"
+    r"|MemoryError\b",
+    re.IGNORECASE,
+)
+MEMORY_REASON = "Task ran out of memory"
+# A step/job that hit its time limit; normalized like the memory case.
+TIMEOUT_RE = re.compile(r"\btimed out after\b|has timed out", re.IGNORECASE)
+TIMEOUT_REASON = "Timed out on CI runner"
+# Skip reasons that indicate an environmental/resource limit rather than a real
+# flow failure. These are tagged with skip_class="resource" so they can be
+# retried on a larger runner (see generate_image_cache.py --github_large).
+RESOURCE_REASONS = {MEMORY_REASON, TIMEOUT_REASON}
+
+
+def is_resource_reason(reason):
+    return reason in RESOURCE_REASONS
+
+
 # A tool error code, e.g. "[ERROR GRT-0232] Routing congestion too high.".
 # These OpenROAD/Yosys/etc. lines name the actual root cause.
 TOOL_ERROR_RE = re.compile(r"\[ERROR\s+[A-Z][A-Z0-9]*-\d+\]")
@@ -199,11 +226,13 @@ LOG_PREFIX_RE = re.compile(r"^\d{4}-\d\d-\d\dT[\d:.]+Z\s*")
 # GitHub Actions annotation markers, e.g. "##[error]" / "##[warning]".
 LOG_ANNOTATION_RE = re.compile(r"^##\[\w+\]")
 # Runner-generated lines that carry no useful cause (post-failure noise).
+# The final alternative drops action input echoes like "digest-mismatch: error"
+# and "if-no-files-found: error" that otherwise look like errors.
 LOG_NOISE_RE = re.compile(
     r"process completed with exit code"
     r"|no files were found"
-    r"|if-no-files-found"
-    r"|artifacts will be uploaded",
+    r"|artifacts will be uploaded"
+    r"|^[\w-]+:\s*error$",
     re.IGNORECASE,
 )
 
@@ -256,23 +285,34 @@ def extract_error(log_text):
         # Reduce "LEVEL | design | step | index | message" to just the message.
         messages.append(_strip_sc_prefix(line))
 
-    # 1. A tool error code (e.g. "[ERROR GRT-0232] ...") names the real cause;
+    # 1. Out-of-memory failures are an environmental cause worth flagging on
+    #    their own; normalize so they all share one group/reason.
+    for msg in messages:
+        if MEMORY_RE.search(msg):
+            return MEMORY_REASON
+
+    # 2. Timeouts are likewise environmental; normalize them together.
+    for msg in messages:
+        if TIMEOUT_RE.search(msg):
+            return TIMEOUT_REASON
+
+    # 3. A tool error code (e.g. "[ERROR GRT-0232] ...") names the real cause;
     #    the first one is the originating failure.
     for msg in messages:
         if TOOL_ERROR_RE.search(msg):
             return _truncate(msg)
 
-    # 2. A raised Python exception.
+    # 4. A raised Python exception.
     for msg in reversed(messages):
         if EXCEPTION_RE.match(msg):
             return _truncate(EXCEPTION_PREFIX_RE.sub("", msg))
 
-    # 3. A SiliconCompiler "Run failed" summary.
+    # 5. A SiliconCompiler "Run failed" summary.
     for msg in reversed(messages):
         if RUN_FAILED_RE.search(msg):
             return _truncate(msg)
 
-    # 4. Any other error-ish line (root cause tends to come first).
+    # 6. Any other error-ish line (root cause tends to come first).
     for msg in messages:
         if ERROR_LINE_RE.search(msg):
             return _truncate(msg)
@@ -284,7 +324,8 @@ def suggest_reason(records):
     conclusions = {r["conclusion"] for r in records}
     steps = {r["failed_step"] for r in records if r["failed_step"]}
     if conclusions == {"timed_out"}:
-        return "times out in CI"
+        # Use the canonical reason so write_changes() tags it skip_class=resource.
+        return TIMEOUT_REASON
     if len(steps) == 1:
         return f"fails during '{next(iter(steps))}'"
     if conclusions == {"cancelled"}:
@@ -362,9 +403,13 @@ def prompt_reason(suggestion):
     return input(f"{label}: ").strip()
 
 
-def render_groups(failures, status, notes, group_view):
+def render_groups(failures, status, notes, suggestions, group_view):
     """Print failures clustered by cause; each group gets a letter label and
-    every failure keeps its own number."""
+    every failure keeps its own number.
+
+    An existing skip whose note already matches the detected cause is shown as
+    'skip*' so it is clear no update is needed.
+    """
     width = len(str(len(failures)))
     design_w = max((len(d) for d, _ in failures), default=6)
     target_w = max((len(t) for _, t in failures), default=6)
@@ -376,7 +421,8 @@ def render_groups(failures, status, notes, group_view):
                     f"{design:<{design_w}}  {target:<{target_w}}")
             note = notes[i]
             if note:
-                line += f"   (skip: {note})"
+                matches = suggestions[i] and note.strip() == suggestions[i].strip()
+                line += f"   ({'skip*' if matches else 'skip'}: {note})"
             print(line.rstrip())
 
 
@@ -439,7 +485,14 @@ def write_changes(config, config_path, pending, unskip, dry_run):
             # A skipped design is removed from the run matrix, so it is never
             # cached; mirror the behavior of `sc-gallery -json`.
             entry["cache"] = False
-            print(f"  + {design}/{target}: {reason}")
+            # Tag environmental/resource failures so the large-runner workflow
+            # can retry them; clear the tag if the cause is now a real failure.
+            if is_resource_reason(reason):
+                entry["skip_class"] = "resource"
+                print(f"  + {design}/{target}: {reason}  (resource)")
+            else:
+                entry.pop("skip_class", None)
+                print(f"  + {design}/{target}: {reason}")
 
     if unskip:
         print(f"\n{verb} {len(unskip)} un-skip(s):")
@@ -447,6 +500,7 @@ def write_changes(config, config_path, pending, unskip, dry_run):
             entry = find_entry(config, design, target)
             entry.pop("skip", None)
             entry.pop("cache", None)
+            entry.pop("skip_class", None)
             print(f"  - {design}/{target}")
 
     if dry_run:
@@ -572,9 +626,10 @@ def main():
 
     print(f"\nFound {len(failures)} failing design/target job(s) "
           f"in {len(group_view)} cause group(s):")
-    render_groups(failures, status, notes, group_view)
+    render_groups(failures, status, notes, reasons, group_view)
     print("\nLegend: ! = failing (no skip yet)   S = already skipped   "
           "? = not in config")
+    print("        skip* = existing note already matches the detected cause")
     print("Select by number ('1-3,5'), by group letter ('A'), or 'all'.")
     print("Anything you do not select is left unchanged and will keep failing.\n")
 
