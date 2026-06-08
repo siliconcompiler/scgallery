@@ -87,8 +87,15 @@ jobs:
 
       - name: Get design matrix
         id: designs
+        env:
+          MATRIX_FLAG: ${{ inputs.matrix-flag }}
         run: |
-          echo "designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py ${{ inputs.matrix-flag }})" >> $GITHUB_OUTPUT
+          # Validate against an allowlist so the input can't inject shell.
+          case "$MATRIX_FLAG" in
+            --github|--github_large) ;;
+            *) echo "Unsupported matrix-flag: $MATRIX_FLAG" >&2; exit 1 ;;
+          esac
+          echo "designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py "$MATRIX_FLAG")" >> $GITHUB_OUTPUT
           echo "$(python3 $GITHUB_WORKSPACE/scripts/report_configs.py --markdown)" >> $GITHUB_STEP_SUMMARY
 
   wheel:

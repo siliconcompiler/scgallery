@@ -324,7 +324,8 @@ def suggest_reason(records):
     conclusions = {r["conclusion"] for r in records}
     steps = {r["failed_step"] for r in records if r["failed_step"]}
     if conclusions == {"timed_out"}:
-        return "times out in CI"
+        # Use the canonical reason so write_changes() tags it skip_class=resource.
+        return TIMEOUT_REASON
     if len(steps) == 1:
         return f"fails during '{next(iter(steps))}'"
     if conclusions == {"cancelled"}:
