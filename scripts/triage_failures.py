@@ -70,13 +70,17 @@ def find_failed_step(job):
 
 
 def fetch_job_results(run_id, repo):
-    """Return a dict mapping (design, target) -> result record for design jobs.
+    """Return ``(results, workflow_name)`` for a run.
 
-    Each record is a dict with:
+    ``results`` maps (design, target) -> result record for design jobs. Each
+    record is a dict with:
         conclusion  -- the job conclusion ("failure", "success", ...) or None
                        if the job has not finished yet
         status      -- the job status ("completed", "in_progress", "queued", ...)
         failed_step -- name of the earliest failing step (for failures), or None
+
+    ``workflow_name`` is the run's workflow display name (used to auto-detect
+    the large-runner workflow).
 
     If the same design/target appears more than once, a failing conclusion
     takes precedence over a non-failing one.
@@ -86,7 +90,7 @@ def fetch_job_results(run_id, repo):
             [
                 "gh", "run", "view", run_id,
                 "--repo", repo,
-                "--json", "jobs",
+                "--json", "jobs,workflowName",
             ],
             check=True,
             capture_output=True,
@@ -97,7 +101,9 @@ def fetch_job_results(run_id, repo):
     except subprocess.CalledProcessError as exc:
         sys.exit(f"error: gh failed:\n{exc.stderr.strip()}")
 
-    jobs = json.loads(result.stdout).get("jobs", [])
+    payload = json.loads(result.stdout)
+    jobs = payload.get("jobs", [])
+    workflow_name = payload.get("workflowName", "")
 
     results = {}
     for job in jobs:
@@ -120,7 +126,16 @@ def fetch_job_results(run_id, repo):
             continue
         results[key] = record
 
-    return results
+    return results, workflow_name
+
+
+# The large-runner workflow's name (see .github/workflows/large-designs.yml).
+# Triaging a run of this workflow keeps designs in the resource class.
+LARGE_WORKFLOW_RE = re.compile(r"\blarge\b", re.IGNORECASE)
+
+
+def is_large_run(workflow_name):
+    return bool(workflow_name and LARGE_WORKFLOW_RE.search(workflow_name))
 
 
 def load_config(path):
@@ -468,7 +483,8 @@ def handle_passed_but_skipped(config, candidates):
     return selected
 
 
-def write_changes(config, config_path, pending, unskip, dry_run):
+def write_changes(config, config_path, pending, unskip, dry_run,
+                  large_run=False):
     """Apply queued skip additions/removals and persist the config."""
     if not pending and not unskip:
         print("\nNothing queued; no changes written.")
@@ -487,7 +503,10 @@ def write_changes(config, config_path, pending, unskip, dry_run):
             entry["cache"] = False
             # Tag environmental/resource failures so the large-runner workflow
             # can retry them; clear the tag if the cause is now a real failure.
-            if is_resource_reason(reason):
+            # When triaging the large run itself, the design only runs there in
+            # the first place, so keep it in the resource class regardless of
+            # the (now correctly recorded) failure cause.
+            if large_run or is_resource_reason(reason):
                 entry["skip_class"] = "resource"
                 print(f"  + {design}/{target}: {reason}  (resource)")
             else:
@@ -525,6 +544,13 @@ def main():
                         help="also treat cancelled jobs as failures")
     parser.add_argument("--no-log-hints", action="store_true",
                         help="don't read job logs to suggest skip reasons")
+    parser.add_argument("--large-run", action=argparse.BooleanOptionalAction,
+                        default=None,
+                        help="treat this as the large-runner workflow: passing "
+                        "designs stay skipped (they only pass on the large "
+                        "runner) and any marked failure keeps "
+                        "skip_class=resource. Auto-detected from the run's "
+                        "workflow name; use --no-large-run to override.")
     parser.add_argument("--dry-run", action="store_true",
                         help="show what would change without writing the config")
     args = parser.parse_args()
@@ -537,10 +563,20 @@ def main():
     config_path = os.path.abspath(args.config)
 
     print(f"Fetching design job results from run {run_id} ({args.repo})...")
-    results = fetch_job_results(run_id, args.repo)
+    results, workflow_name = fetch_job_results(run_id, args.repo)
     if not results:
         print("No design jobs found in this run. Nothing to do.")
         return 0
+
+    # Resolve the large-run mode: explicit --large-run/--no-large-run wins,
+    # otherwise auto-detect from the run's workflow name.
+    large_run = args.large_run
+    if large_run is None:
+        large_run = is_large_run(workflow_name)
+        if large_run:
+            print(f"Detected large-runner workflow ({workflow_name!r}): "
+                  "keeping passing designs skipped and retaining "
+                  "skip_class=resource. Override with --no-large-run.")
 
     failures = sorted(k for k, r in results.items()
                       if r["conclusion"] in conclusions)
@@ -559,23 +595,30 @@ def main():
 
     # Designs currently marked skip in the config that nonetheless ran and
     # passed in this run (e.g. a full/'all' run ignores existing skips).
-    def _passed(design, target):
-        record = results.get((design, target))
-        return record is not None and record["conclusion"] == "success"
+    # On the large runner these designs are *expected* to pass; that does not
+    # mean they should run again on the resource-limited default CI, so never
+    # offer to un-skip them there.
+    if large_run:
+        unskip = []
+    else:
+        def _passed(design, target):
+            record = results.get((design, target))
+            return record is not None and record["conclusion"] == "success"
 
-    passed_but_skipped = sorted(
-        (entry["design"], entry["target"])
-        for entry in config
-        if entry.get("skip") and _passed(entry.get("design"),
-                                         entry.get("target"))
-    )
+        passed_but_skipped = sorted(
+            (entry["design"], entry["target"])
+            for entry in config
+            if entry.get("skip") and _passed(entry.get("design"),
+                                             entry.get("target"))
+        )
 
-    # Indices queued to have their skip cleared.
-    unskip = handle_passed_but_skipped(config, passed_but_skipped)
+        # Indices queued to have their skip cleared.
+        unskip = handle_passed_but_skipped(config, passed_but_skipped)
 
     if not failures:
         print("\nNo failing design jobs found.")
-        return write_changes(config, config_path, [], unskip, args.dry_run)
+        return write_changes(config, config_path, [], unskip, args.dry_run,
+                             large_run=large_run)
 
     # Status flags shown next to each failure:
     #   "!"  -> known failure, present in config and runnable (no skip yet)
@@ -697,7 +740,8 @@ def main():
             status[idx] = "S"
         print(f"  Queued {len(usable)} job(s).\n")
 
-    return write_changes(config, config_path, pending, unskip, args.dry_run)
+    return write_changes(config, config_path, pending, unskip, args.dry_run,
+                         large_run=large_run)
 
 
 if __name__ == "__main__":

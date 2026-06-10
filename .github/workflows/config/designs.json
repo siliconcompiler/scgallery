@@ -67,7 +67,7 @@
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Timed out on CI runner",
+        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
@@ -258,7 +258,7 @@
         "cache": false,
         "design": "cva6",
         "remote": false,
-        "skip": "Timed out on CI runner",
+        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
@@ -763,7 +763,7 @@
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "Timed out on CI runner",
+        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
