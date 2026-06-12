@@ -18,6 +18,9 @@ class SPIDesign(Design):
             with self.active_fileset("sdc.asap7sc7p5t_rvt"):
                 self.add_file("constraints/asap7sc7p5t_rvt.sdc")
 
+            with self.active_fileset("sdc.gt2n_stdcells_w31_svt"):
+                self.add_file("constraints/gt2n_stdcells_w31_svt.sdc")
+
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu7t5v0_5LM"):
                 self.add_file("constraints/gf180mcu_fd_sc_mcu7t5v0.sdc")
 

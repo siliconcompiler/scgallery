@@ -23,6 +23,7 @@ from siliconcompiler.schema.parametertype import NodeType
 from siliconcompiler.utils import default_credentials_file, paths, curation
 
 from scgallery.targets.freepdk45 import nangate45 as freepdk45_nangate45
+from scgallery.targets.gt2n import gt2n as gt2n_6t
 from scgallery.targets.gf180 import (
     gf180mcu_fd_sc_mcu7t5v0 as gf180_gf180mcu_fd_sc_mcu7t5v0,
     gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0,
@@ -61,7 +62,8 @@ class Gallery:
                 ("asap7_asap7sc7p5t_rvt", asap7_asap7sc7p5t_rvt),
                 ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
-                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell)):
+                ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
+                ("gt2n_6t_w31", gt2n_6t)):
             self.add_target(name, target)
 
         self.__designs: Dict[str, Design] = {}

@@ -97,7 +97,8 @@ def test_default_targets():
                                      "asap7_asap7sc7p5t_rvt",
                                      "gf180_gf180mcu_fd_sc_mcu9t5v0",
                                      "gf180_gf180mcu_fd_sc_mcu7t5v0",
-                                     "ihp130_sg13g2_stdcell"]
+                                     "ihp130_sg13g2_stdcell",
+                                     "gt2n_6t_w31"]
 
 
 def test_add_design():

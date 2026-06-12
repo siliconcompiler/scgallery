@@ -26,6 +26,11 @@
     {
         "design": "aes",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "aes",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -102,6 +107,11 @@
     {
         "design": "blinky",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "blinky",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -134,6 +144,14 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
+        "design": "caliptra_datavault",
+        "remote": false,
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
+        "target": "gt2n_6t_w31"
+    },
+    {
         "design": "caliptra_datavault",
         "remote": false,
         "target": "ihp130_sg13g2_stdcell"
@@ -183,6 +201,14 @@
         "remote": false,
         "skip": "Timed out on CI runner",
         "skip_class": "resource",
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_keyvault",
+        "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -216,6 +242,14 @@
         "remote": false,
         "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "caliptra_sha512",
+        "remote": false,
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
+        "target": "gt2n_6t_w31"
     },
     {
         "design": "caliptra_sha512",
@@ -323,6 +357,11 @@
     {
         "design": "dynamic_node",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "dynamic_node",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -415,6 +454,11 @@
     {
         "design": "gcd",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -445,6 +489,11 @@
     {
         "design": "heartbeat",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -471,6 +520,11 @@
         "design": "ibex",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "gt2n_6t_w31"
     },
     {
         "design": "ibex",
@@ -505,6 +559,14 @@
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
+        "design": "jpeg",
+        "remote": false,
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
+        "target": "gt2n_6t_w31"
+    },
+    {
         "design": "jpeg",
         "remote": false,
         "target": "ihp130_sg13g2_stdcell"
@@ -537,6 +599,11 @@
     {
         "design": "mock_alu",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "mock_alu",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -567,6 +634,11 @@
     {
         "design": "openmsp430",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "openmsp430",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -597,6 +669,11 @@
     {
         "design": "picorv32",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "picorv32",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -627,6 +704,11 @@
     {
         "design": "qerv",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "qerv",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -657,6 +739,11 @@
     {
         "design": "riscv32i",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "riscv32i",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -687,6 +774,11 @@
     {
         "design": "serv",
         "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "serv",
+        "remote": false,
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -713,6 +805,11 @@
         "design": "spi",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "spi",
+        "remote": false,
+        "target": "gt2n_6t_w31"
     },
     {
         "design": "spi",
@@ -750,6 +847,14 @@
         "remote": false,
         "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "swerv",
+        "remote": false,
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
+        "target": "gt2n_6t_w31"
     },
     {
         "cache": false,
@@ -820,6 +925,11 @@
         "design": "uart",
         "remote": false,
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "uart",
+        "remote": false,
+        "target": "gt2n_6t_w31"
     },
     {
         "design": "uart",
