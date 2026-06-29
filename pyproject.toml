@@ -41,13 +41,13 @@ dynamic = ["version"]
 [project.optional-dependencies]
 # Dev dependencies.
 dev = [
-    "pytest==8.4.2",
+    "pytest==9.1.1",
     "pytest-xdist==3.8.0",
     "pytest-cov == 7.1.0"
 ]
 lint = [
     "flake8==7.3.0",
-    "tclint==0.7.0",
+    "tclint==0.8.0",
     "codespell==2.4.2"
 ]
 docs = [
