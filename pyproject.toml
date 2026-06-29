@@ -28,7 +28,7 @@ authors = [
 ]
 description = "Design gallery for SiliconCompiler"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 dependencies = [
