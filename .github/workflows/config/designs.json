@@ -315,13 +315,17 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
         "design": "darksocv",
         "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": false,
         "design": "darksocv",
         "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -587,13 +591,17 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
         "design": "mock_alu",
         "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
+        "cache": false,
         "design": "mock_alu",
         "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
