@@ -214,6 +214,7 @@ jobs:
           lpath=$(find .sc/cache -name "lambdapdk-*" | grep -v ".lock")
           echo "Lambdapdk location: $lpath"
           echo path=${lpath} >> $GITHUB_OUTPUT # update GitHub vars
+          chmod -R +w $lpath
           rm -rf $lpath
 
       - name: Get lambdapdk
