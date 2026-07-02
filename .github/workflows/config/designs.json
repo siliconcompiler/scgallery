@@ -257,8 +257,11 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "caliptra_sha512",
         "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
     {
@@ -270,8 +273,10 @@
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
+        "cache": false,
         "design": "cva6",
         "remote": false,
+        "skip": "[ERROR PPL-0024] Number of IO pins (5257) exceeds maximum number of available positions (4968). Increase the die peri...",
         "target": "freepdk45_nangate45"
     },
     {
@@ -536,8 +541,10 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "ibex",
         "remote": false,
+        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "skywater130_sky130hd"
     },
     {
@@ -551,8 +558,10 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
         "design": "jpeg",
         "remote": false,
+        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
