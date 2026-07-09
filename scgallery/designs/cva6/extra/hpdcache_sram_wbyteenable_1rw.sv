@@ -14,23 +14,11 @@ module hpdcache_sram_wbyteenable_1rw
     input  logic [DATA_SIZE/8-1:0] wbyteenable,
     output logic [DATA_SIZE-1:0]   rdata
 );
-    logic [DATA_SIZE-1:0] wmask;
-
-    genvar i;
-    genvar j;
-    generate
-        for ( i = 0; i < DATA_SIZE/8; i++) begin
-            for ( j = 0; j < 8; j++) begin
-                assign wmask[i*8 + j] = wbyteenable[i];
-            end
-        end
-    endgenerate
-
-    la_spram #(.DW(DATA_SIZE), .AW(ADDR_SIZE)) mem (
+    la_spram #(.DW(DATA_SIZE), .AW(ADDR_SIZE), .BYTEMASK(1)) mem (
         .clk(clk),
         .ce(cs),
         .we(we),
-        .wmask(wmask),
+        .wmask(wbyteenable),
         .addr(addr),
         .din(wdata),
         .dout(rdata),

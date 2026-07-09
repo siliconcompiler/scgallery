@@ -41,36 +41,13 @@ module sram_cache #(
 );
   localparam DATA_AND_USER_WIDTH = USER_EN ? DATA_WIDTH + USER_WIDTH : DATA_WIDTH;
 
-  logic [DATA_WIDTH-1:0] wdata_user;
-  logic [DATA_WIDTH-1:0] rdata_user;
-  logic [(DATA_WIDTH+7)/8-1:0] be;
-
-  always_comb begin
-    wdata_user = wdata_i;
-    be         = be_i;
-    rdata_o    = rdata_user;
-    ruser_o    = '0;
-  end
-
-  logic [DATA_AND_USER_WIDTH-1:0] wmask;
-
-  genvar i;
-  genvar j;
-  generate
-      for ( i = 0; i < DATA_WIDTH/8; i++) begin
-          for ( j = 0; j < 8; j++) begin
-              assign wmask[i*8 + j] = be[i];
-          end
-      end
-  endgenerate
-
-  la_spram #(.DW(DATA_AND_USER_WIDTH), .AW($clog2(NUM_WORDS))) i_tc_sram_wrapper (
+  la_spram #(.DW(DATA_AND_USER_WIDTH), .AW($clog2(NUM_WORDS)), .BYTEMASK(1)) i_tc_sram_wrapper (
     .clk(clk_i),
     .ce(req_i),
     .we(we_i),
-    .wmask(wmask),
+    .wmask(be_i),
     .addr(addr_i),
-    .din(wdata_user),
+    .din(wdata_i),
     .dout(rdata_user),
     .selctrl(1'b0),
     .ctrl('b0),

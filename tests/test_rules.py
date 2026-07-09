@@ -37,8 +37,8 @@ def metrics_project():
     project.set('metric', 'holdpaths', 5, step='write_data', index='0')
     project.set('metric', 'logicdepth', 5, step='write_data', index='0')
 
-    for step in project.getkeys('flowgraph', 'asicflow'):
-        for index in project.getkeys('flowgraph', 'asicflow', step):
+    for step in project.getkeys('flowgraph', 'asicflow-verilog'):
+        for index in project.getkeys('flowgraph', 'asicflow-verilog', step):
             project.set('metric', 'exetime', 20, step=step, index=index)
 
     project._record_history()

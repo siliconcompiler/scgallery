@@ -65,18 +65,11 @@ module hard_mem_1rw_byte_mask_d512_w64_wrapper(clk_i, reset_i, data_i,
   wire [63:0] data_o;
   wire [63:0] wen;
 
-  la_spram #(.DW(64), .AW(9)) mem(
+  la_spram #(.DW(64), .AW(9), .BYTEMASK(1)) mem(
     .clk(clk_i),
     .ce(1'b1),
     .we(w_i),
-    .wmask({{8{write_mask_i[7]}},
-            {8{write_mask_i[6]}},
-            {8{write_mask_i[5]}},
-            {8{write_mask_i[4]}},
-            {8{write_mask_i[3]}},
-            {8{write_mask_i[2]}},
-            {8{write_mask_i[1]}},
-            {8{write_mask_i[0]}}}),
+    .wmask(write_mask_i),
     .addr(addr_i),
     .din(data_i),
     .dout(data_o),

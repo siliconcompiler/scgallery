@@ -78,7 +78,7 @@ def new_value(project: ASIC,
         elif '<' in operator:
             newvalue += margin
 
-    if sc_type == 'int':
+    if sc_type.startswith('int'):
         if '>' in operator:
             newvalue = math.floor(newvalue)
         elif '<' in operator:

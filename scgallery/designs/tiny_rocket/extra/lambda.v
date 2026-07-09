@@ -8,18 +8,14 @@ module data_arrays_0_ext(
   output [31:0] RW0_rdata
 );
 
-  la_spram #(.DW(32), .AW(6)) mem (
-    .clk      (RW0_clk   ),
-    .dout   (RW0_rdata  ),
-    .ce    (RW0_en    ),
-    .we    (RW0_wmode     ),
-    .wmask({  {8{RW0_wmask[3]}}
-                 ,{8{RW0_wmask[2]}}
-                 ,{8{RW0_wmask[1]}}
-                 ,{8{RW0_wmask[0]}}}
-      ),
-    .addr  (RW0_addr  ),
-    .din    (RW0_wdata  ),
+  la_spram #(.DW(32), .AW(6), BYTEMASK(1)) mem (
+    .clk(RW0_clk),
+    .dout(RW0_rdata),
+    .ce(RW0_en),
+    .we(RW0_wmode),
+    .wmask(RW0_wmask),
+    .addr(RW0_addr),
+    .din(RW0_wdata),
     .selctrl(1'b0),
     .ctrl('b0),
     .status()
@@ -93,18 +89,14 @@ module data_arrays_0_0_ext(
 );
 
 
-  la_spram #(.DW(32), .AW(6)) mem (
-    .clk      (RW0_clk   ),
-    .dout   (RW0_rdata  ),
-    .ce    (RW0_en    ),
-    .we    (RW0_wmode     ),
-    .wmask({  {8{RW0_wmask}}
-                 ,{8{RW0_wmask}}
-                 ,{8{RW0_wmask}}
-                 ,{8{RW0_wmask}}}
-      ),
-    .addr  (RW0_addr  ),
-    .din    (RW0_wdata  ),
+  la_spram #(.DW(32), .AW(6), .BYTEMASK(1)) mem (
+    .clk(RW0_clk),
+    .dout(RW0_rdata),
+    .ce(RW0_en),
+    .we(RW0_wmode),
+    .wmask({4{RW0_wmask}}),
+    .addr(RW0_addr),
+    .din(RW0_wdata),
     .selctrl(1'b0),
     .ctrl('b0),
     .status()
@@ -134,18 +126,14 @@ module mem_ext(
   assign en = W0_en | R0_en;
 
 
-  la_spram #(.DW(32), .AW(10)) mem (
-    .clk      (W0_clk   ),
-    .dout   (R0_data  ),
-    .ce    (en    ),
-    .we    (W0_en     ),
-    .wmask({  {8{W0_mask[3]}}
-                 ,{8{W0_mask[2]}}
-                 ,{8{W0_mask[1]}}
-                 ,{8{W0_mask[0]}}}
-      ),
-    .addr  (addr_int  ),
-    .din    (W0_data  ),
+  la_spram #(.DW(32), .AW(10), .BYTEMASK(1)) mem (
+    .clk(W0_clk),
+    .dout(R0_data),
+    .ce(en),
+    .we(W0_en),
+    .wmask(W0_mask),
+    .addr(addr_int),
+    .din(W0_data),
     .selctrl(1'b0),
     .ctrl('b0),
     .status()
