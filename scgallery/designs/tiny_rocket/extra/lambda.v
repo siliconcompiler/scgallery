@@ -8,7 +8,7 @@ module data_arrays_0_ext(
   output [31:0] RW0_rdata
 );
 
-  la_spram #(.DW(32), .AW(6), BYTEMASK(1)) mem (
+  la_spram #(.DW(32), .AW(6), .BYTEMASK(1)) mem (
     .clk(RW0_clk),
     .dout(RW0_rdata),
     .ce(RW0_en),
