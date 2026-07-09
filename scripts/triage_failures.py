@@ -236,6 +236,11 @@ EXCEPTION_PREFIX_RE = re.compile(r"^\w*(?:Error|Exception):\s*")
 RUN_FAILED_RE = re.compile(r"\bRun failed\b", re.IGNORECASE)
 # SiliconCompiler log lines: "LEVEL | design | step | index | message".
 SC_LINE_RE = re.compile(r"^\|\s*\w+\s*\|")
+# Full node lines carry the failing step/index; capture both plus the message.
+SC_FIELDS_RE = re.compile(
+    r"^\|\s*\w+\s*\|\s*[^|]+?\s*\|\s*(?P<step>[^|]+?)\s*\|"
+    r"\s*(?P<index>\d+)\s*\|\s*(?P<message>.*)$"
+)
 # Leading ISO timestamp the GitHub logs API prepends to each line.
 LOG_PREFIX_RE = re.compile(r"^\d{4}-\d\d-\d\dT[\d:.]+Z\s*")
 # GitHub Actions annotation markers, e.g. "##[error]" / "##[warning]".
@@ -281,56 +286,79 @@ def _truncate(text, limit=120):
     return text if len(text) <= limit else text[:limit - 3] + "..."
 
 
-def _strip_sc_prefix(line):
-    """Reduce a 'LEVEL | design | step | index | message' line to its message."""
+def _parse_sc_line(line):
+    """Split a log line into ``(step, index, message)``.
+
+    Full SiliconCompiler node lines ("LEVEL | design | step | index | message")
+    yield the failing step/index; shorter "LEVEL | message" lines and any
+    non-SC line yield the message with step/index of ``None``.
+    """
+    match = SC_FIELDS_RE.match(line)
+    if match:
+        return (match.group("step"), match.group("index"),
+                match.group("message").strip())
     if SC_LINE_RE.match(line):
-        return line.rsplit("|", 1)[-1].strip()
-    return line
+        return None, None, line.rsplit("|", 1)[-1].strip()
+    return None, None, line
+
+
+def _with_node(msg, step, index):
+    """Prefix ``msg`` with the failing 'step/index' node when it is known."""
+    if step is None:
+        return msg
+    return f"{step}/{index}: {msg}"
 
 
 def extract_error(log_text):
-    """Pull the most likely root-cause line out of a job log."""
-    messages = []
+    """Pull the most likely root-cause line out of a job log.
+
+    The returned reason names the SiliconCompiler step/index the failure was
+    logged under (e.g. "floorplan.init/0: [ERROR GRT-0232] ...") when the line
+    provides it. The environmental memory/timeout reasons are left node-free so
+    they stay normalized for resource classification.
+    """
+    entries = []
     for raw in log_text.splitlines():
         line = raw.split("\t")[-1].strip()
         line = LOG_PREFIX_RE.sub("", line).strip()
         line = LOG_ANNOTATION_RE.sub("", line).strip()
         if not line or LOG_NOISE_RE.search(line):
             continue
-        # Reduce "LEVEL | design | step | index | message" to just the message.
-        messages.append(_strip_sc_prefix(line))
+        # Keep each message paired with the step/index it was logged under.
+        entries.append(_parse_sc_line(line))
 
     # 1. Out-of-memory failures are an environmental cause worth flagging on
     #    their own; normalize so they all share one group/reason.
-    for msg in messages:
+    for step, index, msg in entries:
         if MEMORY_RE.search(msg):
             return MEMORY_REASON
 
     # 2. Timeouts are likewise environmental; normalize them together.
-    for msg in messages:
+    for step, index, msg in entries:
         if TIMEOUT_RE.search(msg):
             return TIMEOUT_REASON
 
     # 3. A tool error code (e.g. "[ERROR GRT-0232] ...") names the real cause;
     #    the first one is the originating failure.
-    for msg in messages:
+    for step, index, msg in entries:
         if TOOL_ERROR_RE.search(msg):
-            return _truncate(msg)
+            return _with_node(_truncate(msg), step, index)
 
     # 4. A raised Python exception.
-    for msg in reversed(messages):
+    for step, index, msg in reversed(entries):
         if EXCEPTION_RE.match(msg):
-            return _truncate(EXCEPTION_PREFIX_RE.sub("", msg))
+            return _with_node(_truncate(EXCEPTION_PREFIX_RE.sub("", msg)),
+                              step, index)
 
     # 5. A SiliconCompiler "Run failed" summary.
-    for msg in reversed(messages):
+    for step, index, msg in reversed(entries):
         if RUN_FAILED_RE.search(msg):
-            return _truncate(msg)
+            return _with_node(_truncate(msg), step, index)
 
     # 6. Any other error-ish line (root cause tends to come first).
-    for msg in messages:
+    for step, index, msg in entries:
         if ERROR_LINE_RE.search(msg):
-            return _truncate(msg)
+            return _with_node(_truncate(msg), step, index)
     return None
 
 
@@ -349,8 +377,9 @@ def suggest_reason(records):
 
 
 def reason_for_record(repo, record, use_logs, log_cache):
-    """Best skip reason for a single failing job: scraped error line if we can
-    read the log, otherwise the step/conclusion-based fallback."""
+    """Best skip reason for a single failing job: scraped error line (naming the
+    failing step/index when known) if we can read the log, otherwise the
+    step/conclusion-based fallback."""
     if use_logs and record["conclusion"] in FAILING_CONCLUSIONS \
             and record.get("job_id") is not None:
         error = extract_error(fetch_failed_log(repo, record["job_id"],
@@ -422,6 +451,7 @@ def render_groups(failures, status, notes, suggestions, group_view):
     """Print failures clustered by cause; each group gets a letter label and
     every failure keeps its own number.
 
+    The group's cause names the failing SiliconCompiler step/index when known.
     An existing skip whose note already matches the detected cause is shown as
     'skip*' so it is clear no update is needed.
     """
