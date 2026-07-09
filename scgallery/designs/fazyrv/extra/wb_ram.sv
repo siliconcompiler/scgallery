@@ -16,12 +16,10 @@ module wb_ram #(parameter DEPTH=128, parameter MEMFILE="")
 logic read_enable;
 logic write_enable;
 logic chip_enable;
-logic [31:0] mask;
 
 assign read_enable   = cyc_i & stb_i & ~we_i;
 assign write_enable  = cyc_i & stb_i & we_i;
 assign chip_enable   = read_enable | write_enable;
-assign mask          = {{8{be_i[3]}}, {8{be_i[2]}}, {8{be_i[1]}}, {8{be_i[0]}}};
 
 always @(posedge clk_i) begin
    ack_o <= 'b0;
@@ -35,12 +33,13 @@ end
 
 la_spram #(
     .DW(32),
-    .AW($clog2(DEPTH))
+    .AW($clog2(DEPTH)),
+    .BYTEMASK(1)
 ) ram (
     .clk(clk_i),
     .ce(chip_enable),
     .we(write_enable),
-    .wmask(mask),
+    .wmask(be_i),
     .addr(adr_i),
     .din(dat_i),
     .dout(dat_o),

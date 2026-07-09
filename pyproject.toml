@@ -33,8 +33,8 @@ license = "Apache-2.0"
 license-files = ["LICENSE"]
 dependencies = [
     "siliconcompiler>=0.37.3",
-    "lambdapdk>=0.2.13",
-    "lambdalib>=0.12.0"
+    "lambdapdk>=0.2.16",
+    "lambdalib>=0.13.1"
 ]
 dynamic = ["version"]
 

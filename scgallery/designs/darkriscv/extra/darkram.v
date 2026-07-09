@@ -2138,11 +2138,11 @@ module darkram
     `endif
     end
 
-    la_spram #(.DW(32), .AW(`MLEN-2)) dataram (
+    la_spram #(.DW(32), .AW(`MLEN-2), .BYTEMASK(1)) dataram (
         .clk(CLK),
         .ce(1'b1),
         .we(XWR && XDREQ),
-        .wmask({{8{XBE[3]}}, {8{XBE[2]}}, {8{XBE[1]}}, {8{XBE[0]}}}),
+        .wmask(XBE[3]),
         .addr(XADDR[`MLEN-1:2]),
         .din(XATAI),
         .dout(XATAO),
