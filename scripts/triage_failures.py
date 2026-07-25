@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 """Triage failing designs from a GitHub Actions run.
 
-Given a GitHub Actions run (URL or id) of the "Run Gallery Designs" workflow,
+Given a GitHub Actions run (URL or id) that runs the gallery design matrix,
 this script collects every design/target job that failed, lists them as a flat
 numbered list, and lets you interactively select batches of them to mark as
 skipped (with a note) in the design config file
 (.github/workflows/config/designs.json).
+
+This covers scgallery's own "Run Gallery Designs" workflow as well as runs in
+other repositories that call .github/workflows/run-designs.yml as a reusable
+workflow (e.g. siliconcompiler's daily ASIC CI). Those runs use the same
+scgallery design matrix, so their failures triage into the same config. Pass a
+full run URL and the repository is taken from it; a bare run id is looked up in
+--repo.
 
 Anything you do not select is left untouched, so it will continue to run and
 fail in CI.
@@ -14,6 +21,7 @@ Requires the `gh` CLI to be installed and authenticated.
 
 Examples:
     python3 scripts/triage_failures.py github.com/siliconcompiler/scgallery/actions/runs/2701301558
+    python3 scripts/triage_failures.py https://github.com/siliconcompiler/siliconcompiler/actions/runs/30174209205
     python3 scripts/triage_failures.py 27013015588
     python3 scripts/triage_failures.py 27013015588 --dry-run
 """
@@ -43,19 +51,35 @@ DEFAULT_CONFIG = os.path.join(
 
 # Matches job names like:
 #   designs / Run design (aes, gf180_gf180mcu_fd_sc_mcu7t5v0, false)
+# A reusable-workflow caller prefixes its own job path, e.g.
+#   Run daily ASIC CI / gallery / Run design (aes, freepdk45_nangate45, false)
+# so this is matched anywhere in the name rather than anchored.
 JOB_RE = re.compile(r"Run design \(([^,]+),\s*([^,]+),\s*(?:true|false)\)")
+
+# A full run URL, e.g.
+#   https://github.com/siliconcompiler/siliconcompiler/actions/runs/30174209205/job/89720673385?pr=5147
+# Captures the owner/repo so runs in other repositories resolve without --repo.
+RUN_URL_RE = re.compile(r"(?:^|/)([\w.-]+)/([\w.-]+)/actions/runs/(\d+)")
 
 # Conclusions that count as "failing" by default.
 FAILING_CONCLUSIONS = {"failure", "timed_out"}
 
 
-def parse_run_id(value):
-    """Accept a full run URL or a bare run id and return the run id."""
+def parse_run(value):
+    """Accept a full run URL or a bare run id.
+
+    Returns ``(run_id, repo)``, where ``repo`` is the "owner/name" taken from a
+    full URL, or None when the input did not carry one (a bare id, or a URL
+    shape we don't recognize) and the caller should fall back to --repo.
+    """
+    match = RUN_URL_RE.search(value)
+    if match:
+        return match.group(3), f"{match.group(1)}/{match.group(2)}"
     match = re.search(r"/runs/(\d+)", value)
     if match:
-        return match.group(1)
+        return match.group(1), None
     if value.isdigit():
-        return value
+        return value, None
     sys.exit(f"error: could not parse a run id from {value!r}")
 
 
@@ -566,8 +590,9 @@ def main():
     parser = argparse.ArgumentParser(
         description="Triage failing designs from a GitHub Actions run.")
     parser.add_argument("run", help="GitHub Actions run URL or run id")
-    parser.add_argument("--repo", default=DEFAULT_REPO,
-                        help=f"owner/repo (default: {DEFAULT_REPO})")
+    parser.add_argument("--repo", default=None,
+                        help="owner/repo the run belongs to. Taken from the run "
+                        f"URL when one is given, else {DEFAULT_REPO}.")
     parser.add_argument("--config", default=DEFAULT_CONFIG,
                         help="path to designs.json")
     parser.add_argument("--include-cancelled", action="store_true",
@@ -589,11 +614,15 @@ def main():
     if args.include_cancelled:
         conclusions.add("cancelled")
 
-    run_id = parse_run_id(args.run)
+    # An explicit --repo wins; otherwise use the repo from the run URL, and
+    # fall back to scgallery for a bare run id.
+    run_id, url_repo = parse_run(args.run)
+    repo = args.repo or url_repo or DEFAULT_REPO
+
     config_path = os.path.abspath(args.config)
 
-    print(f"Fetching design job results from run {run_id} ({args.repo})...")
-    results, workflow_name = fetch_job_results(run_id, args.repo)
+    print(f"Fetching design job results from run {run_id} ({repo})...")
+    results, workflow_name = fetch_job_results(run_id, repo)
     if not results:
         print("No design jobs found in this run. Nothing to do.")
         return 0
@@ -674,7 +703,7 @@ def main():
     if use_logs:
         print(f"\nReading {len(failures)} failure log(s) to group by cause...",
               flush=True)
-    reasons = [reason_for_record(args.repo, results[(design, target)],
+    reasons = [reason_for_record(repo, results[(design, target)],
                                  use_logs, log_cache)
                for design, target in failures]
 
