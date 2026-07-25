@@ -13,14 +13,14 @@
         "cache": false,
         "design": "aes",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "aes",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -42,8 +42,7 @@
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Timed out on CI runner",
-        "skip_class": "resource",
+        "skip": "place.detailed/0: [ERROR DPL-0033] detailed placement checks failed during check placement.",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
@@ -58,21 +57,21 @@
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "place.detailed/0: [ERROR DPL-0033] detailed placement checks failed during check placement.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "place.detailed/0: [ERROR DPL-0033] detailed placement checks failed during check placement.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
+        "skip": "Timed out on CI runner",
         "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
@@ -133,14 +132,14 @@
         "cache": false,
         "design": "caliptra_datavault",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "caliptra_datavault",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -157,17 +156,15 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "cache": false,
         "design": "caliptra_datavault",
         "remote": false,
-        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "skywater130_sky130hd"
     },
     {
         "cache": false,
         "design": "caliptra_keyvault",
         "remote": false,
-        "skip": "Task ran out of memory",
+        "skip": "Timed out on CI runner",
         "skip_class": "resource",
         "target": "asap7_asap7sc7p5t_rvt"
     },
@@ -233,22 +230,17 @@
         "cache": false,
         "design": "caliptra_sha512",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "cache": false,
         "design": "caliptra_sha512",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
-        "cache": false,
         "design": "caliptra_sha512",
         "remote": false,
-        "skip": "Task ran out of memory",
-        "skip_class": "resource",
         "target": "gt2n_6t_w31"
     },
     {
@@ -257,11 +249,8 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
-        "cache": false,
         "design": "caliptra_sha512",
         "remote": false,
-        "skip": "Timed out on CI runner",
-        "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
     {
@@ -323,14 +312,14 @@
         "cache": false,
         "design": "darksocv",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "cts.clock_tree_sy.../0: [ERROR DPL-0033] detailed placement checks failed during check placement.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "darksocv",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -389,188 +378,186 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "design": "ethmac",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
         "cache": false,
         "design": "ethmac",
+        "remote": false,
+        "skip": "route.global/0: [ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "ethmac",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "cache": false,
+        "design": "fazyrv",
+        "remote": false,
+        "skip": "route.global/0: [ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "fazyrv",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "gcd",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "heartbeat",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "gt2n_6t_w31"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "ihp130_sg13g2_stdcell"
+    },
+    {
+        "design": "ibex",
+        "remote": false,
+        "target": "skywater130_sky130hd"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "asap7_asap7sc7p5t_rvt"
+    },
+    {
+        "design": "jpeg",
+        "remote": false,
+        "target": "freepdk45_nangate45"
+    },
+    {
+        "cache": false,
+        "design": "jpeg",
         "remote": false,
         "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
-        "design": "ethmac",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "ethmac",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "cache": false,
-        "design": "fazyrv",
-        "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "fazyrv",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "gt2n_6t_w31"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "gcd",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "gt2n_6t_w31"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "design": "heartbeat",
-        "remote": false,
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "gt2n_6t_w31"
-    },
-    {
-        "design": "ibex",
-        "remote": false,
-        "target": "ihp130_sg13g2_stdcell"
-    },
-    {
-        "cache": false,
-        "design": "ibex",
-        "remote": false,
-        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
-        "target": "skywater130_sky130hd"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "asap7_asap7sc7p5t_rvt"
-    },
-    {
-        "design": "jpeg",
-        "remote": false,
-        "target": "freepdk45_nangate45"
-    },
-    {
         "cache": false,
         "design": "jpeg",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
-        "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
-    },
-    {
-        "cache": false,
-        "design": "jpeg",
-        "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -605,14 +592,14 @@
         "cache": false,
         "design": "mock_alu",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "mock_alu",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -641,8 +628,10 @@
         "target": "freepdk45_nangate45"
     },
     {
+        "cache": false,
         "design": "openmsp430",
         "remote": false,
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -857,14 +846,14 @@
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
@@ -887,8 +876,7 @@
         "cache": false,
         "design": "swerv",
         "remote": false,
-        "skip": "[ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
-        "skip_class": "resource",
+        "skip": "route.global/0: [ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "skywater130_sky130hd"
     },
     {
@@ -905,19 +893,21 @@
         "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "[ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "tiny_rocket",
         "remote": false,
-        "skip": "[ERROR DPL-0036] Detailed placement failed inside DPL.",
+        "skip": "route.antenna_repair/0: [ERROR GRT-0232] Routing congestion too high. Check the congestion heatmap in the GUI.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
+        "cache": false,
         "design": "tiny_rocket",
         "remote": false,
+        "skip": "route.global/0: [ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -964,29 +954,28 @@
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "Timed out on CI runner",
-        "skip_class": "resource",
+        "skip": "place.detailed/0: [ERROR DPL-0033] detailed placement checks failed during check placement.",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "floorplan.macro_p.../0: [ERROR MPL-0040] Annealing engine failed to find a valid solution.",
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "floorplan.macro_p.../0: [ERROR MPL-0040] Annealing engine failed to find a valid solution.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "[ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "place.detailed/0: [ERROR DPL-0033] detailed placement checks failed during check placement.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
