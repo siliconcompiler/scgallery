@@ -21,9 +21,12 @@ Requires the `gh` CLI to be installed and authenticated.
 
 Examples:
     python3 scripts/triage_failures.py github.com/siliconcompiler/scgallery/actions/runs/2701301558
-    python3 scripts/triage_failures.py https://github.com/siliconcompiler/siliconcompiler/actions/runs/30174209205
     python3 scripts/triage_failures.py 27013015588
     python3 scripts/triage_failures.py 27013015588 --dry-run
+
+    # a run in another repo that calls the gallery workflow
+    python3 scripts/triage_failures.py \\
+        github.com/siliconcompiler/siliconcompiler/actions/runs/30174209205
 """
 
 import argparse
@@ -56,8 +59,9 @@ DEFAULT_CONFIG = os.path.join(
 # so this is matched anywhere in the name rather than anchored.
 JOB_RE = re.compile(r"Run design \(([^,]+),\s*([^,]+),\s*(?:true|false)\)")
 
-# A full run URL, e.g.
-#   https://github.com/siliconcompiler/siliconcompiler/actions/runs/30174209205/job/89720673385?pr=5147
+# A full run URL, with the optional trailing "/job/<id>" and "?pr=<n>" that
+# GitHub adds when you copy the link from a specific job:
+#   https://github.com/<owner>/<repo>/actions/runs/<run id>/job/<job id>?pr=<n>
 # Captures the owner/repo so runs in other repositories resolve without --repo.
 RUN_URL_RE = re.compile(r"(?:^|/)([\w.-]+)/([\w.-]+)/actions/runs/(\d+)")
 
