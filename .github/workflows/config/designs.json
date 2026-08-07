@@ -252,8 +252,11 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "caliptra_sha512",
         "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
     {
