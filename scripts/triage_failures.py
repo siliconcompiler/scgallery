@@ -271,6 +271,8 @@ SC_FIELDS_RE = re.compile(
 )
 # Leading ISO timestamp the GitHub logs API prepends to each line.
 LOG_PREFIX_RE = re.compile(r"^\d{4}-\d\d-\d\dT[\d:.]+Z\s*")
+# ANSI color/control sequences the runner wraps echoed setup commands in.
+ANSI_RE = re.compile(r"\x1b\[[0-9;]*[a-zA-Z]")
 # GitHub Actions annotation markers, e.g. "##[error]" / "##[warning]".
 LOG_ANNOTATION_RE = re.compile(r"^##\[\w+\]")
 # Runner-generated lines that carry no useful cause (post-failure noise).
@@ -290,22 +292,30 @@ def fetch_failed_log(repo, job_id, cache):
 
     Uses the per-job logs API endpoint, which works for a completed job even
     while the overall run is still in progress (unlike `gh run view --log`).
+
+    Runner logs echo setup commands with ANSI color codes, and newer `gh`
+    versions refuse to emit a response containing escape sequences unless
+    --allow-escape-sequences is passed. Older versions don't know the flag, so
+    fall back to a plain call for them.
     """
     if job_id in cache:
         return cache[job_id]
     text = ""
     if job_id is not None:
-        try:
-            result = subprocess.run(
-                ["gh", "api", f"repos/{repo}/actions/jobs/{job_id}/logs"],
-                capture_output=True,
-                text=True,
-                timeout=60,
-            )
+        endpoint = f"repos/{repo}/actions/jobs/{job_id}/logs"
+        for extra in (["--allow-escape-sequences"], []):
+            try:
+                result = subprocess.run(
+                    ["gh", "api", endpoint] + extra,
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
+                )
+            except (subprocess.SubprocessError, OSError):
+                break
             if result.returncode == 0:
                 text = result.stdout
-        except (subprocess.SubprocessError, OSError):
-            text = ""
+                break
     cache[job_id] = text
     return text
 
@@ -347,7 +357,7 @@ def extract_error(log_text):
     """
     entries = []
     for raw in log_text.splitlines():
-        line = raw.split("\t")[-1].strip()
+        line = ANSI_RE.sub("", raw.split("\t")[-1]).strip()
         line = LOG_PREFIX_RE.sub("", line).strip()
         line = LOG_ANNOTATION_RE.sub("", line).strip()
         if not line or LOG_NOISE_RE.search(line):
