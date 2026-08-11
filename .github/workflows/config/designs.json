@@ -156,8 +156,11 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "caliptra_datavault",
         "remote": false,
+        "skip": "Timed out on CI runner in route.detailed_antenna_repair (detailed routing alone uses most of the job budget)",
+        "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
     {
@@ -334,8 +337,11 @@
         "target": "ihp130_sg13g2_stdcell"
     },
     {
+        "cache": false,
         "design": "darksocv",
         "remote": false,
+        "skip": "Timed out on CI runner in route.detailed_antenna_repair (detailed routing alone uses most of the job budget)",
+        "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
     {
