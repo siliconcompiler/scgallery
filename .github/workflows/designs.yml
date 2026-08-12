@@ -14,6 +14,11 @@ on:
         type: number
         default: 50
         description: how many concurrent runners to use
+      timeout:
+        required: false
+        type: number
+        default: 120
+        description: timeout for design matrix in minutes
       run:
         required: false
         type: choice
@@ -40,6 +45,7 @@ jobs:
       scgallery-ref: ${{ github.ref }}
       fail-fast: false
       run: ${{ inputs.run }}
+      timeout: ${{ fromJson(inputs.timeout) }}
     secrets: inherit
 
   update_montage:
