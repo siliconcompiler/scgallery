@@ -35,6 +35,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 
 try:
     import readline  # noqa: F401  (enables prefillable input on most platforms)
@@ -97,6 +98,42 @@ def find_failed_step(job):
     return failing[0].get("name")
 
 
+# Failures worth another try rather than aborting on: a 5xx from the API (the
+# jobs endpoint 502s now and then on large runs) and the HTTP/2 stream errors
+# gh reports when a response is cut short. Anything else (auth, 404, an unknown
+# flag) is a real error and fails immediately.
+TRANSIENT_RE = re.compile(
+    r"HTTP 5\d\d"
+    r"|stream error"
+    r"|connection reset"
+    r"|unexpected EOF"
+    r"|timed out|timeout"
+    r"|temporarily unavailable",
+    re.IGNORECASE,
+)
+
+
+def run_gh(args, timeout=None, attempts=4, delay=2):
+    """Run a `gh` command, retrying transient API failures with backoff.
+
+    Returns the CompletedProcess of the final attempt; callers check
+    ``returncode`` themselves. Propagates FileNotFoundError when gh is missing.
+    """
+    result = None
+    for attempt in range(1, attempts + 1):
+        result = subprocess.run(["gh"] + args, capture_output=True, text=True,
+                                timeout=timeout)
+        if result.returncode == 0 or attempt == attempts \
+                or not TRANSIENT_RE.search(result.stderr or ""):
+            return result
+        wait = delay * 2 ** (attempt - 1)
+        detail = (result.stderr or "").strip().splitlines()
+        print(f"  transient gh failure ({detail[0] if detail else 'no output'}); "
+              f"retrying in {wait}s [{attempt}/{attempts - 1}]", flush=True)
+        time.sleep(wait)
+    return result
+
+
 def fetch_job_results(run_id, repo):
     """Return ``(results, workflow_name)`` for a run.
 
@@ -114,20 +151,15 @@ def fetch_job_results(run_id, repo):
     takes precedence over a non-failing one.
     """
     try:
-        result = subprocess.run(
-            [
-                "gh", "run", "view", run_id,
-                "--repo", repo,
-                "--json", "jobs,workflowName",
-            ],
-            check=True,
-            capture_output=True,
-            text=True,
-        )
+        result = run_gh([
+            "run", "view", run_id,
+            "--repo", repo,
+            "--json", "jobs,workflowName",
+        ])
     except FileNotFoundError:
         sys.exit("error: `gh` CLI not found. Install and authenticate it first.")
-    except subprocess.CalledProcessError as exc:
-        sys.exit(f"error: gh failed:\n{exc.stderr.strip()}")
+    if result.returncode != 0:
+        sys.exit(f"error: gh failed:\n{result.stderr.strip()}")
 
     payload = json.loads(result.stdout)
     jobs = payload.get("jobs", [])
@@ -235,6 +267,18 @@ MEMORY_RE = re.compile(
     re.IGNORECASE,
 )
 MEMORY_REASON = "Task ran out of memory"
+# The kernel OOM killer leaves no "out of memory" text of its own: the tool is
+# SIGKILLed and SiliconCompiler only reports "Command failed with code -9",
+# while a container-level kill surfaces as exit code 137 (128 + 9). Checked
+# after TIMEOUT_RE below, so a task killed for exceeding its time limit (which
+# logs a timeout message too) is not misread as an OOM.
+KILLED_RE = re.compile(
+    r"failed with code -9\b"
+    r"|exit code 137\b"
+    r"|killed by signal 9\b"
+    r"|\bSIGKILL\b",
+    re.IGNORECASE,
+)
 # A step/job that hit its time limit; normalized like the memory case.
 TIMEOUT_RE = re.compile(r"\btimed out after\b|has timed out", re.IGNORECASE)
 TIMEOUT_REASON = "Timed out on CI runner"
@@ -279,7 +323,9 @@ LOG_ANNOTATION_RE = re.compile(r"^##\[\w+\]")
 # The final alternative drops action input echoes like "digest-mismatch: error"
 # and "if-no-files-found: error" that otherwise look like errors.
 LOG_NOISE_RE = re.compile(
-    r"process completed with exit code"
+    # Exit code 137 is kept: it is the runner's only trace of a container-level
+    # OOM kill, and KILLED_RE needs to see it.
+    r"process completed with exit code (?!137\b)"
     r"|no files were found"
     r"|artifacts will be uploaded"
     r"|^[\w-]+:\s*error$",
@@ -305,12 +351,7 @@ def fetch_failed_log(repo, job_id, cache):
         endpoint = f"repos/{repo}/actions/jobs/{job_id}/logs"
         for extra in (["--allow-escape-sequences"], []):
             try:
-                result = subprocess.run(
-                    ["gh", "api", endpoint] + extra,
-                    capture_output=True,
-                    text=True,
-                    timeout=60,
-                )
+                result = run_gh(["api", endpoint] + extra, timeout=60)
             except (subprocess.SubprocessError, OSError):
                 break
             if result.returncode == 0:
@@ -376,24 +417,30 @@ def extract_error(log_text):
         if TIMEOUT_RE.search(msg):
             return TIMEOUT_REASON
 
-    # 3. A tool error code (e.g. "[ERROR GRT-0232] ...") names the real cause;
+    # 3. A SIGKILLed tool with no timeout message above is the OOM killer at
+    #    work; report it as the normalized memory reason.
+    for step, index, msg in entries:
+        if KILLED_RE.search(msg):
+            return MEMORY_REASON
+
+    # 4. A tool error code (e.g. "[ERROR GRT-0232] ...") names the real cause;
     #    the first one is the originating failure.
     for step, index, msg in entries:
         if TOOL_ERROR_RE.search(msg):
             return _with_node(_truncate(msg), step, index)
 
-    # 4. A raised Python exception.
+    # 5. A raised Python exception.
     for step, index, msg in reversed(entries):
         if EXCEPTION_RE.match(msg):
             return _with_node(_truncate(EXCEPTION_PREFIX_RE.sub("", msg)),
                               step, index)
 
-    # 5. A SiliconCompiler "Run failed" summary.
+    # 6. A SiliconCompiler "Run failed" summary.
     for step, index, msg in reversed(entries):
         if RUN_FAILED_RE.search(msg):
             return _with_node(_truncate(msg), step, index)
 
-    # 6. Any other error-ish line (root cause tends to come first).
+    # 7. Any other error-ish line (root cause tends to come first).
     for step, index, msg in entries:
         if ERROR_LINE_RE.search(msg):
             return _with_node(_truncate(msg), step, index)
