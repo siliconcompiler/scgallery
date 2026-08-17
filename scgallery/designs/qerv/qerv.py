@@ -37,6 +37,9 @@ class QERVDesign(GalleryDesign):
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
                 self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
+            with self.active_fileset("sdc.ics55_stdcell_r"):
+                self.add_file("constraints/ics55_stdcell_r.sdc")
+
             with self.active_fileset("sdc.nangate45"):
                 self.add_file("constraints/nangate45.sdc")
 
