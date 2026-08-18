@@ -76,6 +76,9 @@ class DataVault(GalleryDesign, _Base):
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
                 self.add_file("constraints/datavault/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
+            with self.active_fileset("sdc.ics55_stdcell_r"):
+                self.add_file("constraints/datavault/ics55_stdcell_r.sdc")
+
             with self.active_fileset("sdc.nangate45"):
                 self.add_file("constraints/datavault/nangate45.sdc")
 
@@ -91,6 +94,7 @@ class DataVault(GalleryDesign, _Base):
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("icsprout55_ics55", self.setup_icsprout55)
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
@@ -124,6 +128,12 @@ class DataVault(GalleryDesign, _Base):
             task.set_openroad_placedensity(0.40)
 
     def setup_gt2n(self, project: ASIC):
+        project.set_flow(SV2VFlow())
+        project.constraint.area.set_density(30)
+        for task in OpenROADGPLParameter.find_task(project):
+            task.set_openroad_placedensity(0.40)
+
+    def setup_icsprout55(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):
@@ -161,6 +171,9 @@ class KeyVault(GalleryDesign, _Base):
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
                 self.add_file("constraints/keyvault/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
+            with self.active_fileset("sdc.ics55_stdcell_r"):
+                self.add_file("constraints/keyvault/ics55_stdcell_r.sdc")
+
             with self.active_fileset("sdc.nangate45"):
                 self.add_file("constraints/keyvault/nangate45.sdc")
 
@@ -176,6 +189,7 @@ class KeyVault(GalleryDesign, _Base):
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("icsprout55_ics55", self.setup_icsprout55)
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
@@ -209,6 +223,12 @@ class KeyVault(GalleryDesign, _Base):
             task.set_openroad_placedensity(0.25)
 
     def setup_gt2n(self, project: ASIC):
+        project.set_flow(SV2VFlow())
+        project.constraint.area.set_density(20)
+        for task in OpenROADGPLParameter.find_task(project):
+            task.set_openroad_placedensity(0.25)
+
+    def setup_icsprout55(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(20)
         for task in OpenROADGPLParameter.find_task(project):
@@ -266,6 +286,9 @@ class SHA512(GalleryDesign, _Base):
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
                 self.add_file("constraints/sha512/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
+            with self.active_fileset("sdc.ics55_stdcell_r"):
+                self.add_file("constraints/sha512/ics55_stdcell_r.sdc")
+
             with self.active_fileset("sdc.nangate45"):
                 self.add_file("constraints/sha512/nangate45.sdc")
 
@@ -281,6 +304,7 @@ class SHA512(GalleryDesign, _Base):
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("icsprout55_ics55", self.setup_icsprout55)
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
@@ -314,6 +338,12 @@ class SHA512(GalleryDesign, _Base):
             task.set_openroad_placedensity(0.4)
 
     def setup_gt2n(self, project: ASIC):
+        project.set_flow(SV2VFlow())
+        project.constraint.area.set_density(30)
+        for task in OpenROADGPLParameter.find_task(project):
+            task.set_openroad_placedensity(0.40)
+
+    def setup_icsprout55(self, project: ASIC):
         project.set_flow(SV2VFlow())
         project.constraint.area.set_density(30)
         for task in OpenROADGPLParameter.find_task(project):

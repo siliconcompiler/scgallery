@@ -61,6 +61,9 @@ class IBEXDesign(GalleryDesign):
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
                 self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
+            with self.active_fileset("sdc.ics55_stdcell_r"):
+                self.add_file("constraints/ics55_stdcell_r.sdc")
+
             with self.active_fileset("sdc.nangate45"):
                 self.add_file("constraints/nangate45.sdc")
 
@@ -76,6 +79,7 @@ class IBEXDesign(GalleryDesign):
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_ihp130)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_gf180)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_gf180)
+        self.add_target_setup("icsprout55_ics55", self.setup_icsprout55)
         self.add_target_setup("skywater130_sky130hd", self.setup_skywater130)
 
     def setup_freepdk45(self, project: ASIC):
@@ -92,6 +96,9 @@ class IBEXDesign(GalleryDesign):
         ASICSynthesis.find_task(project).set_yosys_useslang(True)
 
     def setup_gt2n(self, project: ASIC):
+        ASICSynthesis.find_task(project).set_yosys_useslang(True)
+
+    def setup_icsprout55(self, project: ASIC):
         ASICSynthesis.find_task(project).set_yosys_useslang(True)
 
     def setup_skywater130(self, project: ASIC):

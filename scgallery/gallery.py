@@ -29,6 +29,7 @@ from scgallery.targets.gf180 import (
     gf180mcu_fd_sc_mcu9t5v0 as gf180_gf180mcu_fd_sc_mcu9t5v0,
 )
 from scgallery.targets.asap7 import asap7sc7p5t_rvt as asap7_asap7sc7p5t_rvt
+from scgallery.targets.icsprout55 import ics55 as icsprout55_ics55
 from scgallery.targets.skywater130 import sky130hd as sky130_sky130hd
 from scgallery.targets.ihp130 import sg13g2_stdcell as ihp130_sg13g2_stdcell
 from scgallery.targets.linting import lint as gallery_lint
@@ -63,7 +64,8 @@ class Gallery:
                 ("gf180_gf180mcu_fd_sc_mcu9t5v0", gf180_gf180mcu_fd_sc_mcu9t5v0),
                 ("gf180_gf180mcu_fd_sc_mcu7t5v0", gf180_gf180mcu_fd_sc_mcu7t5v0),
                 ("ihp130_sg13g2_stdcell", ihp130_sg13g2_stdcell),
-                ("gt2n_6t_w31", gt2n_6t)):
+                ("gt2n_6t_w31", gt2n_6t),
+                ("icsprout55_ics55", icsprout55_ics55)):
             self.add_target(name, target)
 
         self.__designs: Dict[str, Design] = {}

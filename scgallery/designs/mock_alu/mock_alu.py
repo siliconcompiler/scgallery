@@ -38,6 +38,9 @@ class MockALUDesign(GalleryDesign):
             with self.active_fileset("sdc.gf180mcu_fd_sc_mcu9t5v0_5LM"):
                 self.add_file("constraints/gf180mcu_fd_sc_mcu9t5v0.sdc")
 
+            with self.active_fileset("sdc.ics55_stdcell_r"):
+                self.add_file("constraints/ics55_stdcell_r.sdc")
+
             with self.active_fileset("sdc.nangate45"):
                 self.add_file("constraints/nangate45.sdc")
 
@@ -53,6 +56,7 @@ class MockALUDesign(GalleryDesign):
         self.add_target_setup("ihp130_sg13g2_stdcell", self.setup_chisel)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu7t5v0", self.setup_chisel)
         self.add_target_setup("gf180_gf180mcu_fd_sc_mcu9t5v0", self.setup_chisel)
+        self.add_target_setup("icsprout55_ics55", self.setup_chisel)
         self.add_target_setup("skywater130_sky130hd", self.setup_chisel)
 
     def setup_chisel(self, project: ASIC):
