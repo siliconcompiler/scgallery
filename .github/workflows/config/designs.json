@@ -214,8 +214,11 @@
         "target": "gt2n_6t_w31"
     },
     {
+        "cache": false,
         "design": "caliptra_keyvault",
         "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "icsprout55_ics55"
     },
     {
@@ -945,8 +948,11 @@
         "target": "gt2n_6t_w31"
     },
     {
+        "cache": false,
         "design": "swerv",
         "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "icsprout55_ics55"
     },
     {

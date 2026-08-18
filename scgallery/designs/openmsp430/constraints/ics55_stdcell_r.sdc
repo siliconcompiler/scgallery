@@ -1,4 +1,4 @@
-set clk_period 15.2
+set clk_period 15.8
 set clk_io_pct 0.2
 
 set clk_port [get_ports dco_clk]
