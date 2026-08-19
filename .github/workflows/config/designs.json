@@ -43,21 +43,21 @@
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "place.detailed/0: [ERROR DPL-0033] detailed placement checks failed during check placement.",
+        "skip": "Task ran out of memory",
+        "skip_class": "resource",
         "target": "asap7_asap7sc7p5t_rvt"
     },
     {
-        "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "floorplan.power_grid/0: [ERROR PDN-0179] Unable to repair all channels.",
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "floorplan.macro_p.../0: [ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
@@ -73,14 +73,13 @@
         "design": "black_parrot",
         "remote": false,
         "skip": "route.global/0: [ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
-        "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
         "cache": false,
         "design": "black_parrot",
         "remote": false,
-        "skip": "Task ran out of memory",
+        "skip": "Timed out on CI runner",
         "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
@@ -158,11 +157,8 @@
         "target": "icsprout55_ics55"
     },
     {
-        "cache": false,
         "design": "caliptra_datavault",
         "remote": false,
-        "skip": "Timed out on CI runner",
-        "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
@@ -185,7 +181,7 @@
         "cache": false,
         "design": "caliptra_keyvault",
         "remote": false,
-        "skip": "route.global/0: [ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
+        "skip": "Timed out on CI runner",
         "skip_class": "resource",
         "target": "freepdk45_nangate45"
     },
@@ -324,7 +320,7 @@
         "cache": false,
         "design": "cva6",
         "remote": false,
-        "skip": "route.global/0: [ERROR GRT-0116] Global routing finished with congestion. Check the congestion regions in the DRC Viewer.",
+        "skip": "Timed out on CI runner",
         "skip_class": "resource",
         "target": "skywater130_sky130hd"
     },
@@ -1014,21 +1010,21 @@
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "floorplan.macro_p.../0: [ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "floorplan.macro_p.../0: [ERROR MPL-0008] Annealing engine failed to find a valid solution. Please, report this internal error.",
         "target": "freepdk45_nangate45"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "floorplan.macro_p.../0: [ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "floorplan.macro_p.../0: [ERROR MPL-0008] Annealing engine failed to find a valid solution. Please, report this internal error.",
         "target": "gf180_gf180mcu_fd_sc_mcu7t5v0"
     },
     {
         "cache": false,
         "design": "wally",
         "remote": false,
-        "skip": "floorplan.macro_p.../0: [ERROR MPL-0040] Annealing engine failed to find a valid solution.",
+        "skip": "floorplan.macro_p.../0: [ERROR MPL-0008] Annealing engine failed to find a valid solution. Please, report this internal error.",
         "target": "gf180_gf180mcu_fd_sc_mcu9t5v0"
     },
     {
