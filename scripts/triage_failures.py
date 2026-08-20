@@ -134,6 +134,82 @@ def run_gh(args, timeout=None, attempts=4, delay=2):
     return result
 
 
+# Page sizes tried, in order, when listing a run's jobs. `gh run view --json
+# jobs` always asks the jobs endpoint for per_page=100, and GitHub reliably
+# 502s on the later pages of a large run at that size -- a 192-job run fails on
+# page 2 every time, so no amount of retrying gets the run listed. Paging by
+# hand keeps each request small enough to answer, and a page that still fails
+# is retried at a smaller size rather than losing the whole run.
+JOB_PAGE_SIZES = (50, 25, 10)
+
+
+def _gh_json(args, timeout=None):
+    """Run a `gh` command expected to emit JSON; exit on a real failure."""
+    try:
+        result = run_gh(args, timeout=timeout)
+    except FileNotFoundError:
+        sys.exit("error: `gh` CLI not found. Install and authenticate it first.")
+    return result
+
+
+def fetch_workflow_name(run_id, repo):
+    """Return the run's workflow display name ("" if it cannot be read).
+
+    Asked for on its own so it does not drag in the jobs listing, which is
+    fetched separately by fetch_jobs().
+    """
+    result = _gh_json(["run", "view", run_id, "--repo", repo,
+                       "--json", "workflowName"])
+    if result.returncode != 0:
+        return ""
+    try:
+        return json.loads(result.stdout).get("workflowName", "")
+    except json.JSONDecodeError:
+        return ""
+
+
+def fetch_jobs(run_id, repo):
+    """Return every job of a run, paging the jobs API directly.
+
+    Walks the pages at the largest size that works (see JOB_PAGE_SIZES),
+    restarting the walk at a smaller size if any page fails.
+    """
+    endpoint = f"repos/{repo}/actions/runs/{run_id}/jobs"
+    last_error = ""
+    for attempt, per_page in enumerate(JOB_PAGE_SIZES):
+        jobs = []
+        page = 1
+        failed = False
+        while True:
+            result = _gh_json(
+                ["api", f"{endpoint}?per_page={per_page}&page={page}"],
+                timeout=120)
+            if result.returncode != 0:
+                last_error = (result.stderr or "").strip()
+                # Only a server-side failure is worth re-listing at a smaller
+                # page size; a 404/401 means the run or the auth is wrong and
+                # no page size will help.
+                if not TRANSIENT_RE.search(last_error):
+                    sys.exit("error: could not list the run's jobs:\n"
+                             f"{last_error}")
+                failed = True
+                break
+            payload = json.loads(result.stdout)
+            batch = payload.get("jobs", [])
+            jobs.extend(batch)
+            total = payload.get("total_count")
+            if not batch or (total is not None and len(jobs) >= total):
+                break
+            page += 1
+        if not failed:
+            return jobs
+        if attempt + 1 < len(JOB_PAGE_SIZES):
+            print(f"  jobs page {page} failed at per_page={per_page}; "
+                  f"re-listing with per_page={JOB_PAGE_SIZES[attempt + 1]}",
+                  flush=True)
+    sys.exit(f"error: could not list the run's jobs:\n{last_error}")
+
+
 def fetch_job_results(run_id, repo):
     """Return ``(results, workflow_name)`` for a run.
 
@@ -150,20 +226,8 @@ def fetch_job_results(run_id, repo):
     If the same design/target appears more than once, a failing conclusion
     takes precedence over a non-failing one.
     """
-    try:
-        result = run_gh([
-            "run", "view", run_id,
-            "--repo", repo,
-            "--json", "jobs,workflowName",
-        ])
-    except FileNotFoundError:
-        sys.exit("error: `gh` CLI not found. Install and authenticate it first.")
-    if result.returncode != 0:
-        sys.exit(f"error: gh failed:\n{result.stderr.strip()}")
-
-    payload = json.loads(result.stdout)
-    jobs = payload.get("jobs", [])
-    workflow_name = payload.get("workflowName", "")
+    jobs = fetch_jobs(run_id, repo)
+    workflow_name = fetch_workflow_name(run_id, repo)
 
     results = {}
     for job in jobs:
@@ -176,7 +240,7 @@ def fetch_job_results(run_id, repo):
             "conclusion": conclusion,
             "status": job.get("status"),
             "failed_step": find_failed_step(job),
-            "job_id": job.get("databaseId"),
+            "job_id": job.get("id", job.get("databaseId")),
         }
         # Let a failing result win over a non-failing (or still-running) one.
         existing = results.get(key)
