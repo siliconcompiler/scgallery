@@ -307,6 +307,8 @@ jobs:
         run: |
           wheels=$(find -name "*.whl")
           echo "$wheels"
+          python3 -m venv .venv
+          . .venv/bin/activate
           pip3 install $wheels
 
       - name: Restore cache
@@ -318,6 +320,7 @@ jobs:
       - name: Run gallery
         timeout-minutes: ${{ inputs.timeout }}
         run: |
+          . .venv/bin/activate
           if [ -z "${{ matrix.target }}" ] ; then
             sc-gallery -design ${{ matrix.design }}
           else
