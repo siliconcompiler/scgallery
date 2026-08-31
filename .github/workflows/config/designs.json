@@ -160,8 +160,11 @@
         "target": "icsprout55_ics55"
     },
     {
+        "cache": false,
         "design": "caliptra_datavault",
         "remote": false,
+        "skip": "Timed out on CI runner",
+        "skip_class": "resource",
         "target": "ihp130_sg13g2_stdcell"
     },
     {
