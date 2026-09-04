@@ -13,6 +13,13 @@ jobs:
     name: Generate montage
     runs-on: ubuntu-latest
 
+    permissions:
+      # Pushing bot/montage and opening the PR
+      contents: write
+      pull-requests: write
+      # download-artifact reaching into the designs.yml run
+      actions: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -74,7 +81,10 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.BOT_TOKEN }}
+          # GITHUB_TOKEN rather than a bot PAT. A PR opened with it triggers no
+          # workflows, which is acceptable here and nowhere else: this PR adds
+          # one JPEG, and main has no required checks to satisfy.
+          token: ${{ github.token }}
           title: "Update montage"
           author: "SiliconCompiler Bot <bot@siliconcompiler.com>"
           body: "Update montage to ${{ env.SC_VERSION }} / https://github.com/siliconcompiler/scgallery/actions/runs/${{ env.WORKFLOW_ID }}"

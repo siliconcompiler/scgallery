@@ -6,6 +6,10 @@ on:
     types:
       - published
 
+# Least-privilege default for every job below; jobs that need more override it.
+permissions:
+  contents: read
+
 jobs:
   build_wheels:
     name: Wheels
@@ -21,7 +25,9 @@ jobs:
   publish:
     needs: [build_wheels]
     runs-on: ubuntu-latest
+
     permissions:
+      # PyPI trusted publishing
       id-token: write
     if: github.event_name == 'release' && github.event.action == 'published'
 
@@ -39,6 +45,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      # Attaching the wheels to the release
       contents: write
 
     steps:

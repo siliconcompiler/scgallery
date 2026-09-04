@@ -5,6 +5,9 @@ on:
   # Manual Dispatch
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   docs:
     name: Build docs
