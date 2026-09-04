@@ -13,7 +13,11 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-    
+
+# Least-privilege default for every job below; jobs that need more override it.
+permissions:
+  contents: read
+
 jobs:
   python:
     name: Python CI
@@ -25,6 +29,11 @@ jobs:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
 
     runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: read
+      # Codecov uploads with OIDC rather than an upload token
+      id-token: write
 
     steps:
       - name: Check out Git repository
@@ -82,7 +91,7 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v7
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
 
   sc_version:
     name: Get SiliconCompiler version
@@ -113,6 +122,12 @@ jobs:
   docker_image:
     needs: sc_version
     name: Get tools image
+
+    permissions:
+      contents: read
+      # The callee resolves the tool image against ghcr.io
+      packages: read
+
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
       sc_version: ${{ needs.sc_version.outputs.version }}
@@ -124,6 +139,12 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
+
+    permissions:
+      contents: read
+      packages: read
+      # Codecov uploads with OIDC rather than an upload token
+      id-token: write
 
     steps:
       - name: Check out Git repository
@@ -153,10 +174,18 @@ jobs:
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v7
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
 
   designs_workflow:
     name: Github Action Workflow Check
+
+    # Cap for the whole nested chain. run-designs.yml defaults its own jobs to
+    # contents: read; packages: read is here because its design jobs run in the
+    # ghcr.io tool container.
+    permissions:
+      contents: read
+      packages: read
+
     uses: ./.github/workflows/run-designs.yml
     with:
       scgallery-ref: ${{ github.ref }}

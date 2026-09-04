@@ -47,6 +47,11 @@ on:
 
 name: 'All Gallery Designs Workflow'
 
+# Least-privilege default for every job below; the two jobs that need more
+# override it. Still capped by whatever the calling workflow grants.
+permissions:
+  contents: read
+
 defaults:
   run:
     shell: bash
@@ -264,6 +269,12 @@ jobs:
     needs: sc_version
     if: always() && !cancelled()
     name: Get tools image
+
+    permissions:
+      contents: read
+      # The callee resolves the tool image against ghcr.io
+      packages: read
+
     uses: siliconcompiler/siliconcompiler/.github/workflows/docker_image.yml@main
     with:
       sc_version: ${{ inputs.sc-ref || needs.sc_version.outputs.version }}
@@ -274,6 +285,11 @@ jobs:
     runs-on: ${{ inputs.runner }}
     container:
       image: ${{ needs.docker_image.outputs.sc_tool }}
+
+    permissions:
+      contents: read
+      # Pulling the tool image from ghcr.io
+      packages: read
 
     strategy:
       fail-fast: ${{ inputs.fail-fast }}

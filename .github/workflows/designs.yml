@@ -35,8 +35,20 @@ concurrency:
 
 name: 'Run Gallery Designs'
 
+# Least-privilege default; both jobs below call out to workflows that need
+# more, so each states its own cap.
+permissions:
+  contents: read
+
 jobs:
   designs:
+    # Cap for the whole nested chain. run-designs.yml defaults its own jobs to
+    # contents: read; packages: read is here because its design jobs run in the
+    # ghcr.io tool container.
+    permissions:
+      contents: read
+      packages: read
+
     uses: ./.github/workflows/run-designs.yml
     with:
       sc-ref: ${{ inputs.sc-ref }}
@@ -52,5 +64,13 @@ jobs:
     name: Merge image artifacts
     if: always() && !failure() && !cancelled()
     needs: designs
+
+    # Cap for montage.yml: it pushes bot/montage, opens the PR, and reads this
+    # run's artifacts through the API.
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+
     uses: ./.github/workflows/montage.yml
     secrets: inherit

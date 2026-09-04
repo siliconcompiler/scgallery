@@ -35,12 +35,24 @@ concurrency:
 
 name: 'Run Large Gallery Designs'
 
+# Least-privilege default; the one job below calls out to a workflow that needs
+# more, so it states its own cap.
+permissions:
+  contents: read
+
 # Runs only the designs that are skipped on the default CI runner due to
 # environmental/resource limits (timeouts / out-of-memory), tagged with
 # "skip_class": "resource" in config/designs.json. Intended for a larger,
 # self-hosted runner with more memory and a longer timeout.
 jobs:
   designs:
+    # Cap for the whole nested chain. run-designs.yml defaults its own jobs to
+    # contents: read; packages: read is here because its design jobs run in the
+    # ghcr.io tool container.
+    permissions:
+      contents: read
+      packages: read
+
     uses: ./.github/workflows/run-designs.yml
     with:
       sc-ref: ${{ inputs.sc-ref }}
