@@ -28,6 +28,13 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v7
 
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-lint-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-lint-
+
       - name: Install Requirements
         run: |
           python3 -m venv .venv
@@ -48,6 +55,13 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v7
 
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-lint-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-lint-
+
       - name: Install Requirements
         run: |
           python3 -m venv .venv
@@ -66,6 +80,13 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v7
+
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-lint-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-lint-
 
       - name: Check spelling
         run: |
@@ -86,6 +107,13 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v7
+
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-sc_version-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-sc_version-
 
       - name: Install gallery
         run: |
@@ -137,6 +165,16 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      # Keyed apart from the runner jobs: the cache is stored relative to the
+      # workspace, which sits at a different depth in the container, so an
+      # entry saved on the runner would unpack to the wrong place here.
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-lint_rtl-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-lint_rtl-
 
       - name: Install gallery
         run: |

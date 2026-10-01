@@ -20,6 +20,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-docs-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-docs-
+
       - name: Install Requirements
         run: |
           python3 -m venv .venv
