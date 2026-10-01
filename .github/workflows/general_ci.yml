@@ -46,6 +46,8 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
 
       - name: Install Requirements (non-windows)
         if: runner.os != 'Windows'
@@ -106,6 +108,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-sc_version-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-sc_version-
+
       - name: Install gallery
         run: |
           python3 -m venv .venv
@@ -151,6 +160,16 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      # Keyed apart from the runner jobs: the cache is stored relative to the
+      # workspace, which sits at a different depth in the container, so an
+      # entry saved on the runner would unpack to the wrong place here.
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-eda-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-eda-
 
       - name: Install Requirements
         run: |
@@ -203,6 +222,13 @@ jobs:
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - name: Cache pip
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-check_designs-${{ hashFiles('pyproject.toml') }}
+          restore-keys: pip-${{ runner.os }}-check_designs-
 
       - name: Generate run matrix
         run: |
