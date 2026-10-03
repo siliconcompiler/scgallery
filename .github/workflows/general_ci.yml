@@ -223,6 +223,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      # The design matrix is kept in siliconcompiler, not here.
+      - name: Get design matrix config
+        uses: actions/checkout@v7
+        with:
+          repository: siliconcompiler/siliconcompiler
+          path: matrix-config
+          sparse-checkout: .github/workflows/config/gallery_designs.json
+          sparse-checkout-cone-mode: false
+
       - name: Cache pip
         uses: actions/cache@v6
         with:
@@ -239,9 +248,11 @@ jobs:
 
       - name: Get design matrix
         id: designs
+        env:
+          CONFIG: matrix-config/.github/workflows/config/gallery_designs.json
         run: |
           . .venv/bin/activate
 
-          scripts/generate_image_cache.py --github
-          scripts/report_configs.py --markdown
-          echo "$(python3 scripts/report_configs.py --markdown)" >> $GITHUB_STEP_SUMMARY
+          scripts/generate_image_cache.py --config $CONFIG --github
+          scripts/report_configs.py --config $CONFIG --markdown
+          echo "$(python3 scripts/report_configs.py --config $CONFIG --markdown)" >> $GITHUB_STEP_SUMMARY

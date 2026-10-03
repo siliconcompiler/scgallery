@@ -7,19 +7,10 @@ import argparse
 import sys
 import shutil
 
-jobs_file = os.path.join(os.path.dirname(__file__),
-                         '..',
-                         '.github',
-                         'workflows',
-                         'config',
-                         'designs.json')
 image_cache = os.path.join(os.path.dirname(__file__), '..', 'images')
 
-with open(jobs_file, 'r') as f:
-    all_jobs = json.load(f)
 
-
-def print_github(print_size):
+def print_github(all_jobs, print_size):
     github_jobs = []
     preserve_fields = ('design', 'target', 'remote')
     for job in all_jobs:
@@ -32,7 +23,7 @@ def print_github(print_size):
         print(f"Total jobs on github: {len(github_jobs)}")
 
 
-def print_github_large(print_size):
+def print_github_large(all_jobs, print_size):
     # Designs skipped on the default runner due to environmental limits
     # (timeouts / out-of-memory) that should be retried on a larger runner.
     github_jobs = []
@@ -47,7 +38,7 @@ def print_github_large(print_size):
         print(f"Total large-runner jobs on github: {len(github_jobs)}")
 
 
-def run_cache(clean, dry_run):
+def run_cache(all_jobs, clean, dry_run):
     from scgallery import Gallery
 
     cached_jobs = [job for job in all_jobs if "cache" in job and job["cache"]]
@@ -72,6 +63,10 @@ def run_cache(clean, dry_run):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Helper script to build the github runner matrix and build cached images.')
+    parser.add_argument('--config',
+                        required=True,
+                        help="Path to the design matrix, .github/workflows/config/"
+                             "gallery_designs.json in siliconcompiler")
     parser.add_argument('--github',
                         action="store_true",
                         help="Get json matrix of github jobs")
@@ -98,14 +93,17 @@ if __name__ == "__main__":
         parser.print_usage()
         sys.exit(1)
 
+    with open(args.config, 'r') as f:
+        all_jobs = json.load(f)
+
     if args.github:
-        print_github(args.github_job_count)
+        print_github(all_jobs, args.github_job_count)
         sys.exit(0)
 
     if args.github_large:
-        print_github_large(args.github_job_count)
+        print_github_large(all_jobs, args.github_job_count)
         sys.exit(0)
 
     if args.generate_cache:
-        run_cache(args.dont_resume, args.dry_run)
+        run_cache(all_jobs, args.dont_resume, args.dry_run)
         sys.exit(0)

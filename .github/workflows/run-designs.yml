@@ -4,7 +4,9 @@ on:
       sc-ref:
         required: false
         type: string
-        description: which siliconcompiler ref to use
+        description: >-
+          which siliconcompiler ref to use, and read the design matrix from
+          (main when not set)
       lambdapdk-ref:
         required: false
         type: string
@@ -72,6 +74,18 @@ jobs:
           ref: ${{ inputs.scgallery-ref }}
           fetch-depth: 0
 
+      # The design matrix is kept in siliconcompiler, not here; read it at the
+      # same ref the run builds siliconcompiler from.
+      - name: Get design matrix config
+        if: inputs.run == 'default'
+        uses: actions/checkout@v7
+        with:
+          repository: siliconcompiler/siliconcompiler
+          ref: ${{ inputs.sc-ref || 'main' }}
+          path: matrix-config
+          sparse-checkout: .github/workflows/config/gallery_designs.json
+          sparse-checkout-cone-mode: false
+
       - name: Cache pip
         if: inputs.run != 'default'
         uses: actions/cache@v6
@@ -88,28 +102,37 @@ jobs:
 
           pip3 install .
 
-          # Remove current design matrix
-          rm $GITHUB_WORKSPACE/.github/workflows/config/designs.json
           if ${{ inputs.run == 'all' }}; then
-            # Replace with full matrix
-            sc-gallery -json $GITHUB_WORKSPACE/.github/workflows/config/designs.json
+            # Full matrix
+            sc-gallery -json $RUNNER_TEMP/designs.json
           else
-            # Replace with tiny matrix
-            sc-gallery -design heartbeat -json $GITHUB_WORKSPACE/.github/workflows/config/designs.json
+            # Tiny matrix
+            sc-gallery -design heartbeat -json $RUNNER_TEMP/designs.json
           fi
 
       - name: Get design matrix
         id: designs
         env:
           MATRIX_FLAG: ${{ inputs.matrix-flag }}
+          RUN: ${{ inputs.run }}
         run: |
           # Validate against an allowlist so the input can't inject shell.
           case "$MATRIX_FLAG" in
             --github|--github_large) ;;
             *) echo "Unsupported matrix-flag: $MATRIX_FLAG" >&2; exit 1 ;;
           esac
-          echo "designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py "$MATRIX_FLAG")" >> $GITHUB_OUTPUT
-          echo "$(python3 $GITHUB_WORKSPACE/scripts/report_configs.py --markdown)" >> $GITHUB_STEP_SUMMARY
+          if [ "$RUN" = default ]; then
+            config=$GITHUB_WORKSPACE/matrix-config/.github/workflows/config/gallery_designs.json
+            if [ ! -f "$config" ]; then
+              echo "No design matrix in siliconcompiler at this sc-ref" >&2
+              exit 1
+            fi
+          else
+            config=$RUNNER_TEMP/designs.json
+          fi
+          designs=$(python3 $GITHUB_WORKSPACE/scripts/generate_image_cache.py --config "$config" "$MATRIX_FLAG")
+          echo "designs=$designs" >> $GITHUB_OUTPUT
+          echo "$(python3 $GITHUB_WORKSPACE/scripts/report_configs.py --config "$config" --markdown)" >> $GITHUB_STEP_SUMMARY
 
   wheel:
     name: Package gallery
