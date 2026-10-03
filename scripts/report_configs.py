@@ -1,15 +1,7 @@
 #!/usr/bin/env python3
 
 import json
-import os
 import argparse
-
-jobs_file = os.path.join(os.path.dirname(__file__),
-                         '..',
-                         '.github',
-                         'workflows',
-                         'config',
-                         'designs.json')
 
 
 def print_table(markdown, data):
@@ -40,8 +32,8 @@ def print_header(markdown, title):
         print("".join(len(title) * "-"))
 
 
-def report_skipped(markdown):
-    with open(jobs_file) as fid:
+def report_skipped(markdown, config):
+    with open(config) as fid:
         data = json.load(fid)
 
     for d in data:
@@ -66,10 +58,14 @@ def report_skipped(markdown):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='Helper script to report failing and cached designs.')
+    parser.add_argument('--config',
+                        required=True,
+                        help="Path to the design matrix, .github/workflows/config/"
+                             "gallery_designs.json in siliconcompiler")
     parser.add_argument('--markdown',
                         action="store_true",
                         help="Output as markdown")
 
     args = parser.parse_args()
 
-    report_skipped(args.markdown)
+    report_skipped(args.markdown, args.config)

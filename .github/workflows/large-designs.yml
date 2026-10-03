@@ -42,7 +42,8 @@ permissions:
 
 # Runs only the designs that are skipped on the default CI runner due to
 # environmental/resource limits (timeouts / out-of-memory), tagged with
-# "skip_class": "resource" in config/designs.json. Intended for a larger,
+# "skip_class": "resource" in siliconcompiler's
+# .github/workflows/config/gallery_designs.json. Intended for a larger,
 # self-hosted runner with more memory and a longer timeout.
 jobs:
   designs:

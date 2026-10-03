@@ -4,28 +4,30 @@
 Given a GitHub Actions run (URL or id) that runs the gallery design matrix,
 this script collects every design/target job that failed, lists them as a flat
 numbered list, and lets you interactively select batches of them to mark as
-skipped (with a note) in the design config file
-(.github/workflows/config/designs.json).
+skipped (with a note) in the design config file. That file is kept in
+siliconcompiler, not here, as .github/workflows/config/gallery_designs.json;
+pass its path in a siliconcompiler checkout with --config.
 
 This covers scgallery's own "Run Gallery Designs" workflow as well as runs in
 other repositories that call .github/workflows/run-designs.yml as a reusable
-workflow (e.g. siliconcompiler's daily ASIC CI). Those runs use the same
-scgallery design matrix, so their failures triage into the same config. Pass a
-full run URL and the repository is taken from it; a bare run id is looked up in
---repo.
+workflow (e.g. siliconcompiler's daily ASIC CI). Every run reads the same
+design matrix, so their failures triage into the same config. Pass a full run
+URL and the repository is taken from it; a bare run id is looked up in --repo.
 
 Anything you do not select is left untouched, so it will continue to run and
 fail in CI.
 
 Requires the `gh` CLI to be installed and authenticated.
 
-Examples:
-    python3 scripts/triage_failures.py github.com/siliconcompiler/scgallery/actions/runs/2701301558
-    python3 scripts/triage_failures.py 27013015588
-    python3 scripts/triage_failures.py 27013015588 --dry-run
+Examples, with
+CONFIG=../siliconcompiler/.github/workflows/config/gallery_designs.json:
+    python3 scripts/triage_failures.py --config $CONFIG \\
+        github.com/siliconcompiler/scgallery/actions/runs/2701301558
+    python3 scripts/triage_failures.py --config $CONFIG 27013015588
+    python3 scripts/triage_failures.py --config $CONFIG 27013015588 --dry-run
 
     # a run in another repo that calls the gallery workflow
-    python3 scripts/triage_failures.py \\
+    python3 scripts/triage_failures.py --config $CONFIG \\
         github.com/siliconcompiler/siliconcompiler/actions/runs/30174209205
 """
 
@@ -44,14 +46,6 @@ except ImportError:  # pragma: no cover - Windows without pyreadline, etc.
     _HAVE_READLINE = False
 
 DEFAULT_REPO = "siliconcompiler/scgallery"
-DEFAULT_CONFIG = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    ".github",
-    "workflows",
-    "config",
-    "designs.json",
-)
 
 # Matches job names like:
 #   designs / Run design (aes, gf180_gf180mcu_fd_sc_mcu7t5v0, false)
@@ -707,7 +701,7 @@ def write_changes(config, config_path, pending, unskip, dry_run,
 
     save_config(config_path, config)
     print(f"\nUpdated {config_path}")
-    print("Review with: python3 scripts/report_configs.py")
+    print(f"Review with: python3 scripts/report_configs.py --config {config_path}")
     return 0
 
 
@@ -718,8 +712,9 @@ def main():
     parser.add_argument("--repo", default=None,
                         help="owner/repo the run belongs to. Taken from the run "
                         f"URL when one is given, else {DEFAULT_REPO}.")
-    parser.add_argument("--config", default=DEFAULT_CONFIG,
-                        help="path to designs.json")
+    parser.add_argument("--config", required=True,
+                        help="path to .github/workflows/config/"
+                        "gallery_designs.json in a siliconcompiler checkout")
     parser.add_argument("--include-cancelled", action="store_true",
                         help="also treat cancelled jobs as failures")
     parser.add_argument("--no-log-hints", action="store_true",

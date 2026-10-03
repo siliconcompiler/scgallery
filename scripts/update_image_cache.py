@@ -4,11 +4,12 @@
 The montage (.github/workflows/montage.yml) is built from two sources: the
 images produced by the design matrix in CI, and the images committed to
 ``images/`` for designs that CI cannot run itself. Designs tagged
-``"skip_class": "resource"`` in .github/workflows/config/designs.json are
-skipped on the default runner (timeouts / out-of-memory) and run instead by the
-"Run Large Gallery Designs" workflow on a bigger runner. This script takes such
-a run and refreshes ``images/`` from it, so the committed cache matches what the
-large runner most recently produced.
+``"skip_class": "resource"`` in the design matrix (siliconcompiler's
+.github/workflows/config/gallery_designs.json) are skipped on the default
+runner (timeouts / out-of-memory) and run instead by the "Run Large Gallery
+Designs" workflow on a bigger runner. This script takes such a run and
+refreshes ``images/`` from it, so the committed cache matches what the large
+runner most recently produced.
 
 Given a run (URL or id) it downloads every gallery image artifact, then makes
 ``images/`` match the run: images the run produced are added or overwritten, and
