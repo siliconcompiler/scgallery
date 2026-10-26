@@ -149,7 +149,7 @@ jobs:
           ref: ${{ inputs.scgallery-ref }}
           fetch-depth: 0
 
-      - uses: hynek/build-and-inspect-python-package@v3.0.1
+      - uses: hynek/build-and-inspect-python-package@v3.0.2
         id: wheel
         with:
           upload-name-suffix: '-gallery'
@@ -170,7 +170,7 @@ jobs:
           repository: siliconcompiler/lambdapdk
           fetch-depth: 0
 
-      - uses: hynek/build-and-inspect-python-package@v3.0.1
+      - uses: hynek/build-and-inspect-python-package@v3.0.2
         id: wheel
         with:
           upload-name-suffix: '-lambdapdk'
@@ -191,7 +191,7 @@ jobs:
           repository: siliconcompiler/siliconcompiler
           fetch-depth: 0
 
-      - uses: hynek/build-and-inspect-python-package@v3.0.1
+      - uses: hynek/build-and-inspect-python-package@v3.0.2
         id: wheel
         with:
           upload-name-suffix: '-siliconcompiler'
